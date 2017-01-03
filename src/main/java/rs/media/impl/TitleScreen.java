@@ -24,21 +24,21 @@ public class TitleScreen {
         producerBox = null;
     }
 
-    public static void clear_producers() {
+    public static void clearProducers() {
         Flames.nullify();
         producerBackground = null;
         Flames.producer = null;
         producerBox = null;
     }
 
-    public static void create_producers() {
+    public static void createProducers() {
         if (producerBackground != null && producerBackground[0] != null) {
             return;
         }
 
         Game.clearIngameProducers();
 
-        Flames.create_producers();
+        Flames.createProducers();
 
         producerBackground = new ImageProducer[6];
 
@@ -145,7 +145,7 @@ public class TitleScreen {
         bitmapBox = new Bitmap(Game.archive, "titlebox", 0);
         bitmapButton = new Bitmap(Game.archive, "titlebutton", 0);
 
-        Flames.create_images();
+        Flames.createImages();
 
         Game.instance.drawProgress("Connecting to fileserver", 10);
 
@@ -157,75 +157,75 @@ public class TitleScreen {
     }
 
     public static void draw(boolean show_buttons) {
-        create_producers();
+        createProducers();
         producerBox.prepare();
         bitmapBox.draw(0, 0);
 
-        char start_x = '\u0168';
-        char start_y = '\310';
+        char startX = '\u0168';
+        char startY = '\310';
 
         switch (state) {
             case WELCOME: {
-                int x = start_x / 2 - 80;
-                int y = start_y / 2 + 80;
+                int x = startX / 2 - 80;
+                int y = startY / 2 + 80;
 
-                BitmapFont.SMALL.draw(Game.ondemand.message, start_x / 2, y, 0x75a9a9, BitmapFont.SHADOW_CENTER);
+                BitmapFont.SMALL.draw(Game.ondemand.message, startX / 2, y, 0x75a9a9, BitmapFont.SHADOW_CENTER);
 
-                y = start_y / 2 - 20;
-                BitmapFont.BOLD.draw("Welcome to RuneScape", start_x / 2, y, 0xffff00, BitmapFont.SHADOW_CENTER);
+                y = startY / 2 - 20;
+                BitmapFont.BOLD.draw("Welcome to RuneScape", startX / 2, y, 0xffff00, BitmapFont.SHADOW_CENTER);
                 y += 30;
 
-                y = start_y / 2 + 20;
+                y = startY / 2 + 20;
                 bitmapButton.draw(x - 73, y - 20);
                 BitmapFont.BOLD.draw("New User", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
 
-                x = start_x / 2 + 80;
+                x = startX / 2 + 80;
                 bitmapButton.draw(x - 73, y - 20);
                 BitmapFont.BOLD.draw("Existing User", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
                 break;
             }
             case LOGIN: {
-                int y = start_y / 2 - 40;
+                int y = startY / 2 - 40;
 
                 if (LOGIN_MESSAGE[0].length() > 0) {
-                    BitmapFont.BOLD.draw(LOGIN_MESSAGE[0], start_x / 2, y - 15, 0xffff00, BitmapFont.SHADOW_CENTER);
-                    BitmapFont.BOLD.draw(LOGIN_MESSAGE[1], start_x / 2, y, 0xffff00, BitmapFont.SHADOW_CENTER);
+                    BitmapFont.BOLD.draw(LOGIN_MESSAGE[0], startX / 2, y - 15, 0xffff00, BitmapFont.SHADOW_CENTER);
+                    BitmapFont.BOLD.draw(LOGIN_MESSAGE[1], startX / 2, y, 0xffff00, BitmapFont.SHADOW_CENTER);
                     y += 30;
                 } else {
-                    BitmapFont.BOLD.draw(LOGIN_MESSAGE[1], start_x / 2, y - 7, 0xffff00, BitmapFont.SHADOW_CENTER);
+                    BitmapFont.BOLD.draw(LOGIN_MESSAGE[1], startX / 2, y - 7, 0xffff00, BitmapFont.SHADOW_CENTER);
                     y += 30;
                 }
 
-                BitmapFont.BOLD.draw("Username: " + Game.username + ((field == 0) & (Game.loopCycle % 40 < 20) ? "@yel@|" : ""), start_x / 2 - 90, y, 0xFFFFFF, BitmapFont.SHADOW | BitmapFont.ALLOW_TAGS);
+                BitmapFont.BOLD.draw("Username: " + Game.username + ((field == 0) & (Game.loopCycle % 40 < 20) ? "@yel@|" : ""), startX / 2 - 90, y, 0xFFFFFF, BitmapFont.SHADOW | BitmapFont.ALLOW_TAGS);
                 y += 15;
 
-                BitmapFont.BOLD.draw("Password: " + JString.toAsteriks(Game.password) + ((field == 1) & (Game.loopCycle % 40 < 20) ? "@yel@|" : ""), start_x / 2 - 88, y, 0xFFFFFF, BitmapFont.SHADOW | BitmapFont.ALLOW_TAGS);
+                BitmapFont.BOLD.draw("Password: " + JString.toAsteriks(Game.password) + ((field == 1) & (Game.loopCycle % 40 < 20) ? "@yel@|" : ""), startX / 2 - 88, y, 0xFFFFFF, BitmapFont.SHADOW | BitmapFont.ALLOW_TAGS);
                 y += 15;
 
                 if (!show_buttons) {
-                    int x = start_x / 2 - 80;
-                    y = start_y / 2 + 50;
+                    int x = startX / 2 - 80;
+                    y = startY / 2 + 50;
                     bitmapButton.draw(x - 73, y - 20);
                     BitmapFont.BOLD.draw("Login", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
-                    x = start_x / 2 + 80;
+                    x = startX / 2 + 80;
                     bitmapButton.draw(x - 73, y - 20);
                     BitmapFont.BOLD.draw("Cancel", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
                 }
                 break;
             }
             case ABOUT: {
-                BitmapFont.BOLD.draw("Create a free account", start_x / 2, start_y / 2 - 60, 0xffff00, BitmapFont.SHADOW_CENTER);
-                int y = start_y / 2 - 35;
-                BitmapFont.BOLD.draw("To create a new account you need to", start_x / 2, y, 0xffffff, BitmapFont.SHADOW_CENTER);
+                BitmapFont.BOLD.draw("Create a free account", startX / 2, startY / 2 - 60, 0xffff00, BitmapFont.SHADOW_CENTER);
+                int y = startY / 2 - 35;
+                BitmapFont.BOLD.draw("To create a new account you need to", startX / 2, y, 0xffffff, BitmapFont.SHADOW_CENTER);
                 y += 15;
-                BitmapFont.BOLD.draw("go back to the main RuneScape webpage", start_x / 2, y, 0xffffff, BitmapFont.SHADOW_CENTER);
+                BitmapFont.BOLD.draw("go back to the main RuneScape webpage", startX / 2, y, 0xffffff, BitmapFont.SHADOW_CENTER);
                 y += 15;
-                BitmapFont.BOLD.draw("and choose the red 'create account'", start_x / 2, y, 0xffffff, BitmapFont.SHADOW_CENTER);
+                BitmapFont.BOLD.draw("and choose the red 'create account'", startX / 2, y, 0xffffff, BitmapFont.SHADOW_CENTER);
                 y += 15;
-                BitmapFont.BOLD.draw("button at the top right of that page.", start_x / 2, y, 0xffffff, BitmapFont.SHADOW_CENTER);
+                BitmapFont.BOLD.draw("button at the top right of that page.", startX / 2, y, 0xffffff, BitmapFont.SHADOW_CENTER);
                 y += 15;
-                int x = start_x / 2;
-                y = start_y / 2 + 50;
+                int x = startX / 2;
+                y = startY / 2 + 50;
 
                 bitmapButton.draw(x - 73, y - 20);
                 BitmapFont.BOLD.draw("Cancel", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);

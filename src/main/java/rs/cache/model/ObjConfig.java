@@ -156,10 +156,10 @@ public class ObjConfig {
         int _pixels2d[] = Canvas2D.pixels;
         int _width = Canvas2D.width;
         int _height = Canvas2D.height;
-        int _x1 = Canvas2D.left_x;
-        int _x2 = Canvas2D.right_x;
-        int _y1 = Canvas2D.left_y;
-        int _y2 = Canvas2D.right_y;
+        int _x1 = Canvas2D.leftX;
+        int _x2 = Canvas2D.rightX;
+        int _y1 = Canvas2D.leftY;
+        int _y2 = Canvas2D.rightY;
 
         Canvas3D.texturize = false;
         Canvas2D.prepare(32, 32, s.pixels);

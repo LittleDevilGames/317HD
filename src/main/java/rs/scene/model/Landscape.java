@@ -400,7 +400,7 @@ public class Landscape {
 
                 Tile t = tiles[plane][x0][y0];
                 t.locs[t.locCount] = sl;
-                t.loc_flag[t.locCount] = flag;
+                t.locFlag[t.locCount] = flag;
                 t.flags |= flag;
                 t.locCount++;
             }
@@ -462,7 +462,7 @@ public class Landscape {
             tiles[plane][x][y] = new Tile(plane, x, y);
         }
 
-        tiles[plane][x][y].ground_decoration = gd;
+        tiles[plane][x][y].groundDecoration = gd;
     }
 
     public void addItemPile(int x, int y, int z, int plane, Renderable r_top, Renderable r_mid, Renderable r_btm, int uid) {
@@ -497,10 +497,10 @@ public class Landscape {
             tiles[plane][x][y] = new Tile(plane, x, y);
         }
 
-        tiles[plane][x][y].item_pile = ip;
+        tiles[plane][x][y].itemPile = ip;
     }
 
-    public void addTile(int plane, int x, int y, int shape, int rotation, byte texture_index, short v_sw, short v_se, short v_ne, short v_nw, int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, int rgb_sw, int rgb_se, int rgb_ne, int rgb_nw, int rgb_bitset, int hsl_bitset) {
+    public void addTile(int plane, int x, int y, int shape, int rotation, byte textureIndex, short v_sw, short v_se, short v_ne, short v_nw, int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, int rgb_sw, int rgb_se, int rgb_ne, int rgb_nw, int rgb_bitset, int hslBitset) {
         if (shape == 0) {
             UnderlayTile t = new UnderlayTile(hsl_sw, hsl_se, hsl_ne, hsl_nw, (byte) -1, rgb_bitset, false);
 
@@ -512,7 +512,7 @@ public class Landscape {
 
             tiles[plane][x][y].underlay = t;
         } else if (shape == 1) {
-            UnderlayTile t = new UnderlayTile(rgb_sw, rgb_se, rgb_ne, rgb_nw, texture_index, hsl_bitset, v_sw == v_se && v_sw == v_ne && v_sw == v_nw);
+            UnderlayTile t = new UnderlayTile(rgb_sw, rgb_se, rgb_ne, rgb_nw, textureIndex, hslBitset, v_sw == v_se && v_sw == v_ne && v_sw == v_nw);
 
             for (int z = plane; z >= 0; z--) {
                 if (tiles[z][x][y] == null) {
@@ -522,7 +522,7 @@ public class Landscape {
 
             tiles[plane][x][y].underlay = t;
         } else {
-            OverlayTile t = new OverlayTile(x, y, v_sw, v_se, v_ne, v_nw, rgb_sw, rgb_se, rgb_ne, rgb_nw, rgb_bitset, hsl_sw, hsl_se, hsl_ne, hsl_nw, hsl_bitset, texture_index, rotation, shape);
+            OverlayTile t = new OverlayTile(x, y, v_sw, v_se, v_ne, v_nw, rgb_sw, rgb_se, rgb_ne, rgb_nw, rgb_bitset, hsl_sw, hsl_se, hsl_ne, hsl_nw, hslBitset, textureIndex, rotation, shape);
 
             for (int z = plane; z >= 0; z--) {
                 if (tiles[z][x][y] == null) {
@@ -547,7 +547,7 @@ public class Landscape {
         wl.sceneZ = z;
         wl.root = r1;
         wl.extension = r2;
-        wl.rotation_flag = rotation_flag;
+        wl.rotationFlag = rotation_flag;
         wl.cornerFlag = corner_flag;
 
         for (int current_plane = plane; current_plane >= 0; current_plane--) {
@@ -580,7 +580,7 @@ public class Landscape {
             }
         }
 
-        tiles[plane][x][y].wall_decoration = wd;
+        tiles[plane][x][y].wallDecoration = wd;
     }
 
     public int adjustHslLightness(int hsl, int l) {
@@ -624,7 +624,7 @@ public class Landscape {
                             }
                         }
 
-                        GroundDecoration gd = t.ground_decoration;
+                        GroundDecoration gd = t.groundDecoration;
                         if (gd != null && gd.node.normal != null) {
                             method306((Model) gd.node, x, y, plane);
                             ((Model) gd.node).applyLighting(light_brightness, specular_distribution, light_x, light_y, light_z);
@@ -728,7 +728,7 @@ public class Landscape {
                 for (int y = minVisibleY; y < maxVisibleY; y++) {
                     Tile t = _t[x][y];
                     if (t != null) {
-                        if (t.top_plane > occlusion_top_plane || !cullingMap[(x - camLocalX) + 25][(y - camLocalY) + 25] && height_map[z][x][y] - cam_z < 2000) {
+                        if (t.topPlane > occlusion_top_plane || !cullingMap[(x - camLocalX) + 25][(y - camLocalY) + 25] && height_map[z][x][y] - cam_z < 2000) {
                             t.aBoolean1322 = false;
                             t.aBoolean1323 = false;
                             t.anInt1325 = 0;
@@ -1083,18 +1083,18 @@ public class Landscape {
                 clickLocalY = y;
             }
 
-            if (ut.texture_index == -1) {
+            if (ut.textureIndex == -1) {
                 if (ut.hslNe != 12345678) {
                     Canvas3D.drawShadedTriangle(x3, y3, x4, y4, x2, y2, ut.hslNe, ut.hslNw, ut.hslSe);
                 }
             } else if (!Game.lowDetail) {
                 if (ut.isFlat) {
-                    Canvas3D.drawTexturedTriangle(x3, y3, x4, y4, x2, y2, ut.hslNe, ut.hslNw, ut.hslSe, southWestX, sw_y, southWestZ, southEastX, se_y, southEastZ, northWestX, nw_y, northWestZ, ut.texture_index);
+                    Canvas3D.drawTexturedTriangle(x3, y3, x4, y4, x2, y2, ut.hslNe, ut.hslNw, ut.hslSe, southWestX, sw_y, southWestZ, southEastX, se_y, southEastZ, northWestX, nw_y, northWestZ, ut.textureIndex);
                 } else {
-                    Canvas3D.drawTexturedTriangle(x3, y3, x4, y4, x2, y2, ut.hslNe, ut.hslNw, ut.hslSe, northEastX, ne_y, northEastZ, northWestX, nw_y, northWestZ, southEastX, se_y, southEastZ, ut.texture_index);
+                    Canvas3D.drawTexturedTriangle(x3, y3, x4, y4, x2, y2, ut.hslNe, ut.hslNw, ut.hslSe, northEastX, ne_y, northEastZ, northWestX, nw_y, northWestZ, southEastX, se_y, southEastZ, ut.textureIndex);
                 }
             } else {
-                int i7 = TEXTURE_HSL[ut.texture_index];
+                int i7 = TEXTURE_HSL[ut.textureIndex];
                 Canvas3D.drawShadedTriangle(x3, y3, x4, y4, x2, y2, adjustHslLightness(i7, ut.hslNe), adjustHslLightness(i7, ut.hslNw), adjustHslLightness(i7, ut.hslSe));
             }
         }
@@ -1111,15 +1111,15 @@ public class Landscape {
                 clickLocalY = y;
             }
 
-            if (ut.texture_index == -1) {
+            if (ut.textureIndex == -1) {
                 if (ut.hslSw != 12345678) {
                     Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x4, y4, ut.hslSw, ut.hslSe, ut.hslNw);
                 }
             } else {
                 if (!Game.lowDetail) {
-                    Canvas3D.drawTexturedTriangle(x1, y1, x2, y2, x4, y4, ut.hslSw, ut.hslSe, ut.hslNw, southWestX, sw_y, southWestZ, southEastX, se_y, southEastZ, northWestX, nw_y, northWestZ, ut.texture_index);
+                    Canvas3D.drawTexturedTriangle(x1, y1, x2, y2, x4, y4, ut.hslSw, ut.hslSe, ut.hslNw, southWestX, sw_y, southWestZ, southEastX, se_y, southEastZ, northWestX, nw_y, northWestZ, ut.textureIndex);
                 } else {
-                    int j7 = TEXTURE_HSL[ut.texture_index];
+                    int j7 = TEXTURE_HSL[ut.textureIndex];
                     Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x4, y4, adjustHslLightness(j7, ut.hslSw), adjustHslLightness(j7, ut.hslSe), adjustHslLightness(j7, ut.hslNw));
                 }
             }
@@ -1137,12 +1137,12 @@ public class Landscape {
             return t.wall.arrangement & 0xff;
         }
 
-        if (t.wall_decoration != null && t.wall_decoration.uid == uid) {
-            return t.wall_decoration.arrangement & 0xff;
+        if (t.wallDecoration != null && t.wallDecoration.uid == uid) {
+            return t.wallDecoration.arrangement & 0xff;
         }
 
-        if (t.ground_decoration != null && t.ground_decoration.uid == uid) {
-            return t.ground_decoration.arrangement & 0xff;
+        if (t.groundDecoration != null && t.groundDecoration.uid == uid) {
+            return t.groundDecoration.arrangement & 0xff;
         }
 
         for (int i = 0; i < t.locCount; i++) {
@@ -1155,18 +1155,18 @@ public class Landscape {
 
     public GroundDecoration getGroundDecoration(int x, int y, int z) {
         Tile t = tiles[z][x][y];
-        if (t == null || t.ground_decoration == null) {
+        if (t == null || t.groundDecoration == null) {
             return null;
         }
-        return t.ground_decoration;
+        return t.groundDecoration;
     }
 
     public int getGroundDecorationUid(int plane, int x, int y) {
         Tile t = tiles[plane][x][y];
-        if (t == null || t.ground_decoration == null) {
+        if (t == null || t.groundDecoration == null) {
             return 0;
         } else {
-            return t.ground_decoration.uid;
+            return t.groundDecoration.uid;
         }
     }
 
@@ -1212,16 +1212,16 @@ public class Landscape {
         if (t == null) {
             return null;
         } else {
-            return t.wall_decoration;
+            return t.wallDecoration;
         }
     }
 
     public int getWallDecorationUid(int plane, int x, int y) {
         Tile t = tiles[plane][x][y];
-        if (t == null || t.wall_decoration == null) {
+        if (t == null || t.wallDecoration == null) {
             return 0;
         } else {
-            return t.wall_decoration.uid;
+            return t.wallDecoration.uid;
         }
     }
 
@@ -1468,26 +1468,26 @@ public class Landscape {
     public void method306(Model mesh, int x, int y, int plane) {
         if (x < sizeX) {
             Tile t = tiles[plane][x + 1][y];
-            if (t != null && t.ground_decoration != null && t.ground_decoration.node.normal != null) {
-                method308(mesh, (Model) t.ground_decoration.node, 128, 0, 0, true);
+            if (t != null && t.groundDecoration != null && t.groundDecoration.node.normal != null) {
+                method308(mesh, (Model) t.groundDecoration.node, 128, 0, 0, true);
             }
         }
         if (y < sizeX) {
             Tile t = tiles[plane][x][y + 1];
-            if (t != null && t.ground_decoration != null && t.ground_decoration.node.normal != null) {
-                method308(mesh, (Model) t.ground_decoration.node, 0, 0, 128, true);
+            if (t != null && t.groundDecoration != null && t.groundDecoration.node.normal != null) {
+                method308(mesh, (Model) t.groundDecoration.node, 0, 0, 128, true);
             }
         }
         if (x < sizeX && y < sizeY) {
             Tile t = tiles[plane][x + 1][y + 1];
-            if (t != null && t.ground_decoration != null && t.ground_decoration.node.normal != null) {
-                method308(mesh, (Model) t.ground_decoration.node, 128, 0, 128, true);
+            if (t != null && t.groundDecoration != null && t.groundDecoration.node.normal != null) {
+                method308(mesh, (Model) t.groundDecoration.node, 128, 0, 128, true);
             }
         }
         if (x < sizeX && y > 0) {
             Tile t = tiles[plane][x + 1][y - 1];
-            if (t != null && t.ground_decoration != null && t.ground_decoration.node.normal != null) {
-                method308(mesh, (Model) t.ground_decoration.node, 128, 0, -128, true);
+            if (t != null && t.groundDecoration != null && t.groundDecoration.node.normal != null) {
+                method308(mesh, (Model) t.groundDecoration.node, 128, 0, -128, true);
             }
         }
     }
@@ -1711,7 +1711,7 @@ public class Landscape {
                 int cam_dir = 0;
                 int render_flags = 0;
                 WallLoc wl = _t.wall;
-                WallDecoration wd = _t.wall_decoration;
+                WallDecoration wd = _t.wallDecoration;
 
                 if (wl != null || wd != null) {
                     if (camLocalX == x) {
@@ -1782,16 +1782,16 @@ public class Landscape {
                 }
 
                 if (wl != null) {
-                    if ((wl.rotation_flag & anIntArray479[cam_dir]) != 0) {
-                        if (wl.rotation_flag == 0x10) {
+                    if ((wl.rotationFlag & anIntArray479[cam_dir]) != 0) {
+                        if (wl.rotationFlag == 0x10) {
                             _t.anInt1325 = 0x3; // 0x2 | 0x1
                             _t.anInt1326 = anIntArray481[cam_dir];
                             _t.anInt1327 = 0x3 - _t.anInt1326;
-                        } else if (wl.rotation_flag == 0x20) {
+                        } else if (wl.rotationFlag == 0x20) {
                             _t.anInt1325 = 0x6; // 0x4 | 0x2
                             _t.anInt1326 = anIntArray482[cam_dir];
                             _t.anInt1327 = 0x6 - _t.anInt1326;
-                        } else if (wl.rotation_flag == 0x40) {
+                        } else if (wl.rotationFlag == 0x40) {
                             _t.anInt1325 = 0xC; // 0x8 | 0x4
                             _t.anInt1326 = anIntArray483[cam_dir];
                             _t.anInt1327 = 0xC - _t.anInt1326;
@@ -1804,7 +1804,7 @@ public class Landscape {
                         _t.anInt1325 = 0;
                     }
 
-                    if ((wl.rotation_flag & render_flags) != 0 && !isWallCulled(plane, x, y, wl.rotation_flag)) {
+                    if ((wl.rotationFlag & render_flags) != 0 && !isWallCulled(plane, x, y, wl.rotationFlag)) {
                         wl.root.render(0, camPSin, camPCos, camYSin, camYCos, wl.sceneX - camX, wl.sceneY - camY, wl.sceneZ - camZ, wl.uid);
                     }
 
@@ -1851,13 +1851,13 @@ public class Landscape {
                 }
 
                 if (draw_item_pile) {
-                    GroundDecoration d = _t.ground_decoration;
+                    GroundDecoration d = _t.groundDecoration;
 
                     if (d != null) {
                         d.node.render(0, camPSin, camPCos, camYSin, camYCos, d.sceneX - camX, d.sceneY - camY, d.sceneZ - camZ, d.uid);
                     }
 
-                    ItemPile i = _t.item_pile;
+                    ItemPile i = _t.itemPile;
 
                     if (i != null && i.offZ == 0) {
                         if (i.bottom != null) {
@@ -1912,7 +1912,7 @@ public class Landscape {
             if (_t.anInt1325 != 0) {
                 boolean flag2 = true;
                 for (int k1 = 0; k1 < _t.locCount; k1++) {
-                    if (_t.locs[k1].cycle == cycle || (_t.loc_flag[k1] & _t.anInt1325) != _t.anInt1326) {
+                    if (_t.locs[k1].cycle == cycle || (_t.locFlag[k1] & _t.anInt1325) != _t.anInt1326) {
                         continue;
                     }
                     flag2 = false;
@@ -1922,7 +1922,7 @@ public class Landscape {
                 if (flag2) {
                     WallLoc wl = _t.wall;
 
-                    if (!isWallCulled(plane, x, y, wl.rotation_flag)) {
+                    if (!isWallCulled(plane, x, y, wl.rotationFlag)) {
                         wl.root.render(0, camPSin, camPCos, camYSin, camYCos, wl.sceneX - camX, wl.sceneY - camY, wl.sceneZ - camZ, wl.uid);
                     }
 
@@ -2091,7 +2091,7 @@ public class Landscape {
             _t.aBoolean1323 = false;
             anInt446--;
 
-            ItemPile ip = _t.item_pile;
+            ItemPile ip = _t.itemPile;
 
             if (ip != null && ip.offZ != 0) {
                 if (ip.bottom != null) {
@@ -2108,7 +2108,7 @@ public class Landscape {
             }
 
             if (_t.anInt1328 != 0) {
-                WallDecoration wd = _t.wall_decoration;
+                WallDecoration wd = _t.wallDecoration;
                 if (wd != null && !isCulled(plane, x, y, wd.node.height)) {
                     if ((wd.flags & _t.anInt1328) != 0) {
                         wd.node.render(wd.rotation, camPSin, camPCos, camYSin, camYCos, wd.x - camX, wd.y - camY, wd.z - camZ, wd.uid);
@@ -2152,7 +2152,7 @@ public class Landscape {
                     if ((wl.cornerFlag & _t.anInt1328) != 0 && !isWallCulled(plane, x, y, wl.cornerFlag)) {
                         wl.extension.render(0, camPSin, camPCos, camYSin, camYCos, wl.sceneX - camX, wl.sceneY - camY, wl.sceneZ - camZ, wl.uid);
                     }
-                    if ((wl.rotation_flag & _t.anInt1328) != 0 && !isWallCulled(plane, x, y, wl.rotation_flag)) {
+                    if ((wl.rotationFlag & _t.anInt1328) != 0 && !isWallCulled(plane, x, y, wl.rotationFlag)) {
                         wl.root.render(0, camPSin, camPCos, camYSin, camYCos, wl.sceneX - camX, wl.sceneY - camY, wl.sceneZ - camZ, wl.uid);
                     }
                 }
@@ -2252,7 +2252,7 @@ public class Landscape {
 
                         for (int j = i; j < t.locCount; j++) {
                             t.locs[j] = t.locs[j + 1];
-                            t.loc_flag[j] = t.loc_flag[j + 1];
+                            t.locFlag[j] = t.locFlag[j + 1];
                         }
 
                         t.locs[t.locCount] = null;
@@ -2262,7 +2262,7 @@ public class Landscape {
                     t.flags = 0;
 
                     for (int i = 0; i < t.locCount; i++) {
-                        t.flags |= t.loc_flag[i];
+                        t.flags |= t.locFlag[i];
                     }
                 }
             }
@@ -2274,7 +2274,7 @@ public class Landscape {
         if (t == null) {
             return;
         }
-        t.ground_decoration = null;
+        t.groundDecoration = null;
     }
 
     public void removeItemPile(int plane, int x, int y) {
@@ -2282,7 +2282,7 @@ public class Landscape {
         if (t == null) {
             return;
         } else {
-            t.item_pile = null;
+            t.itemPile = null;
             return;
         }
     }
@@ -2300,7 +2300,7 @@ public class Landscape {
         if (t == null) {
             return;
         }
-        t.wall_decoration = null;
+        t.wallDecoration = null;
     }
 
     public void reset() {
@@ -2362,7 +2362,7 @@ public class Landscape {
         if (t == null) {
             return;
         }
-        tiles[plane][x][y].top_plane = max_plane;
+        tiles[plane][x][y].topPlane = max_plane;
     }
 
     public void setWallDecoMargin(int x, int y, int z, int i) {
@@ -2372,7 +2372,7 @@ public class Landscape {
             return;
         }
 
-        WallDecoration deco = t.wall_decoration;
+        WallDecoration deco = t.wallDecoration;
 
         if (deco == null) {
             return;

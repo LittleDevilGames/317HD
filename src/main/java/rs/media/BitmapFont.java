@@ -196,30 +196,30 @@ public class BitmapFont extends Canvas2D {
         int msk_step = 0;
         int msk_off = 0;
 
-        if (y < Canvas2D.left_y) {
-            int i = Canvas2D.left_y - y;
+        if (y < Canvas2D.leftY) {
+            int i = Canvas2D.leftY - y;
             height -= i;
-            y = Canvas2D.left_y;
+            y = Canvas2D.leftY;
             msk_off += i * width;
             dst_off += i * Canvas2D.width;
         }
 
-        if (y + height >= Canvas2D.right_y) {
-            height -= ((y + height) - Canvas2D.right_y) + 1;
+        if (y + height >= Canvas2D.rightY) {
+            height -= ((y + height) - Canvas2D.rightY) + 1;
         }
 
-        if (x < Canvas2D.left_x) {
-            int i = Canvas2D.left_x - x;
+        if (x < Canvas2D.leftX) {
+            int i = Canvas2D.leftX - x;
             width -= i;
-            x = Canvas2D.left_x;
+            x = Canvas2D.leftX;
             msk_off += i;
             dst_off += i;
             msk_step += i;
             dst_step += i;
         }
 
-        if (x + width >= Canvas2D.right_x) {
-            int i = ((x + width) - Canvas2D.right_x) + 1;
+        if (x + width >= Canvas2D.rightX) {
+            int i = ((x + width) - Canvas2D.rightX) + 1;
             width -= i;
             msk_step += i;
             dst_step += i;
@@ -237,27 +237,27 @@ public class BitmapFont extends Canvas2D {
         int destStep = Canvas2D.width - width;
         int maskStep = 0;
         int maskOff = 0;
-        if (y < Canvas2D.left_y) {
-            int yStep = Canvas2D.left_y - y;
+        if (y < Canvas2D.leftY) {
+            int yStep = Canvas2D.leftY - y;
             height -= yStep;
-            y = Canvas2D.left_y;
+            y = Canvas2D.leftY;
             maskOff += yStep * width;
             destOff += yStep * Canvas2D.width;
         }
-        if (y + height >= Canvas2D.right_y) {
-            height -= ((y + height) - Canvas2D.right_y) + 1;
+        if (y + height >= Canvas2D.rightY) {
+            height -= ((y + height) - Canvas2D.rightY) + 1;
         }
-        if (x < Canvas2D.left_x) {
-            int xStep = Canvas2D.left_x - x;
+        if (x < Canvas2D.leftX) {
+            int xStep = Canvas2D.leftX - x;
             width -= xStep;
-            x = Canvas2D.left_x;
+            x = Canvas2D.leftX;
             maskOff += xStep;
             destOff += xStep;
             maskStep += xStep;
             destStep += xStep;
         }
-        if (x + width >= Canvas2D.right_x) {
-            int step = ((x + width) - Canvas2D.right_x) + 1;
+        if (x + width >= Canvas2D.rightX) {
+            int step = ((x + width) - Canvas2D.rightX) + 1;
             width -= step;
             maskStep += step;
             destStep += step;

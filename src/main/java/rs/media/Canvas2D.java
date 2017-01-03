@@ -12,10 +12,10 @@ public class Canvas2D extends CacheLink {
     public static int center_y;
     public static int center_x;
     public static int bound;
-    public static int left_x;
-    public static int left_y;
-    public static int right_x;
-    public static int right_y;
+    public static int leftX;
+    public static int leftY;
+    public static int rightX;
+    public static int rightY;
     public static int pixels[];
 
     /**
@@ -264,15 +264,15 @@ public class Canvas2D extends CacheLink {
      * @param rgb the color.
      */
     public static void drawLineH(int x, int y, int len, int rgb) {
-        if (y < Canvas2D.left_y || y >= Canvas2D.right_y) {
+        if (y < Canvas2D.leftY || y >= Canvas2D.rightY) {
             return;
         }
-        if (x < Canvas2D.left_x) {
-            len -= Canvas2D.left_x - x;
-            x = Canvas2D.left_x;
+        if (x < Canvas2D.leftX) {
+            len -= Canvas2D.leftX - x;
+            x = Canvas2D.leftX;
         }
-        if (x + len > Canvas2D.right_x) {
-            len = Canvas2D.right_x - x;
+        if (x + len > Canvas2D.rightX) {
+            len = Canvas2D.rightX - x;
         }
         int pos = x + y * Canvas2D.width;
         for (int i = 0; i < len; i++) {
@@ -290,15 +290,15 @@ public class Canvas2D extends CacheLink {
      * @param opacity the opacity.
      */
     public static void drawLineH(int x, int y, int length, int color, int opacity) {
-        if (y < Canvas2D.left_y || y >= Canvas2D.right_y) {
+        if (y < Canvas2D.leftY || y >= Canvas2D.rightY) {
             return;
         }
-        if (x < Canvas2D.left_x) {
-            length -= Canvas2D.left_x - x;
-            x = Canvas2D.left_x;
+        if (x < Canvas2D.leftX) {
+            length -= Canvas2D.leftX - x;
+            x = Canvas2D.leftX;
         }
-        if (x + length > Canvas2D.right_x) {
-            length = Canvas2D.right_x - x;
+        if (x + length > Canvas2D.rightX) {
+            length = Canvas2D.rightX - x;
         }
         int alpha = 256 - opacity;
         int red = (color >> 16 & 0xff) * opacity;
@@ -320,15 +320,15 @@ public class Canvas2D extends CacheLink {
      * @param rgb    the color.
      */
     public static void drawLineV(int x, int y, int length, int rgb) {
-        if (x < Canvas2D.left_x || x >= Canvas2D.right_x) {
+        if (x < Canvas2D.leftX || x >= Canvas2D.rightX) {
             return;
         }
-        if (y < Canvas2D.left_y) {
-            length -= Canvas2D.left_y - y;
-            y = Canvas2D.left_y;
+        if (y < Canvas2D.leftY) {
+            length -= Canvas2D.leftY - y;
+            y = Canvas2D.leftY;
         }
-        if (y + length > Canvas2D.right_y) {
-            length = Canvas2D.right_y - y;
+        if (y + length > Canvas2D.rightY) {
+            length = Canvas2D.rightY - y;
         }
         int position = x + y * Canvas2D.width;
         for (int i = 0; i < length; i++) {
@@ -346,15 +346,15 @@ public class Canvas2D extends CacheLink {
      * @param opacity the opacity.
      */
     public static void drawLineV(int x, int y, int length, int color, int opacity) {
-        if (x < left_x || x >= right_x) {
+        if (x < leftX || x >= rightX) {
             return;
         }
-        if (y < left_y) {
-            length -= left_y - y;
-            y = left_y;
+        if (y < leftY) {
+            length -= leftY - y;
+            y = leftY;
         }
-        if (y + length > right_y) {
-            length = right_y - y;
+        if (y + length > rightY) {
+            length = rightY - y;
         }
         int alpha = 256 - opacity;
         int red = (color >> 16 & 0xff) * opacity;
@@ -412,19 +412,19 @@ public class Canvas2D extends CacheLink {
      * @param color  the color.
      */
     public static void fillRect(int x, int y, int width, int height, int color) {
-        if (x < Canvas2D.left_x) {
-            width -= Canvas2D.left_x - x;
-            x = Canvas2D.left_x;
+        if (x < Canvas2D.leftX) {
+            width -= Canvas2D.leftX - x;
+            x = Canvas2D.leftX;
         }
-        if (y < Canvas2D.left_y) {
-            height -= Canvas2D.left_y - y;
-            y = Canvas2D.left_y;
+        if (y < Canvas2D.leftY) {
+            height -= Canvas2D.leftY - y;
+            y = Canvas2D.leftY;
         }
-        if (x + width > Canvas2D.right_x) {
-            width = Canvas2D.right_x - x;
+        if (x + width > Canvas2D.rightX) {
+            width = Canvas2D.rightX - x;
         }
-        if (y + height > Canvas2D.right_y) {
-            height = Canvas2D.right_y - y;
+        if (y + height > Canvas2D.rightY) {
+            height = Canvas2D.rightY - y;
         }
         int step = Canvas2D.width - width;
         int position = x + y * Canvas2D.width;
@@ -447,19 +447,19 @@ public class Canvas2D extends CacheLink {
      * @param opacity the opacity.
      */
     public static void fillRect(int x, int y, int width, int height, int color, int opacity) {
-        if (x < Canvas2D.left_x) {
-            width -= Canvas2D.left_x - x;
-            x = Canvas2D.left_x;
+        if (x < Canvas2D.leftX) {
+            width -= Canvas2D.leftX - x;
+            x = Canvas2D.leftX;
         }
-        if (y < Canvas2D.left_y) {
-            height -= Canvas2D.left_y - y;
-            y = Canvas2D.left_y;
+        if (y < Canvas2D.leftY) {
+            height -= Canvas2D.leftY - y;
+            y = Canvas2D.leftY;
         }
-        if (x + width > Canvas2D.right_x) {
-            width = Canvas2D.right_x - x;
+        if (x + width > Canvas2D.rightX) {
+            width = Canvas2D.rightX - x;
         }
-        if (y + height > Canvas2D.right_y) {
-            height = Canvas2D.right_y - y;
+        if (y + height > Canvas2D.rightY) {
+            height = Canvas2D.rightY - y;
         }
         int alpha = 256 - opacity;
         int red = (color >> 16 & 0xff) * opacity;
@@ -518,13 +518,13 @@ public class Canvas2D extends CacheLink {
      * Resets the bounds.
      */
     public static void reset() {
-        Canvas2D.left_x = 0;
-        Canvas2D.left_y = 0;
-        Canvas2D.right_x = width;
-        Canvas2D.right_y = height;
-        Canvas2D.bound = right_x - 1;
-        Canvas2D.center_x = right_x / 2;
-        Canvas2D.center_y = right_y / 2;
+        Canvas2D.leftX = 0;
+        Canvas2D.leftY = 0;
+        Canvas2D.rightX = width;
+        Canvas2D.rightY = height;
+        Canvas2D.bound = rightX - 1;
+        Canvas2D.center_x = rightX / 2;
+        Canvas2D.center_y = rightY / 2;
     }
 
     /**
@@ -552,13 +552,13 @@ public class Canvas2D extends CacheLink {
             y1 = Canvas2D.height;
         }
 
-        Canvas2D.left_x = x0;
-        Canvas2D.left_y = y0;
-        Canvas2D.right_x = x1;
-        Canvas2D.right_y = y1;
-        Canvas2D.bound = right_x - 1;
-        Canvas2D.center_x = right_x / 2;
-        Canvas2D.center_y = right_y / 2;
+        Canvas2D.leftX = x0;
+        Canvas2D.leftY = y0;
+        Canvas2D.rightX = x1;
+        Canvas2D.rightY = y1;
+        Canvas2D.bound = rightX - 1;
+        Canvas2D.center_x = rightX / 2;
+        Canvas2D.center_y = rightY / 2;
     }
 
     public enum DrawType {
