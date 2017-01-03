@@ -31,9 +31,9 @@ public class Projectile extends Renderable {
     public int startZ;
     public int targetIndex;
 
-    public Projectile(int arcSize, int end_z, int cycleStart, int cycleEnd, int parentSize, int plane, int startZ, int startY, int startX, int target, int spotanim_index) {
+    public Projectile(int arcSize, int endZ, int cycleStart, int cycleEnd, int parentSize, int plane, int startZ, int startY, int startX, int target, int spotanimIndex) {
         this.mobile = false;
-        this.config = SpotAnimConfig.instance[spotanim_index];
+        this.config = SpotAnimConfig.instance[spotanimIndex];
         this.plane = plane;
         this.startX = startX;
         this.startY = startY;
@@ -43,7 +43,7 @@ public class Projectile extends Renderable {
         this.arcSize = arcSize;
         this.parentSize = parentSize;
         this.targetIndex = target;
-        this.offsetZ = end_z;
+        this.offsetZ = endZ;
         this.mobile = false;
     }
 
