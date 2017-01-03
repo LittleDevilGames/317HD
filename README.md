@@ -6,8 +6,9 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="logo"/>
 </p>
 
-# 317HD
+<p align="center">
 A 317 client with the rendering engine ported to libgdx
+</p>
 
 # Goal
 The goal of the client is to have a 317 client, where the engine has been replaced with libgdx. On top of this, I plan to make general
