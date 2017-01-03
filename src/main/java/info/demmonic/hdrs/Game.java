@@ -534,7 +534,7 @@ public class Game extends GameShell {
         ActorConfig.model_cache.clear();
         ObjConfig.modelCache.clear();
         ObjConfig.spriteCache.clear();
-        Player.model_cache.clear();
+        Player.modelCache.clear();
         SpotAnimConfig.model_cache.clear();
     }
 
@@ -1263,12 +1263,12 @@ public class Game extends GameShell {
                 int offset_y = 30;
                 Player p = (Player) e;
 
-                if (p.headicon_flag != 0) {
+                if (p.headiconFlag != 0) {
                     setDrawXy(e, e.height + 15);
 
                     if (drawX > -1) {
                         for (int icon = 0; icon < 8; icon++) {
-                            if ((p.headicon_flag & (1 << icon)) != 0) {
+                            if ((p.headiconFlag & (1 << icon)) != 0) {
                                 Sprite s = imageHeadIcons[icon];
 
                                 if (s != null) {
@@ -4266,10 +4266,10 @@ public class Game extends GameShell {
 
                 if (w != null) {
                     w.modelTypeDisabled = 3;
-                    if (self.actor_override != null) {
-                        w.modelIndexDisabled = (int) (0x12345678L + self.actor_override.index);
+                    if (self.actorConfig != null) {
+                        w.modelIndexDisabled = (int) (0x12345678L + self.actorConfig.index);
                     } else {
-                        w.modelIndexDisabled = (int) (0x12345678L + self.actor_override.index);
+                        w.modelIndexDisabled = (int) (0x12345678L + self.actorConfig.index);
                     }
                 }
                 Game.ptype = -1;
@@ -8543,7 +8543,7 @@ public class Game extends GameShell {
         SpotAnimConfig.model_cache = null;
 
         Varp.instance = null;
-        Player.model_cache = null;
+        Player.modelCache = null;
 
         Canvas3D.nullify();
         Landscape.nullify();

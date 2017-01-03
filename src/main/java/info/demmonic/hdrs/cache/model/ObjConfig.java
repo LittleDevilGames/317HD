@@ -324,7 +324,7 @@ public class ObjConfig {
         team = 0;
     }
 
-    public Model get_dialogue_model(int gender) {
+    public Model getDialogueModel(int gender) {
         int a = maleDialogModel1;
         int b = maleDialogModel2;
 
@@ -421,7 +421,7 @@ public class ObjConfig {
         return mesh;
     }
 
-    public Model get_worn_mesh(int gender) {
+    public Model getWornMesh(int gender) {
         int i1 = maleModel1;
         int i2 = maleModel2;
         int i3 = maleModel3;
@@ -486,7 +486,7 @@ public class ObjConfig {
         return valid;
     }
 
-    public boolean is_worn_mesh_valid(int gender) {
+    public boolean isWornMeshValid(int gender) {
         int i1 = maleModel1;
         int i2 = maleModel2;
         int i3 = maleModel3;

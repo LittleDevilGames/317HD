@@ -15,14 +15,14 @@ import info.demmonic.hdrs.util.RSColor;
 
 public class Player extends Entity {
 
-    public static List model_cache = new List(260);
+    public static List modelCache = new List(260);
 
-    public ActorConfig actor_override;
+    public ActorConfig actorConfig;
     public int[] colors;
     public short combatLevel;
-    public short[] equipment_indices;
+    public short[] equipmentIndices;
     public byte gender;
-    public byte headicon_flag;
+    public byte headiconFlag;
     public int locEndCycle;
     public int locX1;
     public int locY1;
@@ -34,10 +34,10 @@ public class Player extends Entity {
     public int locY;
     public int locZ;
     public boolean lowLod;
-    public long model_uid;
+    public long modelUid;
     public String name;
     public int sceneZ;
-    public int skill_level;
+    public int skillLevel;
     public int team;
     public long uid;
     public boolean visible;
@@ -47,11 +47,11 @@ public class Player extends Entity {
         lowLod = false;
         colors = new int[5];
         visible = false;
-        equipment_indices = new short[12];
+        equipmentIndices = new short[12];
     }
 
-    public Model get_built_model() {
-        if (actor_override != null) {
+    public Model getBuiltModel() {
+        if (actorConfig != null) {
             int frame = -1;
 
             if (super.seqIndex >= 0 && super.seqDelayCycle == 0) {
@@ -60,14 +60,14 @@ public class Player extends Entity {
                 frame = Sequence.instance[super.moveSeqIndex].framePrimary[super.moveSeqFrame];
             }
 
-            return actor_override.getModel(null, frame, -1);
+            return actorConfig.getModel(null, frame, -1);
         }
 
-        long model_uid = this.model_uid;
+        long modelUid = this.modelUid;
         int frame1 = -1;
         int frame2 = -1;
-        int shield_override = -1;
-        int weapon_override = -1;
+        int shieldOverride = -1;
+        int weaponOverride = -1;
 
         if (super.seqIndex >= 0 && super.seqDelayCycle == 0) {
             Sequence a = Sequence.instance[super.seqIndex];
@@ -78,46 +78,46 @@ public class Player extends Entity {
             }
 
             if (a.overrideShieldIndex >= 0) {
-                shield_override = a.overrideShieldIndex;
-                model_uid += shield_override - equipment_indices[5] << 40;
+                shieldOverride = a.overrideShieldIndex;
+                modelUid += shieldOverride - equipmentIndices[5] << 40;
             }
 
             if (a.overrideWeaponIndex >= 0) {
-                weapon_override = a.overrideWeaponIndex;
-                model_uid += weapon_override - equipment_indices[3] << 48;
+                weaponOverride = a.overrideWeaponIndex;
+                modelUid += weaponOverride - equipmentIndices[3] << 48;
             }
         } else if (super.moveSeqIndex >= 0) {
             frame1 = Sequence.instance[super.moveSeqIndex].framePrimary[super.moveSeqFrame];
         }
 
-        Model model = (Model) model_cache.get(model_uid);
+        Model model = (Model) modelCache.get(modelUid);
 
         if (model == null) {
-            boolean use_cached = false;
+            boolean useCached = false;
 
             for (int i = 0; i < 12; i++) {
-                int equip = equipment_indices[i];
+                int equip = equipmentIndices[i];
 
-                if (weapon_override >= 0 && i == 3) {
-                    equip = weapon_override;
+                if (weaponOverride >= 0 && i == 3) {
+                    equip = weaponOverride;
                 }
 
-                if (shield_override >= 0 && i == 5) {
-                    equip = shield_override;
+                if (shieldOverride >= 0 && i == 5) {
+                    equip = shieldOverride;
                 }
 
                 if (equip >= 256 && equip < 512 && !IdentityKit.instance[equip - 256].isModelValid()) {
-                    use_cached = true;
+                    useCached = true;
                 }
 
-                if (equip >= 512 && !ObjConfig.get(equip - 512).is_worn_mesh_valid(gender)) {
-                    use_cached = true;
+                if (equip >= 512 && !ObjConfig.get(equip - 512).isWornMeshValid(gender)) {
+                    useCached = true;
                 }
             }
 
-            if (use_cached) {
+            if (useCached) {
                 if (uid != -1L) {
-                    model = (Model) model_cache.get(uid);
+                    model = (Model) modelCache.get(uid);
                 }
 
                 if (model == null) {
@@ -127,36 +127,36 @@ public class Player extends Entity {
         }
 
         if (model == null) {
-            Model equip_models[] = new Model[12];
+            Model equipModels[] = new Model[12];
             int count = 0;
 
             for (int i = 0; i < 12; i++) {
-                int index = equipment_indices[i];
+                int index = equipmentIndices[i];
 
-                if (weapon_override >= 0 && i == 3) {
-                    index = weapon_override;
+                if (weaponOverride >= 0 && i == 3) {
+                    index = weaponOverride;
                 }
 
-                if (shield_override >= 0 && i == 5) {
-                    index = shield_override;
+                if (shieldOverride >= 0 && i == 5) {
+                    index = shieldOverride;
                 }
 
                 if (index >= 256 && index < 512) {
-                    Model id_model = IdentityKit.instance[index - 256].getMesh();
-                    if (id_model != null) {
-                        equip_models[count++] = id_model;
+                    Model idModel = IdentityKit.instance[index - 256].getMesh();
+                    if (idModel != null) {
+                        equipModels[count++] = idModel;
                     }
                 }
 
                 if (index >= 512) {
-                    Model equip_model = ObjConfig.get(index - 512).get_worn_mesh(gender);
-                    if (equip_model != null) {
-                        equip_models[count++] = equip_model;
+                    Model equipModel = ObjConfig.get(index - 512).getWornMesh(gender);
+                    if (equipModel != null) {
+                        equipModels[count++] = equipModel;
                     }
                 }
             }
 
-            model = new Model(count, equip_models);
+            model = new Model(count, equipModels);
             for (int i = 0; i < 5; i++) {
                 if (colors[i] != 0) {
                     model.setColor(CharacterDesign.DESIGN_COLOR[i][0], CharacterDesign.DESIGN_COLOR[i][colors[i]]);
@@ -168,8 +168,8 @@ public class Player extends Entity {
 
             model.applyVertexWeights();
             model.applyLighting(64, 850, -30, -50, -30, true);
-            model_cache.insert(model, model_uid);
-            uid = model_uid;
+            modelCache.insert(model, modelUid);
+            uid = modelUid;
         }
 
         // Doesn't apply animations.
@@ -197,14 +197,14 @@ public class Player extends Entity {
             return null;
         }
 
-        if (actor_override != null) {
-            return actor_override.getDialogModel();
+        if (actorConfig != null) {
+            return actorConfig.getDialogModel();
         }
 
         boolean flag = false;
 
         for (int i = 0; i < 12; i++) {
-            int index = equipment_indices[i];
+            int index = equipmentIndices[i];
 
             if (index >= 256 && index < 512 && !IdentityKit.instance[index - 256].isDialogModelValid()) {
                 flag = true;
@@ -223,7 +223,7 @@ public class Player extends Entity {
         int count = 0;
 
         for (int i = 0; i < 12; i++) {
-            int index = equipment_indices[i];
+            int index = equipmentIndices[i];
 
             if (index >= 256 && index < 512) {
                 Model m = IdentityKit.instance[index - 256].getDialogModel();
@@ -234,7 +234,7 @@ public class Player extends Entity {
             }
 
             if (index >= 512) {
-                Model m = ObjConfig.get(index - 512).get_dialogue_model(gender);
+                Model m = ObjConfig.get(index - 512).getDialogueModel(gender);
 
                 if (m != null) {
                     models[count++] = m;
@@ -260,7 +260,7 @@ public class Player extends Entity {
             return null;
         }
 
-        Model built = this.get_built_model();
+        Model built = this.getBuiltModel();
 
         if (built == null) {
             return null;
@@ -276,10 +276,10 @@ public class Player extends Entity {
 
         if (super.spotanimIndex != -1 && super.spotanimFrame != -1) {
             SpotAnimConfig effect = SpotAnimConfig.instance[super.spotanimIndex];
-            Model sa_model = effect.getModel();
+            Model saModel = effect.getModel();
 
-            if (sa_model != null) {
-                Model m = new Model(true, super.spotanimFrame == -1, false, sa_model);
+            if (saModel != null) {
+                Model m = new Model(true, super.spotanimFrame == -1, false, saModel);
                 m.translate(0, -super.graphicOffsetY, 0);
                 m.applyVertexWeights();
                 m.applySequenceFrame(effect.seq.framePrimary[super.spotanimFrame]);
@@ -345,11 +345,11 @@ public class Player extends Entity {
         StringBuilder sb = new StringBuilder();
         sb.append(this.name);
 
-        if (this.skill_level == 0) {
+        if (this.skillLevel == 0) {
             sb.append(RSColor.getLevelTag(this.combatLevel));
         } else {
             sb.append(" (skill-");
-            sb.append(this.skill_level);
+            sb.append(this.skillLevel);
             sb.append(')');
         }
 
@@ -360,28 +360,28 @@ public class Player extends Entity {
         s.position = 0;
 
         this.gender = s.readByte();
-        this.headicon_flag = s.readByte();
+        this.headiconFlag = s.readByte();
 
-        this.actor_override = null;
+        this.actorConfig = null;
         this.team = 0;
 
         for (int i = 0; i < 12; i++) {
             int lsb = s.readUnsignedByte();
 
             if (lsb == 0) {
-                this.equipment_indices[i] = 0;
+                this.equipmentIndices[i] = 0;
                 continue;
             }
 
-            this.equipment_indices[i] = (short) ((lsb << 8) + s.readUnsignedByte());
+            this.equipmentIndices[i] = (short) ((lsb << 8) + s.readUnsignedByte());
 
-            if (i == 0 && this.equipment_indices[0] == 65535) {
-                this.actor_override = ActorConfig.get(s.readUnsignedShort());
+            if (i == 0 && this.equipmentIndices[0] == 65535) {
+                this.actorConfig = ActorConfig.get(s.readUnsignedShort());
                 break;
             }
 
-            if (this.equipment_indices[i] >= 512 && this.equipment_indices[i] - 512 < ObjConfig.count) {
-                int team = ObjConfig.get(this.equipment_indices[i] - 512).team;
+            if (this.equipmentIndices[i] >= 512 && this.equipmentIndices[i] - 512 < ObjConfig.count) {
+                int team = ObjConfig.get(this.equipmentIndices[i] - 512).team;
 
                 if (team != 0) {
                     this.team = team;
@@ -437,32 +437,32 @@ public class Player extends Entity {
 
         this.name = JString.getFormattedString(s.readLong());
         this.combatLevel = (short) s.readUnsignedByte();
-        this.skill_level = s.readUnsignedShort();
+        this.skillLevel = s.readUnsignedShort();
         this.visible = true;
-        this.model_uid = 0L;
+        this.modelUid = 0L;
 
         for (int i = 0; i < 12; i++) {
-            this.model_uid <<= 4;
-            if (equipment_indices[i] >= 256) {
-                this.model_uid += equipment_indices[i] - 256;
+            this.modelUid <<= 4;
+            if (equipmentIndices[i] >= 256) {
+                this.modelUid += equipmentIndices[i] - 256;
             }
         }
 
-        if (equipment_indices[0] >= 256) {
-            this.model_uid += equipment_indices[0] - 256 >> 4;
+        if (equipmentIndices[0] >= 256) {
+            this.modelUid += equipmentIndices[0] - 256 >> 4;
         }
 
-        if (equipment_indices[1] >= 256) {
-            this.model_uid += equipment_indices[1] - 256 >> 8;
+        if (equipmentIndices[1] >= 256) {
+            this.modelUid += equipmentIndices[1] - 256 >> 8;
         }
 
         for (int i = 0; i < 5; i++) {
-            this.model_uid <<= 3;
-            this.model_uid += colors[i];
+            this.modelUid <<= 3;
+            this.modelUid += colors[i];
         }
 
-        this.model_uid <<= 1;
-        this.model_uid += gender;
+        this.modelUid <<= 1;
+        this.modelUid += gender;
     }
 
 }
