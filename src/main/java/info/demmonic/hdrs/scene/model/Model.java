@@ -7,6 +7,7 @@ import info.demmonic.hdrs.io.OnDemand;
 import info.demmonic.hdrs.media.Canvas2D;
 import info.demmonic.hdrs.media.Canvas3D;
 import info.demmonic.hdrs.node.impl.Renderable;
+import info.demmonic.hdrs.util.MathUtils;
 
 public class Model extends Renderable {
 
@@ -31,8 +32,6 @@ public class Model extends Renderable {
     public static int mouse_y;
     public static int hovered_count;
     public static int[] hovered_uid = new int[1000];
-    public static int sin[];
-    public static int cos[];
     public static Model temporary = new Model();
     public static int tmp_screen_x[] = new int[10];
     public static int tmp_screen_y[] = new int[10];
@@ -49,8 +48,6 @@ public class Model extends Renderable {
     public static int shadow_decay[];
 
     static {
-        sin = Canvas3D.sin;
-        cos = Canvas3D.cos;
         palette = Canvas3D.palette;
         shadow_decay = Canvas3D.shadowDecay;
     }
@@ -834,8 +831,6 @@ public class Model extends Renderable {
         anIntArray1675 = null;
         anIntArray1676 = null;
         anIntArray1677 = null;
-        sin = null;
-        cos = null;
         palette = null;
         shadow_decay = null;
     }
@@ -1165,14 +1160,14 @@ public class Model extends Renderable {
     public void draw(int pitch, int yaw, int roll, int camera_pitch, int camera_x, int camera_y, int camera_z) {
         int center_x = Canvas3D.centerX;
         int center_y = Canvas3D.centerY;
-        int pitch_sin = Model.sin[pitch];
-        int pitch_cos = Model.cos[pitch];
-        int yaw_sin = Model.sin[yaw];
-        int yaw_cos = Model.cos[yaw];
-        int roll_sin = Model.sin[roll];
-        int roll_cos = Model.cos[roll];
-        int arc_sin = Model.sin[camera_pitch];
-        int arc_cos = Model.cos[camera_pitch];
+        int pitch_sin = MathUtils.sin[pitch];
+        int pitch_cos = MathUtils.cos[pitch];
+        int yaw_sin = MathUtils.sin[yaw];
+        int yaw_cos = MathUtils.cos[yaw];
+        int roll_sin = MathUtils.sin[roll];
+        int roll_cos = MathUtils.cos[roll];
+        int arc_sin = MathUtils.sin[camera_pitch];
+        int arc_cos = MathUtils.cos[camera_pitch];
         int cam_dist = camera_y * arc_sin + camera_z * arc_cos >> 16;
 
         for (int i = 0; i < vertex_count; i++) {
@@ -1847,8 +1842,8 @@ public class Model extends Renderable {
         int cos = 0;
 
         if (rotation != 0) {
-            sin = Model.sin[rotation];
-            cos = Model.cos[rotation];
+            sin = MathUtils.sin[rotation];
+            cos = MathUtils.cos[rotation];
         }
 
         for (int v = 0; v < vertex_count; v++) {
@@ -2002,8 +1997,8 @@ public class Model extends Renderable {
     }
 
     public void set_pitch(int pitch) {
-        int sin = Model.sin[pitch];
-        int cos = Model.cos[pitch];
+        int sin = MathUtils.sin[pitch];
+        int cos = MathUtils.cos[pitch];
         for (int i = 0; i < vertex_count; i++) {
             int new_y = vertex_y[i] * cos - vertex_z[i] * sin >> 16;
             vertex_z[i] = (short) (vertex_y[i] * sin + vertex_z[i] * cos >> 16);
@@ -2080,24 +2075,24 @@ public class Model extends Renderable {
                         int roll = (z & 0xff) * 8;
 
                         if (roll != 0) {
-                            int sin = Model.sin[roll];
-                            int cos = Model.cos[roll];
+                            int sin = MathUtils.sin[roll];
+                            int cos = MathUtils.cos[roll];
                             int new_x = vertex_y[v_index] * sin + vertex_x[v_index] * cos >> 16;
                             vertex_y[v_index] = (short) (vertex_y[v_index] * cos - vertex_x[v_index] * sin >> 16);
                             vertex_x[v_index] = (short) new_x;
                         }
 
                         if (pitch != 0) {
-                            int sin = Model.sin[pitch];
-                            int cos = Model.cos[pitch];
+                            int sin = MathUtils.sin[pitch];
+                            int cos = MathUtils.cos[pitch];
                             int new_y = vertex_y[v_index] * cos - vertex_z[v_index] * sin >> 16;
                             vertex_z[v_index] = (short) (vertex_y[v_index] * sin + vertex_z[v_index] * cos >> 16);
                             vertex_y[v_index] = (short) new_y;
                         }
 
                         if (yaw != 0) {
-                            int sin = Model.sin[yaw];
-                            int cos = Model.cos[yaw];
+                            int sin = MathUtils.sin[yaw];
+                            int cos = MathUtils.cos[yaw];
                             int new_z = vertex_z[v_index] * sin + vertex_x[v_index] * cos >> 16;
                             vertex_z[v_index] = (short) (vertex_z[v_index] * cos - vertex_x[v_index] * sin >> 16);
                             vertex_x[v_index] = (short) new_z;

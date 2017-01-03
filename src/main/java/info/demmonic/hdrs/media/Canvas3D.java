@@ -22,8 +22,6 @@ public class Canvas3D extends Canvas2D {
 
     public static int palette[] = new int[0x10000];
     public static int pixels[];
-    public static int sin[];
-    public static int cos[];
 
     public static int[][] texelCache = new int[50][];
     public static int texelPointer;
@@ -43,9 +41,6 @@ public class Canvas3D extends Canvas2D {
         shadowDecay = new int[512];
         lightDecay = new int[2048];
 
-        sin = new int[2048];
-        cos = new int[2048];
-
         for (int i = 1; i < 512; i++) {
             shadowDecay[i] = 0x8000 / i;
         }
@@ -53,12 +48,6 @@ public class Canvas3D extends Canvas2D {
         for (int i = 1; i < 2048; i++) {
             lightDecay[i] = 0x10000 / i;
         }
-
-        for (int i = 0; i < 2048; i++) {
-            sin[i] = (int) (65536D * Math.sin((double) i * 0.0030679615D));
-            cos[i] = (int) (65536D * Math.cos((double) i * 0.0030679615D));
-        }
-
     }
 
     public static void clearTextures() {
@@ -2164,8 +2153,6 @@ public class Canvas3D extends Canvas2D {
 
     public static void nullify() {
         shadowDecay = null;
-        sin = null;
-        cos = null;
         pixels = null;
         texture = null;
         textureTranslucent = null;

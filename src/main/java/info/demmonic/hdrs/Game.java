@@ -31,6 +31,7 @@ import info.demmonic.hdrs.scene.Scene;
 import info.demmonic.hdrs.scene.model.*;
 import info.demmonic.hdrs.util.BitUtils;
 import info.demmonic.hdrs.util.JString;
+import info.demmonic.hdrs.util.MathUtils;
 import info.demmonic.hdrs.util.RSColor;
 
 import java.awt.event.KeyEvent;
@@ -889,8 +890,8 @@ public class Game extends GameShell {
 
         if (len > 4225 && len < 0x15f90) {
             int yaw = chaseCamYaw + camYawOff & 0x7ff;
-            int sin = Model.sin[yaw];
-            int cos = Model.cos[yaw];
+            int sin = MathUtils.sin[yaw];
+            int cos = MathUtils.cos[yaw];
             sin = (sin * 256) / (mapZoomOffset + 256);
             cos = (cos * 256) / (mapZoomOffset + 256);
             int x = mapY * sin + mapX * cos >> 16;
@@ -1533,8 +1534,8 @@ public class Game extends GameShell {
             return;
         }
 
-        int sin = Model.sin[angle];
-        int cos = Model.cos[angle];
+        int sin = MathUtils.sin[angle];
+        int cos = MathUtils.cos[angle];
         sin = (sin * 256) / (mapZoomOffset + 256);
         cos = (cos * 256) / (mapZoomOffset + 256);
         int mapX = y * sin + x * cos >> 16;
@@ -4078,8 +4079,8 @@ public class Game extends GameShell {
                 x -= 73;
                 y -= 75;
                 int angle = chaseCamYaw + camYawOff & 0x7ff;
-                int sin = Canvas3D.sin[angle];
-                int cos = Canvas3D.cos[angle];
+                int sin = MathUtils.sin[angle];
+                int cos = MathUtils.cos[angle];
                 sin = sin * (mapZoomOffset + 256) >> 8;
                 cos = cos * (mapZoomOffset + 256) >> 8;
                 int k1 = y * sin + x * cos >> 11;
@@ -7225,10 +7226,10 @@ public class Game extends GameShell {
         z -= Camera.z;
         y -= Camera.y;
 
-        int pitchSin = Model.sin[Camera.pitch];
-        int pitchCos = Model.cos[Camera.pitch];
-        int yawSin = Model.sin[Camera.yaw];
-        int yawCos = Model.cos[Camera.yaw];
+        int pitchSin = MathUtils.sin[Camera.pitch];
+        int pitchCos = MathUtils.cos[Camera.pitch];
+        int yawSin = MathUtils.sin[Camera.yaw];
+        int yawCos = MathUtils.cos[Camera.yaw];
 
         int i = y * yawSin + x * yawCos >> 16;
         y = y * yawCos - x * yawSin >> 16;
@@ -7301,10 +7302,10 @@ public class Game extends GameShell {
         y -= Camera.y;
         z -= Camera.z;
 
-        int pitchSin = Model.sin[Camera.pitch];
-        int pitchCos = Model.cos[Camera.pitch];
-        int yawSin = Model.sin[Camera.yaw];
-        int yawCos = Model.cos[Camera.yaw];
+        int pitchSin = MathUtils.sin[Camera.pitch];
+        int pitchCos = MathUtils.cos[Camera.pitch];
+        int yawSin = MathUtils.sin[Camera.yaw];
+        int yawCos = MathUtils.cos[Camera.yaw];
 
         int i = y * yawSin + x * yawCos >> 16;
         y = y * yawCos - x * yawSin >> 16;
@@ -8914,7 +8915,7 @@ public class Game extends GameShell {
                 for (int z_index = 0; z_index < 9; z_index++) {
                     int k8 = 128 + ((z_index * 32) + 15);
                     int l8 = 600 + (k8 * 3);
-                    int sin = Canvas3D.sin[k8];
+                    int sin = MathUtils.sin[k8];
                     zArray[z_index] = l8 * sin >> 16;
                 }
 

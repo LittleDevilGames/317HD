@@ -7,9 +7,9 @@ import info.demmonic.hdrs.media.Canvas2D;
 import info.demmonic.hdrs.media.Canvas3D;
 import info.demmonic.hdrs.media.Sprite;
 import info.demmonic.hdrs.node.List;
-import info.demmonic.hdrs.node.impl.Renderable;
 import info.demmonic.hdrs.scene.model.Model;
 import info.demmonic.hdrs.util.JString;
+import info.demmonic.hdrs.util.MathUtils;
 
 public class ObjConfig {
 
@@ -176,10 +176,10 @@ public class ObjConfig {
             dist = (int) ((double) dist * 1.04D);
         }
 
-        int sin = Canvas3D.sin[c.iconPitch] * dist >> 16;
-        int cos = Canvas3D.cos[c.iconPitch] * dist >> 16;
+        int sin = MathUtils.sin[c.iconPitch] * dist >> 16;
+        int cos = MathUtils.cos[c.iconPitch] * dist >> 16;
 
-        m.draw(0, c.iconYaw, c.iconRoll, c.iconPitch, c.iconX, sin + (((Renderable) (m)).height / 2) + c.iconY, cos + c.iconY);
+        m.draw(0, c.iconYaw, c.iconRoll, c.iconPitch, c.iconX, sin + (m.height / 2) + c.iconY, cos + c.iconY);
 
         for (int x = 31; x >= 0; x--) {
             for (int y = 31; y >= 0; y--) {
@@ -509,11 +509,8 @@ public class ObjConfig {
             return false;
         }
 
-        if (i3 != -1 && !Model.isValid(i3)) {
-            return false;
-        }
+        return !(i3 != -1 && !Model.isValid(i3));
 
-        return true;
     }
 
     public void load(Buffer b) {

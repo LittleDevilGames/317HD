@@ -14,6 +14,7 @@ import info.demmonic.hdrs.media.Sprite;
 import info.demmonic.hdrs.node.List;
 import info.demmonic.hdrs.scene.model.Model;
 import info.demmonic.hdrs.util.JString;
+import info.demmonic.hdrs.util.MathUtils;
 
 import java.io.File;
 
@@ -653,8 +654,8 @@ public class Widget {
                 Canvas3D.centerX = x + this.width / 2;
                 Canvas3D.centerY = y + this.height / 2;
 
-                int sin = Canvas3D.sin[this.modelPitch] * this.modelZoom >> 16;
-                int cos = Canvas3D.cos[this.modelPitch] * this.modelZoom >> 16;
+                int sin = MathUtils.sin[this.modelPitch] * this.modelZoom >> 16;
+                int cos = MathUtils.cos[this.modelPitch] * this.modelZoom >> 16;
 
                 boolean enabled = this.isEnabled();
                 int anim_index = enabled ? this.seqIndexEnabled : this.seqIndexDisabled;

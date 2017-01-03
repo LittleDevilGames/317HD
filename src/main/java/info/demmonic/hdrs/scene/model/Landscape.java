@@ -5,6 +5,7 @@ import info.demmonic.hdrs.media.Canvas2D;
 import info.demmonic.hdrs.media.Canvas3D;
 import info.demmonic.hdrs.node.Chain;
 import info.demmonic.hdrs.node.impl.Renderable;
+import info.demmonic.hdrs.util.MathUtils;
 
 public class Landscape {
 
@@ -243,10 +244,10 @@ public class Landscape {
 
         for (int pitch = Camera.MIN_PITCH; pitch <= Camera.MAX_PITCH + 1; pitch += 32) {
             for (int yaw = 0; yaw < 2048; yaw += 64) {
-                camPSin = Model.sin[pitch];
-                camPCos = Model.cos[pitch];
-                camYSin = Model.sin[yaw];
-                camYCos = Model.cos[yaw];
+                camPSin = MathUtils.sin[pitch];
+                camPCos = MathUtils.cos[pitch];
+                camYSin = MathUtils.sin[yaw];
+                camYCos = MathUtils.cos[yaw];
                 int z_index = (pitch - 128) / 32;
                 int yaw_index = yaw / 64;
 
@@ -683,10 +684,10 @@ public class Landscape {
         }
 
         Landscape.cycle++;
-        Landscape.camPSin = Model.sin[cam_pitch];
-        Landscape.camPCos = Model.cos[cam_pitch];
-        Landscape.camYSin = Model.sin[cam_yaw];
-        Landscape.camYCos = Model.cos[cam_yaw];
+        Landscape.camPSin = MathUtils.sin[cam_pitch];
+        Landscape.camPCos = MathUtils.cos[cam_pitch];
+        Landscape.camYSin = MathUtils.sin[cam_yaw];
+        Landscape.camYCos = MathUtils.cos[cam_yaw];
         Landscape.cullingMap = visibilityMap[(cam_pitch - 128) / 32][cam_yaw / 64];
         Landscape.camX = cam_x;
         Landscape.camZ = cam_z;

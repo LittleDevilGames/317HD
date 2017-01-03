@@ -1,5 +1,7 @@
 package info.demmonic.hdrs.scene.model;
 
+import info.demmonic.hdrs.util.MathUtils;
+
 public class Camera {
 
     public static final int MAX_PITCH = 383;
@@ -15,16 +17,16 @@ public class Camera {
         int d = 0;
 
         if (a != 0) {
-            int e = Model.sin[a];
-            int f = Model.cos[a];
+            int e = MathUtils.sin[a];
+            int f = MathUtils.cos[a];
             int g = d * f - zoom * e >> 16;
             zoom = d * e + zoom * f >> 16;
             d = g;
         }
 
         if (b != 0) {
-            int e = Model.sin[b];
-            int f = Model.cos[b];
+            int e = MathUtils.sin[b];
+            int f = MathUtils.cos[b];
             int g = zoom * e + c * f >> 16;
             zoom = zoom * f - c * e >> 16;
             c = g;
