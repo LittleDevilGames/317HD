@@ -16,8 +16,8 @@ public class Tile extends Link {
     public GroundDecoration groundDecoration;
     public ItemPile itemPile;
     public int locCount;
-    public int locFlag[];
-    public StaticLoc locs[];
+    public int locFlag[] = new int[5];
+    public StaticLoc locs[] = new StaticLoc[5];
     public OverlayTile overlay;
     public int plane;
     public int topPlane;
@@ -27,8 +27,6 @@ public class Tile extends Link {
     public byte x, y, z;
 
     public Tile(int plane, int x, int y) {
-        this.locs = new StaticLoc[5];
-        this.locFlag = new int[5];
         this.plane = this.z = (byte) plane;
         this.x = (byte) x;
         this.y = (byte) y;
