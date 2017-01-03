@@ -28,14 +28,14 @@ public class SpotAnim extends Renderable {
 
     @Override
     public Model getModel() {
-        Model effect_model = this.config.getModel();
+        Model effectModel = this.config.getModel();
 
-        if (effect_model == null) {
+        if (effectModel == null) {
             return null;
         }
 
         int frame = this.config.seq.framePrimary[this.seqFrame];
-        Model m = new Model(true, frame == -1, false, effect_model);
+        Model m = new Model(true, frame == -1, false, effectModel);
 
         if (!this.seqFinished) {
             m.applyVertexWeights();
