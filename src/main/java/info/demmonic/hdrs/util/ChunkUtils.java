@@ -45,7 +45,7 @@ public class ChunkUtils {
         }
     }
 
-    public static int rotateLocX(int x, int y, int size_x, int size_y, int type) {
+    public static int rotateLocX(int x, int y, int sizeX, int sizeY, int type) {
         x &= 0x7;
         y &= 0x7;
         type &= 3;
@@ -59,13 +59,13 @@ public class ChunkUtils {
         }
 
         if (type == 2) {
-            return 7 - x - (size_x - 1);
+            return 7 - x - (sizeX - 1);
         } else {
-            return 7 - y - (size_y - 1);
+            return 7 - y - (sizeY - 1);
         }
     }
 
-    public static int rotateLocY(int x, int y, int size_x, int size_y, int type) {
+    public static int rotateLocY(int x, int y, int sizeX, int sizeY, int type) {
         x &= 0x7;
         y &= 0x7;
         type &= 3;
@@ -75,11 +75,11 @@ public class ChunkUtils {
         }
 
         if (type == 1) {
-            return 7 - x - (size_x - 1);
+            return 7 - x - (sizeX - 1);
         }
 
         if (type == 2) {
-            return 7 - y - (size_y - 1);
+            return 7 - y - (sizeY - 1);
         } else {
             return x;
         }
