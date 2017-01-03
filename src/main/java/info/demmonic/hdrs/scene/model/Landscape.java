@@ -850,7 +850,7 @@ public class Landscape {
         UnderlayTile ut = t.underlay;
 
         if (ut != null) {
-            int rgb = ut.rgb;
+            int rgb = ut.minimapRgb;
 
             if (rgb == 0) {
                 return;
@@ -2343,7 +2343,7 @@ public class Landscape {
         ut.hslNe = hs + l_ne;
         ut.hslNw = hs + l_nw;
         ut.hslSe = hs + l_se;
-        ut.rgb = 0;
+        ut.minimapRgb = 0;
     }
 
     public void setVisiblePlanes(int plane, int x, int y, int max_plane) {
