@@ -79,20 +79,20 @@ public class CharacterDesign {
         if (type >= 300 && type <= 313) {
             int part = (type - 300) / 2;
             boolean next = (type & 1) == 1;
-            int identity_kit = selectedIdentityKits[part];
+            int identityKit = selectedIdentityKits[part];
 
-            if (identity_kit != -1) {
+            if (identityKit != -1) {
                 do {
-                    if (!next && --identity_kit < 0) {
-                        identity_kit = IdentityKit.count - 1;
+                    if (!next && --identityKit < 0) {
+                        identityKit = IdentityKit.count - 1;
                     }
-                    if (next && ++identity_kit >= IdentityKit.count) {
-                        identity_kit = 0;
+                    if (next && ++identityKit >= IdentityKit.count) {
+                        identityKit = 0;
                     }
                 }
-                while (IdentityKit.instance[identity_kit].unselectable || IdentityKit.instance[identity_kit].anInt657 != part + (male ? 0 : 7));
+                while (IdentityKit.instance[identityKit].unselectable || IdentityKit.instance[identityKit].anInt657 != part + (male ? 0 : 7));
 
-                selectedIdentityKits[part] = identity_kit;
+                selectedIdentityKits[part] = identityKit;
                 update = true;
             }
 
@@ -106,11 +106,11 @@ public class CharacterDesign {
         update = true;
         for (int part = 0; part < 7; part++) {
             selectedIdentityKits[part] = -1;
-            for (int identity_kit = 0; identity_kit < IdentityKit.count; identity_kit++) {
-                if (IdentityKit.instance[identity_kit].unselectable || IdentityKit.instance[identity_kit].anInt657 != part + (male ? 0 : 7)) {
+            for (int identityKit = 0; identityKit < IdentityKit.count; identityKit++) {
+                if (IdentityKit.instance[identityKit].unselectable || IdentityKit.instance[identityKit].anInt657 != part + (male ? 0 : 7)) {
                     continue;
                 }
-                selectedIdentityKits[part] = identity_kit;
+                selectedIdentityKits[part] = identityKit;
                 break;
             }
         }
@@ -134,9 +134,9 @@ public class CharacterDesign {
                 Model meshes[] = new Model[7];
                 int count = 0;
                 for (int i = 0; i < 7; i++) {
-                    int identity_kit = selectedIdentityKits[i];
-                    if (identity_kit >= 0) {
-                        meshes[count++] = IdentityKit.instance[identity_kit].getMesh();
+                    int identityKit = selectedIdentityKits[i];
+                    if (identityKit >= 0) {
+                        meshes[count++] = IdentityKit.instance[identityKit].getMesh();
                     }
                 }
 
