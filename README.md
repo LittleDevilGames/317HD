@@ -1,8 +1,13 @@
+<p align="center">
+  <img src="http://i.imgur.com/eqE8P6Z.png" alt="logo"/>
+</p>
+<p align="center">
+  <img src="https://travis-ci.org/demmonic/317HD.svg?branch=master" alt="logo"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="logo"/>
+</p>
+
 # 317HD
 A 317 client with the rendering engine ported to libgdx
-
-[![Build Status](https://travis-ci.org/demmonic/317HD.svg?branch=master)](https://travis-ci.org/demmonic/317HD)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Goal
 The goal of the client is to have a 317 client, where the engine has been replaced with libgdx. On top of this, I plan to make general
