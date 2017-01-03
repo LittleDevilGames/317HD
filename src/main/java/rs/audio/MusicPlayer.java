@@ -64,7 +64,7 @@ public class MusicPlayer implements Receiver {
 
                     int channel = status & 0xF;
                     this.frequency[channel] = 12800;
-                    int i = this.get_volume(channel);
+                    int i = this.getVolume(channel);
 
                     this.send(status, MSB_CHANNEL_VOLUME, i >> 7, time);
                     this.send(status, LSB_CHANNEL_VOLUME, i & 0x7F, time);
@@ -80,7 +80,7 @@ public class MusicPlayer implements Receiver {
                         this.frequency[channel] = ((this.frequency[channel] & 0x3F80) + data2);
                     }
 
-                    int i = this.get_volume(channel);
+                    int i = this.getVolume(channel);
                     this.send(status, MSB_CHANNEL_VOLUME, i >> 7, time);
                     this.send(status, LSB_CHANNEL_VOLUME, i & 0x7F, time);
                     return true;
@@ -98,7 +98,7 @@ public class MusicPlayer implements Receiver {
         /* empty */
     }
 
-    private int get_volume(int channel) {
+    private int getVolume(int channel) {
         int i = this.frequency[channel];
         i = (i * this.volume1 >> 8) * i;
         return (int) (Math.sqrt(i) + 0.5D);
@@ -279,14 +279,14 @@ public class MusicPlayer implements Receiver {
         }
     }
 
-    public void set_volume(int volume, long timeStamp) {
+    public void setVolume(int volume, long timeStamp) {
         if (this.volume1 != volume) {
             this.volume1 = volume;
 
             Arrays.fill(this.frequency, 12800);
 
             for (int c = 0; c < 16; ++c) {
-                int i = this.get_volume(c);
+                int i = this.getVolume(c);
                 this.send(ShortMessage.CONTROL_CHANGE + c, MSB_CHANNEL_VOLUME, i >> 7, timeStamp);
                 this.send(ShortMessage.CONTROL_CHANGE + c, LSB_CHANNEL_VOLUME, i & 0x7F, timeStamp);
             }
@@ -295,7 +295,7 @@ public class MusicPlayer implements Receiver {
 
     public void setVolume(int volume) {
         if (this.sequencer != null) {
-            this.set_volume(volume, -1L);
+            this.setVolume(volume, -1L);
         }
     }
 
@@ -306,7 +306,7 @@ public class MusicPlayer implements Receiver {
             this.volume1 = volume;
 
             for (int c = 0; c < 16; ++c) {
-                int i = this.get_volume(c);
+                int i = this.getVolume(c);
                 this.send(ShortMessage.CONTROL_CHANGE + c, LSB_CHANNEL_VOLUME, i >> 7, timeStamp);
                 this.send(ShortMessage.CONTROL_CHANGE + c, MSB_CHANNEL_VOLUME, i & 0x7F, timeStamp);
             }

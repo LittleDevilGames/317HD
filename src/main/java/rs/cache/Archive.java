@@ -30,10 +30,10 @@ public class Archive {
         for (int i = 0; i < count; i++) {
             Entry e = new Entry();
             e.hash = buffer.readInt();
-            e.unpacked_size = buffer.readMedium();
-            e.packed_size = buffer.readMedium();
+            e.unpackedSize = buffer.readMedium();
+            e.packedSize = buffer.readMedium();
             e.position = position;
-            position += e.packed_size;
+            position += e.packedSize;
             this.entries.put(e.hash, e);
         }
 
@@ -63,13 +63,13 @@ public class Archive {
         Entry e = this.entries.get(hash);
 
         if (dst == null) {
-            dst = new byte[e.unpacked_size];
+            dst = new byte[e.unpackedSize];
         }
 
         if (!this.extracted) {
-            BZip2.decompress(dst, e.unpacked_size, this.buffer.payload, e.packed_size, e.position);
+            BZip2.decompress(dst, e.unpackedSize, this.buffer.payload, e.packedSize, e.position);
         } else {
-            System.arraycopy(this.buffer.payload, e.position, dst, 0, e.unpacked_size);
+            System.arraycopy(this.buffer.payload, e.position, dst, 0, e.unpackedSize);
         }
 
         return dst;
@@ -77,16 +77,16 @@ public class Archive {
 
     public class Entry {
         public int hash;
-        public int packed_size;
+        public int packedSize;
         public int position;
-        public int unpacked_size;
+        public int unpackedSize;
 
         @Override
         public String toString() {
             return "[Entry: hash:" +
                     hash + ", unpacked:" +
-                    unpacked_size + ", packed:" +
-                    packed_size + ", pos:" +
+                    unpackedSize + ", packed:" +
+                    packedSize + ", pos:" +
                     position + ']';
         }
     }

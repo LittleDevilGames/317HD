@@ -36,7 +36,7 @@ public class TitleScreen {
             return;
         }
 
-        Game.clear_ingame_producers();
+        Game.clearIngameProducers();
 
         Flames.create_producers();
 

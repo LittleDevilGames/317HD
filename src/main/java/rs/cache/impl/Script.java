@@ -14,8 +14,8 @@ public class Script {
     public static final String[] TRIGGER_TYPE = {"==", "==", "<", ">", "!="};
     public final byte index;
     public final int[] intcode;
-    public byte compare_type = 0;
-    public int compare_value = -2;
+    public byte compareType = 0;
+    public int compareValue = -2;
     public Widget widget;
 
     public Script(Widget widget, Buffer b, int index) {
@@ -64,7 +64,7 @@ public class Script {
                         Widget w = Widget.instance[code[i++]];
                         int item_index = code[i++];
 
-                        if (item_index >= 0 && item_index < ObjConfig.count && (!ObjConfig.get(item_index).is_members || Game.isMembers)) {
+                        if (item_index >= 0 && item_index < ObjConfig.count && (!ObjConfig.get(item_index).isMembers || Game.isMembers)) {
                             for (int j = 0; j < w.itemIndex.length; j++) {
                                 if (w.itemIndex[j] == item_index + 1) {
                                     register += w.itemCount[j];
@@ -109,7 +109,7 @@ public class Script {
                         Widget child = Widget.get(code[i++]);
                         if (child != null) {
                             int item_index = code[i++] + 1;
-                            if (item_index >= 0 && item_index < ObjConfig.count && (!ObjConfig.get(item_index).is_members || Game.isMembers)) {
+                            if (item_index >= 0 && item_index < ObjConfig.count && (!ObjConfig.get(item_index).isMembers || Game.isMembers)) {
                                 for (int slot = 0; slot < child.itemIndex.length; slot++) {
                                     if (child.itemIndex[slot] != item_index) {
                                         continue;

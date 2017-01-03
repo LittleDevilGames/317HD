@@ -157,7 +157,7 @@ public class CharacterDesign {
                 mesh.applyLighting(64, 850, -30, -50, -30, true);
                 widget.modelTypeDisabled = 5;
                 widget.modelIndexDisabled = 0;
-                Widget.set_mesh(5, 0, mesh);
+                Widget.setMesh(5, 0, mesh);
             }
             return true;
         }

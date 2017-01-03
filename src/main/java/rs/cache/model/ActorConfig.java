@@ -201,13 +201,13 @@ public class ActorConfig {
         this.aBoolean93 = false;
     }
 
-    public Model get_dialog_model() {
+    public Model getDialogModel() {
         if (override_index != null) {
             ActorConfig config = getOverridingConfig();
             if (config == null) {
                 return null;
             } else {
-                return config.get_dialog_model();
+                return config.getDialogModel();
             }
         }
 
@@ -242,7 +242,7 @@ public class ActorConfig {
         }
 
         if (old_colors != null) {
-            m.set_colors(old_colors, new_colors);
+            m.setColors(old_colors, new_colors);
         }
         return m;
     }
@@ -284,7 +284,7 @@ public class ActorConfig {
             }
 
             if (old_colors != null) {
-                model.set_colors(old_colors, new_colors);
+                model.setColors(old_colors, new_colors);
             }
 
             model.applyVertexWeights();

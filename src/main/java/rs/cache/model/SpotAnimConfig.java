@@ -116,7 +116,7 @@ public class SpotAnimConfig {
         }
 
         if (old_colors != null && old_colors[0] != 0) {
-            m.set_colors(old_colors, new_colors);
+            m.setColors(old_colors, new_colors);
         }
 
         model_cache.insert(m, uid);

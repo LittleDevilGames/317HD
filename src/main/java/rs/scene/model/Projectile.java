@@ -92,7 +92,7 @@ public class Projectile extends Renderable {
             for (seq_cycle += cycle; seq_cycle > config.seq.getFrameLength(seq_frame); ) {
                 seq_cycle -= config.seq.getFrameLength(seq_frame) + 1;
                 seq_frame++;
-                if (seq_frame >= config.seq.frame_count) {
+                if (seq_frame >= config.seq.frameCount) {
                     seq_frame = 0;
                 }
             }

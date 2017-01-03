@@ -12,7 +12,7 @@ public class SoundEnvelope {
     public int anInt539;
     public int form;
     public int checkpoint;
-    public int segment_ptr;
+    public int segmentPtr;
     public int step;
     public int amplitude;
     public int tick;
@@ -45,7 +45,7 @@ public class SoundEnvelope {
 
     public void reset() {
         checkpoint = 0;
-        segment_ptr = 0;
+        segmentPtr = 0;
         step = 0;
         amplitude = 0;
         tick = 0;
@@ -53,16 +53,16 @@ public class SoundEnvelope {
 
     public int evaluate(int length) {
         if (tick >= checkpoint) {
-            amplitude = segmentPeak[segment_ptr++] << 15;
+            amplitude = segmentPeak[segmentPtr++] << 15;
 
-            if (segment_ptr >= segmentCount) {
-                segment_ptr = segmentCount - 1;
+            if (segmentPtr >= segmentCount) {
+                segmentPtr = segmentCount - 1;
             }
 
-            checkpoint = (int) (((double) segmentDuration[segment_ptr] / 65536D) * (double) length);
+            checkpoint = (int) (((double) segmentDuration[segmentPtr] / 65536D) * (double) length);
 
             if (checkpoint > tick) {
-                step = ((segmentPeak[segment_ptr] << 15) - amplitude) / (checkpoint - tick);
+                step = ((segmentPeak[segmentPtr] << 15) - amplitude) / (checkpoint - tick);
             }
         }
 

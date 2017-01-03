@@ -14,39 +14,39 @@ import rs.util.JString;
 public class ObjConfig {
 
     public static ObjConfig[] cache;
-    public static int cache_position;
+    public static int cachePosition;
     public static int count;
-    public static List model_cache = new List(50);
+    public static List modelCache = new List(50);
     public static int pointer[];
     public static List spriteCache = new List(100);
     public static Buffer buffer;
     public String action[];
     public short brightness;
     public String description;
-    public short female_dialog_model1;
-    public short female_dialog_model2;
-    public short female_model1;
-    public short female_model2;
-    public short female_model3;
-    public byte female_off_y;
-    public String ground_action[];
+    public short femaleDialogModel1;
+    public short femaleDialogModel2;
+    public short femaleModel1;
+    public short femaleModel2;
+    public short femaleModel3;
+    public byte femaleOffY;
+    public String groundAction[];
     public short iconDist;
     public short iconPitch;
-    public short icon_roll;
-    public short icon_x;
-    public short icon_y;
+    public short iconRoll;
+    public short iconX;
+    public short iconY;
     public short iconYaw;
     public short index;
-    public boolean is_members;
-    public short male_dialog_model1;
-    public short male_dialog_model2;
-    public short male_model1;
-    public short male_model2;
-    public short male_model3;
-    public byte male_off_y;
-    public short model_index;
+    public boolean isMembers;
+    public short maleDialogModel1;
+    public short maleDialogModel2;
+    public short maleModel1;
+    public short maleModel2;
+    public short maleModel3;
+    public byte maleOffY;
+    public short modelIndex;
     public String name;
-    public int new_color[];
+    public int newColor[];
     public short note_item_index;
     public short note_template_index;
     public int old_color[];
@@ -75,8 +75,8 @@ public class ObjConfig {
             return null;
         }
 
-        cache_position = (cache_position + 1) % 10;
-        ObjConfig config = cache[cache_position];
+        cachePosition = (cachePosition + 1) % 10;
+        ObjConfig config = cache[cachePosition];
         ObjConfig.buffer.position = ObjConfig.pointer[index];
 
         config.index = (short) index;
@@ -87,10 +87,10 @@ public class ObjConfig {
             config.to_note();
         }
 
-        if (!Game.isMembers && config.is_members) {
+        if (!Game.isMembers && config.isMembers) {
             config.name = JString.MEMBERS_OBJECT;
             config.description = JString.LOGIN_TO_A_MEMBERS_SERVER_TO_USE_THIS_OBJECT;
-            config.ground_action = null;
+            config.groundAction = null;
             config.action = null;
             config.team = 0;
         }
@@ -179,7 +179,7 @@ public class ObjConfig {
         int sin = Canvas3D.sin[c.iconPitch] * dist >> 16;
         int cos = Canvas3D.cos[c.iconPitch] * dist >> 16;
 
-        m.draw(0, c.iconYaw, c.icon_roll, c.iconPitch, c.icon_x, sin + (((Renderable) (m)).height / 2) + c.icon_y, cos + c.icon_y);
+        m.draw(0, c.iconYaw, c.iconRoll, c.iconPitch, c.iconX, sin + (((Renderable) (m)).height / 2) + c.iconY, cos + c.iconY);
 
         for (int x = 31; x >= 0; x--) {
             for (int y = 31; y >= 0; y--) {
@@ -255,7 +255,7 @@ public class ObjConfig {
     }
 
     public static void nullify() {
-        ObjConfig.model_cache = null;
+        ObjConfig.modelCache = null;
         ObjConfig.spriteCache = null;
         ObjConfig.pointer = null;
         ObjConfig.cache = null;
@@ -284,34 +284,34 @@ public class ObjConfig {
     }
 
     public void defaults() {
-        model_index = 0;
+        modelIndex = 0;
         name = null;
         description = null;
         old_color = null;
-        new_color = null;
+        newColor = null;
         iconDist = 2000;
         iconPitch = 0;
         iconYaw = 0;
-        icon_roll = 0;
-        icon_x = 0;
-        icon_y = 0;
+        iconRoll = 0;
+        iconX = 0;
+        iconY = 0;
         stackable = false;
         pile_priority = 1;
-        is_members = false;
-        ground_action = null;
+        isMembers = false;
+        groundAction = null;
         action = null;
-        male_model1 = -1;
-        male_model2 = -1;
-        male_off_y = 0;
-        female_model1 = -1;
-        female_model2 = -1;
-        female_off_y = 0;
-        male_model3 = -1;
-        female_model3 = -1;
-        male_dialog_model1 = -1;
-        male_dialog_model2 = -1;
-        female_dialog_model1 = -1;
-        female_dialog_model2 = -1;
+        maleModel1 = -1;
+        maleModel2 = -1;
+        maleOffY = 0;
+        femaleModel1 = -1;
+        femaleModel2 = -1;
+        femaleOffY = 0;
+        maleModel3 = -1;
+        femaleModel3 = -1;
+        maleDialogModel1 = -1;
+        maleDialogModel2 = -1;
+        femaleDialogModel1 = -1;
+        femaleDialogModel2 = -1;
         stack_index = null;
         stack_amount = null;
         note_item_index = -1;
@@ -325,12 +325,12 @@ public class ObjConfig {
     }
 
     public Model get_dialogue_model(int gender) {
-        int a = male_dialog_model1;
-        int b = male_dialog_model2;
+        int a = maleDialogModel1;
+        int b = maleDialogModel2;
 
         if (gender == 1) {
-            a = female_dialog_model1;
-            b = female_dialog_model2;
+            a = femaleDialogModel1;
+            b = femaleDialogModel2;
         }
 
         if (a == -1) {
@@ -344,7 +344,7 @@ public class ObjConfig {
         }
 
         if (old_color != null) {
-            mesh.set_colors(old_color, new_color);
+            mesh.setColors(old_color, newColor);
         }
         return mesh;
     }
@@ -362,13 +362,13 @@ public class ObjConfig {
             }
         }
 
-        Model mesh = (Model) model_cache.get(index);
+        Model mesh = (Model) modelCache.get(index);
 
         if (mesh != null) {
             return mesh;
         }
 
-        mesh = Model.get(model_index);
+        mesh = Model.get(modelIndex);
 
         if (mesh == null) {
             return null;
@@ -379,22 +379,22 @@ public class ObjConfig {
         }
 
         if (old_color != null) {
-            mesh.set_colors(old_color, new_color);
+            mesh.setColors(old_color, newColor);
         }
 
         mesh.applyLighting(64 + brightness, 768 + specular, -50, -10, -50, true);
         mesh.is_clickable = true;
-        model_cache.insert(mesh, index);
+        modelCache.insert(mesh, index);
 
         return mesh;
 
     }
 
-    public Model get_widget_mesh() {
-        return this.get_widget_mesh(1);
+    public Model getWidgetMesh() {
+        return this.getWidgetMesh(1);
     }
 
-    public Model get_widget_mesh(int count) {
+    public Model getWidgetMesh(int count) {
         if (stack_index != null && count > 1) {
             int stack = -1;
             for (int i = 0; i < 10; i++) {
@@ -404,32 +404,32 @@ public class ObjConfig {
             }
 
             if (stack != -1) {
-                return get(stack).get_widget_mesh();
+                return get(stack).getWidgetMesh();
             }
         }
 
-        Model mesh = Model.get(model_index);
+        Model mesh = Model.get(modelIndex);
 
         if (mesh == null) {
             return null;
         }
 
         if (old_color != null) {
-            mesh.set_colors(old_color, new_color);
+            mesh.setColors(old_color, newColor);
         }
 
         return mesh;
     }
 
     public Model get_worn_mesh(int gender) {
-        int i1 = male_model1;
-        int i2 = male_model2;
-        int i3 = male_model3;
+        int i1 = maleModel1;
+        int i2 = maleModel2;
+        int i3 = maleModel3;
 
         if (gender == 1) {
-            i1 = female_model1;
-            i2 = female_model2;
-            i3 = female_model3;
+            i1 = femaleModel1;
+            i2 = femaleModel2;
+            i3 = femaleModel3;
         }
 
         if (i1 == -1) {
@@ -446,27 +446,27 @@ public class ObjConfig {
             }
         }
 
-        if (gender == 0 && male_off_y != 0) {
-            mesh.translate(0, male_off_y, 0);
+        if (gender == 0 && maleOffY != 0) {
+            mesh.translate(0, maleOffY, 0);
         }
 
-        if (gender == 1 && female_off_y != 0) {
-            mesh.translate(0, female_off_y, 0);
+        if (gender == 1 && femaleOffY != 0) {
+            mesh.translate(0, femaleOffY, 0);
         }
 
         if (old_color != null) {
-            mesh.set_colors(old_color, new_color);
+            mesh.setColors(old_color, newColor);
         }
         return mesh;
     }
 
-    public boolean is_dialogue_model_valid(int gender) {
-        int index1 = male_dialog_model1;
-        int index2 = male_dialog_model2;
+    public boolean isDialogueModelValid(int gender) {
+        int index1 = maleDialogModel1;
+        int index2 = maleDialogModel2;
 
         if (gender == 1) {
-            index1 = female_dialog_model1;
-            index2 = female_dialog_model2;
+            index1 = femaleDialogModel1;
+            index2 = femaleDialogModel2;
         }
 
         if (index1 == -1) {
@@ -487,14 +487,14 @@ public class ObjConfig {
     }
 
     public boolean is_worn_mesh_valid(int gender) {
-        int i1 = male_model1;
-        int i2 = male_model2;
-        int i3 = male_model3;
+        int i1 = maleModel1;
+        int i2 = maleModel2;
+        int i3 = maleModel3;
 
         if (gender == 1) {
-            i1 = female_model1;
-            i2 = female_model2;
-            i3 = female_model3;
+            i1 = femaleModel1;
+            i2 = femaleModel2;
+            i3 = femaleModel3;
         }
 
         if (i1 == -1) {
@@ -525,7 +525,7 @@ public class ObjConfig {
             }
 
             if (i == 1) {
-                model_index = (short) b.readUnsignedShort();
+                modelIndex = (short) b.readUnsignedShort();
             } else if (i == 2) {
                 name = b.readString();
             } else if (i == 3) {
@@ -543,7 +543,7 @@ public class ObjConfig {
                     x -= 0x10000;
                 }
 
-                icon_x = (short) x;
+                iconX = (short) x;
             } else if (i == 8) {
                 int y = b.readUnsignedShort();
 
@@ -551,7 +551,7 @@ public class ObjConfig {
                     y -= 0x10000;
                 }
 
-                icon_y = (short) y;
+                iconY = (short) y;
             } else if (i == 10) {
                 b.readUnsignedShort();
             } else if (i == 11) {
@@ -559,23 +559,23 @@ public class ObjConfig {
             } else if (i == 12) {
                 pile_priority = b.readInt();
             } else if (i == 16) {
-                is_members = true;
+                isMembers = true;
             } else if (i == 23) {
-                male_model1 = (short) b.readUnsignedShort();
-                male_off_y = b.readByte();
+                maleModel1 = (short) b.readUnsignedShort();
+                maleOffY = b.readByte();
             } else if (i == 24) {
-                male_model2 = (short) b.readUnsignedShort();
+                maleModel2 = (short) b.readUnsignedShort();
             } else if (i == 25) {
-                female_model1 = (short) b.readUnsignedShort();
-                female_off_y = b.readByte();
+                femaleModel1 = (short) b.readUnsignedShort();
+                femaleOffY = b.readByte();
             } else if (i == 26) {
-                female_model2 = (short) b.readUnsignedShort();
+                femaleModel2 = (short) b.readUnsignedShort();
             } else if (i >= 30 && i < 35) {
-                if (ground_action == null) {
-                    ground_action = new String[5];
+                if (groundAction == null) {
+                    groundAction = new String[5];
                 }
 
-                ground_action[i - 30] = b.readString();
+                groundAction[i - 30] = b.readString();
             } else if (i >= 35 && i < 40) {
                 if (action == null) {
                     action = new String[5];
@@ -598,26 +598,26 @@ public class ObjConfig {
             } else if (i == 40) {
                 int j = b.readUnsignedByte();
                 old_color = new int[j];
-                new_color = new int[j];
+                newColor = new int[j];
                 for (int k = 0; k < j; k++) {
                     old_color[k] = b.readUnsignedShort();
-                    new_color[k] = b.readUnsignedShort();
+                    newColor[k] = b.readUnsignedShort();
                 }
 
             } else if (i == 78) {
-                male_model3 = (short) b.readUnsignedShort();
+                maleModel3 = (short) b.readUnsignedShort();
             } else if (i == 79) {
-                female_model3 = (short) b.readUnsignedShort();
+                femaleModel3 = (short) b.readUnsignedShort();
             } else if (i == 90) {
-                male_dialog_model1 = (short) b.readUnsignedShort();
+                maleDialogModel1 = (short) b.readUnsignedShort();
             } else if (i == 91) {
-                female_dialog_model1 = (short) b.readUnsignedShort();
+                femaleDialogModel1 = (short) b.readUnsignedShort();
             } else if (i == 92) {
-                male_dialog_model2 = (short) b.readUnsignedShort();
+                maleDialogModel2 = (short) b.readUnsignedShort();
             } else if (i == 93) {
-                female_dialog_model2 = (short) b.readUnsignedShort();
+                femaleDialogModel2 = (short) b.readUnsignedShort();
             } else if (i == 95) {
-                icon_roll = (short) b.readUnsignedShort();
+                iconRoll = (short) b.readUnsignedShort();
             } else if (i == 97) {
                 note_item_index = (short) b.readUnsignedShort();
             } else if (i == 98) {
@@ -647,19 +647,19 @@ public class ObjConfig {
 
     public void to_note() {
         ObjConfig a = get(note_template_index);
-        model_index = a.model_index;
+        modelIndex = a.modelIndex;
         iconDist = a.iconDist;
         iconPitch = a.iconPitch;
         iconYaw = a.iconYaw;
-        icon_roll = a.icon_roll;
-        icon_x = a.icon_x;
-        icon_y = a.icon_y;
+        iconRoll = a.iconRoll;
+        iconX = a.iconX;
+        iconY = a.iconY;
         old_color = a.old_color;
-        new_color = a.new_color;
+        newColor = a.newColor;
 
         ObjConfig b = get(note_item_index);
         name = b.name;
-        is_members = b.is_members;
+        isMembers = b.isMembers;
         pile_priority = b.pile_priority;
 
         StringBuilder s = new StringBuilder().append("Swap this note at any bank for a");

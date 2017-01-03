@@ -180,10 +180,10 @@ public class LocConfig {
 
             uid = (long) ((index << 6) + (model_list_index << 3) + rotation) + ((long) (frame + 1) << 32);
 
-            Model cached_mesh = (Model) modelCache.get(uid);
+            Model cachedMesh = (Model) modelCache.get(uid);
 
-            if (cached_mesh != null) {
-                return cached_mesh;
+            if (cachedMesh != null) {
+                return cachedMesh;
             }
 
             int mesh_index = modelIndex[model_list_index];
@@ -238,7 +238,7 @@ public class LocConfig {
         }
 
         if (oldColor != null) {
-            model.set_colors(oldColor, newColor);
+            model.setColors(oldColor, newColor);
         }
 
         if (rescale) {

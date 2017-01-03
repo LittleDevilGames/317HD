@@ -86,22 +86,22 @@ public class Game extends GameShell {
     public static int camCinemaAimX;
     public static int camCinemaAimY;
     public static int camCinemaAimZ;
-    public static int cam_cinema_base_speed;
-    public static int cam_cinema_dest_x;
-    public static int cam_cinema_dest_y;
-    public static int cam_cinema_dest_z;
+    public static int camCinemaBaseSpeed;
+    public static int camCinemaDestX;
+    public static int camCinemaDestY;
+    public static int camCinemaDestZ;
     public static boolean camCinemaMode;
     public static int camCinemaRotBase;
     public static int camCinemaRotModifier;
-    public static int cam_cinema_speed;
+    public static int camCinemaSpeed;
     public static int camInfoCycle;
-    public static int cam_pitch_mod;
+    public static int camPitchMod;
     public static int camPitchOff;
     public static int camXOff;
     public static int xCamOffMod;
     public static int camYOff;
     public static int yCamOffMod;
-    public static int cam_yaw_mod;
+    public static int camYawMod;
     public static int camYawOff;
     public static int chaseCamPitch;
     public static int chaseCamPitchMod;
@@ -171,7 +171,7 @@ public class Game extends GameShell {
     public static Sprite imageMapedge;
     public static Sprite imageMapFunctions[];
     public static Sprite imageMinimap;
-    public static Sprite image_overlay_multiway;
+    public static Sprite imageOverlayMultiway;
     public static Buffer in;
     public static int inMultiZone;
     public static Game instance;
@@ -340,8 +340,8 @@ public class Game extends GameShell {
 
         XP_TABLE = new int[99];
         for (int level = 0; level < 99; level++) {
-            int real_level = level + 1;
-            int j = (int) ((double) real_level + 300D * Math.pow(2D, (double) real_level / 7D));
+            int realLevel = level + 1;
+            int j = (int) ((double) realLevel + 300D * Math.pow(2D, (double) realLevel / 7D));
             i += j;
             XP_TABLE[level] = i / 4;
         }
@@ -546,13 +546,13 @@ public class Game extends GameShell {
         LocConfig.staticModelCache.clear();
         LocConfig.modelCache.clear();
         ActorConfig.model_cache.clear();
-        ObjConfig.model_cache.clear();
+        ObjConfig.modelCache.clear();
         ObjConfig.spriteCache.clear();
         Player.model_cache.clear();
         SpotAnimConfig.model_cache.clear();
     }
 
-    public static void clear_ingame_producers() {
+    public static void clearIngameProducers() {
         Chat.producer = null;
         Chat.Settings.producer = null;
         Game.producerMinimap = null;
@@ -560,7 +560,7 @@ public class Game extends GameShell {
         Sidebar.clearProducers();
     }
 
-    public static void close_music_player() {
+    public static void closeMusicPlayer() {
         method891(false);
 
         if (music.var2 > 0) {
@@ -639,7 +639,7 @@ public class Game extends GameShell {
         }
 
         if (inMultiZone == 1) {
-            image_overlay_multiway.drawMasked(472, 296);
+            imageOverlayMultiway.drawMasked(472, 296);
         }
 
         if (Game.debug) {
@@ -1568,14 +1568,14 @@ public class Game extends GameShell {
         }
     }
 
-    public static void draw_scrollbar(int x, int y, int height, int scroll_height, int scroll_amount) {
-        int gripLength = ((height - 32) * height) / scroll_height;
+    public static void drawScrollbar(int x, int y, int height, int scrollHeight, int scroll_amount) {
+        int gripLength = ((height - 32) * height) / scrollHeight;
 
         if (gripLength < 8) {
             gripLength = 8;
         }
 
-        int offsetY = ((height - 32 - gripLength) * scroll_amount) / (scroll_height - height);
+        int offsetY = ((height - 32 - gripLength) * scroll_amount) / (scrollHeight - height);
 
         bitmap3.draw(x, y);
         bitmap2.draw(x, (y + height) - 16);
@@ -2133,7 +2133,7 @@ public class Game extends GameShell {
         } else {
             sceneState = 2;
             Scene.planeAtBuild = plane;
-            retrieve_scene(true);
+            retrieveScene(true);
             out.writeOpcode(121);
             return 0;
         }
@@ -2355,7 +2355,7 @@ public class Game extends GameShell {
                             type = 0;
                         }
 
-                        if (w.items_swappable) {
+                        if (w.itemsSwappable) {
                             int oldSlot = dragSlot;
                             int newSlot = hoveredSlot;
                             w.itemIndex[newSlot] = w.itemIndex[oldSlot];
@@ -2764,47 +2764,47 @@ public class Game extends GameShell {
     }
 
     public static void handleCinematicCamera() {
-        int camX = cam_cinema_dest_x * 128 + 64;
-        int camY = cam_cinema_dest_y * 128 + 64;
-        int camZ = getLandZ(camX, camY, plane) - cam_cinema_dest_z;
+        int camX = camCinemaDestX * 128 + 64;
+        int camY = camCinemaDestY * 128 + 64;
+        int camZ = getLandZ(camX, camY, plane) - camCinemaDestZ;
 
         if (Camera.x < camX) {
-            Camera.x += cam_cinema_base_speed + ((camX - Camera.x) * cam_cinema_speed) / 1000;
+            Camera.x += camCinemaBaseSpeed + ((camX - Camera.x) * camCinemaSpeed) / 1000;
             if (Camera.x > camX) {
                 Camera.x = camX;
             }
         }
 
         if (Camera.x > camX) {
-            Camera.x -= cam_cinema_base_speed + ((Camera.x - camX) * cam_cinema_speed) / 1000;
+            Camera.x -= camCinemaBaseSpeed + ((Camera.x - camX) * camCinemaSpeed) / 1000;
             if (Camera.x < camX) {
                 Camera.x = camX;
             }
         }
 
         if (Camera.z < camZ) {
-            Camera.z += cam_cinema_base_speed + ((camZ - Camera.z) * cam_cinema_speed) / 1000;
+            Camera.z += camCinemaBaseSpeed + ((camZ - Camera.z) * camCinemaSpeed) / 1000;
             if (Camera.z > camZ) {
                 Camera.z = camZ;
             }
         }
 
         if (Camera.z > camZ) {
-            Camera.z -= cam_cinema_base_speed + ((Camera.z - camZ) * cam_cinema_speed) / 1000;
+            Camera.z -= camCinemaBaseSpeed + ((Camera.z - camZ) * camCinemaSpeed) / 1000;
             if (Camera.z < camZ) {
                 Camera.z = camZ;
             }
         }
 
         if (Camera.y < camY) {
-            Camera.y += cam_cinema_base_speed + ((camY - Camera.y) * cam_cinema_speed) / 1000;
+            Camera.y += camCinemaBaseSpeed + ((camY - Camera.y) * camCinemaSpeed) / 1000;
             if (Camera.y > camY) {
                 Camera.y = camY;
             }
         }
 
         if (Camera.y > camY) {
-            Camera.y -= cam_cinema_base_speed + ((Camera.y - camY) * cam_cinema_speed) / 1000;
+            Camera.y -= camCinemaBaseSpeed + ((Camera.y - camY) * camCinemaSpeed) / 1000;
             if (Camera.y < camY) {
                 Camera.y = camY;
             }
@@ -2970,7 +2970,7 @@ public class Game extends GameShell {
                 e.resyncWalkCycle++;
                 return;
             }
-            if (e.stillPathPosition <= 0 && a.walk_flag == 0) {
+            if (e.stillPathPosition <= 0 && a.walkFlag == 0) {
                 e.resyncWalkCycle++;
                 return;
             }
@@ -3203,14 +3203,14 @@ public class Game extends GameShell {
             e.moveSeqCycle++;
 
             // If it's time to go to the next frame.
-            if (e.moveSeqFrame < s.frame_count && e.moveSeqCycle > s.getFrameLength(e.moveSeqFrame)) {
+            if (e.moveSeqFrame < s.frameCount && e.moveSeqCycle > s.getFrameLength(e.moveSeqFrame)) {
                 e.moveSeqCycle = 0;
                 e.moveSeqFrame++;
             }
 
             // If we've past the frame count in this sequence, reset the
             // animation.
-            if (e.moveSeqFrame >= s.frame_count) {
+            if (e.moveSeqFrame >= s.frameCount) {
                 e.moveSeqCycle = 0;
                 e.moveSeqFrame = 0;
             }
@@ -3228,11 +3228,11 @@ public class Game extends GameShell {
             }
 
             if (s != null) {
-                for (e.spotanimCycle++; e.spotanimFrame < s.frame_count && e.spotanimCycle > s.getFrameLength(e.spotanimFrame); e.spotanimFrame++) {
+                for (e.spotanimCycle++; e.spotanimFrame < s.frameCount && e.spotanimCycle > s.getFrameLength(e.spotanimFrame); e.spotanimFrame++) {
                     e.spotanimCycle -= s.getFrameLength(e.spotanimFrame);
                 }
 
-                if (e.spotanimFrame >= s.frame_count && (e.spotanimFrame < 0 || e.spotanimFrame >= s.frame_count)) {
+                if (e.spotanimFrame >= s.frameCount && (e.spotanimFrame < 0 || e.spotanimFrame >= s.frameCount)) {
                     e.spotanimIndex = -1;
                 }
             } else {
@@ -3262,23 +3262,23 @@ public class Game extends GameShell {
             } else {
                 Sequence s = Sequence.instance[e.seqIndex];
 
-                for (e.seqCycle++; e.seqFrame < s.frame_count && e.seqCycle > s.getFrameLength(e.seqFrame); e.seqFrame++) {
+                for (e.seqCycle++; e.seqFrame < s.frameCount && e.seqCycle > s.getFrameLength(e.seqFrame); e.seqFrame++) {
                     e.seqCycle -= s.getFrameLength(e.seqFrame);
                 }
 
-                if (e.seqFrame >= s.frame_count) {
+                if (e.seqFrame >= s.frameCount) {
                     e.seqFrame -= s.padding;
                     e.seqResetCycle++;
 
-                    if (e.seqResetCycle >= s.reset_cycle) {
+                    if (e.seqResetCycle >= s.resetCycle) {
                         e.seqIndex = -1;
                     }
 
-                    if (e.seqFrame < 0 || e.seqFrame >= s.frame_count) {
+                    if (e.seqFrame < 0 || e.seqFrame >= s.frameCount) {
                         e.seqIndex = -1;
                     }
                 }
-                e.canRotate = s.can_rotate;
+                e.canRotate = s.canRotate;
             }
         }
 
@@ -3730,23 +3730,23 @@ public class Game extends GameShell {
             Widget w = Widget.instance[param2];
             selectedWidget = true;
             selectedWidgetIndex = param2;
-            selectedMask = w.option_action;
+            selectedMask = w.optionAction;
             selectedItem = false;
             Sidebar.draw = true;
 
-            String prefix = w.option_prefix;
+            String prefix = w.optionPrefix;
 
             if (prefix.indexOf(' ') != -1) {
                 prefix = prefix.substring(0, prefix.indexOf(' '));
             }
 
-            String suffix = w.option_prefix;
+            String suffix = w.optionPrefix;
 
             if (suffix.indexOf(' ') != -1) {
                 suffix = suffix.substring(suffix.indexOf(' ') + 1);
             }
 
-            selectedTooltip = prefix + ' ' + w.option_suffix + ' ' + suffix;
+            selectedTooltip = prefix + ' ' + w.optionSuffix + ' ' + suffix;
 
             if (selectedMask == 16) {
                 Sidebar.draw = true;
@@ -3876,8 +3876,8 @@ public class Game extends GameShell {
             if (w.script != null && w.script[0].intcode[0] == 5) {
                 int setting = w.script[0].intcode[1];
 
-                if (settings[setting] != w.script[0].compare_value) {
-                    settings[setting] = w.script[0].compare_value;
+                if (settings[setting] != w.script[0].compareValue) {
+                    settings[setting] = w.script[0].compareValue;
                     handleVarp(setting);
                     Sidebar.draw = true;
                 }
@@ -4527,15 +4527,15 @@ public class Game extends GameShell {
             // INFO: Moves the camera cinematically
             if (Game.ptype == 166) {
                 camCinemaMode = true;
-                cam_cinema_dest_x = in.readUnsignedByte();
-                cam_cinema_dest_y = in.readUnsignedByte();
-                cam_cinema_dest_z = in.readUnsignedShort();
-                cam_cinema_base_speed = in.readUnsignedByte();
-                cam_cinema_speed = in.readUnsignedByte();
-                if (cam_cinema_speed >= 100) {
-                    Camera.x = cam_cinema_dest_x * 128 + 64;
-                    Camera.y = cam_cinema_dest_y * 128 + 64;
-                    Camera.z = getLandZ(Camera.x, Camera.y, plane) - cam_cinema_dest_z;
+                camCinemaDestX = in.readUnsignedByte();
+                camCinemaDestY = in.readUnsignedByte();
+                camCinemaDestZ = in.readUnsignedShort();
+                camCinemaBaseSpeed = in.readUnsignedByte();
+                camCinemaSpeed = in.readUnsignedByte();
+                if (camCinemaSpeed >= 100) {
+                    Camera.x = camCinemaDestX * 128 + 64;
+                    Camera.y = camCinemaDestY * 128 + 64;
+                    Camera.z = getLandZ(Camera.x, Camera.y, plane) - camCinemaDestZ;
                 }
                 Game.ptype = -1;
                 return true;
@@ -5183,8 +5183,8 @@ public class Game extends GameShell {
                         amount = 0;
                     }
 
-                    if (amount > w.scroll_height - w.height) {
-                        amount = w.scroll_height - w.height;
+                    if (amount > w.scrollHeight - w.height) {
+                        amount = w.scrollHeight - w.height;
                     }
                     w.scrollAmount = amount;
                 }
@@ -6440,8 +6440,8 @@ public class Game extends GameShell {
                             }
                         } else {
                             for (int i = 4; i >= 0; i--) {
-                                if (oc.ground_action != null && oc.ground_action[i] != null) {
-                                    Menu.add(oc.ground_action[i] + " @lre@" + oc.name, Action.GROUND_ITEM[i], x, y, item.index);
+                                if (oc.groundAction != null && oc.groundAction[i] != null) {
+                                    Menu.add(oc.groundAction[i] + " @lre@" + oc.name, Action.GROUND_ITEM[i], x, y, item.index);
                                 } else if (i == 2) {
                                     Menu.add("Take @lre@" + oc.name, 234, x, y, item.index);
                                 }
@@ -6569,7 +6569,7 @@ public class Game extends GameShell {
                         int index = Menu.getLastParam(1);
                         Widget w = Widget.instance[index];
 
-                        if (w.items_draggable || w.items_swappable) {
+                        if (w.itemsDraggable || w.itemsSwappable) {
                             dragging = false;
                             dragCycle = 0;
                             dragWidget = index;
@@ -6643,9 +6643,9 @@ public class Game extends GameShell {
                 hovered = true;
             }
 
-            if ((child.hover_index >= 0 || child.color_hover_disabled != 0) && hovered) {
-                if (child.hover_index >= 0) {
-                    tmpHoveredWidget = child.hover_index;
+            if ((child.hoverIndex >= 0 || child.colorHoverDisabled != 0) && hovered) {
+                if (child.hoverIndex >= 0) {
+                    tmpHoveredWidget = child.hoverIndex;
                 } else {
                     tmpHoveredWidget = child.index;
                 }
@@ -6654,8 +6654,8 @@ public class Game extends GameShell {
             if (child.type == 0) {
                 handleWidgetMouse(child, x, y, mouseX, mouseY, child.scrollAmount);
 
-                if (child.scroll_height > child.height) {
-                    handleScrollbar(child, x + child.width, y, mouseX, mouseY, child.height, child.scroll_height, true);
+                if (child.scrollHeight > child.height) {
+                    handleScrollbar(child, x + child.width, y, mouseX, mouseY, child.height, child.scrollHeight, true);
                 }
             } else {
                 if (child.optionType == 1 && hovered) {
@@ -6671,11 +6671,11 @@ public class Game extends GameShell {
                 }
 
                 if (child.optionType == 2 && !selectedWidget && hovered) {
-                    String s = child.option_prefix;
+                    String s = child.optionPrefix;
                     if (s.indexOf(' ') != -1) {
                         s = s.substring(0, s.indexOf(' '));
                     }
-                    Menu.add(s + " @gre@" + child.option_suffix, 626, -1, child.index);
+                    Menu.add(s + " @gre@" + child.optionSuffix, 626, -1, child.index);
                 }
 
                 if (child.optionType == 3 && hovered) {
@@ -7276,7 +7276,7 @@ public class Game extends GameShell {
         music.loopmusic1 = loopMusic1;
     }
 
-    public static void retrieve_scene(boolean flag) {
+    public static void retrieveScene(boolean flag) {
         try {
             lastPlane = -1;
             spotanims.clear();
@@ -8268,10 +8268,10 @@ public class Game extends GameShell {
                 count = 0;
             }
 
-            w.scroll_height = count * 15 + 20;
+            w.scrollHeight = count * 15 + 20;
 
-            if (w.scroll_height <= w.height) {
-                w.scroll_height = w.height + 1;
+            if (w.scrollHeight <= w.height) {
+                w.scrollHeight = w.height + 1;
             }
             return;
         }
@@ -8307,9 +8307,9 @@ public class Game extends GameShell {
         }
 
         if (type == 503) {
-            w.scroll_height = ignoreCount * 15 + 20;
-            if (w.scroll_height <= w.height) {
-                w.scroll_height = w.height + 1;
+            w.scrollHeight = ignoreCount * 15 + 20;
+            if (w.scrollHeight <= w.height) {
+                w.scrollHeight = w.height + 1;
             }
             return;
         }
@@ -8764,7 +8764,7 @@ public class Game extends GameShell {
         redraw = true;
     }
 
-    public void retrieve_checksums() {
+    public void retrieveChecksums() {
         archiveCrc[8] = 0;
         String error = JString.UNKNOWN_ERROR;
 
@@ -8837,7 +8837,7 @@ public class Game extends GameShell {
 
         connection = null;
 
-        close_music_player();
+        closeMusicPlayer();
 
         if (mouseRecorder != null) {
             mouseRecorder.active = false;
@@ -8882,7 +8882,7 @@ public class Game extends GameShell {
         imageCompass = null;
         imageHitMarks = null;
         imageHeadIcons = null;
-        image_overlay_multiway = null;
+        imageOverlayMultiway = null;
         imageMapMarkers = null;
         imageCrosses = null;
         imageMapDots = null;
@@ -8947,7 +8947,7 @@ public class Game extends GameShell {
 
         try {
             if (VERIFY_CACHE) {
-                retrieve_checksums();
+                retrieveChecksums();
             }
 
             archive = getArchive("title screen", 1, "title", archiveCrc[1], 25);
@@ -9200,7 +9200,7 @@ public class Game extends GameShell {
                 }
 
                 try {
-                    image_overlay_multiway = imageHeadIcons[1];
+                    imageOverlayMultiway = imageHeadIcons[1];
                 } catch (Exception e) {
 
                 }

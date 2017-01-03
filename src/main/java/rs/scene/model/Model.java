@@ -1992,7 +1992,7 @@ public class Model extends Renderable {
         }
     }
 
-    public void set_colors(int[] from, int[] to) {
+    public void setColors(int[] from, int[] to) {
         if (from.length != to.length) {
             return;
         }

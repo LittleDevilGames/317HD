@@ -118,11 +118,11 @@ public class Cache {
         }
     }
 
-    public int get_file_count() throws IOException {
+    public int getFileCount() throws IOException {
         return (int) (this.idx.length() / INDEX_SIZE);
     }
 
-    public int get_sector_count() throws IOException {
+    public int getSectorCount() throws IOException {
         return (int) (this.data.length() / SECTOR_SIZE);
     }
 

@@ -24,7 +24,7 @@ public class WaveSound {
 
     public static Buffer get(int sound_type, int sound_index) {
         if (cache[sound_index] != null) {
-            return cache[sound_index].get_header(sound_type);
+            return cache[sound_index].getHeader(sound_type);
         } else {
             return null;
         }
@@ -46,7 +46,7 @@ public class WaveSound {
         } while (true);
     }
 
-    public Buffer get_header(int i) {
+    public Buffer getHeader(int i) {
         int subchunk2_size = method245(i);
 
         buffer.position = 0;

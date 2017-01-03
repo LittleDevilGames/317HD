@@ -461,11 +461,11 @@ public class Chat extends Widget {
 
                             case "cinema": {
                                 Game.camCinemaMode = true;
-                                Game.cam_cinema_dest_x = Game.self.get_local_x() - 2;
-                                Game.cam_cinema_dest_y = Game.self.get_local_y();
-                                Game.cam_cinema_dest_z = 384;
-                                Game.cam_cinema_base_speed = 1;
-                                Game.cam_cinema_speed = 8;
+                                Game.camCinemaDestX = Game.self.get_local_x() - 2;
+                                Game.camCinemaDestY = Game.self.get_local_y();
+                                Game.camCinemaDestZ = 384;
+                                Game.camCinemaBaseSpeed = 1;
+                                Game.camCinemaSpeed = 8;
                                 Game.camCinemaAimX = Game.self.get_local_x();
                                 Game.camCinemaAimY = Game.self.get_local_y();
                                 Game.camCinemaAimZ = 128;
@@ -596,7 +596,7 @@ public class Chat extends Widget {
                                     if (c != null) {
                                         System.out.println(c.index + ": " + c.name + " materials:");
                                         System.out.println("Old: " + Arrays.toString(c.old_color));
-                                        System.out.println("New: " + Arrays.toString(c.new_color));
+                                        System.out.println("New: " + Arrays.toString(c.newColor));
                                     }
                                 } catch (Exception e) {
                                     System.out.println("Error parsing argument: \"" + arg[1] + "\": " + e);
@@ -631,7 +631,7 @@ public class Chat extends Widget {
 
                                     try {
 
-                                        int count = Game.cache[cache].get_file_count() - 1;
+                                        int count = Game.cache[cache].getFileCount() - 1;
 
                                         for (int i = 1; i < count + 1; i++) {
                                             byte[] data = Game.cache[cache].get(i);
@@ -1287,13 +1287,13 @@ public class Chat extends Widget {
 
             Chat chat = Chat.get();
 
-            chat.scroll_height = (count * 14) + 7;
+            chat.scrollHeight = (count * 14) + 7;
 
-            if (chat.scroll_height < MIN_HEIGHT) {
-                chat.scroll_height = MIN_HEIGHT;
+            if (chat.scrollHeight < MIN_HEIGHT) {
+                chat.scrollHeight = MIN_HEIGHT;
             }
 
-            Game.draw_scrollbar(x, y, height, chat.scroll_height, chat.scroll_height - chat.scrollAmount - height);
+            Game.drawScrollbar(x, y, height, chat.scrollHeight, chat.scrollHeight - chat.scrollAmount - height);
         }
 
         /**
@@ -1309,20 +1309,20 @@ public class Chat extends Widget {
 
             Chat chat = Chat.get();
 
-            chat.scrollAmount = chat.scroll_height - chat.scrollAmount - 77;
+            chat.scrollAmount = chat.scrollHeight - chat.scrollAmount - 77;
 
             if (Area.CHAT.containsMouse()) {
-                Game.handleScrollbar(chat, 463, 0, Mouse.lastX - 17, Mouse.lastY - 357, 77, chat.scroll_height, false);
+                Game.handleScrollbar(chat, 463, 0, Mouse.lastX - 17, Mouse.lastY - 357, 77, chat.scrollHeight, false);
             }
 
-            int i = chat.scroll_height - 77 - chat.scrollAmount;
+            int i = chat.scrollHeight - 77 - chat.scrollAmount;
 
             if (i < 0) {
                 i = 0;
             }
 
-            if (i > chat.scroll_height - 77) {
-                i = chat.scroll_height - 77;
+            if (i > chat.scrollHeight - 77) {
+                i = chat.scrollHeight - 77;
             }
 
             if (chat.scrollAmount != i) {

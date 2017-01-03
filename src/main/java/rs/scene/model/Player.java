@@ -77,13 +77,13 @@ public class Player extends Entity {
                 frame2 = Sequence.instance[super.moveSeqIndex].framePrimary[super.moveSeqFrame];
             }
 
-            if (a.override_shield_index >= 0) {
-                shield_override = a.override_shield_index;
+            if (a.overrideShieldIndex >= 0) {
+                shield_override = a.overrideShieldIndex;
                 model_uid += shield_override - equipment_indices[5] << 40;
             }
 
-            if (a.override_weapon_index >= 0) {
-                weapon_override = a.override_weapon_index;
+            if (a.overrideWeaponIndex >= 0) {
+                weapon_override = a.overrideWeaponIndex;
                 model_uid += weapon_override - equipment_indices[3] << 48;
             }
         } else if (super.moveSeqIndex >= 0) {
@@ -192,13 +192,13 @@ public class Player extends Entity {
         return m;
     }
 
-    public Model get_dialog_model() {
+    public Model getDialogModel() {
         if (!visible) {
             return null;
         }
 
         if (actor_override != null) {
-            return actor_override.get_dialog_model();
+            return actor_override.getDialogModel();
         }
 
         boolean flag = false;
@@ -210,7 +210,7 @@ public class Player extends Entity {
                 flag = true;
             }
 
-            if (index >= 512 && !ObjConfig.get(index - 512).is_dialogue_model_valid(gender)) {
+            if (index >= 512 && !ObjConfig.get(index - 512).isDialogueModelValid(gender)) {
                 flag = true;
             }
         }
@@ -226,7 +226,7 @@ public class Player extends Entity {
             int index = equipment_indices[i];
 
             if (index >= 256 && index < 512) {
-                Model m = IdentityKit.instance[index - 256].get_dialog_model();
+                Model m = IdentityKit.instance[index - 256].getDialogModel();
 
                 if (m != null) {
                     models[count++] = m;

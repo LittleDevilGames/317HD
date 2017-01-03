@@ -129,7 +129,7 @@ public class Entity extends Renderable {
         x += DIRECTION_DELTA_X[direction];
         y += DIRECTION_DELTA_Y[direction];
 
-        if (seqIndex != -1 && Sequence.instance[seqIndex].walk_flag == 1) {
+        if (seqIndex != -1 && Sequence.instance[seqIndex].walkFlag == 1) {
             seqIndex = -1;
         }
 
@@ -149,7 +149,7 @@ public class Entity extends Renderable {
     }
 
     public void moveTo(int x, int y, boolean discard_walk_queue) {
-        if (seqIndex != -1 && Sequence.instance[seqIndex].walk_flag == 1) {
+        if (seqIndex != -1 && Sequence.instance[seqIndex].walkFlag == 1) {
             seqIndex = -1;
         }
 

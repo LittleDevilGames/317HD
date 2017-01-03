@@ -36,7 +36,7 @@ public class Loc extends Renderable {
             this.seqCycle = 0;
             this.cycle = Game.loopCycle;
             if (randomFrame && this.seq.padding != -1) {
-                this.seqCycle = (int) (Math.random() * (double) this.seq.frame_count);
+                this.seqCycle = (int) (Math.random() * (double) this.seq.frameCount);
                 this.cycle -= (int) (Math.random() * (double) this.seq.getFrameLength(seqCycle));
             }
         }
@@ -63,13 +63,13 @@ public class Loc extends Renderable {
 
                 seqCycle++;
 
-                if (seqCycle < seq.frame_count) {
+                if (seqCycle < seq.frameCount) {
                     continue;
                 }
 
                 seqCycle -= seq.padding;
 
-                if (seqCycle >= 0 && seqCycle < seq.frame_count) {
+                if (seqCycle >= 0 && seqCycle < seq.frameCount) {
                     continue;
                 }
 

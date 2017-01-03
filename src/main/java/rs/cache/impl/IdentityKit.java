@@ -64,7 +64,7 @@ public class IdentityKit {
         unselectable = false;
     }
 
-    public Model get_dialog_model() {
+    public Model getDialogModel() {
         Model models[] = new Model[5];
 
         int count = 0;
