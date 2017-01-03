@@ -13,6 +13,4 @@ public class ItemPile {
     public int sceneZ;
     public int offZ;
 
-    public ItemPile() {
-    }
 }
