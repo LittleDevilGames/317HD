@@ -535,7 +535,7 @@ public class Game extends GameShell {
         ObjConfig.modelCache.clear();
         ObjConfig.spriteCache.clear();
         Player.modelCache.clear();
-        SpotAnimConfig.model_cache.clear();
+        SpotAnimConfig.modelCache.clear();
     }
 
     public static void closeMusicPlayer() {
@@ -8540,7 +8540,7 @@ public class Game extends GameShell {
         Sequence.instance = null;
 
         SpotAnimConfig.instance = null;
-        SpotAnimConfig.model_cache = null;
+        SpotAnimConfig.modelCache = null;
 
         Varp.instance = null;
         Player.modelCache = null;
