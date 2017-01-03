@@ -12,6 +12,7 @@ import info.demmonic.hdrs.scene.model.Landscape;
 import info.demmonic.hdrs.scene.model.Loc;
 import info.demmonic.hdrs.scene.model.Model;
 import info.demmonic.hdrs.util.ChunkUtils;
+import info.demmonic.hdrs.util.ColorUtils;
 import info.demmonic.hdrs.util.MathUtils;
 
 public class Scene {
@@ -387,38 +388,6 @@ public class Scene {
                 b.readUnsignedByte();
             }
         }
-    }
-
-    public static int setHslLightness(int hsl, int l) {
-        if (hsl == -1) {
-            return 12345678;
-        }
-
-        l = l * (hsl & 0x7f) / 128;
-
-        if (l < 2) {
-            l = 2;
-        } else if (l > 126) {
-            l = 126;
-        }
-
-        return (hsl & 0xff80) + l;
-    }
-
-    public static int trimHsl(int hue, int saturation, int lightness) {
-        if (lightness > 179) {
-            saturation /= 2;
-        }
-        if (lightness > 192) {
-            saturation /= 2;
-        }
-        if (lightness > 217) {
-            saturation /= 2;
-        }
-        if (lightness > 243) {
-            saturation /= 2;
-        }
-        return (hue / 4 << 10) + (saturation / 32 << 7) + lightness / 2;
     }
 
     public void addLoc(Landscape landscape, CollisionMap collision, int loc_index, int type, int x, int y, int plane, int rotation) {
@@ -934,7 +903,7 @@ public class Scene {
                                     int hue = blended_hue * 256 / blended_hue_divisor;
                                     int saturation = blended_saturation / blended_direction_tracker;
                                     int brightness = blended_brightness / blended_direction_tracker;
-                                    hsl = trimHsl(hue, saturation, brightness);
+                                    hsl = ColorUtils.trimHsl(hue, saturation, brightness);
                                     hue = hue + hueRandomizer & 0xFF;
                                     brightness += lightnessRandomizer;
 
@@ -944,7 +913,7 @@ public class Scene {
                                         brightness = 255;
                                     }
 
-                                    hsl_randomized = trimHsl(hue, saturation, brightness);
+                                    hsl_randomized = ColorUtils.trimHsl(hue, saturation, brightness);
                                 }
 
                                 if (plane > 0) {
@@ -966,11 +935,11 @@ public class Scene {
                                 int rgb_randomized = 0;
 
                                 if (hsl != -1) {
-                                    rgb_randomized = Canvas3D.palette[setHslLightness(hsl_randomized, 96)];
+                                    rgb_randomized = Canvas3D.palette[ColorUtils.setHslLightnessWithTransparency(hsl_randomized, 96)];
                                 }
 
                                 if (overlay_id == 0) {
-                                    l.addTile(plane, x, y, 0, 0, (byte) -1, v_sw, v_se, v_ne, v_nw, setHslLightness(hsl, l_sw), setHslLightness(hsl, l_se), setHslLightness(hsl, l_ne), setHslLightness(hsl, l_nw), 0, 0, 0, 0, rgb_randomized, 0);
+                                    l.addTile(plane, x, y, 0, 0, (byte) -1, v_sw, v_se, v_ne, v_nw, ColorUtils.setHslLightnessWithTransparency(hsl, l_sw), ColorUtils.setHslLightnessWithTransparency(hsl, l_se), ColorUtils.setHslLightnessWithTransparency(hsl, l_ne), ColorUtils.setHslLightnessWithTransparency(hsl, l_nw), 0, 0, 0, 0, rgb_randomized, 0);
                                 } else {
                                     int shape = overlayShape[plane][x][y] + 1;
                                     byte rotation = overlayRotation[plane][x][y];
@@ -987,11 +956,11 @@ public class Scene {
                                         rgb_bitset = -2;
                                         texture = -1;
                                     } else {
-                                        rgb_bitset = trimHsl(f.hue2, f.saturation, f.lightness);
-                                        hsl_bitset = Canvas3D.palette[getRgb(f.color, 96)];
+                                        rgb_bitset = ColorUtils.trimHsl(f.hue2, f.saturation, f.lightness);
+                                        hsl_bitset = Canvas3D.palette[ColorUtils.getRgb(f.color, 96)];
                                     }
 
-                                    l.addTile(plane, x, y, shape, rotation, texture, v_sw, v_se, v_ne, v_nw, setHslLightness(hsl, l_sw), setHslLightness(hsl, l_se), setHslLightness(hsl, l_ne), setHslLightness(hsl, l_nw), getRgb(rgb_bitset, l_sw), getRgb(rgb_bitset, l_se), getRgb(rgb_bitset, l_ne), getRgb(rgb_bitset, l_nw), rgb_randomized, hsl_bitset);
+                                    l.addTile(plane, x, y, shape, rotation, texture, v_sw, v_se, v_ne, v_nw, ColorUtils.setHslLightnessWithTransparency(hsl, l_sw), ColorUtils.setHslLightnessWithTransparency(hsl, l_se), ColorUtils.setHslLightnessWithTransparency(hsl, l_ne), ColorUtils.setHslLightnessWithTransparency(hsl, l_nw), ColorUtils.getRgb(rgb_bitset, l_sw), ColorUtils.getRgb(rgb_bitset, l_se), ColorUtils.getRgb(rgb_bitset, l_ne), ColorUtils.getRgb(rgb_bitset, l_nw), rgb_randomized, hsl_bitset);
                                 }
                             }
                         }
@@ -1210,32 +1179,6 @@ public class Scene {
                 }
             }
         }
-    }
-
-    public int getRgb(int hsl, int brightness) {
-        if (hsl == -2) {
-            return 12345678;
-        }
-
-        if (hsl == -1) {
-            if (brightness < 0) {
-                brightness = 0;
-            } else if (brightness > 127) {
-                brightness = 127;
-            }
-            brightness = 127 - brightness;
-            return brightness;
-        }
-
-        brightness = brightness * (hsl & 0x7f) / 128;
-
-        if (brightness < 2) {
-            brightness = 2;
-        } else if (brightness > 126) {
-            brightness = 126;
-        }
-
-        return (hsl & 0xff80) + brightness;
     }
 
     public void loadChunk(CollisionMap[] collision, int map_x, int map_y, int chunk_x, int chunk_y, int chunk_plane, byte[] chunk_payload, int chunk_rotation, int plane) {

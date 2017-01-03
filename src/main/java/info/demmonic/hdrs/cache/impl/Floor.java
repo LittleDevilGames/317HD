@@ -2,6 +2,7 @@ package info.demmonic.hdrs.cache.impl;
 
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.io.Buffer;
+import info.demmonic.hdrs.util.ColorUtils;
 
 public class Floor {
 
@@ -68,21 +69,7 @@ public class Floor {
         showUnderlay = true;
     }
 
-    public int trimHsl(int hue, int saturation, int lightness) {
-        if (lightness > 179) {
-            saturation /= 2;
-        }
-        if (lightness > 192) {
-            saturation /= 2;
-        }
-        if (lightness > 217) {
-            saturation /= 2;
-        }
-        if (lightness > 243) {
-            saturation /= 2;
-        }
-        return (hue / 4 << 10) + (saturation / 32 << 7) + lightness / 2;
-    }
+
 
     public void setColor(int rgb) {
         double red = (double) (rgb >> 16 & 0xff) / 256D;
@@ -181,6 +168,6 @@ public class Floor {
             lightness = 255;
         }
 
-        this.color = trimHsl(hue, saturation, lightness);
+        this.color = ColorUtils.trimHsl(hue, saturation, lightness);
     }
 }

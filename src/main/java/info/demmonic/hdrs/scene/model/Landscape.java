@@ -5,6 +5,7 @@ import info.demmonic.hdrs.media.Canvas2D;
 import info.demmonic.hdrs.media.Canvas3D;
 import info.demmonic.hdrs.node.Chain;
 import info.demmonic.hdrs.node.impl.Renderable;
+import info.demmonic.hdrs.util.ColorUtils;
 import info.demmonic.hdrs.util.MathUtils;
 
 public class Landscape {
@@ -584,19 +585,6 @@ public class Landscape {
         tiles[plane][x][y].wallDecoration = wd;
     }
 
-    public int adjustHslLightness(int hsl, int l) {
-        l = 127 - l;
-        l = (l * (hsl & 0x7f)) / 0xA0;
-
-        if (l < 2) {
-            l = 2;
-        } else if (l > 126) {
-            l = 126;
-        }
-
-        return (hsl & 0xff80) + l;
-    }
-
     public void applyUntexturedObjects(int light_x, int light_y, int light_z, int light_brightness, int specular_factor) {
         int light_len = (int) Math.sqrt(light_x * light_x + light_y * light_y + light_z * light_z);
         int specular_distribution = specular_factor * light_len >> 8;
@@ -993,7 +981,7 @@ public class Landscape {
                     }
                 } else {
                     int hsl = TEXTURE_HSL[ot.triangleTextureIndex[j]];
-                    Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x3, y3, adjustHslLightness(hsl, ot.vertexColorA[j]), adjustHslLightness(hsl, ot.vertexColorB[j]), adjustHslLightness(hsl, ot.vertexColorC[j]));
+                    Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x3, y3, ColorUtils.adjustHslLightness(hsl, ot.vertexColorA[j]), ColorUtils.adjustHslLightness(hsl, ot.vertexColorB[j]), ColorUtils.adjustHslLightness(hsl, ot.vertexColorC[j]));
                 }
             }
         }
@@ -1096,7 +1084,7 @@ public class Landscape {
                 }
             } else {
                 int i7 = TEXTURE_HSL[ut.textureIndex];
-                Canvas3D.drawShadedTriangle(x3, y3, x4, y4, x2, y2, adjustHslLightness(i7, ut.hslNe), adjustHslLightness(i7, ut.hslNw), adjustHslLightness(i7, ut.hslSe));
+                Canvas3D.drawShadedTriangle(x3, y3, x4, y4, x2, y2, ColorUtils.adjustHslLightness(i7, ut.hslNe), ColorUtils.adjustHslLightness(i7, ut.hslNw), ColorUtils.adjustHslLightness(i7, ut.hslSe));
             }
         }
 
@@ -1121,7 +1109,7 @@ public class Landscape {
                     Canvas3D.drawTexturedTriangle(x1, y1, x2, y2, x4, y4, ut.hslSw, ut.hslSe, ut.hslNw, southWestX, sw_y, southWestZ, southEastX, se_y, southEastZ, northWestX, nw_y, northWestZ, ut.textureIndex);
                 } else {
                     int j7 = TEXTURE_HSL[ut.textureIndex];
-                    Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x4, y4, adjustHslLightness(j7, ut.hslSw), adjustHslLightness(j7, ut.hslSe), adjustHslLightness(j7, ut.hslNw));
+                    Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x4, y4, ColorUtils.adjustHslLightness(j7, ut.hslSw), ColorUtils.adjustHslLightness(j7, ut.hslSe), ColorUtils.adjustHslLightness(j7, ut.hslNw));
                 }
             }
         }
