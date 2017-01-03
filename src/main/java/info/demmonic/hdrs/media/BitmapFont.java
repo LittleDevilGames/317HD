@@ -191,17 +191,17 @@ public class BitmapFont extends Canvas2D {
     }
 
     public void drawChar(byte mask[], int x, int y, int width, int height, int color) {
-        int dst_off = x + y * Canvas2D.width;
-        int dst_step = Canvas2D.width - width;
-        int msk_step = 0;
-        int msk_off = 0;
+        int dstOff = x + y * Canvas2D.width;
+        int dstStep = Canvas2D.width - width;
+        int mskStep = 0;
+        int mskOff = 0;
 
         if (y < leftY) {
             int i = leftY - y;
             height -= i;
             y = leftY;
-            msk_off += i * width;
-            dst_off += i * Canvas2D.width;
+            mskOff += i * width;
+            dstOff += i * Canvas2D.width;
         }
 
         if (y + height >= rightY) {
@@ -212,24 +212,24 @@ public class BitmapFont extends Canvas2D {
             int i = leftX - x;
             width -= i;
             x = leftX;
-            msk_off += i;
-            dst_off += i;
-            msk_step += i;
-            dst_step += i;
+            mskOff += i;
+            dstOff += i;
+            mskStep += i;
+            dstStep += i;
         }
 
         if (x + width >= rightX) {
             int i = ((x + width) - rightX) + 1;
             width -= i;
-            msk_step += i;
-            dst_step += i;
+            mskStep += i;
+            dstStep += i;
         }
 
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        draw(mask, msk_off, dst_off, width, height, dst_step, msk_step, color);
+        draw(mask, mskOff, dstOff, width, height, dstStep, mskStep, color);
     }
 
     public void drawChar(int opacity, int x, byte mask[], int width, int y, int height, boolean flag, int color) {
