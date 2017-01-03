@@ -24,13 +24,6 @@ public class Menu {
         }
     }
 
-    /**
-     * Adds an option to the context menu.
-     *
-     * @param caption    the caption.
-     * @param action     the action.
-     * @param parameters the parameters.
-     */
     public static void add(String caption, int action, int... parameters) {
         options[count].caption = caption;
         options[count].action = action;
@@ -38,9 +31,6 @@ public class Menu {
         count++;
     }
 
-    /**
-     * Draws the context menu.
-     */
     public static void draw() {
         Canvas2D.fillRect(x, y, width, height, COLOR_FOREGROUND);
         Canvas2D.fillRect(x + 1, y + 1, width - 2, 16, RSColor.BLACK);
@@ -63,9 +53,6 @@ public class Menu {
         }
     }
 
-    /**
-     * Draws the text located at the top left.
-     */
     public static void drawTooltip() {
         int count = Menu.count;
 
@@ -118,9 +105,6 @@ public class Menu {
         return options[i].getParameter(j);
     }
 
-    /**
-     * Processes the context menu.
-     */
     public static void handle() {
         if (Game.dragArea != 0) {
             return;
@@ -130,18 +114,12 @@ public class Menu {
         Menu.sort();
     }
 
-    /**
-     * Nullifies all options.
-     */
     public static void nullify() {
         for (int i = 0; i < Menu.options.length; i++) {
             Menu.options[i] = null;
         }
     }
 
-    /**
-     * Prepares the context menu.
-     */
     public static void prepare() {
         Menu.reset();
         Menu.add("Cancel", 1107);
@@ -151,9 +129,6 @@ public class Menu {
         Menu.count = 0;
     }
 
-    /**
-     * Shows the context menu.
-     */
     public static void show() {
         int width = BitmapFont.BOLD.getWidth(JString.CHOOSE_OPTION);
         int height = 15 * count + 21;
@@ -199,9 +174,6 @@ public class Menu {
         }
     }
 
-    /**
-     * Sorts the menu options.
-     */
     public static void sort() {
         boolean unsorted = false;
         while (!unsorted) {
@@ -215,12 +187,6 @@ public class Menu {
         }
     }
 
-    /**
-     * Swaps the provided options.
-     *
-     * @param a option a.
-     * @param b option b.
-     */
     public static void swap(int a, int b) {
         String caption = options[a].caption;
         int action = options[a].action;

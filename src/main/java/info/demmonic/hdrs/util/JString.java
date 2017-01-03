@@ -7,7 +7,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class JString {
 
-    /* @formatter:off */
     public static final String[] COMMON_OBJ_ACTIONS = {
             "Wear", "Rub", "Wield", "Destroy", "Open", "Empty",
             "Drink", "Remove one", "Remove-one", "Move", "Read", "Eat",
@@ -20,7 +19,6 @@ public class JString {
             "Mine", "Prospect", "Read", "Look", "Search", "Enter",
             "Use", "Close", "Inspect", "Guide", "Climb"
     };
-    /* @formatter:on */
 
     public static final String FPS_ = "Fps: ";
     public static final String MEM_ = "Mem: ";
@@ -304,11 +302,6 @@ public class JString {
         return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
     }
 
-    /**
-     * Returns the local player instance's name if it exists, else the formatted login input username.
-     *
-     * @return the username.
-     */
     public static String localUsername() {
         if (Game.self != null && Game.self.name != null) {
             return Game.self.name;
@@ -316,12 +309,6 @@ public class JString {
         return getFormatted(Game.username);
     }
 
-    /**
-     * Puts a formatted version of the provided string into the provided stream.
-     *
-     * @param s      the string.
-     * @param buffer the stream.
-     */
     public static void put(String s, Buffer buffer) {
         if (s.length() > 80) {
             s = s.substring(0, 80);

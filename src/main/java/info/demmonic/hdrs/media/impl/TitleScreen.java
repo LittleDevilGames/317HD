@@ -93,7 +93,6 @@ public class TitleScreen {
         producerBackground[5].prepare();
         s.draw(-562, -171);
 
-        // Mirror it horizontally
         int[] pixels = new int[s.width];
         for (int y = 0; y < s.height; y++) {
             for (int x = 0; x < s.width; x++) {
@@ -346,7 +345,6 @@ public class TitleScreen {
                 break;
             }
             default: {
-                // Nuffin
                 break;
             }
         }

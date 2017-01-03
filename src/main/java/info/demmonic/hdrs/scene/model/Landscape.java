@@ -69,7 +69,7 @@ public class Landscape {
     public short height_map[][][];
     public int locCount;
     public StaticLoc locs[];
-    /* @formatter:off */
+
     public int MINIMAP_OVERLAY_MASK[][] = {new int[16],
             {
                     1, 1, 1, 1,
@@ -174,7 +174,7 @@ public class Landscape {
     public int sizeX;
     public int sizeY;
     public int sizeZ;
-    /* @formatter:on */
+
     public int tileCycle[][][];
     public Tile[][][] tiles;
 

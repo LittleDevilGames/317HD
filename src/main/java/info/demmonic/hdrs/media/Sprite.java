@@ -16,13 +16,6 @@ public class Sprite extends Canvas2D {
     public int offsetY;
     public int[] pixels;
 
-    /**
-     * Creates a sprite from the specified archive, image archive, and image index.
-     *
-     * @param archive       the archive.
-     * @param image_archive the image archive.
-     * @param image_index   the image index.
-     */
     public Sprite(Archive archive, String image_archive, int image_index) {
         Buffer data = new Buffer(archive.get(image_archive + ".dat", null));
         Buffer idx = new Buffer(archive.get("index.dat", null));
@@ -89,12 +82,6 @@ public class Sprite extends Canvas2D {
         }
     }
 
-    /**
-     * Creates an empty sprite with the provided width and height.
-     *
-     * @param w the width.
-     * @param h the height.
-     */
     public Sprite(int w, int h) {
         this.pixels = new int[w * h];
         this.cropWidth = w;
@@ -105,9 +92,6 @@ public class Sprite extends Canvas2D {
         this.offsetY = 0;
     }
 
-    /**
-     * Crops this image.
-     */
     public void crop() {
         int pixels[] = new int[this.cropWidth * this.cropHeight];
 
@@ -124,13 +108,6 @@ public class Sprite extends Canvas2D {
         this.offsetY = 0;
     }
 
-    /**
-     * Draws the image into the provided bitmap's pixels.
-     *
-     * @param bitmap the bitmap to draw into.
-     * @param x      the x position.
-     * @param y      the y position.
-     */
     public void drawTo(Bitmap bitmap, int x, int y) {
         x += this.offsetX;
         y += this.offsetY;
@@ -180,12 +157,6 @@ public class Sprite extends Canvas2D {
         Canvas2D.draw(pixels, bitmap.pixels, src_off, dst_off, width, height, dstStep, srcStep);
     }
 
-    /**
-     * Draws the image with no transparency. (Opaque)
-     *
-     * @param x the x.
-     * @param y the y.
-     */
     public void draw(int x, int y) {
         x += this.offsetX;
         y += this.offsetY;
@@ -235,13 +206,6 @@ public class Sprite extends Canvas2D {
         Canvas2D.draw(pixels, srcOff, dstOff, width, height, dstStep, src_step, DrawType.RGB);
     }
 
-    /**
-     * Draws the image with the provided alpha level;
-     *
-     * @param x     the x.
-     * @param y     the y.
-     * @param alpha the transparency level.
-     */
     public void draw(int x, int y, int alpha) {
         x += this.offsetX;
         y += this.offsetY;
@@ -372,12 +336,6 @@ public class Sprite extends Canvas2D {
         }
     }
 
-    /**
-     * Draws the image ignoring all 0x000000 colored pixels. (Black)
-     *
-     * @param x the x.
-     * @param y the y.
-     */
     public void drawMasked(int x, int y) {
         x += this.offsetX;
         y += this.offsetY;

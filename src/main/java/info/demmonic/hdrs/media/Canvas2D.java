@@ -18,25 +18,10 @@ public class Canvas2D extends CacheLink {
     public static int rightY;
     public static int pixels[];
 
-    /**
-     * Sets all the pixels to black.
-     */
     public static void clear() {
         Arrays.fill(Canvas2D.pixels, 0);
     }
 
-    /**
-     * Draws the color using a mask.
-     *
-     * @param mask     the mask.
-     * @param maskOff  the mask offset.
-     * @param destOff  the destination offset.
-     * @param width    the image width.
-     * @param height   the image height.
-     * @param destStep the destination step.
-     * @param maskStep the mask step.
-     * @param color    the color.
-     */
     public static void draw(byte mask[], int maskOff, int destOff, int width, int height, int destStep, int maskStep, int color) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -51,19 +36,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws the color using a mask. (Transparency)
-     *
-     * @param mask     the mask.
-     * @param maskOff  the mask offset.
-     * @param destOff  the destination offset.
-     * @param width    the image width.
-     * @param height   the image height.
-     * @param destStep the destination step.
-     * @param maskStep the mask step.
-     * @param color    the color.
-     * @param opacity  the opacity of the color.
-     */
     public static void draw(byte mask[], int maskOff, int destOff, int width, int height, int destStep, int maskStep, int color, int opacity) {
         color = ((color & 0xff00ff) * opacity & 0xff00ff00) + ((color & 0xff00) * opacity & 0xff0000) >> 8;
         opacity = 256 - opacity;
@@ -81,18 +53,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws the image using the provided palette.
-     *
-     * @param src      the pixels being written.
-     * @param palette  the palette.
-     * @param srcOff   the source offset.
-     * @param destOff  the destination offset.
-     * @param width    the image width.
-     * @param height   the image height.
-     * @param destStep the destination step.
-     * @param srcStep  the source step.
-     */
     public static void draw(byte[] src, int[] palette, int srcOff, int destOff, int width, int height, int destStep, int srcStep) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -109,18 +69,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws the image to the raster using a mask.
-     *
-     * @param src      the pixels being written.
-     * @param mask     the mask used to decide which pixels to write.
-     * @param srcOff   the source offset.
-     * @param maskOff  the mask offset.
-     * @param width    the image width.
-     * @param height   the image height.
-     * @param destStep the destination step.
-     * @param srcStep  the source step.
-     */
     public static void draw(int src[], byte mask[], int srcOff, int maskOff, int width, int height, int destStep, int srcStep) {
         int color = 0;
         for (int y = 0; y < height; y++) {
@@ -137,18 +85,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws the image to the raster with the provided options.
-     *
-     * @param src      the pixels being written.
-     * @param srcOff   the source offset.
-     * @param destOff  the destination offset.
-     * @param width    the image width.
-     * @param height   the image height.
-     * @param destStep the destination step.
-     * @param srcStep  the source step.
-     * @param type     the method used for writing the image to the raster.
-     */
     public static void draw(int src[], int srcOff, int destOff, int width, int height, int destStep, int srcStep, DrawType type) {
         int rgb = 0;
         switch (type) {
@@ -200,15 +136,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws a line from point1 to point2.
-     *
-     * @param x0    the start x.
-     * @param y0    the start y.
-     * @param x1    the end x.
-     * @param y1    the end y.
-     * @param color the color.
-     */
     public static void drawLine(int x0, int y0, int x1, int y1, int color) {
         if (x0 < 0) {
             x0 = 0;
@@ -255,14 +182,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws a horizontal line with the specified color.
-     *
-     * @param x   the x.
-     * @param y   the y.
-     * @param len the length.
-     * @param rgb the color.
-     */
     public static void drawLineH(int x, int y, int len, int rgb) {
         if (y < Canvas2D.leftY || y >= Canvas2D.rightY) {
             return;
@@ -280,15 +199,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws a horizontal line with the specified color and opacity.
-     *
-     * @param x       the x.
-     * @param y       the y.
-     * @param length  the length.
-     * @param color   the color.
-     * @param opacity the opacity.
-     */
     public static void drawLineH(int x, int y, int length, int color, int opacity) {
         if (y < Canvas2D.leftY || y >= Canvas2D.rightY) {
             return;
@@ -311,14 +221,6 @@ public class Canvas2D extends CacheLink {
 
     }
 
-    /**
-     * Draws a vertical line with the specified color.
-     *
-     * @param x      the x.
-     * @param y      the y.
-     * @param length the length.
-     * @param rgb    the color.
-     */
     public static void drawLineV(int x, int y, int length, int rgb) {
         if (x < Canvas2D.leftX || x >= Canvas2D.rightX) {
             return;
@@ -336,15 +238,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws a vertical line with the specified color and opacity.
-     *
-     * @param x       the x.
-     * @param y       the y.
-     * @param length  the length.
-     * @param color   the color.
-     * @param opacity the opacity.
-     */
     public static void drawLineV(int x, int y, int length, int color, int opacity) {
         if (x < leftX || x >= rightX) {
             return;
@@ -367,15 +260,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Draws a rectangle with the specified color.
-     *
-     * @param x      the x.
-     * @param y      the y.
-     * @param width  the width.
-     * @param height the height.
-     * @param color  the color.
-     */
     public static void drawRect(int x, int y, int width, int height, int color) {
         drawLineH(x, y, width, color);
         drawLineH(x, (y + height) - 1, width, color);
@@ -383,16 +267,6 @@ public class Canvas2D extends CacheLink {
         drawLineV((x + width) - 1, y, height, color);
     }
 
-    /**
-     * Draws a rectangle with the specified color and opacity.
-     *
-     * @param x       the x.
-     * @param y       the y.
-     * @param width   the width.
-     * @param height  the height.
-     * @param color   the color.
-     * @param opacity the opacity.
-     */
     public static void drawRect(int x, int y, int width, int height, int color, int opacity) {
         drawLineH(x, y, width, color, opacity);
         drawLineH(x, (y + height) - 1, width, color, opacity);
@@ -402,15 +276,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Fills a rectangle with the specified color.
-     *
-     * @param x      the x.
-     * @param y      the y.
-     * @param width  the width.
-     * @param height the y.
-     * @param color  the color.
-     */
     public static void fillRect(int x, int y, int width, int height, int color) {
         if (x < Canvas2D.leftX) {
             width -= Canvas2D.leftX - x;
@@ -436,16 +301,6 @@ public class Canvas2D extends CacheLink {
         }
     }
 
-    /**
-     * Fills a rectangle with the specified color and opacity.
-     *
-     * @param x       the x.
-     * @param y       the y.
-     * @param width   the width.
-     * @param height  the height.
-     * @param color   the color.
-     * @param opacity the opacity.
-     */
     public static void fillRect(int x, int y, int width, int height, int color, int opacity) {
         if (x < Canvas2D.leftX) {
             width -= Canvas2D.leftX - x;
@@ -479,16 +334,6 @@ public class Canvas2D extends CacheLink {
         return "[Raster: " + width + ", " + height + ']';
     }
 
-    /**
-     * Mixes two colors together.
-     *
-     * @param red   the red to add.
-     * @param green the green to add.
-     * @param blue  the blue to add.
-     * @param color the color being mixed.
-     * @param alpha the alpha of the color being added.
-     * @return
-     */
     public static int mix(int red, int green, int blue, int color, int alpha) {
         int r = (color >> 16 & 0xFF) * alpha;
         int g = (color >> 8 & 0xFF) * alpha;
@@ -500,13 +345,6 @@ public class Canvas2D extends CacheLink {
         Canvas2D.pixels[x + (y * Canvas2D.width)] = color;
     }
 
-    /**
-     * Applies the pixels to the Raster for drawing.
-     *
-     * @param width  the width.
-     * @param height the height.
-     * @param pixels the pixels. (INT_RGB)
-     */
     public static void prepare(int width, int height, int[] pixels) {
         Canvas2D.pixels = pixels;
         Canvas2D.width = width;
@@ -514,9 +352,6 @@ public class Canvas2D extends CacheLink {
         Canvas2D.setBounds(0, 0, width, height);
     }
 
-    /**
-     * Resets the bounds.
-     */
     public static void reset() {
         Canvas2D.leftX = 0;
         Canvas2D.leftY = 0;
@@ -527,14 +362,6 @@ public class Canvas2D extends CacheLink {
         Canvas2D.center_y = rightY / 2;
     }
 
-    /**
-     * Sets the bounds of the Raster.
-     *
-     * @param x0 the top left x coordinate.
-     * @param y0 the top left y coordinate.
-     * @param x1 the bottom right x coordinate.
-     * @param y1 the bottom right y coordinate.
-     */
     public static void setBounds(int x0, int y0, int x1, int y1) {
         if (x0 < 0) {
             x0 = 0;
