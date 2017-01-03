@@ -19,6 +19,4 @@ public class StaticLoc {
     public int localX0;
     public int localY0;
 
-    public StaticLoc() {
-    }
 }
