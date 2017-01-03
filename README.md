@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://i.imgur.com/eqE8P6Z.png" alt="logo"/>
+  <img src="http://i.imgur.com/5J8vzx1.png" alt="logo"/>
 </p>
 <p align="center">
   <img src="https://travis-ci.org/demmonic/317HD.svg?branch=master" alt="logo"/>
