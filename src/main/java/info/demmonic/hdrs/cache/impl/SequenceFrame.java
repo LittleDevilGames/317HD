@@ -76,9 +76,9 @@ public class SequenceFrame {
             int frameIndex = 0;
 
             for (int index = 0; index < frameCount; index++) {
-                int vertex_mask = flagStream.readUnsignedByte();
+                int vertexMask = flagStream.readUnsignedByte();
 
-                if (vertex_mask > 0) {
+                if (vertexMask > 0) {
                     if (sl.opcodes[index] != 0) {
                         for (int skin = index - 1; skin > lastIndex; skin--) {
                             if (sl.opcodes[skin] != 0) {
@@ -101,19 +101,19 @@ public class SequenceFrame {
                         vertex = 128;
                     }
 
-                    if ((vertex_mask & 1) != 0) {
+                    if ((vertexMask & 1) != 0) {
                         vertexX[frameIndex] = modifierStream.readSmart();
                     } else {
                         vertexX[frameIndex] = vertex;
                     }
 
-                    if ((vertex_mask & 2) != 0) {
+                    if ((vertexMask & 2) != 0) {
                         vertexY[frameIndex] = modifierStream.readSmart();
                     } else {
                         vertexY[frameIndex] = vertex;
                     }
 
-                    if ((vertex_mask & 4) != 0) {
+                    if ((vertexMask & 4) != 0) {
                         vertexZ[frameIndex] = modifierStream.readSmart();
                     } else {
                         vertexZ[frameIndex] = vertex;
