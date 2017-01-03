@@ -110,18 +110,18 @@ public class OverlayTile {
     public int rgb;
     public int rotation;
     public int shape;
-    public byte[] triangle_texture_index;
-    public short[] triangle_x;
-    public short[] triangle_y;
-    public short[] triangle_z;
-    public int[] vertex_color_a;
-    public int[] vertex_color_b;
-    public int[] vertex_color_c;
+    public byte[] triangleTextureIndex;
+    public short[] triangleX;
+    public short[] triangleY;
+    public short[] triangleZ;
+    public int[] vertexColorA;
+    public int[] vertexColorB;
+    public int[] vertexColorC;
     public short[] vertexX;
     public short[] vertexY;
     public short[] vertexZ;
 
-    public OverlayTile(int local_x, int local_y, short v_sw, short v_se, short v_ne, short v_nw, int rgb_sw, int rgb_se, int rgb_ne, int rgb_nw, int rgb_bitset, int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, int hsl_bitset, byte texture_index, int rotation, int shape) {
+    public OverlayTile(int localX, int localY, short v_sw, short v_se, short v_ne, short v_nw, int rgb_sw, int rgb_se, int rgb_ne, int rgb_nw, int rgb_bitset, int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, int hsl_bitset, byte texture_index, int rotation, int shape) {
         this.ignore_uv = true;
 
         if (v_sw != v_se || v_sw != v_ne || v_sw != v_nw) {
@@ -141,14 +141,14 @@ public class OverlayTile {
         int[] opcodes = CLIPPING_FLAG[shape];
         int length = opcodes.length;
 
-        this.triangle_x = new short[length];
-        this.triangle_y = new short[length];
-        this.triangle_z = new short[length];
+        this.triangleX = new short[length];
+        this.triangleY = new short[length];
+        this.triangleZ = new short[length];
         int[] hsl_array = new int[length];
         int[] rgb_array = new int[length];
 
-        short s_x = (short) (local_x * tile_size);
-        short s_y = (short) (local_y * tile_size);
+        short s_x = (short) (localX * tile_size);
+        short s_y = (short) (localY * tile_size);
 
         for (int i = 0; i < length; i++) {
             int opcode = opcodes[i];
@@ -286,9 +286,9 @@ public class OverlayTile {
                     break;
             }
 
-            this.triangle_x[i] = x;
-            this.triangle_y[i] = y;
-            this.triangle_z[i] = z;
+            this.triangleX[i] = x;
+            this.triangleY[i] = y;
+            this.triangleZ[i] = z;
             hsl_array[i] = hsl;
             rgb_array[i] = rgb;
         }
@@ -298,12 +298,12 @@ public class OverlayTile {
         this.vertexX = new short[vertex_count];
         this.vertexY = new short[vertex_count];
         this.vertexZ = new short[vertex_count];
-        this.vertex_color_a = new int[vertex_count];
-        this.vertex_color_b = new int[vertex_count];
-        this.vertex_color_c = new int[vertex_count];
+        this.vertexColorA = new int[vertex_count];
+        this.vertexColorB = new int[vertex_count];
+        this.vertexColorC = new int[vertex_count];
 
         if (texture_index != -1) {
-            this.triangle_texture_index = new byte[vertex_count];
+            this.triangleTextureIndex = new byte[vertex_count];
         }
 
         int i = 0;
@@ -331,20 +331,20 @@ public class OverlayTile {
             this.vertexZ[j] = z;
 
             if (type == 0) {
-                this.vertex_color_a[j] = hsl_array[x];
-                this.vertex_color_b[j] = hsl_array[y];
-                this.vertex_color_c[j] = hsl_array[z];
+                this.vertexColorA[j] = hsl_array[x];
+                this.vertexColorB[j] = hsl_array[y];
+                this.vertexColorC[j] = hsl_array[z];
 
-                if (this.triangle_texture_index != null) {
-                    this.triangle_texture_index[j] = -1;
+                if (this.triangleTextureIndex != null) {
+                    this.triangleTextureIndex[j] = -1;
                 }
             } else {
-                this.vertex_color_a[j] = rgb_array[x];
-                this.vertex_color_b[j] = rgb_array[y];
-                this.vertex_color_c[j] = rgb_array[z];
+                this.vertexColorA[j] = rgb_array[x];
+                this.vertexColorB[j] = rgb_array[y];
+                this.vertexColorC[j] = rgb_array[z];
 
-                if (this.triangle_texture_index != null) {
-                    this.triangle_texture_index[j] = texture_index;
+                if (this.triangleTextureIndex != null) {
+                    this.triangleTextureIndex[j] = texture_index;
                 }
             }
         }

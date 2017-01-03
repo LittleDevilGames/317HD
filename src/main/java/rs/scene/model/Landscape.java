@@ -923,12 +923,12 @@ public class Landscape {
     }
 
     public void drawOverlayTile(OverlayTile ot, int local_x, int local_y, int pitch_sin, int pitch_cos, int yaw_sin, int yaw_cos) {
-        int i = ot.triangle_x.length;
+        int i = ot.triangleX.length;
 
         for (int j = 0; j < i; j++) {
-            int x = ot.triangle_x[j] - camX;
-            int y = ot.triangle_y[j] - camZ;
-            int z = ot.triangle_z[j] - camY;
+            int x = ot.triangleX[j] - camX;
+            int y = ot.triangleY[j] - camZ;
+            int z = ot.triangleZ[j] - camY;
 
             int w = z * yaw_sin + x * yaw_cos >> 16;
             z = z * yaw_cos - x * yaw_sin >> 16;
@@ -942,7 +942,7 @@ public class Landscape {
                 return;
             }
 
-            if (ot.triangle_texture_index != null) {
+            if (ot.triangleTextureIndex != null) {
                 OverlayTile.tmpTriangleX[j] = x;
                 OverlayTile.tmpTriangleY[j] = y;
                 OverlayTile.tmpTriangleZ[j] = z;
@@ -980,19 +980,19 @@ public class Landscape {
                     clickLocalY = local_y;
                 }
 
-                if (ot.triangle_texture_index == null || ot.triangle_texture_index[j] == -1) {
-                    if (ot.vertex_color_a[j] != 12345678) {
-                        Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x3, y3, ot.vertex_color_a[j], ot.vertex_color_b[j], ot.vertex_color_c[j]);
+                if (ot.triangleTextureIndex == null || ot.triangleTextureIndex[j] == -1) {
+                    if (ot.vertexColorA[j] != 12345678) {
+                        Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x3, y3, ot.vertexColorA[j], ot.vertexColorB[j], ot.vertexColorC[j]);
                     }
                 } else if (!Game.lowDetail) {
                     if (ot.ignore_uv) {
-                        Canvas3D.drawTexturedTriangle(x1, y1, x2, y2, x3, y3, ot.vertex_color_a[j], ot.vertex_color_b[j], ot.vertex_color_c[j], OverlayTile.tmpTriangleX[0], OverlayTile.tmpTriangleY[0], OverlayTile.tmpTriangleZ[0], OverlayTile.tmpTriangleX[1], OverlayTile.tmpTriangleY[1], OverlayTile.tmpTriangleZ[1], OverlayTile.tmpTriangleX[3], OverlayTile.tmpTriangleY[3], OverlayTile.tmpTriangleZ[3], ot.triangle_texture_index[j]);
+                        Canvas3D.drawTexturedTriangle(x1, y1, x2, y2, x3, y3, ot.vertexColorA[j], ot.vertexColorB[j], ot.vertexColorC[j], OverlayTile.tmpTriangleX[0], OverlayTile.tmpTriangleY[0], OverlayTile.tmpTriangleZ[0], OverlayTile.tmpTriangleX[1], OverlayTile.tmpTriangleY[1], OverlayTile.tmpTriangleZ[1], OverlayTile.tmpTriangleX[3], OverlayTile.tmpTriangleY[3], OverlayTile.tmpTriangleZ[3], ot.triangleTextureIndex[j]);
                     } else {
-                        Canvas3D.drawTexturedTriangle(x1, y1, x2, y2, x3, y3, ot.vertex_color_a[j], ot.vertex_color_b[j], ot.vertex_color_c[j], OverlayTile.tmpTriangleX[v_x_i], OverlayTile.tmpTriangleY[v_x_i], OverlayTile.tmpTriangleZ[v_x_i], OverlayTile.tmpTriangleX[v_y_i], OverlayTile.tmpTriangleY[v_y_i], OverlayTile.tmpTriangleZ[v_y_i], OverlayTile.tmpTriangleX[v_z_i], OverlayTile.tmpTriangleY[v_z_i], OverlayTile.tmpTriangleZ[v_z_i], ot.triangle_texture_index[j]);
+                        Canvas3D.drawTexturedTriangle(x1, y1, x2, y2, x3, y3, ot.vertexColorA[j], ot.vertexColorB[j], ot.vertexColorC[j], OverlayTile.tmpTriangleX[v_x_i], OverlayTile.tmpTriangleY[v_x_i], OverlayTile.tmpTriangleZ[v_x_i], OverlayTile.tmpTriangleX[v_y_i], OverlayTile.tmpTriangleY[v_y_i], OverlayTile.tmpTriangleZ[v_y_i], OverlayTile.tmpTriangleX[v_z_i], OverlayTile.tmpTriangleY[v_z_i], OverlayTile.tmpTriangleZ[v_z_i], ot.triangleTextureIndex[j]);
                     }
                 } else {
-                    int hsl = TEXTURE_HSL[ot.triangle_texture_index[j]];
-                    Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x3, y3, adjustHslLightness(hsl, ot.vertex_color_a[j]), adjustHslLightness(hsl, ot.vertex_color_b[j]), adjustHslLightness(hsl, ot.vertex_color_c[j]));
+                    int hsl = TEXTURE_HSL[ot.triangleTextureIndex[j]];
+                    Canvas3D.drawShadedTriangle(x1, y1, x2, y2, x3, y3, adjustHslLightness(hsl, ot.vertexColorA[j]), adjustHslLightness(hsl, ot.vertexColorB[j]), adjustHslLightness(hsl, ot.vertexColorC[j]));
                 }
             }
         }
