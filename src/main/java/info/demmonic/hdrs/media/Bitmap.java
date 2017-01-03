@@ -17,12 +17,12 @@ public class Bitmap extends Canvas2D {
     public int[] palette;
     public byte[] pixels;
 
-    public Bitmap(Archive archive, String image_archive) {
-        this(archive, image_archive, 0);
+    public Bitmap(Archive archive, String imageArchive) {
+        this(archive, imageArchive, 0);
     }
 
-    public Bitmap(Archive archive, String image_archive, int file_index) {
-        Buffer data = new Buffer(archive.get(image_archive + ".dat", null));
+    public Bitmap(Archive archive, String imageArchive, int fileIndex) {
+        Buffer data = new Buffer(archive.get(imageArchive + ".dat", null));
         Buffer idx = new Buffer(archive.get("index.dat", null));
 
         idx.position = data.readUnsignedShort();
@@ -36,7 +36,7 @@ public class Bitmap extends Canvas2D {
             this.palette[i + 1] = idx.readMedium();
         }
 
-        for (int l = 0; l < file_index; l++) {
+        for (int l = 0; l < fileIndex; l++) {
             idx.position += 2;
             data.position += idx.readUnsignedShort() * idx.readUnsignedShort();
             idx.position++;
@@ -88,21 +88,21 @@ public class Bitmap extends Canvas2D {
         x += this.offsetX;
         y += this.offsetY;
 
-        int dst_off = x + y * Canvas2D.width;
-        int src_off = 0;
+        int dstOff = x + y * Canvas2D.width;
+        int srcOff = 0;
 
         int height = this.height;
         int width = this.width;
 
-        int dst_step = Canvas2D.width - width;
-        int src_step = 0;
+        int dstStep = Canvas2D.width - width;
+        int srcStep = 0;
 
         if (y < leftY) {
-            int y_diff = leftY - y;
-            height -= y_diff;
+            int yDiff = leftY - y;
+            height -= yDiff;
             y = leftY;
-            src_off += y_diff * width;
-            dst_off += y_diff * Canvas2D.width;
+            srcOff += yDiff * width;
+            dstOff += yDiff * Canvas2D.width;
         }
 
         if (y + height > rightY) {
@@ -110,27 +110,27 @@ public class Bitmap extends Canvas2D {
         }
 
         if (x < leftX) {
-            int x_diff = leftX - x;
-            width -= x_diff;
+            int xDiff = leftX - x;
+            width -= xDiff;
             x = leftX;
-            src_off += x_diff;
-            dst_off += x_diff;
-            src_step += x_diff;
-            dst_step += x_diff;
+            srcOff += xDiff;
+            dstOff += xDiff;
+            srcStep += xDiff;
+            dstStep += xDiff;
         }
 
         if (x + width > rightX) {
-            int x_diff = (x + width) - rightX;
-            width -= x_diff;
-            src_step += x_diff;
-            dst_step += x_diff;
+            int xDiff = (x + width) - rightX;
+            width -= xDiff;
+            srcStep += xDiff;
+            dstStep += xDiff;
         }
 
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        draw(this.pixels, this.palette, src_off, dst_off, width, height, dst_step, src_step);
+        draw(this.pixels, this.palette, srcOff, dstOff, width, height, dstStep, srcStep);
     }
 
     public Bitmap flipHorizontally() {
