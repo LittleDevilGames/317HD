@@ -1347,7 +1347,7 @@ public class Game extends GameShell {
             }
 
             for (int mark = 0; mark < 4; mark++) {
-                if (e.hit_cycle[mark] > loopCycle) {
+                if (e.hitCycle[mark] > loopCycle) {
                     setDrawXy(e, e.height / 2);
 
                     if (drawX > -1) {
@@ -1361,7 +1361,7 @@ public class Game extends GameShell {
                             drawY -= 10;
                         }
 
-                        imageHitMarks[e.hit_type[mark]].drawMasked(drawX - 12, drawY - 12);
+                        imageHitMarks[e.hitType[mark]].drawMasked(drawX - 12, drawY - 12);
                         BitmapFont.SMALL.draw(String.valueOf(e.hitDamage[mark]), drawX - 1, drawY + 3, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
                     }
                 }
@@ -2849,8 +2849,8 @@ public class Game extends GameShell {
             speed <<= 1;
         }
 
-        if (speed >= 8 && e.moveSeqIndex == e.walkAnimation && e.run_animation != -1) {
-            e.moveSeqIndex = e.run_animation;
+        if (speed >= 8 && e.moveSeqIndex == e.walkAnimation && e.runAnimation != -1) {
+            e.moveSeqIndex = e.runAnimation;
         }
 
         if (sceneX < destX) {
@@ -2981,8 +2981,8 @@ public class Game extends GameShell {
             e.rotation &= 0x7ff;
 
             if (e.moveSeqIndex == e.standAnimation && e.rotation != e.destRotation) {
-                if (e.stand_turn_animation != -1) {
-                    e.moveSeqIndex = e.stand_turn_animation;
+                if (e.standTurnAnimation != -1) {
+                    e.moveSeqIndex = e.standTurnAnimation;
                     return;
                 }
                 e.moveSeqIndex = e.walkAnimation;
@@ -5436,7 +5436,7 @@ public class Game extends GameShell {
             sb.append("T2");
             sb.append(" - last:").append(ptype).append(',').append(lastPtype2).append(',').append(lastPtype3);
             sb.append(" - psize:").append(psize);
-            sb.append(" - pos:").append(self.get_tile_x()).append(',').append(self.get_tile_y()).append('\n');
+            sb.append(" - pos:").append(self.getTileX()).append(',').append(self.getTileY()).append('\n');
 
             for (int i = 0; i < psize && i < in.position; i++) {
                 sb.append(Integer.toHexString(in.payload[i])).append(',');

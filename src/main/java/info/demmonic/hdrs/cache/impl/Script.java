@@ -149,10 +149,10 @@ public class Script {
                         optype = OPTYPE_MUL;
                         break;
                     case 18:
-                        register = Game.self.get_tile_x();
+                        register = Game.self.getTileX();
                         break;
                     case 19:
-                        register = Game.self.get_tile_y();
+                        register = Game.self.getTileY();
                         break;
                     case 20:
                         register = code[i++];

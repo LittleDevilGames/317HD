@@ -27,9 +27,9 @@ public class Entity extends Renderable {
     public int spotanimIndex;
     public int graphicOffsetY;
     public int height;
-    public int hit_cycle[];
+    public int hitCycle[];
     public int hitDamage[];
-    public int hit_type[];
+    public int hitType[];
     public int maxHealth;
     public int moveSeqCycle;
     public int moveSeqFrame;
@@ -47,7 +47,7 @@ public class Entity extends Renderable {
     public int pathY[];
     public int resyncWalkCycle;
     public int rotation;
-    public int run_animation;
+    public int runAnimation;
     public int sceneX;
     public int sceneY;
     public int size;
@@ -56,7 +56,7 @@ public class Entity extends Renderable {
     public int spokenLife;
     public String spokenMessage;
     public int standAnimation;
-    public int stand_turn_animation;
+    public int standTurnAnimation;
     public int stillPathPosition;
     public int turn180Animation;
     public int turnLAnimation;
@@ -70,13 +70,13 @@ public class Entity extends Renderable {
         this.pathY = new int[10];
         this.faceEntity = -1;
         this.turnSpeed = 32;
-        this.run_animation = -1;
+        this.runAnimation = -1;
         this.height = 200;
         this.standAnimation = -1;
-        this.stand_turn_animation = -1;
+        this.standTurnAnimation = -1;
         this.hitDamage = new int[4];
-        this.hit_type = new int[4];
-        this.hit_cycle = new int[4];
+        this.hitType = new int[4];
+        this.hitCycle = new int[4];
         this.moveSeqIndex = -1;
         this.spotanimIndex = -1;
         this.seqIndex = -1;
@@ -99,20 +99,20 @@ public class Entity extends Renderable {
         return this.sceneY >> 7;
     }
 
-    public int get_tile_x() {
+    public int getTileX() {
         return Game.mapBaseX + (this.sceneX >> 7);
     }
 
-    public int get_tile_y() {
+    public int getTileY() {
         return Game.mapBaseY + (this.sceneY >> 7);
     }
 
     public void hit(int type, int damage, int tick) {
         for (int i = 0; i < 4; i++) {
-            if (hit_cycle[i] <= tick) {
+            if (hitCycle[i] <= tick) {
                 hitDamage[i] = damage;
-                hit_type[i] = type;
-                hit_cycle[i] = tick + 70;
+                hitType[i] = type;
+                hitCycle[i] = tick + 70;
                 return;
             }
         }
@@ -148,16 +148,16 @@ public class Entity extends Renderable {
         pathRun[0] = running;
     }
 
-    public void moveTo(int x, int y, boolean discard_walk_queue) {
+    public void moveTo(int x, int y, boolean discardWalkQueue) {
         if (seqIndex != -1 && Sequence.instance[seqIndex].walkFlag == 1) {
             seqIndex = -1;
         }
 
-        if (!discard_walk_queue) {
-            int d_x = x - pathX[0];
-            int d_y = y - pathY[0];
+        if (!discardWalkQueue) {
+            int deltaX = x - pathX[0];
+            int deltaY = y - pathY[0];
 
-            if (d_x >= -8 && d_x <= 8 && d_y >= -8 && d_y <= 8) {
+            if (deltaX >= -8 && deltaX <= 8 && deltaY >= -8 && deltaY <= 8) {
                 if (pathPosition < 9) {
                     pathPosition++;
                 }

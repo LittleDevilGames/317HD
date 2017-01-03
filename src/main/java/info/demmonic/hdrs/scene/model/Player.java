@@ -405,9 +405,9 @@ public class Player extends Entity {
             super.standAnimation = -1;
         }
 
-        super.stand_turn_animation = s.readUnsignedShort();
-        if (super.stand_turn_animation == 65535) {
-            super.stand_turn_animation = -1;
+        super.standTurnAnimation = s.readUnsignedShort();
+        if (super.standTurnAnimation == 65535) {
+            super.standTurnAnimation = -1;
         }
 
         super.walkAnimation = s.readUnsignedShort();
@@ -430,9 +430,9 @@ public class Player extends Entity {
             super.turnLAnimation = -1;
         }
 
-        super.run_animation = s.readUnsignedShort();
-        if (super.run_animation == 65535) {
-            super.run_animation = -1;
+        super.runAnimation = s.readUnsignedShort();
+        if (super.runAnimation == 65535) {
+            super.runAnimation = -1;
         }
 
         this.name = JString.getFormattedString(s.readLong());
