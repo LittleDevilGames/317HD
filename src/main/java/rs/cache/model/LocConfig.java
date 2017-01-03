@@ -25,9 +25,9 @@ public class LocConfig {
     public boolean castsShadow;
     public String description;
     public int face_flags;
-    public boolean flat_shading;
+    public boolean flatShading;
     public boolean ghost;
-    public boolean has_collisions;
+    public boolean hasCollisions;
     public short icon;
     public int index;
     public boolean is_decoration;
@@ -249,7 +249,7 @@ public class LocConfig {
             model.translate(offset_x, offset_y, offset_z);
         }
 
-        model.apply_lighting(64 + brightness, 768 + specular * 5, -50, -10, -50, !flat_shading);
+        model.apply_lighting(64 + brightness, 768 + specular * 5, -50, -10, -50, !flatShading);
 
         if (raises_item_piles == 1) {
             model.pile_height = model.height;
@@ -267,8 +267,8 @@ public class LocConfig {
             return null;
         }
 
-        if (adjustToTerrain || flat_shading) {
-            m = new Model(adjustToTerrain, flat_shading, m);
+        if (adjustToTerrain || flatShading) {
+            m = new Model(adjustToTerrain, flatShading, m);
         }
 
         if (adjustToTerrain) {
@@ -397,7 +397,7 @@ public class LocConfig {
                 } else if (opcode == 15) {
                     size_y = (byte) b.readUnsignedByte();
                 } else if (opcode == 17) {
-                    has_collisions = false;
+                    hasCollisions = false;
                 } else if (opcode == 18) {
                     blocksProjectiles = false;
                 } else if (opcode == 19) {
@@ -408,7 +408,7 @@ public class LocConfig {
                 } else if (opcode == 21) {
                     adjustToTerrain = true;
                 } else if (opcode == 22) {
-                    flat_shading = true;
+                    flatShading = true;
                 } else if (opcode == 23) {
                     is_solid = true;
                 } else if (opcode == 24) {
@@ -495,12 +495,12 @@ public class LocConfig {
         }
 
         if (ghost) {
-            has_collisions = false;
+            hasCollisions = false;
             blocksProjectiles = false;
         }
 
         if (raises_item_piles == -1) {
-            raises_item_piles = has_collisions ? 1 : 0;
+            raises_item_piles = hasCollisions ? 1 : 0;
         }
     }
 
@@ -523,11 +523,11 @@ public class LocConfig {
         new_color = null;
         size_x = 1;
         size_y = 1;
-        has_collisions = true;
+        hasCollisions = true;
         blocksProjectiles = true;
         is_static = false;
         adjustToTerrain = false;
-        flat_shading = false;
+        flatShading = false;
         is_solid = false;
         seqIndex = -1;
         wall_width = 16;

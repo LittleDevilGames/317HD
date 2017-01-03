@@ -498,7 +498,7 @@ public class Game extends GameShell {
                     landscape.remove_wall(x, plane, y);
                     LocConfig lc = LocConfig.get(loc_index);
 
-                    if (lc.has_collisions) {
+                    if (lc.hasCollisions) {
                         collisionMaps[plane].remove_wall(x, y, loc_type, loc_rot, lc.blocksProjectiles);
                     }
                 }
@@ -515,7 +515,7 @@ public class Game extends GameShell {
                         return;
                     }
 
-                    if (lc.has_collisions) {
+                    if (lc.hasCollisions) {
                         collisionMaps[plane].remove_loc(x, y, lc.size_x, lc.size_y, loc_rot, lc.blocksProjectiles);
                     }
                 }
@@ -524,7 +524,7 @@ public class Game extends GameShell {
                     landscape.remove_ground_decoration(x, y, plane);
                     LocConfig lc = LocConfig.get(new_loc_index);
 
-                    if (lc.has_collisions && lc.is_static) {
+                    if (lc.hasCollisions && lc.is_static) {
                         collisionMaps[plane].method218(x, y);
                     }
                 }

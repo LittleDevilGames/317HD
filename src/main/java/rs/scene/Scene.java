@@ -88,7 +88,7 @@ public class Scene {
 
             l.addGroundDecoration(x, y, averageHeight, plane, r, uid, locIndex);
 
-            if (c.has_collisions && c.is_static) {
+            if (c.hasCollisions && c.is_static) {
                 cm.set_solid(x, y);
             }
         } else if (locType == 10 || locType == 11) {
@@ -121,7 +121,7 @@ public class Scene {
                 l.add(r, x, y, plane, size_x, size_y, averageHeight, locIndex, rotation, uid);
             }
 
-            if (c.has_collisions) {
+            if (c.hasCollisions) {
                 cm.addLoc(x, y, c.size_x, c.size_y, loc_rotation, c.blocksProjectiles);
             }
         } else if (locType >= 12) {
@@ -135,7 +135,7 @@ public class Scene {
 
             l.add(r, x, y, plane, 1, 1, averageHeight, locIndex, 0, uid);
 
-            if (c.has_collisions) {
+            if (c.hasCollisions) {
                 cm.addLoc(x, y, c.size_x, c.size_y, loc_rotation, c.blocksProjectiles);
             }
         } else if (locType == 0) {
@@ -149,7 +149,7 @@ public class Scene {
 
             l.addWall(r, null, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[loc_rotation], 0, locIndex, true, uid);
 
-            if (c.has_collisions) {
+            if (c.hasCollisions) {
                 cm.addWall(x, y, locType, loc_rotation, c.blocksProjectiles);
             }
         } else if (locType == 1) {
@@ -163,7 +163,7 @@ public class Scene {
 
             l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[loc_rotation], 0, locIndex, true, uid);
 
-            if (c.has_collisions) {
+            if (c.hasCollisions) {
                 cm.addWall(x, y, locType, loc_rotation, c.blocksProjectiles);
             }
         } else if (locType == 2) {
@@ -181,7 +181,7 @@ public class Scene {
 
             l.addWall(r1, r2, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[loc_rotation], WALL_ROOT_DRAW_FLAGS[nextRotation], locIndex, true, uid);
 
-            if (c.has_collisions) {
+            if (c.hasCollisions) {
                 cm.addWall(x, y, locType, loc_rotation, c.blocksProjectiles);
             }
         } else if (locType == 3) {
@@ -195,7 +195,7 @@ public class Scene {
 
             l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[loc_rotation], 0, locIndex, true, uid);
 
-            if (c.has_collisions) {
+            if (c.hasCollisions) {
                 cm.addWall(x, y, locType, loc_rotation, c.blocksProjectiles);
             }
         } else if (locType == 9) {
@@ -209,7 +209,7 @@ public class Scene {
 
             l.add(node, x, y, plane, 1, 1, averageHeight, locIndex, 0, uid);
 
-            if (c.has_collisions) {
+            if (c.hasCollisions) {
                 cm.addLoc(x, y, c.size_x, c.size_y, loc_rotation, c.blocksProjectiles);
             }
         } else {
@@ -497,7 +497,7 @@ public class Scene {
 
                     landscape.addGroundDecoration(x, y, v_avg, plane, r, uid, arrangement);
 
-                    if (c.has_collisions && c.is_static && collision != null) {
+                    if (c.hasCollisions && c.is_static && collision != null) {
                         collision.set_solid(x, y);
                     }
 
@@ -556,7 +556,7 @@ public class Scene {
                     }
                 }
 
-                if (c.has_collisions && collision != null) {
+                if (c.hasCollisions && collision != null) {
                     collision.addLoc(x, y, c.size_x, c.size_y, rotation, c.blocksProjectiles);
                 }
 
@@ -575,7 +575,7 @@ public class Scene {
                     tileCullingBitset[plane][x][y] |= 0x924;
                 }
 
-                if (c.has_collisions && collision != null) {
+                if (c.hasCollisions && collision != null) {
                     collision.addLoc(x, y, c.size_x, c.size_y, rotation, c.blocksProjectiles);
                 }
 
@@ -628,7 +628,7 @@ public class Scene {
                     }
                 }
 
-                if (c.has_collisions && collision != null) {
+                if (c.hasCollisions && collision != null) {
                     collision.addWall(x, y, type, rotation, c.blocksProjectiles);
                 }
 
@@ -659,7 +659,7 @@ public class Scene {
                     }
                 }
 
-                if (c.has_collisions && collision != null) {
+                if (c.hasCollisions && collision != null) {
                     collision.addWall(x, y, type, rotation, c.blocksProjectiles);
                 }
             } else if (type == 2) {
@@ -693,7 +693,7 @@ public class Scene {
                     }
                 }
 
-                if (c.has_collisions && collision != null) {
+                if (c.hasCollisions && collision != null) {
                     collision.addWall(x, y, type, rotation, c.blocksProjectiles);
                 }
 
@@ -723,7 +723,7 @@ public class Scene {
                     }
                 }
 
-                if (c.has_collisions && collision != null) {
+                if (c.hasCollisions && collision != null) {
                     collision.addWall(x, y, type, rotation, c.blocksProjectiles);
                 }
 
@@ -738,7 +738,7 @@ public class Scene {
 
                 landscape.add(r, x, y, plane, 1, 1, v_avg, arrangement, 0, uid);
 
-                if (c.has_collisions && collision != null) {
+                if (c.hasCollisions && collision != null) {
                     collision.addLoc(x, y, c.size_x, c.size_y, rotation, c.blocksProjectiles);
                 }
             } else {
