@@ -2057,7 +2057,7 @@ public class Game extends GameShell {
             camInfoCycle--;
         }
 
-        if (Key.LEFT.is_down() || Key.RIGHT.is_down() || Key.UP.is_down() || Key.DOWN.is_down()) {
+        if (Key.LEFT.isDown() || Key.RIGHT.isDown() || Key.UP.isDown() || Key.DOWN.isDown()) {
             sendCamInfo = true;
         }
 
@@ -2485,17 +2485,17 @@ public class Game extends GameShell {
                 chaseCamY += (sceneY - chaseCamY) / 16;
             }
 
-            if (Key.LEFT.is_down()) {
+            if (Key.LEFT.isDown()) {
                 chaseCamYawMod += (-24 - chaseCamYawMod) / 2;
-            } else if (Key.RIGHT.is_down()) {
+            } else if (Key.RIGHT.isDown()) {
                 chaseCamYawMod += (24 - chaseCamYawMod) / 2;
             } else {
                 chaseCamYawMod /= 2;
             }
 
-            if (Key.UP.is_down()) {
+            if (Key.UP.isDown()) {
                 chaseCamPitchMod += (12 - chaseCamPitchMod) / 2;
-            } else if (Key.DOWN.is_down()) {
+            } else if (Key.DOWN.isDown()) {
                 chaseCamPitchMod += (-12 - chaseCamPitchMod) / 2;
             } else {
                 chaseCamPitchMod /= 2;
@@ -8359,7 +8359,7 @@ public class Game extends GameShell {
             }
 
             out.writeLeShort(path_y + mapBaseY);
-            out.writeByteC(Key.CTRL.is_down() ? 1 : 0);
+            out.writeByteC(Key.CTRL.isDown() ? 1 : 0);
 
             return true;
         }

@@ -32,21 +32,21 @@ public class Key {
 
     public static void append(StringBuilder string, int key, int flags) {
         if (BitUtils.flagged(flags, SAFE_KEYS) && BitUtils.flagged(flags, NUMBER_KEYS)) {
-            if (Key.is_numeral(key) || Key.is_safe(key)) {
+            if (Key.isNumeral(key) || Key.isSafe(key)) {
                 string.append((char) key);
                 return;
             }
         }
 
         if (BitUtils.flagged(flags, NUMBER_KEYS)) {
-            if (Key.is_numeral(key)) {
+            if (Key.isNumeral(key)) {
                 string.append((char) key);
                 return;
             }
         }
 
         if (BitUtils.flagged(flags, SAFE_KEYS)) {
-            if (Key.is_safe(key)) {
+            if (Key.isSafe(key)) {
                 string.append((char) key);
                 return;
             }
@@ -65,15 +65,15 @@ public class Key {
         }
     }
 
-    public static final boolean is_numeral(int key) {
+    public static final boolean isNumeral(int key) {
         return (key >= 48 && key <= 57);
     }
 
-    public static final boolean is_safe(int key) {
+    public static final boolean isSafe(int key) {
         return (key >= 32 && key <= 122);
     }
 
-    public boolean is_down() {
+    public boolean isDown() {
         return Keyboard.isDown(this.action);
     }
 
