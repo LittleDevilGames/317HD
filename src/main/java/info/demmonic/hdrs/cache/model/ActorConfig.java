@@ -10,38 +10,38 @@ import info.demmonic.hdrs.scene.model.Model;
 public class ActorConfig {
 
     public static Buffer buffer;
-    public static int buffer_position[];
+    public static int bufferPosition[];
     public static ActorConfig[] cache;
-    public static int cache_index;
+    public static int cacheIndex;
     public static int count;
-    public static List model_cache = new List(30);
+    public static List modelCache = new List(30);
     public boolean aBoolean93;
     public String[] action;
     public int brightness;
     public short combatLevel;
     public String description;
-    public short[] dialog_model_index;
-    public byte has_options;
-    public byte head_icon;
+    public short[] dialogModelIndex;
+    public byte hasOptions;
+    public byte headIcon;
     public int index;
     public boolean interactable;
-    public short[] model_index;
-    public short move_seq;
+    public short[] modelIndex;
+    public short moveSeq;
     public String name;
-    public int[] new_colors;
-    public int[] old_colors;
-    public short scale_x;
-    public short scale_y;
-    public short setting_index;
-    public short[] override_index;
-    public boolean show_on_minimap;
+    public int[] newColors;
+    public int[] oldColors;
+    public short scaleX;
+    public short scaleY;
+    public short settingIndex;
+    public short[] overrideIndex;
+    public boolean showOnMinimap;
     public short specular;
-    public short stand_sequence;
-    public short turn_180_seq;
-    public short turn_l_seq;
-    public short turn_r_seq;
-    public short turn_speed;
-    public short varbit_index;
+    public short standSequence;
+    public short turn180Seq;
+    public short turnLSeq;
+    public short turnRSeq;
+    public short turnSpeed;
+    public short varbitIndex;
 
     public ActorConfig() {
         this.defaults();
@@ -57,25 +57,25 @@ public class ActorConfig {
                 return;
             }
             if (opcode == 1) {
-                model_index = new short[b.readUnsignedByte()];
-                for (int i = 0; i < model_index.length; i++) {
-                    model_index[i] = (short) b.readUnsignedShort();
+                modelIndex = new short[b.readUnsignedByte()];
+                for (int i = 0; i < modelIndex.length; i++) {
+                    modelIndex[i] = (short) b.readUnsignedShort();
                 }
             } else if (opcode == 2) {
                 name = b.readString();
             } else if (opcode == 3) {
                 description = b.readString();
             } else if (opcode == 12) {
-                has_options = b.readByte();
+                hasOptions = b.readByte();
             } else if (opcode == 13) {
-                stand_sequence = (short) b.readUnsignedShort();
+                standSequence = (short) b.readUnsignedShort();
             } else if (opcode == 14) {
-                move_seq = (short) b.readUnsignedShort();
+                moveSeq = (short) b.readUnsignedShort();
             } else if (opcode == 17) {
-                move_seq = (short) b.readUnsignedShort();
-                turn_180_seq = (short) b.readUnsignedShort();
-                turn_r_seq = (short) b.readUnsignedShort();
-                turn_l_seq = (short) b.readUnsignedShort();
+                moveSeq = (short) b.readUnsignedShort();
+                turn180Seq = (short) b.readUnsignedShort();
+                turnRSeq = (short) b.readUnsignedShort();
+                turnLSeq = (short) b.readUnsignedShort();
             } else if (opcode >= 30 && opcode < 40) {
                 if (action == null) {
                     action = new String[5];
@@ -87,19 +87,19 @@ public class ActorConfig {
                 }
             } else if (opcode == 40) {
                 int count = b.readUnsignedByte();
-                old_colors = new int[count];
-                new_colors = new int[count];
+                oldColors = new int[count];
+                newColors = new int[count];
                 for (int i = 0; i < count; i++) {
-                    old_colors[i] = b.readUnsignedShort();
-                    new_colors[i] = b.readUnsignedShort();
+                    oldColors[i] = b.readUnsignedShort();
+                    newColors[i] = b.readUnsignedShort();
                 }
 
             } else if (opcode == 60) {
                 int count = b.readUnsignedByte();
-                dialog_model_index = new short[count];
+                dialogModelIndex = new short[count];
 
                 for (int i = 0; i < count; i++) {
-                    dialog_model_index[i] = (short) b.readUnsignedShort();
+                    dialogModelIndex[i] = (short) b.readUnsignedShort();
                 }
             } else if (opcode == 90) {
                 b.readUnsignedShort();
@@ -108,13 +108,13 @@ public class ActorConfig {
             } else if (opcode == 92) {
                 b.readUnsignedShort();
             } else if (opcode == 93) {
-                show_on_minimap = false;
+                showOnMinimap = false;
             } else if (opcode == 95) {
                 combatLevel = (short) b.readUnsignedShort();
             } else if (opcode == 97) {
-                scale_x = (short) b.readUnsignedShort();
+                scaleX = (short) b.readUnsignedShort();
             } else if (opcode == 98) {
-                scale_y = (short) b.readUnsignedShort();
+                scaleY = (short) b.readUnsignedShort();
             } else if (opcode == 99) {
                 aBoolean93 = true;
             } else if (opcode == 100) {
@@ -122,17 +122,17 @@ public class ActorConfig {
             } else if (opcode == 101) {
                 specular = (short) (b.readByte() * 5);
             } else if (opcode == 102) {
-                head_icon = (byte) (short) b.readUnsignedShort();
+                headIcon = (byte) (short) b.readUnsignedShort();
             } else if (opcode == 103) {
-                turn_speed = (short) b.readUnsignedShort();
+                turnSpeed = (short) b.readUnsignedShort();
             } else if (opcode == 106) {
-                varbit_index = (short) b.readUnsignedShort();
-                setting_index = (short) b.readUnsignedShort();
+                varbitIndex = (short) b.readUnsignedShort();
+                settingIndex = (short) b.readUnsignedShort();
 
-                override_index = new short[b.readUnsignedByte() + 1];
+                overrideIndex = new short[b.readUnsignedByte() + 1];
 
-                for (int i = 0; i <= override_index.length; i++) {
-                    override_index[i] = (short) b.readUnsignedShort();
+                for (int i = 0; i <= overrideIndex.length; i++) {
+                    overrideIndex[i] = (short) b.readUnsignedShort();
                 }
 
             } else if (opcode == 107) {
@@ -148,17 +148,17 @@ public class ActorConfig {
             }
         }
 
-        ActorConfig.cache_index = (ActorConfig.cache_index + 1) % 20;
-        ActorConfig.buffer.position = ActorConfig.buffer_position[index];
+        ActorConfig.cacheIndex = (ActorConfig.cacheIndex + 1) % 20;
+        ActorConfig.buffer.position = ActorConfig.bufferPosition[index];
 
-        return (ActorConfig.cache[cache_index] = new ActorConfig(index, buffer));
+        return (ActorConfig.cache[cacheIndex] = new ActorConfig(index, buffer));
     }
 
     public static void nullify() {
-        ActorConfig.model_cache = null;
+        ActorConfig.modelCache = null;
         ActorConfig.cache = null;
         ActorConfig.buffer = null;
-        ActorConfig.buffer_position = null;
+        ActorConfig.bufferPosition = null;
     }
 
     public static void unpack(Archive a) {
@@ -166,11 +166,11 @@ public class ActorConfig {
         Buffer idx = new Buffer(a.get("npc.idx", null));
         ActorConfig.count = idx.readUnsignedShort();
 
-        ActorConfig.buffer_position = new int[ActorConfig.count];
+        ActorConfig.bufferPosition = new int[ActorConfig.count];
 
         int position = 2;
         for (int i = 0; i < ActorConfig.count; i++) {
-            ActorConfig.buffer_position[i] = position;
+            ActorConfig.bufferPosition[i] = position;
             position += idx.readUnsignedShort();
         }
 
@@ -182,27 +182,27 @@ public class ActorConfig {
     }
 
     public void defaults() {
-        this.turn_l_seq = -1;
-        this.varbit_index = -1;
-        this.turn_180_seq = -1;
-        this.setting_index = -1;
+        this.turnLSeq = -1;
+        this.varbitIndex = -1;
+        this.turn180Seq = -1;
+        this.settingIndex = -1;
         this.combatLevel = -1;
-        this.move_seq = -1;
-        this.has_options = 1;
-        this.head_icon = -1;
-        this.stand_sequence = -1;
+        this.moveSeq = -1;
+        this.hasOptions = 1;
+        this.headIcon = -1;
+        this.standSequence = -1;
         this.index = -1;
-        this.turn_speed = 32;
-        this.turn_r_seq = -1;
+        this.turnSpeed = 32;
+        this.turnRSeq = -1;
         this.interactable = true;
-        this.scale_y = 128;
-        this.show_on_minimap = true;
-        this.scale_x = 128;
+        this.scaleY = 128;
+        this.showOnMinimap = true;
+        this.scaleX = 128;
         this.aBoolean93 = false;
     }
 
     public Model getDialogModel() {
-        if (override_index != null) {
+        if (overrideIndex != null) {
             ActorConfig config = getOverridingConfig();
             if (config == null) {
                 return null;
@@ -211,14 +211,14 @@ public class ActorConfig {
             }
         }
 
-        if (dialog_model_index == null) {
+        if (dialogModelIndex == null) {
             return null;
         }
 
         boolean valid = false;
 
-        for (int i = 0; i < dialog_model_index.length; i++) {
-            if (!Model.isValid(dialog_model_index[i])) {
+        for (int i = 0; i < dialogModelIndex.length; i++) {
+            if (!Model.isValid(dialogModelIndex[i])) {
                 valid = true;
             }
         }
@@ -227,10 +227,10 @@ public class ActorConfig {
             return null;
         }
 
-        Model[] models = new Model[dialog_model_index.length];
+        Model[] models = new Model[dialogModelIndex.length];
 
-        for (int i = 0; i < dialog_model_index.length; i++) {
-            models[i] = Model.get(dialog_model_index[i]);
+        for (int i = 0; i < dialogModelIndex.length; i++) {
+            models[i] = Model.get(dialogModelIndex[i]);
         }
 
         Model m;
@@ -241,14 +241,14 @@ public class ActorConfig {
             m = new Model(models.length, models);
         }
 
-        if (old_colors != null) {
-            m.setColors(old_colors, new_colors);
+        if (oldColors != null) {
+            m.setColors(oldColors, newColors);
         }
         return m;
     }
 
     public Model getModel(int vertices[], int frame1, int frame2) {
-        if (override_index != null) {
+        if (overrideIndex != null) {
             ActorConfig config = getOverridingConfig();
 
             if (config == null) {
@@ -258,12 +258,12 @@ public class ActorConfig {
             }
         }
 
-        Model model = (Model) model_cache.get(index);
+        Model model = (Model) modelCache.get(index);
 
         if (model == null) {
             boolean flag = false;
-            for (int i1 = 0; i1 < model_index.length; i1++) {
-                if (!Model.isValid(model_index[i1])) {
+            for (int i1 = 0; i1 < modelIndex.length; i1++) {
+                if (!Model.isValid(modelIndex[i1])) {
                     flag = true;
                 }
             }
@@ -271,10 +271,10 @@ public class ActorConfig {
             if (flag) {
                 return null;
             }
-            Model models[] = new Model[model_index.length];
+            Model models[] = new Model[modelIndex.length];
 
-            for (int i = 0; i < model_index.length; i++) {
-                models[i] = Model.get(model_index[i]);
+            for (int i = 0; i < modelIndex.length; i++) {
+                models[i] = Model.get(modelIndex[i]);
             }
 
             if (models.length == 1) {
@@ -283,13 +283,13 @@ public class ActorConfig {
                 model = new Model(models.length, models);
             }
 
-            if (old_colors != null) {
-                model.setColors(old_colors, new_colors);
+            if (oldColors != null) {
+                model.setColors(oldColors, newColors);
             }
 
             model.applyVertexWeights();
             model.applyLighting(64 + brightness, 850 + specular, -30, -50, -30, true);
-            model_cache.insert(model, index);
+            modelCache.insert(model, index);
         }
 
         Model m = Model.temporary;
@@ -301,15 +301,15 @@ public class ActorConfig {
             m.applySequenceFrame(frame1);
         }
 
-        if (scale_x != 128 || scale_y != 128) {
-            m.scale(scale_x, scale_y, scale_x);
+        if (scaleX != 128 || scaleY != 128) {
+            m.scale(scaleX, scaleY, scaleX);
         }
 
         m.method466();
         m.triangleGroups = null;
         m.vertexWeights = null;
 
-        if (has_options == 1) {
+        if (hasOptions == 1) {
             m.isClickable = true;
         }
 
@@ -319,22 +319,22 @@ public class ActorConfig {
     public ActorConfig getOverridingConfig() {
         int value = -1;
 
-        if (varbit_index != -1) {
-            VarBit varbit = VarBit.instance[varbit_index];
+        if (varbitIndex != -1) {
+            VarBit varbit = VarBit.instance[varbitIndex];
             int index = varbit.setting;
             int offset = varbit.offset;
             int position = varbit.shift;
-            int max_value = Game.LSB_BIT_MASK[position - offset];
-            value = Game.settings[index] >> offset & max_value;
-        } else if (setting_index != -1) {
-            value = Game.settings[setting_index];
+            int maxValue = Game.LSB_BIT_MASK[position - offset];
+            value = Game.settings[index] >> offset & maxValue;
+        } else if (settingIndex != -1) {
+            value = Game.settings[settingIndex];
         }
 
-        if (value < 0 || value >= override_index.length || override_index[value] == -1) {
+        if (value < 0 || value >= overrideIndex.length || overrideIndex[value] == -1) {
             return null;
         }
 
-        return get(override_index[value]);
+        return get(overrideIndex[value]);
     }
 
 }

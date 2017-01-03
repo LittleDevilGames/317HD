@@ -70,7 +70,7 @@ public class Actor extends Entity {
 
         }
 
-        if (config.has_options == 1) {
+        if (config.hasOptions == 1) {
             model.isClickable = true;
         }
         return model;

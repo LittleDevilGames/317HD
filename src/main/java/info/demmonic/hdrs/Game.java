@@ -531,7 +531,7 @@ public class Game extends GameShell {
     public static void clearCaches() {
         LocConfig.staticModelCache.clear();
         LocConfig.modelCache.clear();
-        ActorConfig.model_cache.clear();
+        ActorConfig.modelCache.clear();
         ObjConfig.modelCache.clear();
         ObjConfig.spriteCache.clear();
         Player.modelCache.clear();
@@ -804,11 +804,11 @@ public class Game extends GameShell {
             if (a != null && a.isVisible()) {
                 ActorConfig ac = a.config;
 
-                if (ac.override_index != null) {
+                if (ac.overrideIndex != null) {
                     ac = ac.getOverridingConfig();
                 }
 
-                if (ac != null && ac.show_on_minimap && ac.interactable) {
+                if (ac != null && ac.showOnMinimap && ac.interactable) {
                     int map_x = a.sceneX / 32 - self.sceneX / 32;
                     int map_y = a.sceneY / 32 - self.sceneY / 32;
                     drawToMinimap(imageMapDots[1], map_x, map_y);
@@ -1250,7 +1250,7 @@ public class Game extends GameShell {
             if (e instanceof Actor) {
                 ActorConfig c = ((Actor) e).config;
 
-                if (c.override_index != null) {
+                if (c.overrideIndex != null) {
                     c = c.getOverridingConfig();
                 }
 
@@ -1290,11 +1290,11 @@ public class Game extends GameShell {
             } else {
                 ActorConfig ac = ((Actor) e).config;
 
-                if (ac.head_icon >= 0 && ac.head_icon < imageHeadIcons.length) {
+                if (ac.headIcon >= 0 && ac.headIcon < imageHeadIcons.length) {
                     setDrawXy(e, e.height + 15);
 
                     if (drawX > -1) {
-                        imageHeadIcons[ac.head_icon].drawMasked(drawX - 12, drawY - 30);
+                        imageHeadIcons[ac.headIcon].drawMasked(drawX - 12, drawY - 30);
                     }
                 }
 
@@ -2349,7 +2349,7 @@ public class Game extends GameShell {
             return;
         }
 
-        if (ac.override_index != null) {
+        if (ac.overrideIndex != null) {
             ac = ac.getOverridingConfig();
         }
 
@@ -3726,7 +3726,7 @@ public class Game extends GameShell {
             if (a != null) {
                 ActorConfig c = a.config;
 
-                if (c.override_index != null) {
+                if (c.overrideIndex != null) {
                     c = c.getOverridingConfig();
                 }
 
@@ -5485,13 +5485,13 @@ public class Game extends GameShell {
                 entityIndex[entityCount++] = actorIndex;
             }
 
-            a.size = a.config.has_options;
-            a.turnSpeed = a.config.turn_speed;
-            a.walkAnimation = a.config.move_seq;
-            a.turn180Animation = a.config.turn_180_seq;
-            a.turnRAnimation = a.config.turn_r_seq;
-            a.turnLAnimation = a.config.turn_l_seq;
-            a.standAnimation = a.config.stand_sequence;
+            a.size = a.config.hasOptions;
+            a.turnSpeed = a.config.turnSpeed;
+            a.walkAnimation = a.config.moveSeq;
+            a.turn180Animation = a.config.turn180Seq;
+            a.turnRAnimation = a.config.turnRSeq;
+            a.turnLAnimation = a.config.turnLSeq;
+            a.standAnimation = a.config.standSequence;
             a.moveTo(self.pathX[0] + x, self.pathY[0] + y, discardWalkQueue == 1);
         }
         b.stopBitAccess();
@@ -6174,10 +6174,10 @@ public class Game extends GameShell {
 
             if (type == 1) {
                 Actor a = actors[index];
-                if (a.config.has_options == 1 && (a.sceneX & 0x7f) == 64 && (a.sceneY & 0x7f) == 64) {
+                if (a.config.hasOptions == 1 && (a.sceneX & 0x7f) == 64 && (a.sceneY & 0x7f) == 64) {
                     for (int i = 0; i < actorCount; i++) {
                         Actor a1 = actors[actorIndices[i]];
-                        if (a1 != null && a1 != a && a1.config.has_options == 1 && a1.sceneX == a.sceneX && a1.sceneY == a.sceneY) {
+                        if (a1 != null && a1 != a && a1.config.hasOptions == 1 && a1.sceneX == a.sceneX && a1.sceneY == a.sceneY) {
                             handleActorMenuOptions(a1.config, x, y, actorIndices[i]);
                         }
                     }
@@ -6198,7 +6198,7 @@ public class Game extends GameShell {
                 if ((p.sceneX & 0x7f) == 64 && (p.sceneY & 0x7f) == 64) {
                     for (int k2 = 0; k2 < actorCount; k2++) {
                         Actor a = actors[actorIndices[k2]];
-                        if (a != null && a.config.has_options == 1 && a.sceneX == p.sceneX && a.sceneY == p.sceneY) {
+                        if (a != null && a.config.hasOptions == 1 && a.sceneX == p.sceneX && a.sceneY == p.sceneY) {
                             handleActorMenuOptions(a.config, x, y, actorIndices[k2]);
                         }
                     }
@@ -7405,13 +7405,13 @@ public class Game extends GameShell {
 
             if ((mask & 2) != 0) { // Transform
                 a.config = ActorConfig.get(b.readUnsignedLeShortA());
-                a.size = a.config.has_options;
-                a.turnSpeed = a.config.turn_speed;
-                a.walkAnimation = a.config.move_seq;
-                a.turn180Animation = a.config.turn_180_seq;
-                a.turnRAnimation = a.config.turn_r_seq;
-                a.turnLAnimation = a.config.turn_l_seq;
-                a.standAnimation = a.config.stand_sequence;
+                a.size = a.config.hasOptions;
+                a.turnSpeed = a.config.turnSpeed;
+                a.walkAnimation = a.config.moveSeq;
+                a.turn180Animation = a.config.turn180Seq;
+                a.turnRAnimation = a.config.turnRSeq;
+                a.turnLAnimation = a.config.turnLSeq;
+                a.standAnimation = a.config.standSequence;
             }
 
             if ((mask & 4) != 0) { // Face Coordinate
