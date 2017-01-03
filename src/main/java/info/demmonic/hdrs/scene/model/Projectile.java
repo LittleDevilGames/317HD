@@ -7,43 +7,43 @@ public class Projectile extends Renderable {
 
     public double aDouble1578;
     public int anInt158;
-    public int arc_size;
-    public int cycle_end;
-    public int cycle_start;
+    public int arcSize;
+    public int cycleEnd;
+    public int cycleStart;
     public boolean mobile;
-    public int offset_z;
-    public int parent_size;
+    public int offsetZ;
+    public int parentSize;
     public int pitch;
     public int plane;
     public int rotation;
-    public double scene_x;
-    public double scene_y;
-    public double scene_z;
-    public int seq_cycle;
-    public int seq_frame;
+    public double sceneX;
+    public double sceneY;
+    public double sceneZ;
+    public int seqCycle;
+    public int seqFrame;
     public double speed;
-    public double speed_x;
-    public double speed_y;
-    public double speed_z;
+    public double speedX;
+    public double speedY;
+    public double speedZ;
     public SpotAnimConfig config;
-    public int start_x;
-    public int start_y;
-    public int start_z;
+    public int startX;
+    public int startY;
+    public int startZ;
     public int targetIndex;
 
-    public Projectile(int arc_size, int end_z, int cycle_start, int cycle_end, int parent_size, int plane, int start_z, int start_y, int start_x, int target, int spotanim_index) {
+    public Projectile(int arcSize, int end_z, int cycleStart, int cycleEnd, int parentSize, int plane, int startZ, int startY, int startX, int target, int spotanim_index) {
         this.mobile = false;
         this.config = SpotAnimConfig.instance[spotanim_index];
         this.plane = plane;
-        this.start_x = start_x;
-        this.start_y = start_y;
-        this.start_z = start_z;
-        this.cycle_start = cycle_start;
-        this.cycle_end = cycle_end;
-        this.arc_size = arc_size;
-        this.parent_size = parent_size;
+        this.startX = startX;
+        this.startY = startY;
+        this.startZ = startZ;
+        this.cycleStart = cycleStart;
+        this.cycleEnd = cycleEnd;
+        this.arcSize = arcSize;
+        this.parentSize = parentSize;
         this.targetIndex = target;
-        this.offset_z = end_z;
+        this.offsetZ = end_z;
         this.mobile = false;
     }
 
@@ -58,7 +58,7 @@ public class Projectile extends Renderable {
         int frame = -1;
 
         if (config.seq != null) {
-            frame = config.seq.framePrimary[seq_frame];
+            frame = config.seq.framePrimary[seqFrame];
         }
 
         Model m = new Model(true, frame == -1, false, model);
@@ -81,19 +81,19 @@ public class Projectile extends Renderable {
 
     public void update(int cycle) {
         mobile = true;
-        scene_x += speed_x * (double) cycle;
-        scene_y += speed_y * (double) cycle;
-        scene_z += speed_z * (double) cycle + 0.5D * aDouble1578 * (double) cycle * (double) cycle;
-        speed_z += aDouble1578 * (double) cycle;
-        rotation = (int) (Math.atan2(speed_x, speed_y) * (32595 / 100)) + 1024 & 0x7ff;
-        pitch = (int) (Math.atan2(speed_z, speed) * (32595 / 100)) & 0x7ff;
+        sceneX += speedX * (double) cycle;
+        sceneY += speedY * (double) cycle;
+        sceneZ += speedZ * (double) cycle + 0.5D * aDouble1578 * (double) cycle * (double) cycle;
+        speedZ += aDouble1578 * (double) cycle;
+        rotation = (int) (Math.atan2(speedX, speedY) * (32595 / 100)) + 1024 & 0x7ff;
+        pitch = (int) (Math.atan2(speedZ, speed) * (32595 / 100)) & 0x7ff;
 
         if (config.seq != null) {
-            for (seq_cycle += cycle; seq_cycle > config.seq.getFrameLength(seq_frame); ) {
-                seq_cycle -= config.seq.getFrameLength(seq_frame) + 1;
-                seq_frame++;
-                if (seq_frame >= config.seq.frameCount) {
-                    seq_frame = 0;
+            for (seqCycle += cycle; seqCycle > config.seq.getFrameLength(seqFrame); ) {
+                seqCycle -= config.seq.getFrameLength(seqFrame) + 1;
+                seqFrame++;
+                if (seqFrame >= config.seq.frameCount) {
+                    seqFrame = 0;
                 }
             }
         }
@@ -101,23 +101,23 @@ public class Projectile extends Renderable {
 
     public void update(int cycle, int x, int y, int z) {
         if (!mobile) {
-            double dx = x - start_x;
-            double dy = y - start_y;
+            double dx = x - startX;
+            double dy = y - startY;
             double distance = Math.sqrt(dx * dx + dy * dy);
-            scene_x = (double) start_x + (dx * (double) parent_size) / distance;
-            scene_y = (double) start_y + (dy * (double) parent_size) / distance;
-            scene_z = start_z;
+            sceneX = (double) startX + (dx * (double) parentSize) / distance;
+            sceneY = (double) startY + (dy * (double) parentSize) / distance;
+            sceneZ = startZ;
         }
 
-        double dt = (this.cycle_end + 1) - cycle;
-        speed_x = ((double) x - scene_x) / dt;
-        speed_y = ((double) y - scene_y) / dt;
-        speed = Math.sqrt(speed_x * speed_x + speed_y * speed_y);
+        double dt = (this.cycleEnd + 1) - cycle;
+        speedX = ((double) x - sceneX) / dt;
+        speedY = ((double) y - sceneY) / dt;
+        speed = Math.sqrt(speedX * speedX + speedY * speedY);
 
         if (!mobile) {
-            speed_z = -speed * Math.tan((double) arc_size * (Math.PI / 128D));
+            speedZ = -speed * Math.tan((double) arcSize * (Math.PI / 128D));
         }
 
-        aDouble1578 = (2D * ((double) z - scene_z - speed_z * dt)) / (dt * dt);
+        aDouble1578 = (2D * ((double) z - sceneZ - speedZ * dt)) / (dt * dt);
     }
 }

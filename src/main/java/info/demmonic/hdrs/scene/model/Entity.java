@@ -91,11 +91,11 @@ public class Entity extends Renderable {
         this.turnLAnimation = -1;
     }
 
-    public int get_local_x() {
+    public int getLocalX() {
         return this.sceneX >> 7;
     }
 
-    public int get_local_y() {
+    public int getLocalY() {
         return this.sceneY >> 7;
     }
 

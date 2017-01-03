@@ -1,7 +1,7 @@
 package info.demmonic.hdrs.input.model;
 
-import info.demmonic.hdrs.input.Keyboard;
 import info.demmonic.hdrs.util.BitUtils;
+import info.demmonic.hdrs.input.Keyboard;
 
 import java.lang.reflect.Field;
 

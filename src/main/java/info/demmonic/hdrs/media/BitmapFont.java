@@ -196,30 +196,30 @@ public class BitmapFont extends Canvas2D {
         int msk_step = 0;
         int msk_off = 0;
 
-        if (y < left_y) {
-            int i = left_y - y;
+        if (y < leftY) {
+            int i = leftY - y;
             height -= i;
-            y = left_y;
+            y = leftY;
             msk_off += i * width;
             dst_off += i * Canvas2D.width;
         }
 
-        if (y + height >= right_y) {
-            height -= ((y + height) - right_y) + 1;
+        if (y + height >= rightY) {
+            height -= ((y + height) - rightY) + 1;
         }
 
-        if (x < left_x) {
-            int i = left_x - x;
+        if (x < leftX) {
+            int i = leftX - x;
             width -= i;
-            x = left_x;
+            x = leftX;
             msk_off += i;
             dst_off += i;
             msk_step += i;
             dst_step += i;
         }
 
-        if (x + width >= right_x) {
-            int i = ((x + width) - right_x) + 1;
+        if (x + width >= rightX) {
+            int i = ((x + width) - rightX) + 1;
             width -= i;
             msk_step += i;
             dst_step += i;
@@ -237,27 +237,27 @@ public class BitmapFont extends Canvas2D {
         int destStep = Canvas2D.width - width;
         int maskStep = 0;
         int maskOff = 0;
-        if (y < left_y) {
-            int yStep = left_y - y;
+        if (y < leftY) {
+            int yStep = leftY - y;
             height -= yStep;
-            y = left_y;
+            y = leftY;
             maskOff += yStep * width;
             destOff += yStep * Canvas2D.width;
         }
-        if (y + height >= right_y) {
-            height -= ((y + height) - right_y) + 1;
+        if (y + height >= rightY) {
+            height -= ((y + height) - rightY) + 1;
         }
-        if (x < left_x) {
-            int xStep = left_x - x;
+        if (x < leftX) {
+            int xStep = leftX - x;
             width -= xStep;
-            x = left_x;
+            x = leftX;
             maskOff += xStep;
             destOff += xStep;
             maskStep += xStep;
             destStep += xStep;
         }
-        if (x + width >= right_x) {
-            int step = ((x + width) - right_x) + 1;
+        if (x + width >= rightX) {
+            int step = ((x + width) - rightX) + 1;
             width -= step;
             maskStep += step;
             destStep += step;

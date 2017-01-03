@@ -144,30 +144,30 @@ public class Sprite extends Canvas2D {
         int dstStep = Canvas2D.width - width;
         int srcStep = 0;
 
-        if (y < left_y) {
-            int i = left_y - y;
+        if (y < leftY) {
+            int i = leftY - y;
             height -= i;
-            y = left_y;
+            y = leftY;
             src_off += i * width;
             dst_off += i * Canvas2D.width;
         }
 
-        if (y + height > right_y) {
-            height -= (y + height) - right_y;
+        if (y + height > rightY) {
+            height -= (y + height) - rightY;
         }
 
-        if (x < left_x) {
-            int i = left_x - x;
+        if (x < leftX) {
+            int i = leftX - x;
             width -= i;
-            x = left_x;
+            x = leftX;
             src_off += i;
             dst_off += i;
             srcStep += i;
             dstStep += i;
         }
 
-        if (x + width > right_x) {
-            int i = (x + width) - right_x;
+        if (x + width > rightX) {
+            int i = (x + width) - rightX;
             width -= i;
             srcStep += i;
             dstStep += i;
@@ -199,30 +199,30 @@ public class Sprite extends Canvas2D {
         int srcOff = 0;
         int src_step = 0;
 
-        if (y < left_y) {
-            int yOffset = left_y - y;
+        if (y < leftY) {
+            int yOffset = leftY - y;
             height -= yOffset;
-            y = left_y;
+            y = leftY;
             srcOff += yOffset * width;
             dstOff += yOffset * Canvas2D.width;
         }
 
-        if (y + height > right_y) {
-            height -= (y + height) - right_y;
+        if (y + height > rightY) {
+            height -= (y + height) - rightY;
         }
 
-        if (x < left_x) {
-            int xOffset = left_x - x;
+        if (x < leftX) {
+            int xOffset = leftX - x;
             width -= xOffset;
-            x = left_x;
+            x = leftX;
             srcOff += xOffset;
             dstOff += xOffset;
             src_step += xOffset;
             dstStep += xOffset;
         }
 
-        if (x + width > right_x) {
-            int widthOffset = (x + width) - right_x;
+        if (x + width > rightX) {
+            int widthOffset = (x + width) - rightX;
             width -= widthOffset;
             src_step += widthOffset;
             dstStep += widthOffset;
@@ -255,30 +255,30 @@ public class Sprite extends Canvas2D {
         int dstStep = Canvas2D.width - width;
         int srcStep = 0;
 
-        if (y < left_y) {
-            int i = left_y - y;
+        if (y < leftY) {
+            int i = leftY - y;
             height -= i;
-            y = left_y;
+            y = leftY;
             srcOff += i * width;
             dstOff += i * Canvas2D.width;
         }
 
-        if (y + height > right_y) {
-            height -= (y + height) - right_y;
+        if (y + height > rightY) {
+            height -= (y + height) - rightY;
         }
 
-        if (x < left_x) {
-            int i = left_x - x;
+        if (x < leftX) {
+            int i = leftX - x;
             width -= i;
-            x = left_x;
+            x = leftX;
             srcOff += i;
             dstOff += i;
             srcStep += i;
             dstStep += i;
         }
 
-        if (x + width > right_x) {
-            int i = (x + width) - right_x;
+        if (x + width > rightX) {
+            int i = (x + width) - rightX;
             width -= i;
             srcStep += i;
             dstStep += i;
@@ -388,30 +388,30 @@ public class Sprite extends Canvas2D {
         int dstStep = Canvas2D.width - width;
         int srcStep = 0;
 
-        if (y < left_y) {
-            int yOffset = left_y - y;
+        if (y < leftY) {
+            int yOffset = leftY - y;
             height -= yOffset;
-            y = left_y;
+            y = leftY;
             srcOff += yOffset * width;
             dstOff += yOffset * Canvas2D.width;
         }
 
-        if (y + height > right_y) {
-            height -= (y + height) - right_y;
+        if (y + height > rightY) {
+            height -= (y + height) - rightY;
         }
 
-        if (x < left_x) {
-            int xOffset = left_x - x;
+        if (x < leftX) {
+            int xOffset = leftX - x;
             width -= xOffset;
-            x = left_x;
+            x = leftX;
             srcOff += xOffset;
             dstOff += xOffset;
             srcStep += xOffset;
             dstStep += xOffset;
         }
 
-        if (x + width > right_x) {
-            int xOffset = (x + width) - right_x;
+        if (x + width > rightX) {
+            int xOffset = (x + width) - rightX;
             width -= xOffset;
             srcStep += xOffset;
             dstStep += xOffset;

@@ -2,10 +2,10 @@ package info.demmonic.hdrs.media.impl.widget;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.cache.impl.IdentityKit;
-import info.demmonic.hdrs.cache.impl.Sequence;
 import info.demmonic.hdrs.cache.impl.Widget;
-import info.demmonic.hdrs.media.Sprite;
 import info.demmonic.hdrs.scene.model.Model;
+import info.demmonic.hdrs.cache.impl.Sequence;
+import info.demmonic.hdrs.media.Sprite;
 
 public class CharacterDesign {
 
@@ -25,19 +25,19 @@ public class CharacterDesign {
     public static final int TORSO_COLORS[] = {
             9104, 10275, 7595, 3610, 7975, 8526, 918, 38802, 24466, 10145, 58654, 5027, 1457, 16565, 34991, 25486
     };
-    public static Sprite button_disabled;
-    public static Sprite button_enabled;
+    public static Sprite buttonDisabled;
+    public static Sprite buttonEnabled;
     public static boolean male = true;
     public static boolean update;
-    public static int[] selected_colors = new int[5];
-    public static int[] selected_identity_kits = new int[7];
+    public static int[] selectedColors = new int[5];
+    public static int[] selectedIdentityKits = new int[7];
     /* @formatter:on */
 
     public static boolean handle(Widget widget, int type) {
         if (type >= 314 && type <= 323) {
             int part = (type - 314) / 2;
             int option = type & 1;
-            int current = selected_colors[part];
+            int current = selectedColors[part];
 
             if (option == 0 && --current < 0) {
                 current = DESIGN_COLOR[part].length - 1;
@@ -47,7 +47,7 @@ public class CharacterDesign {
                 current = 0;
             }
 
-            selected_colors[part] = current;
+            selectedColors[part] = current;
             update = true;
             return true;
         }
@@ -69,11 +69,11 @@ public class CharacterDesign {
             Game.out.writeByte(male ? 0 : 1);
 
             for (int i = 0; i < 7; i++) {
-                Game.out.writeByte(selected_identity_kits[i]);
+                Game.out.writeByte(selectedIdentityKits[i]);
             }
 
             for (int i = 0; i < 5; i++) {
-                Game.out.writeByte(selected_colors[i]);
+                Game.out.writeByte(selectedColors[i]);
             }
             return true;
         }
@@ -81,7 +81,7 @@ public class CharacterDesign {
         if (type >= 300 && type <= 313) {
             int part = (type - 300) / 2;
             boolean next = (type & 1) == 1;
-            int identity_kit = selected_identity_kits[part];
+            int identity_kit = selectedIdentityKits[part];
 
             if (identity_kit != -1) {
                 do {
@@ -94,7 +94,7 @@ public class CharacterDesign {
                 }
                 while (IdentityKit.instance[identity_kit].unselectable || IdentityKit.instance[identity_kit].anInt657 != part + (male ? 0 : 7));
 
-                selected_identity_kits[part] = identity_kit;
+                selectedIdentityKits[part] = identity_kit;
                 update = true;
             }
 
@@ -107,12 +107,12 @@ public class CharacterDesign {
     public static void reset() {
         update = true;
         for (int part = 0; part < 7; part++) {
-            selected_identity_kits[part] = -1;
+            selectedIdentityKits[part] = -1;
             for (int identity_kit = 0; identity_kit < IdentityKit.count; identity_kit++) {
                 if (IdentityKit.instance[identity_kit].unselectable || IdentityKit.instance[identity_kit].anInt657 != part + (male ? 0 : 7)) {
                     continue;
                 }
-                selected_identity_kits[part] = identity_kit;
+                selectedIdentityKits[part] = identity_kit;
                 break;
             }
         }
@@ -126,7 +126,7 @@ public class CharacterDesign {
 
             if (update) {
                 for (int i = 0; i < 7; i++) {
-                    int index = selected_identity_kits[i];
+                    int index = selectedIdentityKits[i];
                     if (index >= 0 && !IdentityKit.instance[index].isModelValid()) {
                         return true;
                     }
@@ -136,7 +136,7 @@ public class CharacterDesign {
                 Model meshes[] = new Model[7];
                 int count = 0;
                 for (int i = 0; i < 7; i++) {
-                    int identity_kit = selected_identity_kits[i];
+                    int identity_kit = selectedIdentityKits[i];
                     if (identity_kit >= 0) {
                         meshes[count++] = IdentityKit.instance[identity_kit].getMesh();
                     }
@@ -144,10 +144,10 @@ public class CharacterDesign {
 
                 Model mesh = new Model(count, meshes);
                 for (int i = 0; i < 5; i++) {
-                    if (selected_colors[i] != 0) {
-                        mesh.setColor(DESIGN_COLOR[i][0], DESIGN_COLOR[i][selected_colors[i]]);
+                    if (selectedColors[i] != 0) {
+                        mesh.setColor(DESIGN_COLOR[i][0], DESIGN_COLOR[i][selectedColors[i]]);
                         if (i == 1) {
-                            mesh.setColor(TORSO_COLORS[0], TORSO_COLORS[selected_colors[i]]);
+                            mesh.setColor(TORSO_COLORS[0], TORSO_COLORS[selectedColors[i]]);
                         }
                     }
                 }
@@ -163,27 +163,27 @@ public class CharacterDesign {
         }
 
         if (type == 324) {
-            if (button_disabled == null) {
-                button_disabled = widget.image_disabled;
-                button_enabled = widget.image_enabled;
+            if (buttonDisabled == null) {
+                buttonDisabled = widget.image_disabled;
+                buttonEnabled = widget.image_enabled;
             }
             if (male) {
-                widget.image_disabled = button_enabled;
+                widget.image_disabled = buttonEnabled;
             } else {
-                widget.image_disabled = button_disabled;
+                widget.image_disabled = buttonDisabled;
             }
             return true;
         }
 
         if (type == 325) {
-            if (button_disabled == null) {
-                button_disabled = widget.image_disabled;
-                button_enabled = widget.image_enabled;
+            if (buttonDisabled == null) {
+                buttonDisabled = widget.image_disabled;
+                buttonEnabled = widget.image_enabled;
             }
             if (male) {
-                widget.image_disabled = button_disabled;
+                widget.image_disabled = buttonDisabled;
             } else {
-                widget.image_disabled = button_enabled;
+                widget.image_disabled = buttonEnabled;
             }
             return true;
         }

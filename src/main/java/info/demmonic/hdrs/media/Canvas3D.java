@@ -1,7 +1,7 @@
 package info.demmonic.hdrs.media;
 
-import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.cache.Archive;
+import info.demmonic.hdrs.Game;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -173,7 +173,7 @@ public class Canvas3D extends Canvas2D {
 
     }
 
-    public static void draw_flat_triangle(int a_x, int a_y, int b_x, int b_y, int c_x, int c_y, int rgb) {
+    public static void drawFlatTriangle(int a_x, int a_y, int b_x, int b_y, int c_x, int c_y, int rgb) {
         // slopes
         int a_to_b = 0, b_to_c = 0, c_to_a = 0;
 
@@ -195,16 +195,16 @@ public class Canvas3D extends Canvas2D {
         //  /   |
         //A ----- C
         if (a_y <= b_y && a_y <= c_y) {
-            if (a_y >= right_y) {
+            if (a_y >= rightY) {
                 return;
             }
 
-            if (b_y > right_y) {
-                b_y = right_y;
+            if (b_y > rightY) {
+                b_y = rightY;
             }
 
-            if (c_y > right_y) {
-                c_y = right_y;
+            if (c_y > rightY) {
+                c_y = rightY;
             }
 
             if (b_y < c_y) {
@@ -228,13 +228,13 @@ public class Canvas3D extends Canvas2D {
                     b_y -= a_y;
 
                     for (a_y = pixels[a_y]; --b_y >= 0; a_y += width) {
-                        draw_scanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, a_x >> 16);
+                        drawScanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, a_x >> 16);
                         c_x += c_to_a;
                         a_x += a_to_b;
                     }
 
                     while (--c_y >= 0) {
-                        draw_scanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, b_x >> 16);
+                        drawScanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, b_x >> 16);
 
                         c_x += c_to_a;
                         b_x += b_to_c;
@@ -247,13 +247,13 @@ public class Canvas3D extends Canvas2D {
                 b_y -= a_y;
 
                 for (a_y = pixels[a_y]; --b_y >= 0; a_y += width) {
-                    draw_scanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, c_x >> 16);
+                    drawScanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, c_x >> 16);
                     c_x += c_to_a;
                     a_x += a_to_b;
                 }
 
                 while (--c_y >= 0) {
-                    draw_scanline(Canvas2D.pixels, a_y, rgb, b_x >> 16, c_x >> 16);
+                    drawScanline(Canvas2D.pixels, a_y, rgb, b_x >> 16, c_x >> 16);
                     c_x += c_to_a;
                     b_x += b_to_c;
                     a_y += width;
@@ -281,14 +281,14 @@ public class Canvas3D extends Canvas2D {
                 c_y -= a_y;
 
                 for (a_y = pixels[a_y]; --c_y >= 0; a_y += width) {
-                    draw_scanline(Canvas2D.pixels, a_y, rgb, b_x >> 16, a_x >> 16);
+                    drawScanline(Canvas2D.pixels, a_y, rgb, b_x >> 16, a_x >> 16);
 
                     b_x += c_to_a;
                     a_x += a_to_b;
                 }
 
                 while (--b_y >= 0) {
-                    draw_scanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, a_x >> 16);
+                    drawScanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, a_x >> 16);
 
                     c_x += b_to_c;
                     a_x += a_to_b;
@@ -301,13 +301,13 @@ public class Canvas3D extends Canvas2D {
             c_y -= a_y;
 
             for (a_y = pixels[a_y]; --c_y >= 0; a_y += width) {
-                draw_scanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, b_x >> 16);
+                drawScanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, b_x >> 16);
                 b_x += c_to_a;
                 a_x += a_to_b;
             }
 
             while (--b_y >= 0) {
-                draw_scanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, c_x >> 16);
+                drawScanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, c_x >> 16);
                 c_x += b_to_c;
                 a_x += a_to_b;
                 a_y += width;
@@ -321,16 +321,16 @@ public class Canvas3D extends Canvas2D {
         //  |   \
         //C ----- B
         if (b_y <= c_y) {
-            if (b_y >= right_y) {
+            if (b_y >= rightY) {
                 return;
             }
 
-            if (c_y > right_y) {
-                c_y = right_y;
+            if (c_y > rightY) {
+                c_y = rightY;
             }
 
-            if (a_y > right_y) {
-                a_y = right_y;
+            if (a_y > rightY) {
+                a_y = rightY;
             }
 
             if (c_y < a_y) {
@@ -354,13 +354,13 @@ public class Canvas3D extends Canvas2D {
                     c_y -= b_y;
 
                     for (b_y = pixels[b_y]; --c_y >= 0; b_y += width) {
-                        draw_scanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, b_x >> 16);
+                        drawScanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, b_x >> 16);
                         a_x += a_to_b;
                         b_x += b_to_c;
                     }
 
                     while (--a_y >= 0) {
-                        draw_scanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, c_x >> 16);
+                        drawScanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, c_x >> 16);
                         a_x += a_to_b;
                         c_x += c_to_a;
                         b_y += width;
@@ -372,13 +372,13 @@ public class Canvas3D extends Canvas2D {
                 c_y -= b_y;
 
                 for (b_y = pixels[b_y]; --c_y >= 0; b_y += width) {
-                    draw_scanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, a_x >> 16);
+                    drawScanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, a_x >> 16);
                     a_x += a_to_b;
                     b_x += b_to_c;
                 }
 
                 while (--a_y >= 0) {
-                    draw_scanline(Canvas2D.pixels, b_y, rgb, c_x >> 16, a_x >> 16);
+                    drawScanline(Canvas2D.pixels, b_y, rgb, c_x >> 16, a_x >> 16);
                     a_x += a_to_b;
                     c_x += c_to_a;
                     b_y += width;
@@ -405,13 +405,13 @@ public class Canvas3D extends Canvas2D {
                 c_y -= a_y;
                 a_y -= b_y;
                 for (b_y = pixels[b_y]; --a_y >= 0; b_y += width) {
-                    draw_scanline(Canvas2D.pixels, b_y, rgb, c_x >> 16, b_x >> 16);
+                    drawScanline(Canvas2D.pixels, b_y, rgb, c_x >> 16, b_x >> 16);
                     c_x += a_to_b;
                     b_x += b_to_c;
                 }
 
                 while (--c_y >= 0) {
-                    draw_scanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, b_x >> 16);
+                    drawScanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, b_x >> 16);
                     a_x += c_to_a;
                     b_x += b_to_c;
                     b_y += width;
@@ -423,13 +423,13 @@ public class Canvas3D extends Canvas2D {
             a_y -= b_y;
 
             for (b_y = pixels[b_y]; --a_y >= 0; b_y += width) {
-                draw_scanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, c_x >> 16);
+                drawScanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, c_x >> 16);
                 c_x += a_to_b;
                 b_x += b_to_c;
             }
 
             while (--c_y >= 0) {
-                draw_scanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, a_x >> 16);
+                drawScanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, a_x >> 16);
                 a_x += c_to_a;
                 b_x += b_to_c;
                 b_y += width;
@@ -437,16 +437,16 @@ public class Canvas3D extends Canvas2D {
             return;
         }
 
-        if (c_y >= right_y) {
+        if (c_y >= rightY) {
             return;
         }
 
-        if (a_y > right_y) {
-            a_y = right_y;
+        if (a_y > rightY) {
+            a_y = rightY;
         }
 
-        if (b_y > right_y) {
-            b_y = right_y;
+        if (b_y > rightY) {
+            b_y = rightY;
         }
 
         if (a_y < b_y) {
@@ -470,13 +470,13 @@ public class Canvas3D extends Canvas2D {
                 a_y -= c_y;
 
                 for (c_y = pixels[c_y]; --a_y >= 0; c_y += width) {
-                    draw_scanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, c_x >> 16);
+                    drawScanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, c_x >> 16);
                     b_x += b_to_c;
                     c_x += c_to_a;
                 }
 
                 while (--b_y >= 0) {
-                    draw_scanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, a_x >> 16);
+                    drawScanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, a_x >> 16);
                     b_x += b_to_c;
                     a_x += a_to_b;
                     c_y += width;
@@ -488,13 +488,13 @@ public class Canvas3D extends Canvas2D {
             a_y -= c_y;
 
             for (c_y = pixels[c_y]; --a_y >= 0; c_y += width) {
-                draw_scanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, b_x >> 16);
+                drawScanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, b_x >> 16);
                 b_x += b_to_c;
                 c_x += c_to_a;
             }
 
             while (--b_y >= 0) {
-                draw_scanline(Canvas2D.pixels, c_y, rgb, a_x >> 16, b_x >> 16);
+                drawScanline(Canvas2D.pixels, c_y, rgb, a_x >> 16, b_x >> 16);
                 b_x += b_to_c;
                 a_x += a_to_b;
                 c_y += width;
@@ -522,13 +522,13 @@ public class Canvas3D extends Canvas2D {
             b_y -= c_y;
 
             for (c_y = pixels[c_y]; --b_y >= 0; c_y += width) {
-                draw_scanline(Canvas2D.pixels, c_y, rgb, a_x >> 16, c_x >> 16);
+                drawScanline(Canvas2D.pixels, c_y, rgb, a_x >> 16, c_x >> 16);
                 a_x += b_to_c;
                 c_x += c_to_a;
             }
 
             while (--a_y >= 0) {
-                draw_scanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, c_x >> 16);
+                drawScanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, c_x >> 16);
                 b_x += a_to_b;
                 c_x += c_to_a;
                 c_y += width;
@@ -540,13 +540,13 @@ public class Canvas3D extends Canvas2D {
         b_y -= c_y;
 
         for (c_y = pixels[c_y]; --b_y >= 0; c_y += width) {
-            draw_scanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, a_x >> 16);
+            drawScanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, a_x >> 16);
             a_x += b_to_c;
             c_x += c_to_a;
         }
 
         while (--a_y >= 0) {
-            draw_scanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, b_x >> 16);
+            drawScanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, b_x >> 16);
 
             b_x += a_to_b;
             c_x += c_to_a;
@@ -554,7 +554,7 @@ public class Canvas3D extends Canvas2D {
         }
     }
 
-    public static void draw_gradient_scanline(int dest[], int dest_off, int color, int position, int length, int x2, int hsl, int x4) {
+    public static void drawGradientScanline(int dest[], int dest_off, int color, int position, int length, int x2, int hsl, int x4) {
         if (texturize) {
             int cs1;
 
@@ -684,7 +684,7 @@ public class Canvas3D extends Canvas2D {
         } while (--position > 0);
     }
 
-    public static void draw_scanline(int dst[], int off, int rgb, int x1, int x2) {
+    public static void drawScanline(int dst[], int off, int rgb, int x1, int x2) {
         if (checkBounds) {
             if (x2 > bound) {
                 x2 = bound;
@@ -738,16 +738,16 @@ public class Canvas3D extends Canvas2D {
         }
 
         if (y1 <= y2 && y1 <= y3) {
-            if (y1 >= right_y) {
+            if (y1 >= rightY) {
                 return;
             }
 
-            if (y2 > right_y) {
-                y2 = right_y;
+            if (y2 > rightY) {
+                y2 = rightY;
             }
 
-            if (y3 > right_y) {
-                y3 = right_y;
+            if (y3 > rightY) {
+                y3 = rightY;
             }
 
             if (y2 < y3) {
@@ -776,7 +776,7 @@ public class Canvas3D extends Canvas2D {
                     y2 -= y1;
 
                     for (y1 = pixels[y1]; --y2 >= 0; y1 += width) {
-                        draw_gradient_scanline(Canvas2D.pixels, y1, 0, 0, x3 >> 16, x1 >> 16, hsl3 >> 7, hsl1 >> 7);
+                        drawGradientScanline(Canvas2D.pixels, y1, 0, 0, x3 >> 16, x1 >> 16, hsl3 >> 7, hsl1 >> 7);
                         x3 += s3;
                         x1 += s1;
                         hsl3 += cs3;
@@ -784,7 +784,7 @@ public class Canvas3D extends Canvas2D {
                     }
 
                     while (--y3 >= 0) {
-                        draw_gradient_scanline(Canvas2D.pixels, y1, 0, 0, x3 >> 16, x2 >> 16, hsl3 >> 7, hsl2 >> 7);
+                        drawGradientScanline(Canvas2D.pixels, y1, 0, 0, x3 >> 16, x2 >> 16, hsl3 >> 7, hsl2 >> 7);
                         x3 += s3;
                         x2 += s2;
                         hsl3 += cs3;
@@ -798,7 +798,7 @@ public class Canvas3D extends Canvas2D {
                 y2 -= y1;
 
                 for (y1 = pixels[y1]; --y2 >= 0; y1 += width) {
-                    draw_gradient_scanline(Canvas2D.pixels, y1, 0, 0, x1 >> 16, x3 >> 16, hsl1 >> 7, hsl3 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y1, 0, 0, x1 >> 16, x3 >> 16, hsl1 >> 7, hsl3 >> 7);
                     x3 += s3;
                     x1 += s1;
                     hsl3 += cs3;
@@ -806,7 +806,7 @@ public class Canvas3D extends Canvas2D {
                 }
 
                 while (--y3 >= 0) {
-                    draw_gradient_scanline(Canvas2D.pixels, y1, 0, 0, x2 >> 16, x3 >> 16, hsl2 >> 7, hsl3 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y1, 0, 0, x2 >> 16, x3 >> 16, hsl2 >> 7, hsl3 >> 7);
                     x3 += s3;
                     x2 += s2;
                     hsl3 += cs3;
@@ -841,7 +841,7 @@ public class Canvas3D extends Canvas2D {
                 y3 -= y1;
 
                 for (y1 = pixels[y1]; --y3 >= 0; y1 += width) {
-                    draw_gradient_scanline(Canvas2D.pixels, y1, 0, 0, x2 >> 16, x1 >> 16, hsl2 >> 7, hsl1 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y1, 0, 0, x2 >> 16, x1 >> 16, hsl2 >> 7, hsl1 >> 7);
                     x2 += s3;
                     x1 += s1;
                     hsl2 += cs3;
@@ -849,7 +849,7 @@ public class Canvas3D extends Canvas2D {
                 }
 
                 while (--y2 >= 0) {
-                    draw_gradient_scanline(Canvas2D.pixels, y1, 0, 0, x3 >> 16, x1 >> 16, hsl3 >> 7, hsl1 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y1, 0, 0, x3 >> 16, x1 >> 16, hsl3 >> 7, hsl1 >> 7);
                     x3 += s2;
                     x1 += s1;
                     hsl3 += cs2;
@@ -863,7 +863,7 @@ public class Canvas3D extends Canvas2D {
             y3 -= y1;
 
             for (y1 = pixels[y1]; --y3 >= 0; y1 += width) {
-                draw_gradient_scanline(Canvas2D.pixels, y1, 0, 0, x1 >> 16, x2 >> 16, hsl1 >> 7, hsl2 >> 7);
+                drawGradientScanline(Canvas2D.pixels, y1, 0, 0, x1 >> 16, x2 >> 16, hsl1 >> 7, hsl2 >> 7);
                 x2 += s3;
                 x1 += s1;
                 hsl2 += cs3;
@@ -871,7 +871,7 @@ public class Canvas3D extends Canvas2D {
             }
 
             while (--y2 >= 0) {
-                draw_gradient_scanline(Canvas2D.pixels, y1, 0, 0, x1 >> 16, x3 >> 16, hsl1 >> 7, hsl3 >> 7);
+                drawGradientScanline(Canvas2D.pixels, y1, 0, 0, x1 >> 16, x3 >> 16, hsl1 >> 7, hsl3 >> 7);
                 x3 += s2;
                 x1 += s1;
                 hsl3 += cs2;
@@ -882,16 +882,16 @@ public class Canvas3D extends Canvas2D {
         }
 
         if (y2 <= y3) {
-            if (y2 >= right_y) {
+            if (y2 >= rightY) {
                 return;
             }
 
-            if (y3 > right_y) {
-                y3 = right_y;
+            if (y3 > rightY) {
+                y3 = rightY;
             }
 
-            if (y1 > right_y) {
-                y1 = right_y;
+            if (y1 > rightY) {
+                y1 = rightY;
             }
 
             if (y3 < y1) {
@@ -920,7 +920,7 @@ public class Canvas3D extends Canvas2D {
                     y3 -= y2;
 
                     for (y2 = pixels[y2]; --y3 >= 0; y2 += width) {
-                        draw_gradient_scanline(Canvas2D.pixels, y2, 0, 0, x1 >> 16, x2 >> 16, hsl1 >> 7, hsl2 >> 7);
+                        drawGradientScanline(Canvas2D.pixels, y2, 0, 0, x1 >> 16, x2 >> 16, hsl1 >> 7, hsl2 >> 7);
                         x1 += s1;
                         x2 += s2;
                         hsl1 += cs1;
@@ -928,7 +928,7 @@ public class Canvas3D extends Canvas2D {
                     }
 
                     while (--y1 >= 0) {
-                        draw_gradient_scanline(Canvas2D.pixels, y2, 0, 0, x1 >> 16, x3 >> 16, hsl1 >> 7, hsl3 >> 7);
+                        drawGradientScanline(Canvas2D.pixels, y2, 0, 0, x1 >> 16, x3 >> 16, hsl1 >> 7, hsl3 >> 7);
                         x1 += s1;
                         x3 += s3;
                         hsl1 += cs1;
@@ -943,7 +943,7 @@ public class Canvas3D extends Canvas2D {
                 y3 -= y2;
 
                 for (y2 = pixels[y2]; --y3 >= 0; y2 += width) {
-                    draw_gradient_scanline(Canvas2D.pixels, y2, 0, 0, x2 >> 16, x1 >> 16, hsl2 >> 7, hsl1 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y2, 0, 0, x2 >> 16, x1 >> 16, hsl2 >> 7, hsl1 >> 7);
                     x1 += s1;
                     x2 += s2;
                     hsl1 += cs1;
@@ -951,7 +951,7 @@ public class Canvas3D extends Canvas2D {
                 }
 
                 while (--y1 >= 0) {
-                    draw_gradient_scanline(Canvas2D.pixels, y2, 0, 0, x3 >> 16, x1 >> 16, hsl3 >> 7, hsl1 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y2, 0, 0, x3 >> 16, x1 >> 16, hsl3 >> 7, hsl1 >> 7);
                     x1 += s1;
                     x3 += s3;
                     hsl1 += cs1;
@@ -986,7 +986,7 @@ public class Canvas3D extends Canvas2D {
                 y1 -= y2;
 
                 for (y2 = pixels[y2]; --y1 >= 0; y2 += width) {
-                    draw_gradient_scanline(Canvas2D.pixels, y2, 0, 0, x3 >> 16, x2 >> 16, hsl3 >> 7, hsl2 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y2, 0, 0, x3 >> 16, x2 >> 16, hsl3 >> 7, hsl2 >> 7);
                     x3 += s1;
                     x2 += s2;
                     hsl3 += cs1;
@@ -994,7 +994,7 @@ public class Canvas3D extends Canvas2D {
                 }
 
                 while (--y3 >= 0) {
-                    draw_gradient_scanline(Canvas2D.pixels, y2, 0, 0, x1 >> 16, x2 >> 16, hsl1 >> 7, hsl2 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y2, 0, 0, x1 >> 16, x2 >> 16, hsl1 >> 7, hsl2 >> 7);
                     x1 += s3;
                     x2 += s2;
                     hsl1 += cs3;
@@ -1008,7 +1008,7 @@ public class Canvas3D extends Canvas2D {
             y1 -= y2;
 
             for (y2 = pixels[y2]; --y1 >= 0; y2 += width) {
-                draw_gradient_scanline(Canvas2D.pixels, y2, 0, 0, x2 >> 16, x3 >> 16, hsl2 >> 7, hsl3 >> 7);
+                drawGradientScanline(Canvas2D.pixels, y2, 0, 0, x2 >> 16, x3 >> 16, hsl2 >> 7, hsl3 >> 7);
                 x3 += s1;
                 x2 += s2;
                 hsl3 += cs1;
@@ -1016,7 +1016,7 @@ public class Canvas3D extends Canvas2D {
             }
 
             while (--y3 >= 0) {
-                draw_gradient_scanline(Canvas2D.pixels, y2, 0, 0, x2 >> 16, x1 >> 16, hsl2 >> 7, hsl1 >> 7);
+                drawGradientScanline(Canvas2D.pixels, y2, 0, 0, x2 >> 16, x1 >> 16, hsl2 >> 7, hsl1 >> 7);
                 x1 += s3;
                 x2 += s2;
                 hsl1 += cs3;
@@ -1026,16 +1026,16 @@ public class Canvas3D extends Canvas2D {
             return;
         }
 
-        if (y3 >= right_y) {
+        if (y3 >= rightY) {
             return;
         }
 
-        if (y1 > right_y) {
-            y1 = right_y;
+        if (y1 > rightY) {
+            y1 = rightY;
         }
 
-        if (y2 > right_y) {
-            y2 = right_y;
+        if (y2 > rightY) {
+            y2 = rightY;
         }
 
         if (y1 < y2) {
@@ -1064,7 +1064,7 @@ public class Canvas3D extends Canvas2D {
                 y1 -= y3;
 
                 for (y3 = pixels[y3]; --y1 >= 0; y3 += width) {
-                    draw_gradient_scanline(Canvas2D.pixels, y3, 0, 0, x2 >> 16, x3 >> 16, hsl2 >> 7, hsl3 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y3, 0, 0, x2 >> 16, x3 >> 16, hsl2 >> 7, hsl3 >> 7);
                     x2 += s2;
                     x3 += s3;
                     hsl2 += cs2;
@@ -1072,7 +1072,7 @@ public class Canvas3D extends Canvas2D {
                 }
 
                 while (--y2 >= 0) {
-                    draw_gradient_scanline(Canvas2D.pixels, y3, 0, 0, x2 >> 16, x1 >> 16, hsl2 >> 7, hsl1 >> 7);
+                    drawGradientScanline(Canvas2D.pixels, y3, 0, 0, x2 >> 16, x1 >> 16, hsl2 >> 7, hsl1 >> 7);
                     x2 += s2;
                     x1 += s1;
                     hsl2 += cs2;
@@ -1086,7 +1086,7 @@ public class Canvas3D extends Canvas2D {
             y1 -= y3;
 
             for (y3 = pixels[y3]; --y1 >= 0; y3 += width) {
-                draw_gradient_scanline(Canvas2D.pixels, y3, 0, 0, x3 >> 16, x2 >> 16, hsl3 >> 7, hsl2 >> 7);
+                drawGradientScanline(Canvas2D.pixels, y3, 0, 0, x3 >> 16, x2 >> 16, hsl3 >> 7, hsl2 >> 7);
                 x2 += s2;
                 x3 += s3;
                 hsl2 += cs2;
@@ -1094,7 +1094,7 @@ public class Canvas3D extends Canvas2D {
             }
 
             while (--y2 >= 0) {
-                draw_gradient_scanline(Canvas2D.pixels, y3, 0, 0, x1 >> 16, x2 >> 16, hsl1 >> 7, hsl2 >> 7);
+                drawGradientScanline(Canvas2D.pixels, y3, 0, 0, x1 >> 16, x2 >> 16, hsl1 >> 7, hsl2 >> 7);
                 x2 += s2;
                 x1 += s1;
                 hsl2 += cs2;
@@ -1129,7 +1129,7 @@ public class Canvas3D extends Canvas2D {
             y2 -= y3;
 
             for (y3 = pixels[y3]; --y2 >= 0; y3 += width) {
-                draw_gradient_scanline(Canvas2D.pixels, y3, 0, 0, x1 >> 16, x3 >> 16, hsl1 >> 7, hsl3 >> 7);
+                drawGradientScanline(Canvas2D.pixels, y3, 0, 0, x1 >> 16, x3 >> 16, hsl1 >> 7, hsl3 >> 7);
                 x1 += s2;
                 x3 += s3;
                 hsl1 += cs2;
@@ -1137,7 +1137,7 @@ public class Canvas3D extends Canvas2D {
             }
 
             while (--y1 >= 0) {
-                draw_gradient_scanline(Canvas2D.pixels, y3, 0, 0, x2 >> 16, x3 >> 16, hsl2 >> 7, hsl3 >> 7);
+                drawGradientScanline(Canvas2D.pixels, y3, 0, 0, x2 >> 16, x3 >> 16, hsl2 >> 7, hsl3 >> 7);
                 x2 += s1;
                 x3 += s3;
                 hsl2 += cs1;
@@ -1151,7 +1151,7 @@ public class Canvas3D extends Canvas2D {
         y2 -= y3;
 
         for (y3 = pixels[y3]; --y2 >= 0; y3 += width) {
-            draw_gradient_scanline(Canvas2D.pixels, y3, 0, 0, x3 >> 16, x1 >> 16, hsl3 >> 7, hsl1 >> 7);
+            drawGradientScanline(Canvas2D.pixels, y3, 0, 0, x3 >> 16, x1 >> 16, hsl3 >> 7, hsl1 >> 7);
             x1 += s2;
             x3 += s3;
             hsl1 += cs2;
@@ -1159,7 +1159,7 @@ public class Canvas3D extends Canvas2D {
         }
 
         while (--y1 >= 0) {
-            draw_gradient_scanline(Canvas2D.pixels, y3, 0, 0, x3 >> 16, x2 >> 16, hsl3 >> 7, hsl2 >> 7);
+            drawGradientScanline(Canvas2D.pixels, y3, 0, 0, x3 >> 16, x2 >> 16, hsl3 >> 7, hsl2 >> 7);
             x2 += s1;
             x3 += s3;
             hsl2 += cs1;
@@ -1168,7 +1168,7 @@ public class Canvas3D extends Canvas2D {
         }
     }
 
-    public static void draw_texture_scanline(int ai[], int ai1[], int i, int j, int k, int l, int i1, int j1, int k1, int l1, int i2, int j2, int k2, int l2, int i3) {
+    public static void drawTextureScanline(int ai[], int ai1[], int i, int j, int k, int l, int i1, int j1, int k1, int l1, int i2, int j2, int k2, int l2, int i3) {
         if (l >= i1) {
             return;
         }
@@ -1203,7 +1203,7 @@ public class Canvas3D extends Canvas2D {
         if (Game.lowDetail) {
             int i4 = 0;
             int k4 = 0;
-            int k6 = l - centerX;
+            int k6 = l - Canvas3D.centerX;
             l1 += (k2 >> 3) * k6;
             i2 += (l2 >> 3) * k6;
             j2 += (i3 >> 3) * k6;
@@ -1371,7 +1371,7 @@ public class Canvas3D extends Canvas2D {
         }
         int j4 = 0;
         int l4 = 0;
-        int l6 = l - centerX;
+        int l6 = l - Canvas3D.centerX;
         l1 += (k2 >> 3) * l6;
         i2 += (l2 >> 3) * l6;
         j2 += (i3 >> 3) * l6;
@@ -1537,7 +1537,7 @@ public class Canvas3D extends Canvas2D {
     }
 
     public static void drawTexturedTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int hsl1, int hsl2, int hsl3, int sx1, int sy1, int sz1, int sx2, int sy2, int sz2, int sx3, int sy3, int sz3, int texture) {
-        int[] texels = get_texture_pixels(texture);
+        int[] texels = getTexturePixels(texture);
         opaque = !textureTranslucent[texture];
         sx2 = sx1 - sx2;
         sy2 = sy1 - sy2;
@@ -1573,14 +1573,14 @@ public class Canvas3D extends Canvas2D {
             j8 = (hsl1 - hsl3 << 16) / (y1 - y3);
         }
         if (y1 <= y2 && y1 <= y3) {
-            if (y1 >= right_y) {
+            if (y1 >= rightY) {
                 return;
             }
-            if (y2 > right_y) {
-                y2 = right_y;
+            if (y2 > rightY) {
+                y2 = rightY;
             }
-            if (y3 > right_y) {
-                y3 = right_y;
+            if (y3 > rightY) {
+                y3 = rightY;
             }
             if (y2 < y3) {
                 x3 = x1 <<= 16;
@@ -1599,7 +1599,7 @@ public class Canvas3D extends Canvas2D {
                     hsl2 -= l7 * y2;
                     y2 = 0;
                 }
-                int k8 = y1 - centerY;
+                int k8 = y1 - Canvas3D.centerY;
                 l4 += j5 * k8;
                 k5 += i6 * k8;
                 j6 += l6 * k8;
@@ -1608,7 +1608,7 @@ public class Canvas3D extends Canvas2D {
                     y2 -= y1;
                     y1 = pixels[y1];
                     while (--y2 >= 0) {
-                        draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y1, x3 >> 16, x1 >> 16, hsl3 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
+                        drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y1, x3 >> 16, x1 >> 16, hsl3 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
                         x3 += i8;
                         x1 += i7;
                         hsl3 += j8;
@@ -1619,7 +1619,7 @@ public class Canvas3D extends Canvas2D {
                         j6 += l6;
                     }
                     while (--y3 >= 0) {
-                        draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y1, x3 >> 16, x2 >> 16, hsl3 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
+                        drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y1, x3 >> 16, x2 >> 16, hsl3 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
                         x3 += i8;
                         x2 += k7;
                         hsl3 += j8;
@@ -1635,7 +1635,7 @@ public class Canvas3D extends Canvas2D {
                 y2 -= y1;
                 y1 = pixels[y1];
                 while (--y2 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y1, x1 >> 16, x3 >> 16, hsl1 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y1, x1 >> 16, x3 >> 16, hsl1 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
                     x3 += i8;
                     x1 += i7;
                     hsl3 += j8;
@@ -1646,7 +1646,7 @@ public class Canvas3D extends Canvas2D {
                     j6 += l6;
                 }
                 while (--y3 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y1, x2 >> 16, x3 >> 16, hsl2 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y1, x2 >> 16, x3 >> 16, hsl2 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
                     x3 += i8;
                     x2 += k7;
                     hsl3 += j8;
@@ -1674,7 +1674,7 @@ public class Canvas3D extends Canvas2D {
                 hsl3 -= l7 * y3;
                 y3 = 0;
             }
-            int l8 = y1 - centerY;
+            int l8 = y1 - Canvas3D.centerY;
             l4 += j5 * l8;
             k5 += i6 * l8;
             j6 += l6 * l8;
@@ -1683,7 +1683,7 @@ public class Canvas3D extends Canvas2D {
                 y3 -= y1;
                 y1 = pixels[y1];
                 while (--y3 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y1, x2 >> 16, x1 >> 16, hsl2 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y1, x2 >> 16, x1 >> 16, hsl2 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
                     x2 += i8;
                     x1 += i7;
                     hsl2 += j8;
@@ -1694,7 +1694,7 @@ public class Canvas3D extends Canvas2D {
                     j6 += l6;
                 }
                 while (--y2 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y1, x3 >> 16, x1 >> 16, hsl3 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y1, x3 >> 16, x1 >> 16, hsl3 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
                     x3 += k7;
                     x1 += i7;
                     hsl3 += l7;
@@ -1710,7 +1710,7 @@ public class Canvas3D extends Canvas2D {
             y3 -= y1;
             y1 = pixels[y1];
             while (--y3 >= 0) {
-                draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y1, x1 >> 16, x2 >> 16, hsl1 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
+                drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y1, x1 >> 16, x2 >> 16, hsl1 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
                 x2 += i8;
                 x1 += i7;
                 hsl2 += j8;
@@ -1721,7 +1721,7 @@ public class Canvas3D extends Canvas2D {
                 j6 += l6;
             }
             while (--y2 >= 0) {
-                draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y1, x1 >> 16, x3 >> 16, hsl1 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
+                drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y1, x1 >> 16, x3 >> 16, hsl1 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
                 x3 += k7;
                 x1 += i7;
                 hsl3 += l7;
@@ -1734,14 +1734,14 @@ public class Canvas3D extends Canvas2D {
             return;
         }
         if (y2 <= y3) {
-            if (y2 >= right_y) {
+            if (y2 >= rightY) {
                 return;
             }
-            if (y3 > right_y) {
-                y3 = right_y;
+            if (y3 > rightY) {
+                y3 = rightY;
             }
-            if (y1 > right_y) {
-                y1 = right_y;
+            if (y1 > rightY) {
+                y1 = rightY;
             }
             if (y3 < y1) {
                 x1 = x2 <<= 16;
@@ -1760,7 +1760,7 @@ public class Canvas3D extends Canvas2D {
                     hsl3 -= j8 * y3;
                     y3 = 0;
                 }
-                int i9 = y2 - centerY;
+                int i9 = y2 - Canvas3D.centerY;
                 l4 += j5 * i9;
                 k5 += i6 * i9;
                 j6 += l6 * i9;
@@ -1769,7 +1769,7 @@ public class Canvas3D extends Canvas2D {
                     y3 -= y2;
                     y2 = pixels[y2];
                     while (--y3 >= 0) {
-                        draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y2, x1 >> 16, x2 >> 16, hsl1 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
+                        drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y2, x1 >> 16, x2 >> 16, hsl1 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
                         x1 += i7;
                         x2 += k7;
                         hsl1 += j7;
@@ -1780,7 +1780,7 @@ public class Canvas3D extends Canvas2D {
                         j6 += l6;
                     }
                     while (--y1 >= 0) {
-                        draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y2, x1 >> 16, x3 >> 16, hsl1 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
+                        drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y2, x1 >> 16, x3 >> 16, hsl1 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
                         x1 += i7;
                         x3 += i8;
                         hsl1 += j7;
@@ -1796,7 +1796,7 @@ public class Canvas3D extends Canvas2D {
                 y3 -= y2;
                 y2 = pixels[y2];
                 while (--y3 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y2, x2 >> 16, x1 >> 16, hsl2 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y2, x2 >> 16, x1 >> 16, hsl2 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
                     x1 += i7;
                     x2 += k7;
                     hsl1 += j7;
@@ -1807,7 +1807,7 @@ public class Canvas3D extends Canvas2D {
                     j6 += l6;
                 }
                 while (--y1 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y2, x3 >> 16, x1 >> 16, hsl3 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y2, x3 >> 16, x1 >> 16, hsl3 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
                     x1 += i7;
                     x3 += i8;
                     hsl1 += j7;
@@ -1835,7 +1835,7 @@ public class Canvas3D extends Canvas2D {
                 hsl1 -= j8 * y1;
                 y1 = 0;
             }
-            int j9 = y2 - centerY;
+            int j9 = y2 - Canvas3D.centerY;
             l4 += j5 * j9;
             k5 += i6 * j9;
             j6 += l6 * j9;
@@ -1844,7 +1844,7 @@ public class Canvas3D extends Canvas2D {
                 y1 -= y2;
                 y2 = pixels[y2];
                 while (--y1 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y2, x3 >> 16, x2 >> 16, hsl3 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y2, x3 >> 16, x2 >> 16, hsl3 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
                     x3 += i7;
                     x2 += k7;
                     hsl3 += j7;
@@ -1855,7 +1855,7 @@ public class Canvas3D extends Canvas2D {
                     j6 += l6;
                 }
                 while (--y3 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y2, x1 >> 16, x2 >> 16, hsl1 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y2, x1 >> 16, x2 >> 16, hsl1 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
                     x1 += i8;
                     x2 += k7;
                     hsl1 += j8;
@@ -1871,7 +1871,7 @@ public class Canvas3D extends Canvas2D {
             y1 -= y2;
             y2 = pixels[y2];
             while (--y1 >= 0) {
-                draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y2, x2 >> 16, x3 >> 16, hsl2 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
+                drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y2, x2 >> 16, x3 >> 16, hsl2 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
                 x3 += i7;
                 x2 += k7;
                 hsl3 += j7;
@@ -1882,7 +1882,7 @@ public class Canvas3D extends Canvas2D {
                 j6 += l6;
             }
             while (--y3 >= 0) {
-                draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y2, x2 >> 16, x1 >> 16, hsl2 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
+                drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y2, x2 >> 16, x1 >> 16, hsl2 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
                 x1 += i8;
                 x2 += k7;
                 hsl1 += j8;
@@ -1894,14 +1894,14 @@ public class Canvas3D extends Canvas2D {
             }
             return;
         }
-        if (y3 >= right_y) {
+        if (y3 >= rightY) {
             return;
         }
-        if (y1 > right_y) {
-            y1 = right_y;
+        if (y1 > rightY) {
+            y1 = rightY;
         }
-        if (y2 > right_y) {
-            y2 = right_y;
+        if (y2 > rightY) {
+            y2 = rightY;
         }
         if (y1 < y2) {
             x2 = x3 <<= 16;
@@ -1920,7 +1920,7 @@ public class Canvas3D extends Canvas2D {
                 hsl1 -= j7 * y1;
                 y1 = 0;
             }
-            int k9 = y3 - centerY;
+            int k9 = y3 - Canvas3D.centerY;
             l4 += j5 * k9;
             k5 += i6 * k9;
             j6 += l6 * k9;
@@ -1929,7 +1929,7 @@ public class Canvas3D extends Canvas2D {
                 y1 -= y3;
                 y3 = pixels[y3];
                 while (--y1 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y3, x2 >> 16, x3 >> 16, hsl2 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y3, x2 >> 16, x3 >> 16, hsl2 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
                     x2 += k7;
                     x3 += i8;
                     hsl2 += l7;
@@ -1940,7 +1940,7 @@ public class Canvas3D extends Canvas2D {
                     j6 += l6;
                 }
                 while (--y2 >= 0) {
-                    draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y3, x2 >> 16, x1 >> 16, hsl2 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
+                    drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y3, x2 >> 16, x1 >> 16, hsl2 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
                     x2 += k7;
                     x1 += i7;
                     hsl2 += l7;
@@ -1956,7 +1956,7 @@ public class Canvas3D extends Canvas2D {
             y1 -= y3;
             y3 = pixels[y3];
             while (--y1 >= 0) {
-                draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y3, x3 >> 16, x2 >> 16, hsl3 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
+                drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y3, x3 >> 16, x2 >> 16, hsl3 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
                 x2 += k7;
                 x3 += i8;
                 hsl2 += l7;
@@ -1967,7 +1967,7 @@ public class Canvas3D extends Canvas2D {
                 j6 += l6;
             }
             while (--y2 >= 0) {
-                draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y3, x1 >> 16, x2 >> 16, hsl1 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
+                drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y3, x1 >> 16, x2 >> 16, hsl1 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
                 x2 += k7;
                 x1 += i7;
                 hsl2 += l7;
@@ -1995,7 +1995,7 @@ public class Canvas3D extends Canvas2D {
             hsl2 -= j7 * y2;
             y2 = 0;
         }
-        int l9 = y3 - centerY;
+        int l9 = y3 - Canvas3D.centerY;
         l4 += j5 * l9;
         k5 += i6 * l9;
         j6 += l6 * l9;
@@ -2004,7 +2004,7 @@ public class Canvas3D extends Canvas2D {
             y2 -= y3;
             y3 = pixels[y3];
             while (--y2 >= 0) {
-                draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y3, x1 >> 16, x3 >> 16, hsl1 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
+                drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y3, x1 >> 16, x3 >> 16, hsl1 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
                 x1 += k7;
                 x3 += i8;
                 hsl1 += l7;
@@ -2015,7 +2015,7 @@ public class Canvas3D extends Canvas2D {
                 j6 += l6;
             }
             while (--y1 >= 0) {
-                draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y3, x2 >> 16, x3 >> 16, hsl2 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
+                drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y3, x2 >> 16, x3 >> 16, hsl2 >> 8, hsl3 >> 8, l4, k5, j6, i5, l5, k6);
                 x2 += i7;
                 x3 += i8;
                 hsl2 += j7;
@@ -2031,7 +2031,7 @@ public class Canvas3D extends Canvas2D {
         y2 -= y3;
         y3 = pixels[y3];
         while (--y2 >= 0) {
-            draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y3, x3 >> 16, x1 >> 16, hsl3 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
+            drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y3, x3 >> 16, x1 >> 16, hsl3 >> 8, hsl1 >> 8, l4, k5, j6, i5, l5, k6);
             x1 += k7;
             x3 += i8;
             hsl1 += l7;
@@ -2042,7 +2042,7 @@ public class Canvas3D extends Canvas2D {
             j6 += l6;
         }
         while (--y1 >= 0) {
-            draw_texture_scanline(Canvas2D.pixels, texels, 0, 0, y3, x3 >> 16, x2 >> 16, hsl3 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
+            drawTextureScanline(Canvas2D.pixels, texels, 0, 0, y3, x3 >> 16, x2 >> 16, hsl3 >> 8, hsl2 >> 8, l4, k5, j6, i5, l5, k6);
             x2 += i7;
             x3 += i8;
             hsl2 += j7;
@@ -2054,7 +2054,7 @@ public class Canvas3D extends Canvas2D {
         }
     }
 
-    public static int get_average_texture_rgb(int texture) {
+    public static int getAverageTextureRgb(int texture) {
         if (textureAverageRgb[texture] != 0) {
             return textureAverageRgb[texture];
         }
@@ -2080,7 +2080,7 @@ public class Canvas3D extends Canvas2D {
         return rgb;
     }
 
-    public static int[] get_texture_pixels(int index) {
+    public static int[] getTexturePixels(int index) {
         textureCycle[index] = cycle++;
 
         if (texelCache[index] != null) {
@@ -2184,8 +2184,8 @@ public class Canvas3D extends Canvas2D {
             pixels[i] = width * i;
         }
 
-        centerX = width / 2;
-        centerY = height / 2;
+        Canvas3D.centerX = width / 2;
+        Canvas3D.centerY = height / 2;
     }
 
     public static void prepare(int width, int height) {
@@ -2195,8 +2195,8 @@ public class Canvas3D extends Canvas2D {
             pixels[i] = width * i;
         }
 
-        centerX = width / 2;
-        centerY = height / 2;
+        Canvas3D.centerX = width / 2;
+        Canvas3D.centerY = height / 2;
     }
 
     public static void setupTexelPools() {

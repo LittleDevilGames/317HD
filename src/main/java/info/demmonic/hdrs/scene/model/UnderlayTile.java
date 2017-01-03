@@ -8,14 +8,14 @@ public class UnderlayTile {
     public int hslSw;
     public boolean isFlat;
     public int rgb;
-    public byte texture_index;
+    public byte textureIndex;
 
-    public UnderlayTile(int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, byte texture_index, int rgb_bitset, boolean is_flat) {
+    public UnderlayTile(int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, byte textureIndex, int rgb_bitset, boolean is_flat) {
         this.hslSw = hsl_sw;
         this.hslNe = hsl_ne;
         this.hslNw = hsl_nw;
         this.hslSe = hsl_se;
-        this.texture_index = texture_index;
+        this.textureIndex = textureIndex;
         this.rgb = rgb_bitset;
         this.isFlat = is_flat;
     }

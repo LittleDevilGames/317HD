@@ -5,8 +5,8 @@ import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.cache.impl.VarBit;
 import info.demmonic.hdrs.io.Buffer;
 import info.demmonic.hdrs.io.OnDemand;
-import info.demmonic.hdrs.node.List;
 import info.demmonic.hdrs.scene.model.Model;
+import info.demmonic.hdrs.node.List;
 
 public class LocConfig {
 

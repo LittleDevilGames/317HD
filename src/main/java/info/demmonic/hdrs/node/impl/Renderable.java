@@ -20,7 +20,7 @@ public class Renderable extends CacheLink {
     public void render(int rotation, int cam_pitch_sin, int cam_pitch_cos, int cam_yaw_sin, int cam_yaw_cos, int x, int y, int z, int uid) {
         Model m = this.getModel();
         if (m != null) {
-            height = ((Renderable) (m)).height;
+            height = m.height;
             m.render(rotation, cam_pitch_sin, cam_pitch_cos, cam_yaw_sin, cam_yaw_cos, x, y, z, uid);
         }
     }

@@ -1,8 +1,8 @@
 package info.demmonic.hdrs.scene.model;
 
-import info.demmonic.hdrs.cache.impl.Sequence;
 import info.demmonic.hdrs.cache.model.ActorConfig;
 import info.demmonic.hdrs.cache.model.SpotAnimConfig;
+import info.demmonic.hdrs.cache.impl.Sequence;
 
 public class Actor extends Entity {
 

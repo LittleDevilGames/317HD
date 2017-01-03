@@ -1,12 +1,12 @@
 package info.demmonic.hdrs.io;
 
 import info.demmonic.hdrs.Game;
-import info.demmonic.hdrs.Signlink;
 import info.demmonic.hdrs.cache.Archive;
-import info.demmonic.hdrs.node.Chain;
 import info.demmonic.hdrs.node.Deque;
 import info.demmonic.hdrs.node.impl.OnDemandRequest;
 import info.demmonic.hdrs.util.JString;
+import info.demmonic.hdrs.Signlink;
+import info.demmonic.hdrs.node.Chain;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,119 +15,119 @@ import java.util.zip.GZIPInputStream;
 
 public class OnDemand implements Runnable {
 
-    public static String[] CRC_FILES = {"model_crc", "anim_crc", "midi_crc", "map_crc"};
-    public static String[] VERSION_FILES = {"model_version", "anim_version", "midi_version", "map_version"};
+    public static final String[] CRC_FILES = {"model_crc", "anim_crc", "midi_crc", "map_crc"};
+    public static final String[] VERSION_FILES = {"model_version", "anim_version", "midi_version", "map_version"};
 
-    public int anim_index[];
+    public int animIndices[];
     public Buffer buffer;
     public Chain completed;
     public CRC32 crc32;
     public int[][] crcs;
     public OnDemandRequest current;
     public int cycle;
-    public int extras_loaded;
-    public int extras_total;
+    public int extrasLoaded;
+    public int extrasCount;
     public int fails;
-    public byte file_priorities[][];
-    public int file_versions[][];
+    public byte filePriorities[][];
+    public int fileVersions[][];
     public Game game;
-    public int highest_pri;
-    public int idle_cycles;
+    public int highestPriority;
+    public int idleCycles;
     public Deque immediate;
-    public int immediate_requests_sent;
+    public int immediateRequestsSent;
     public InputStream in;
-    public long last_socket_open;
-    public int map_file[];
-    public int map_index[];
-    public int map_landscape[];
-    public byte map_members[];
+    public long lastSocketOpen;
+    public int mapFiles[];
+    public int mapIndices[];
+    public int landscapeFiles[];
+    public byte membersArea[];
     public String message;
-    public int midi_index[];
-    public byte model_index[];
+    public int midiIndices[];
+    public byte modelIndices[];
     public int offset;
     public OutputStream out;
-    public Chain passive_requests;
-    public int passive_requests_sent;
-    public boolean retreiving;
+    public Chain passiveRequests;
+    public int passiveRequestsSent;
+    public boolean retrieving;
     public boolean running;
-    public Chain sent_requests;
-    public int since_keep_alive;
+    public Chain sentRequests;
+    public int deadTime;
     public Socket socket;
-    public int to_read;
-    public Chain to_request;
+    public int toRead;
+    public Chain toRequest;
     public Chain wanted;
 
     public OnDemand() {
-        sent_requests = new Chain();
+        sentRequests = new Chain();
         message = JString.BLANK;
         crc32 = new CRC32();
         buffer = new Buffer(500);
-        file_priorities = new byte[4][];
-        passive_requests = new Chain();
+        filePriorities = new byte[4][];
+        passiveRequests = new Chain();
         running = true;
-        retreiving = false;
+        retrieving = false;
         completed = new Chain();
         immediate = new Deque();
-        file_versions = new int[4][];
+        fileVersions = new int[4][];
         crcs = new int[4][];
-        to_request = new Chain();
+        toRequest = new Chain();
         wanted = new Chain();
     }
 
     public void clearPassiveRequests() {
-        synchronized (passive_requests) {
-            passive_requests.clear();
+        synchronized (passiveRequests) {
+            passiveRequests.clear();
         }
     }
 
-    public boolean data_valid(int version, int crc, byte[] data) {
+    public boolean data(int cacheVersion, int cacheCrc, byte[] data) {
         if (data == null || data.length < 2) {
             return false;
         }
 
         int pos = data.length - 2;
-        int read_version = ((data[pos] & 0xff) << 8) + (data[pos + 1] & 0xff);
+        int readVersion = ((data[pos] & 0xff) << 8) + (data[pos + 1] & 0xff);
 
         crc32.reset();
         crc32.update(data, 0, pos);
 
-        int read_crc = (int) crc32.getValue();
+        int readCrc = (int) crc32.getValue();
 
-        if (read_version != version) {
+        if (readVersion != cacheVersion) {
             return false;
         }
 
-        if (read_crc != crc) {
+        if (readCrc != cacheCrc) {
             return false;
         }
 
         return true;
     }
 
-    public int get_file_count(int archive) {
-        return file_versions[archive].length;
+    public int getFileCount(int archive) {
+        return fileVersions[archive].length;
     }
 
     public int getMapUid(int x, int y, int type) {
         int uid = (x << 8) + y;
-        for (int i = 0; i < map_index.length; i++) {
-            if (map_index[i] == uid) {
+        for (int i = 0; i < mapIndices.length; i++) {
+            if (mapIndices[i] == uid) {
                 if (type == 0) {
-                    return map_file[i];
+                    return mapFiles[i];
                 } else {
-                    return map_landscape[i];
+                    return landscapeFiles[i];
                 }
             }
         }
         return -1;
     }
 
-    public void handle_response() {
+    public void handleResponse() {
         try {
             int available = in.available();
 
-            if (to_read == 0 && available >= 6) {
-                retreiving = true;
+            if (toRead == 0 && available >= 6) {
+                retrieving = true;
 
                 in.read(buffer.payload, 0, 6);
 
@@ -139,7 +139,7 @@ public class OnDemand implements Runnable {
 
                 current = null;
 
-                for (OnDemandRequest r = (OnDemandRequest) sent_requests.top(); r != null; r = (OnDemandRequest) sent_requests.next()) {
+                for (OnDemandRequest r = (OnDemandRequest) sentRequests.top(); r != null; r = (OnDemandRequest) sentRequests.next()) {
                     if (r.archive == archive && r.file == file) {
                         current = r;
                     }
@@ -150,7 +150,7 @@ public class OnDemand implements Runnable {
                 }
 
                 if (current != null) {
-                    idle_cycles = 0;
+                    idleCycles = 0;
                     if (size == 0) {
                         Signlink.error("Rej: " + archive + "," + file);
                         current.payload = null;
@@ -172,17 +172,17 @@ public class OnDemand implements Runnable {
                     }
                 }
                 offset = part * 500;
-                to_read = 500;
+                toRead = 500;
 
                 int limit = size - part * 500;
 
-                if (to_read > limit) {
-                    to_read = limit;
+                if (toRead > limit) {
+                    toRead = limit;
                 }
             }
 
-            if (to_read > 0 && available >= to_read) {
-                retreiving = true;
+            if (toRead > 0 && available >= toRead) {
+                retrieving = true;
                 byte[] data = buffer.payload;
                 int position = 0;
 
@@ -191,10 +191,10 @@ public class OnDemand implements Runnable {
                     position = offset;
                 }
 
-                for (int i = 0; i < to_read; i += in.read(data, i + position, to_read - i))
+                for (int i = 0; i < toRead; i += in.read(data, i + position, toRead - i))
                     ;
 
-                if (to_read + offset >= data.length && current != null) {
+                if (toRead + offset >= data.length && current != null) {
                     if (Game.cache[0] != null) {
                         Game.cache[current.archive + 1].put(data, current.file);
                     }
@@ -212,7 +212,7 @@ public class OnDemand implements Runnable {
                         current.detach();
                     }
                 }
-                to_read = 0;
+                toRead = 0;
                 return;
             }
         } catch (IOException ioe) {
@@ -223,31 +223,31 @@ public class OnDemand implements Runnable {
             socket = null;
             in = null;
             out = null;
-            to_read = 0;
+            toRead = 0;
             ioe.printStackTrace();
         }
     }
 
     public boolean hasLandscape(int index) {
-        for (int k = 0; k < map_index.length; k++) {
-            if (map_landscape[k] == index) {
+        for (int k = 0; k < mapIndices.length; k++) {
+            if (landscapeFiles[k] == index) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean has_midi(int i) {
-        return midi_index[i] == 1;
+    public boolean hasMidi(int i) {
+        return midiIndices[i] == 1;
     }
 
-    public int immediate_request_count() {
+    public int immediateRequestCount() {
         synchronized (immediate) {
             return immediate.count();
         }
     }
 
-    public void local_complete() {
+    public void localComplete() {
         OnDemandRequest r;
 
         synchronized (wanted) {
@@ -255,20 +255,20 @@ public class OnDemand implements Runnable {
         }
 
         while (r != null) {
-            retreiving = true;
+            retrieving = true;
             byte data[] = null;
 
             if (Game.cache[0] != null) {
                 data = Game.cache[r.archive + 1].get(r.file);
             }
 
-            if (!data_valid(file_versions[r.archive][r.file], crcs[r.archive][r.file], data)) {
+            if (!data(fileVersions[r.archive][r.file], crcs[r.archive][r.file], data)) {
                 data = null;
             }
 
             synchronized (wanted) {
                 if (data == null) {
-                    to_request.pushBack(r);
+                    toRequest.pushBack(r);
                 } else {
                     r.payload = data;
                     synchronized (completed) {
@@ -280,8 +280,8 @@ public class OnDemand implements Runnable {
         }
     }
 
-    public int mesh_flags(int i) {
-        return model_index[i] & 0xff;
+    public int modelFlags(int i) {
+        return modelIndices[i] & 0xff;
     }
 
     public OnDemandRequest next() {
@@ -340,63 +340,63 @@ public class OnDemand implements Runnable {
         return r;
     }
 
-    public void passive_requests() {
-        while (immediate_requests_sent == 0 && passive_requests_sent < 10) {
-            if (highest_pri == 0) {
+    public void loadExtras() {
+        while (immediateRequestsSent == 0 && passiveRequestsSent < 10) {
+            if (highestPriority == 0) {
                 break;
             }
 
             OnDemandRequest r;
 
-            synchronized (passive_requests) {
-                r = (OnDemandRequest) passive_requests.pop();
+            synchronized (passiveRequests) {
+                r = (OnDemandRequest) passiveRequests.pop();
             }
 
             while (r != null) {
-                if (file_priorities[r.archive][r.file] != 0) {
-                    file_priorities[r.archive][r.file] = 0;
-                    sent_requests.pushBack(r);
+                if (filePriorities[r.archive][r.file] != 0) {
+                    filePriorities[r.archive][r.file] = 0;
+                    sentRequests.pushBack(r);
                     sendRequest(r);
-                    retreiving = true;
+                    retrieving = true;
 
-                    if (extras_loaded < extras_total) {
-                        extras_loaded++;
+                    if (extrasLoaded < extrasCount) {
+                        extrasLoaded++;
                     }
 
-                    message = "Loading extra files - " + extras_loaded + "/" + extras_total;
-                    passive_requests_sent++;
-                    if (passive_requests_sent == 10) {
+                    message = "Loading extra files - " + extrasLoaded + "/" + extrasCount;
+                    passiveRequestsSent++;
+                    if (passiveRequestsSent == 10) {
                         return;
                     }
                 }
-                synchronized (passive_requests) {
-                    r = (OnDemandRequest) passive_requests.pop();
+                synchronized (passiveRequests) {
+                    r = (OnDemandRequest) passiveRequests.pop();
                 }
             }
 
             for (int archive = 0; archive < 4; archive++) {
-                byte priorities[] = this.file_priorities[archive];
+                byte priorities[] = this.filePriorities[archive];
                 int count = priorities.length;
 
                 for (int i = 0; i < count; i++) {
-                    if (priorities[i] == highest_pri) {
+                    if (priorities[i] == highestPriority) {
                         priorities[i] = 0;
                         OnDemandRequest r1 = new OnDemandRequest();
                         r1.archive = archive;
                         r1.file = i;
                         r1.immediate = false;
-                        sent_requests.pushBack(r1);
+                        sentRequests.pushBack(r1);
                         sendRequest(r1);
-                        retreiving = true;
+                        retrieving = true;
 
-                        if (extras_loaded < extras_total) {
-                            extras_loaded++;
+                        if (extrasLoaded < extrasCount) {
+                            extrasLoaded++;
                         }
 
-                        message = "Loading extra files - " + extras_loaded + "/" + extras_total;
-                        passive_requests_sent++;
+                        message = "Loading extra files - " + extrasLoaded + "/" + extrasCount;
+                        passiveRequestsSent++;
 
-                        if (passive_requests_sent == 10) {
+                        if (passiveRequestsSent == 10) {
                             return;
                         }
                     }
@@ -404,38 +404,38 @@ public class OnDemand implements Runnable {
 
             }
 
-            highest_pri--;
+            highestPriority--;
         }
     }
 
-    public void remaining_request() {
-        immediate_requests_sent = 0;
-        passive_requests_sent = 0;
+    public void remainingRequest() {
+        immediateRequestsSent = 0;
+        passiveRequestsSent = 0;
 
-        for (OnDemandRequest request = (OnDemandRequest) sent_requests.top(); request != null; request = (OnDemandRequest) sent_requests.next()) {
+        for (OnDemandRequest request = (OnDemandRequest) sentRequests.top(); request != null; request = (OnDemandRequest) sentRequests.next()) {
             if (request.immediate) {
-                immediate_requests_sent++;
+                immediateRequestsSent++;
             } else {
-                passive_requests_sent++;
+                passiveRequestsSent++;
             }
         }
 
-        while (immediate_requests_sent < 10) {
-            OnDemandRequest request = (OnDemandRequest) to_request.pop();
+        while (immediateRequestsSent < 10) {
+            OnDemandRequest request = (OnDemandRequest) toRequest.pop();
 
             if (request == null) {
                 break;
             }
 
-            if (file_priorities[request.archive][request.file] != 0) {
-                extras_loaded++;
+            if (filePriorities[request.archive][request.file] != 0) {
+                extrasLoaded++;
             }
 
-            file_priorities[request.archive][request.file] = 0;
-            sent_requests.pushBack(request);
-            immediate_requests_sent++;
+            filePriorities[request.archive][request.file] = 0;
+            sentRequests.pushBack(request);
+            immediateRequestsSent++;
             sendRequest(request);
-            retreiving = true;
+            retrieving = true;
         }
     }
 
@@ -443,34 +443,34 @@ public class OnDemand implements Runnable {
         if (Game.cache[0] == null) {
             return;
         }
-        if (file_versions[archive][file] == 0) {
+        if (fileVersions[archive][file] == 0) {
             return;
         }
-        if (file_priorities[archive][file] == 0) {
+        if (filePriorities[archive][file] == 0) {
             return;
         }
-        if (highest_pri == 0) {
+        if (highestPriority == 0) {
             return;
         }
         OnDemandRequest request = new OnDemandRequest();
         request.archive = archive;
         request.file = file;
         request.immediate = false;
-        synchronized (passive_requests) {
-            passive_requests.pushBack(request);
+        synchronized (passiveRequests) {
+            passiveRequests.pushBack(request);
         }
     }
 
-    public void request_model(int i) {
+    public void requestModel(int i) {
         sendRequest(0, i);
     }
 
-    public void request_regions(boolean members) {
-        int length = map_index.length;
+    public void requestRegions(boolean members) {
+        int length = mapIndices.length;
         for (int i = 0; i < length; i++) {
-            if (members || map_members[i] != 0) {
-                verify((byte) 2, 3, map_landscape[i]);
-                verify((byte) 2, 3, map_file[i]);
+            if (members || membersArea[i] != 0) {
+                verify((byte) 2, 3, landscapeFiles[i]);
+                verify((byte) 2, 3, mapFiles[i]);
             }
         }
 
@@ -482,7 +482,7 @@ public class OnDemand implements Runnable {
                 cycle++;
 
                 try {
-                    if (highest_pri == 0 && Game.cache[0] != null) {
+                    if (highestPriority == 0 && Game.cache[0] != null) {
                         Thread.sleep(50);
                     } else {
                         Thread.sleep(20);
@@ -490,32 +490,32 @@ public class OnDemand implements Runnable {
                 } catch (Exception e) {
                 }
 
-                retreiving = true;
+                retrieving = true;
 
                 for (int i = 0; i < 100; i++) {
-                    if (!retreiving) {
+                    if (!retrieving) {
                         break;
                     }
 
-                    retreiving = false;
+                    retrieving = false;
 
-                    local_complete();
-                    remaining_request();
+                    localComplete();
+                    remainingRequest();
 
-                    if (immediate_requests_sent == 0 && i >= 5) {
+                    if (immediateRequestsSent == 0 && i >= 5) {
                         break;
                     }
 
-                    passive_requests();
+                    loadExtras();
 
                     if (in != null) {
-                        handle_response();
+                        handleResponse();
                     }
                 }
 
                 boolean idle = false;
 
-                for (OnDemandRequest r = (OnDemandRequest) sent_requests.top(); r != null; r = (OnDemandRequest) sent_requests.next()) {
+                for (OnDemandRequest r = (OnDemandRequest) sentRequests.top(); r != null; r = (OnDemandRequest) sentRequests.next()) {
                     if (r.immediate) {
                         idle = true;
                         r.cycle++;
@@ -528,7 +528,7 @@ public class OnDemand implements Runnable {
                 }
 
                 if (!idle) {
-                    for (OnDemandRequest request = (OnDemandRequest) sent_requests.top(); request != null; request = (OnDemandRequest) sent_requests.next()) {
+                    for (OnDemandRequest request = (OnDemandRequest) sentRequests.top(); request != null; request = (OnDemandRequest) sentRequests.next()) {
                         idle = true;
                         request.cycle++;
                         if (request.cycle > 50) {
@@ -540,9 +540,9 @@ public class OnDemand implements Runnable {
                 }
 
                 if (idle) {
-                    idle_cycles++;
+                    idleCycles++;
 
-                    if (idle_cycles > 750) {
+                    if (idleCycles > 750) {
                         try {
                             socket.close();
                         } catch (Exception _ex) {
@@ -552,17 +552,17 @@ public class OnDemand implements Runnable {
                         socket = null;
                         in = null;
                         out = null;
-                        to_read = 0;
+                        toRead = 0;
                     }
                 } else {
-                    idle_cycles = 0;
+                    idleCycles = 0;
                     message = "";
                 }
 
-                if (Game.loggedIn && socket != null && out != null && (highest_pri > 0 || Game.cache[0] == null)) {
-                    since_keep_alive++;
-                    if (since_keep_alive > 500) {
-                        since_keep_alive = 0;
+                if (Game.loggedIn && socket != null && out != null && (highestPriority > 0 || Game.cache[0] == null)) {
+                    deadTime++;
+                    if (deadTime > 500) {
+                        deadTime = 0;
 
                         buffer.position = 0;
                         buffer.writeByte(0);
@@ -573,7 +573,7 @@ public class OnDemand implements Runnable {
                         try {
                             out.write(buffer.payload, 0, 4);
                         } catch (IOException _ex) {
-                            idle_cycles = 5000;
+                            idleCycles = 5000;
                             _ex.printStackTrace();
                         }
                     }
@@ -586,11 +586,11 @@ public class OnDemand implements Runnable {
     }
 
     public void sendRequest(int archive, int file) {
-        if (archive < 0 || archive > file_versions.length || file < 0 || file >= file_versions[archive].length) {
+        if (archive < 0 || archive > fileVersions.length || file < 0 || file >= fileVersions[archive].length) {
             return;
         }
 
-        if (file_versions[archive][file] == 0) {
+        if (fileVersions[archive][file] == 0) {
             return;
         }
 
@@ -619,12 +619,12 @@ public class OnDemand implements Runnable {
         try {
             if (socket == null) {
                 long currentTime = System.currentTimeMillis();
-                if (currentTime - last_socket_open < 4000L) {
+                if (currentTime - lastSocketOpen < 4000L) {
                     return;
                 }
-                last_socket_open = currentTime;
+                lastSocketOpen = currentTime;
 
-                socket = Game.instance.getSocket(43594 + Game.port_offset);
+                socket = Game.instance.getSocket(43594 + Game.portOffset);
                 in = socket.getInputStream();
                 out = socket.getOutputStream();
 
@@ -634,7 +634,7 @@ public class OnDemand implements Runnable {
                     in.read();
                 }
 
-                idle_cycles = 0;
+                idleCycles = 0;
             }
 
             buffer.position = 0;
@@ -643,7 +643,7 @@ public class OnDemand implements Runnable {
             buffer.writeByte(node.immediate ? 2 : Game.loggedIn ? 0 : 1);
 
             out.write(buffer.payload, 0, 4);
-            since_keep_alive = 0;
+            deadTime = 0;
             fails = -10000;
         } catch (IOException e) {
             try {
@@ -653,36 +653,36 @@ public class OnDemand implements Runnable {
             socket = null;
             in = null;
             out = null;
-            to_read = 0;
+            toRead = 0;
             fails++;
             e.printStackTrace();
         }
     }
 
-    public int seq_frame_count() {
-        return anim_index.length;
+    public int sequenceFrameCount() {
+        return animIndices.length;
     }
 
-    public void setup(Archive archive, Game game) {
+    public void setup(Archive archive) {
         for (int i = 0; i < VERSION_FILES.length; i++) {
-            Buffer b = new Buffer(archive.get(VERSION_FILES[i]));
-            int count = b.payload.length / 2;
+            Buffer buffer = new Buffer(archive.get(VERSION_FILES[i]));
+            int count = buffer.payload.length / 2;
 
-            file_versions[i] = new int[count];
-            file_priorities[i] = new byte[count];
+            fileVersions[i] = new int[count];
+            filePriorities[i] = new byte[count];
 
             for (int j = 0; j < count; j++) {
-                file_versions[i][j] = b.readUnsignedShort();
+                fileVersions[i][j] = buffer.readUnsignedShort();
             }
         }
 
         for (int i = 0; i < CRC_FILES.length; i++) {
-            Buffer b = new Buffer(archive.get(CRC_FILES[i]));
+            Buffer buffer = new Buffer(archive.get(CRC_FILES[i]));
 
-            crcs[i] = new int[b.payload.length / 4];
+            crcs[i] = new int[buffer.payload.length / 4];
 
             for (int j = 0; j < crcs[i].length; j++) {
-                crcs[i][j] = b.readInt();
+                crcs[i][j] = buffer.readInt();
             }
         }
 
@@ -692,15 +692,15 @@ public class OnDemand implements Runnable {
         // Model
         {
             data = archive.get("model_index");
-            size = file_versions[0].length;
+            size = fileVersions[0].length;
 
-            model_index = new byte[size];
+            modelIndices = new byte[size];
 
             for (int i = 0; i < size; i++) {
                 if (i < data.length) {
-                    model_index[i] = data[i];
+                    modelIndices[i] = data[i];
                 } else {
-                    model_index[i] = 0x0;
+                    modelIndices[i] = 0x0;
                 }
             }
         }
@@ -710,16 +710,16 @@ public class OnDemand implements Runnable {
             Buffer b = new Buffer(archive.get("map_index"));
             size = b.payload.length / 7;
 
-            map_index = new int[size];
-            map_file = new int[size];
-            map_landscape = new int[size];
-            map_members = new byte[size];
+            mapIndices = new int[size];
+            mapFiles = new int[size];
+            landscapeFiles = new int[size];
+            membersArea = new byte[size];
 
             for (int i = 0; i < size; i++) {
-                map_index[i] = b.readUnsignedShort();
-                map_file[i] = b.readUnsignedShort();
-                map_landscape[i] = b.readUnsignedShort();
-                map_members[i] = b.readByte();
+                mapIndices[i] = b.readUnsignedShort();
+                mapFiles[i] = b.readUnsignedShort();
+                landscapeFiles[i] = b.readUnsignedShort();
+                membersArea[i] = b.readByte();
             }
         }
 
@@ -728,10 +728,10 @@ public class OnDemand implements Runnable {
             Buffer b = new Buffer(archive.get("anim_index"));
             size = b.payload.length / 2;
 
-            anim_index = new int[size];
+            animIndices = new int[size];
 
             for (int i = 0; i < size; i++) {
-                anim_index[i] = b.readUnsignedShort();
+                animIndices[i] = b.readUnsignedShort();
             }
         }
 
@@ -740,10 +740,10 @@ public class OnDemand implements Runnable {
             Buffer b = new Buffer(archive.get("midi_index"));
             size = b.payload.length;
 
-            midi_index = new int[size];
+            midiIndices = new int[size];
 
             for (int i = 0; i < size; i++) {
-                midi_index[i] = b.readUnsignedByte();
+                midiIndices[i] = b.readUnsignedByte();
             }
         }
 
@@ -760,20 +760,20 @@ public class OnDemand implements Runnable {
             return;
         }
 
-        if (file_versions[archive][file] == 0) {
+        if (fileVersions[archive][file] == 0) {
             return;
         }
 
-        if (data_valid(file_versions[archive][file], crcs[archive][file], Game.cache[archive + 1].get(file))) {
+        if (data(fileVersions[archive][file], crcs[archive][file], Game.cache[archive + 1].get(file))) {
             return;
         }
 
-        file_priorities[archive][file] = priority;
+        filePriorities[archive][file] = priority;
 
-        if (priority > highest_pri) {
-            highest_pri = priority;
+        if (priority > highestPriority) {
+            highestPriority = priority;
         }
 
-        extras_total++;
+        extrasCount++;
     }
 }

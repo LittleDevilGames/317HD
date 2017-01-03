@@ -3,11 +3,11 @@ package info.demmonic.hdrs.media.impl;
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.cache.impl.Widget;
+import info.demmonic.hdrs.media.ImageProducer;
+import info.demmonic.hdrs.util.JString;
 import info.demmonic.hdrs.input.model.Area;
 import info.demmonic.hdrs.media.Bitmap;
 import info.demmonic.hdrs.media.Canvas3D;
-import info.demmonic.hdrs.media.ImageProducer;
-import info.demmonic.hdrs.util.JString;
 
 public class Sidebar {
 
@@ -137,7 +137,7 @@ public class Sidebar {
         }
     }
 
-    public static Tab get_tab(int i) {
+    public static Tab getTab(int i) {
         if (i > TAB.length || i < 0) {
             i = 0;
         }
@@ -202,34 +202,34 @@ public class Sidebar {
     }
 
     public static void openTab(int i) {
-        selectedTab = get_tab(i);
+        selectedTab = getTab(i);
     }
 
     public static void setFlashing(int i) {
-        flashingTab = get_tab(i);
+        flashingTab = getTab(i);
     }
 
     public static class Tab {
 
         public final int index;
         public Bitmap icon;
-        public int icon_x, icon_y;
+        public int iconX, iconY;
         public Bitmap redstone;
         public int widget = -1;
         public int x, y;
 
-        private Tab(int i, Bitmap redstone, Bitmap icon, int x, int y, int icon_x, int icon_y) {
+        private Tab(int i, Bitmap redstone, Bitmap icon, int x, int y, int iconX, int iconY) {
             this.index = i;
             this.redstone = redstone;
             this.icon = icon;
             this.x = x;
             this.y = y;
-            this.icon_x = icon_x;
-            this.icon_y = icon_y;
+            this.iconX = iconX;
+            this.iconY = iconY;
         }
 
         public void drawIcon() {
-            icon.draw(icon_x, icon_y);
+            icon.draw(iconX, iconY);
         }
 
         public void drawRedstone() {

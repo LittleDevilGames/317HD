@@ -1,9 +1,9 @@
 package info.demmonic.hdrs.cache.impl;
 
 import info.demmonic.hdrs.Game;
+import info.demmonic.hdrs.model.Skill;
 import info.demmonic.hdrs.cache.model.ObjConfig;
 import info.demmonic.hdrs.io.Buffer;
-import info.demmonic.hdrs.model.Skill;
 
 public class Script {
 

@@ -1,16 +1,12 @@
 package info.demmonic.hdrs.cache.impl;
 
-import info.demmonic.hdrs.Game;
-import info.demmonic.hdrs.Signlink;
 import info.demmonic.hdrs.cache.Archive;
+import info.demmonic.hdrs.Signlink;
 import info.demmonic.hdrs.cache.model.ActorConfig;
 import info.demmonic.hdrs.cache.model.ObjConfig;
 import info.demmonic.hdrs.input.Mouse;
 import info.demmonic.hdrs.io.Buffer;
-import info.demmonic.hdrs.media.BitmapFont;
 import info.demmonic.hdrs.media.Canvas2D;
-import info.demmonic.hdrs.media.Canvas3D;
-import info.demmonic.hdrs.media.Sprite;
 import info.demmonic.hdrs.node.List;
 import info.demmonic.hdrs.scene.model.Model;
 import info.demmonic.hdrs.util.JString;
@@ -402,7 +398,7 @@ public class Widget {
                             int drag_dy = 0;
                             int item_index = this.itemIndex[slot] - 1;
 
-                            if (draw_x > Canvas2D.left_x - 32 && draw_x < Canvas2D.right_x && draw_y > Canvas2D.left_y - 32 && draw_y < Canvas2D.right_y || Game.dragArea != 0 && Game.dragSlot == slot) {
+                            if (draw_x > Canvas2D.leftX - 32 && draw_x < Canvas2D.rightX && draw_y > Canvas2D.leftY - 32 && draw_y < Canvas2D.rightY || Game.dragArea != 0 && Game.dragSlot == slot) {
                                 int outline_rgb = 0;
 
                                 if (Game.selectedItem && Game.selectedItemSlot == slot && Game.selectedItemWidget == this.index) {
@@ -432,8 +428,8 @@ public class Widget {
 
                                         s.draw(draw_x + drag_dx, draw_y + drag_dy, 128);
 
-                                        if (draw_y + drag_dy < Canvas2D.left_y && this.scrollAmount > 0) {
-                                            int scroll_dec = (Game.animCycle * (Canvas2D.left_y - draw_y - drag_dy)) / 3;
+                                        if (draw_y + drag_dy < Canvas2D.leftY && this.scrollAmount > 0) {
+                                            int scroll_dec = (Game.animCycle * (Canvas2D.leftY - draw_y - drag_dy)) / 3;
 
                                             if (scroll_dec > Game.animCycle * 10) {
                                                 scroll_dec = Game.animCycle * 10;
@@ -447,8 +443,8 @@ public class Widget {
                                             Game.dragStartY += scroll_dec;
                                         }
 
-                                        if (draw_y + drag_dy + 32 > Canvas2D.right_y && this.scrollAmount < this.scrollHeight - this.height) {
-                                            int scroll_inc = (Game.animCycle * ((draw_y + drag_dy + 32) - Canvas2D.right_y)) / 3;
+                                        if (draw_y + drag_dy + 32 > Canvas2D.rightY && this.scrollAmount < this.scrollHeight - this.height) {
+                                            int scroll_inc = (Game.animCycle * ((draw_y + drag_dy + 32) - Canvas2D.rightY)) / 3;
 
                                             if (scroll_inc > Game.animCycle * 10) {
                                                 scroll_inc = Game.animCycle * 10;
@@ -718,10 +714,10 @@ public class Widget {
             return;
         }
 
-        int _x1 = Canvas2D.left_x;
-        int _y1 = Canvas2D.left_y;
-        int _x2 = Canvas2D.right_x;
-        int _y2 = Canvas2D.right_y;
+        int _x1 = Canvas2D.leftX;
+        int _y1 = Canvas2D.leftY;
+        int _x2 = Canvas2D.rightX;
+        int _y2 = Canvas2D.rightY;
 
         Canvas2D.setBounds(x, y, x + this.width, y + this.height);
 

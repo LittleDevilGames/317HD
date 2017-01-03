@@ -2,6 +2,8 @@ package info.demmonic.hdrs.scene.model;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.cache.impl.IdentityKit;
+import info.demmonic.hdrs.util.JString;
+import info.demmonic.hdrs.util.RSColor;
 import info.demmonic.hdrs.cache.impl.Sequence;
 import info.demmonic.hdrs.cache.model.ActorConfig;
 import info.demmonic.hdrs.cache.model.ObjConfig;
@@ -10,8 +12,6 @@ import info.demmonic.hdrs.io.Buffer;
 import info.demmonic.hdrs.media.impl.widget.CharacterDesign;
 import info.demmonic.hdrs.node.List;
 import info.demmonic.hdrs.node.impl.Renderable;
-import info.demmonic.hdrs.util.JString;
-import info.demmonic.hdrs.util.RSColor;
 
 public class Player extends Entity {
 

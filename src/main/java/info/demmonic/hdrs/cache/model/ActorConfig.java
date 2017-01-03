@@ -2,10 +2,10 @@ package info.demmonic.hdrs.cache.model;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.cache.Archive;
+import info.demmonic.hdrs.scene.model.Model;
 import info.demmonic.hdrs.cache.impl.VarBit;
 import info.demmonic.hdrs.io.Buffer;
 import info.demmonic.hdrs.node.List;
-import info.demmonic.hdrs.scene.model.Model;
 
 public class ActorConfig {
 

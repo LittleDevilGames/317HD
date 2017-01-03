@@ -8,7 +8,7 @@ public class WallLoc {
     public int cornerFlag;
     public Renderable extension;
     public Renderable root;
-    public int rotation_flag;
+    public int rotationFlag;
     public int sceneX;
     public int sceneY;
     public int sceneZ;

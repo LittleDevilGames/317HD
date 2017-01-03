@@ -5,25 +5,25 @@ import info.demmonic.hdrs.node.impl.Renderable;
 
 public class SpotAnim extends Renderable {
 
-    public int cycle_end;
+    public int cycleEnd;
     public SpotAnimConfig config;
     public int plane;
-    public int seq_cycle;
-    public boolean seq_finished;
-    public int seq_frame;
+    public int seqCycle;
+    public boolean seqFinished;
+    public int seqFrame;
     public int x;
     public int y;
     public int z;
 
     public SpotAnim(int x, int y, int z, int plane, int cycle, int duration, int index) {
-        this.seq_finished = false;
+        this.seqFinished = false;
         this.config = SpotAnimConfig.instance[index];
         this.plane = plane;
         this.x = x;
         this.y = y;
         this.z = z;
-        this.cycle_end = cycle + duration;
-        this.seq_finished = false;
+        this.cycleEnd = cycle + duration;
+        this.seqFinished = false;
     }
 
     @Override
@@ -34,10 +34,10 @@ public class SpotAnim extends Renderable {
             return null;
         }
 
-        int frame = this.config.seq.framePrimary[this.seq_frame];
+        int frame = this.config.seq.framePrimary[this.seqFrame];
         Model m = new Model(true, frame == -1, false, effect_model);
 
-        if (!this.seq_finished) {
+        if (!this.seqFinished) {
             m.applyVertexWeights();
             m.applySequenceFrame(frame);
             m.triangleGroups = null;
@@ -59,13 +59,13 @@ public class SpotAnim extends Renderable {
     }
 
     public void update(int i) {
-        for (this.seq_cycle += i; this.seq_cycle > this.config.seq.getFrameLength(this.seq_frame); ) {
-            this.seq_cycle -= this.config.seq.getFrameLength(this.seq_frame) + 1;
-            this.seq_frame++;
+        for (this.seqCycle += i; this.seqCycle > this.config.seq.getFrameLength(this.seqFrame); ) {
+            this.seqCycle -= this.config.seq.getFrameLength(this.seqFrame) + 1;
+            this.seqFrame++;
 
-            if (this.seq_frame >= this.config.seq.frameCount && (this.seq_frame < 0 || this.seq_frame >= this.config.seq.frameCount)) {
-                this.seq_frame = 0;
-                this.seq_finished = true;
+            if (this.seqFrame >= this.config.seq.frameCount && (this.seqFrame < 0 || this.seqFrame >= this.config.seq.frameCount)) {
+                this.seqFrame = 0;
+                this.seqFinished = true;
             }
         }
 

@@ -1,43 +1,40 @@
 package info.demmonic.hdrs;
 
 import info.demmonic.hdrs.audio.MusicPlayer;
-import info.demmonic.hdrs.audio.model.WaveSound;
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.cache.Cache;
 import info.demmonic.hdrs.cache.impl.*;
 import info.demmonic.hdrs.cache.model.ActorConfig;
-import info.demmonic.hdrs.cache.model.LocConfig;
 import info.demmonic.hdrs.cache.model.ObjConfig;
 import info.demmonic.hdrs.cache.model.SpotAnimConfig;
-import info.demmonic.hdrs.input.Keyboard;
-import info.demmonic.hdrs.input.Mouse;
-import info.demmonic.hdrs.input.MouseRecorder;
-import info.demmonic.hdrs.input.model.Area;
-import info.demmonic.hdrs.input.model.Key;
 import info.demmonic.hdrs.io.Buffer;
-import info.demmonic.hdrs.io.IsaacCipher;
 import info.demmonic.hdrs.io.OnDemand;
 import info.demmonic.hdrs.media.*;
-import info.demmonic.hdrs.media.impl.Chat;
-import info.demmonic.hdrs.media.impl.Flames;
-import info.demmonic.hdrs.media.impl.Sidebar;
-import info.demmonic.hdrs.media.impl.TitleScreen;
+import info.demmonic.hdrs.media.impl.*;
+import info.demmonic.hdrs.media.impl.Menu;
 import info.demmonic.hdrs.media.impl.widget.CharacterDesign;
-import info.demmonic.hdrs.model.Action;
-import info.demmonic.hdrs.model.Packet;
 import info.demmonic.hdrs.model.Skill;
-import info.demmonic.hdrs.net.Connection;
 import info.demmonic.hdrs.net.Jaggrab;
-import info.demmonic.hdrs.node.Chain;
 import info.demmonic.hdrs.node.impl.OnDemandRequest;
 import info.demmonic.hdrs.scene.Scene;
 import info.demmonic.hdrs.scene.model.*;
 import info.demmonic.hdrs.util.BitUtils;
 import info.demmonic.hdrs.util.JString;
 import info.demmonic.hdrs.util.RSColor;
+import info.demmonic.hdrs.audio.model.WaveSound;
+import info.demmonic.hdrs.cache.model.LocConfig;
+import info.demmonic.hdrs.input.Keyboard;
+import info.demmonic.hdrs.input.Mouse;
+import info.demmonic.hdrs.input.MouseRecorder;
+import info.demmonic.hdrs.input.model.Area;
+import info.demmonic.hdrs.input.model.Key;
+import info.demmonic.hdrs.io.IsaacCipher;
+import info.demmonic.hdrs.model.Action;
+import info.demmonic.hdrs.model.Packet;
+import info.demmonic.hdrs.net.Connection;
+import info.demmonic.hdrs.node.Chain;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -247,7 +244,7 @@ public class Game extends GameShell {
     public static int playerCount;
     public static int playerIndices[];
     public static Player players[];
-    public static int port_offset;
+    public static int portOffset;
     public static volatile boolean processFlames;
     public static ImageProducer producerBackhmid2;
     public static ImageProducer producerBackleft1;
@@ -581,7 +578,7 @@ public class Game extends GameShell {
             dialogueOptionActive = false;
             Sidebar.drawTabs = true;
         }
-        if (Chat.get_overlay() != -1) {
+        if (Chat.getOverlay() != -1) {
             Chat.setOverlay(-1);
             dialogueOptionActive = false;
         }
@@ -594,7 +591,7 @@ public class Game extends GameShell {
         }
 
         // Lets the garbage collector get the login screen producers.
-        TitleScreen.clear_producers();
+        TitleScreen.clearProducers();
 
         // Set the wrest up.
         Chat.producer = new ImageProducer(479, 96);
@@ -632,11 +629,11 @@ public class Game extends GameShell {
 
         handleMessageStatus();
 
-        if (!info.demmonic.hdrs.media.impl.Menu.visible) {
-            info.demmonic.hdrs.media.impl.Menu.handle();
-            info.demmonic.hdrs.media.impl.Menu.draw_tooltip();
-        } else if (info.demmonic.hdrs.media.impl.Menu.area == Area.VIEWPORT) {
-            info.demmonic.hdrs.media.impl.Menu.draw();
+        if (!Menu.visible) {
+            Menu.handle();
+            Menu.drawTooltip();
+        } else if (Menu.area == Area.VIEWPORT) {
+            Menu.draw();
         }
 
         if (inMultiZone == 1) {
@@ -748,7 +745,7 @@ public class Game extends GameShell {
                 Flames.cycle++;
                 Flames.handle();
                 Flames.handle();
-                Flames.handle_palette();
+                Flames.handlePalette();
                 if (++i > 10) {
                     long current_time = System.currentTimeMillis();
                     int difference = (int) (current_time - lastTime) / 10 - delay;
@@ -795,7 +792,7 @@ public class Game extends GameShell {
             drawScene();
         }
 
-        if (info.demmonic.hdrs.media.impl.Menu.visible && info.demmonic.hdrs.media.impl.Menu.area == Area.TAB) {
+        if (Menu.visible && Menu.area == Area.TAB) {
             Sidebar.draw = true;
         }
 
@@ -1190,16 +1187,16 @@ public class Game extends GameShell {
 
     public static void drawProjectiles() {
         for (Projectile p = (Projectile) projectiles.top(); p != null; p = (Projectile) projectiles.next()) {
-            if (p.plane != plane || loopCycle > p.cycle_end) {
+            if (p.plane != plane || loopCycle > p.cycleEnd) {
                 p.detach();
                 return;
             }
 
-            if (loopCycle >= p.cycle_start) {
+            if (loopCycle >= p.cycleStart) {
                 if (p.targetIndex > 0) {
                     Actor a = actors[p.targetIndex - 1];
                     if (a != null && a.sceneX >= 0 && a.sceneX < 13312 && a.sceneY >= 0 && a.sceneY < 13312) {
-                        p.update(loopCycle, a.sceneX, a.sceneY, getLandZ(a.sceneX, a.sceneY, p.plane) - p.offset_z);
+                        p.update(loopCycle, a.sceneX, a.sceneY, getLandZ(a.sceneX, a.sceneY, p.plane) - p.offsetZ);
                     }
                 }
 
@@ -1214,12 +1211,12 @@ public class Game extends GameShell {
                     }
 
                     if (pl != null && pl.sceneX >= 0 && pl.sceneX < 13312 && pl.sceneY >= 0 && pl.sceneY < 13312) {
-                        p.update(loopCycle, pl.sceneX, pl.sceneY, getLandZ(pl.sceneX, pl.sceneY, p.plane) - p.offset_z);
+                        p.update(loopCycle, pl.sceneX, pl.sceneY, getLandZ(pl.sceneX, pl.sceneY, p.plane) - p.offsetZ);
                     }
                 }
 
                 p.update(animCycle);
-                landscape.add(p, (int) p.scene_x, (int) p.scene_y, (int) p.scene_z, plane, p.rotation, 60, false, -1);
+                landscape.add(p, (int) p.sceneX, (int) p.sceneY, (int) p.sceneZ, plane, p.rotation, 60, false, -1);
 
             }
         }
@@ -1596,12 +1593,12 @@ public class Game extends GameShell {
     public static void drawSpotanims() {
         SpotAnim a = (SpotAnim) spotanims.top();
         for (; a != null; a = (SpotAnim) spotanims.next()) {
-            if (a.plane != plane || a.seq_finished) {
+            if (a.plane != plane || a.seqFinished) {
                 a.detach();
-            } else if (loopCycle >= a.cycle_end) {
+            } else if (loopCycle >= a.cycleEnd) {
                 a.update(animCycle);
 
-                if (a.seq_finished) {
+                if (a.seqFinished) {
                     a.detach();
                 } else {
                     landscape.add(a, a.x, a.y, a.z, a.plane, 0, 60, false, -1);
@@ -1665,11 +1662,11 @@ public class Game extends GameShell {
             } else {
                 i--;
             }
-            info.demmonic.hdrs.media.impl.Menu.add("Remove @whi@" + friendName[i], 792);
-            info.demmonic.hdrs.media.impl.Menu.add("Message @whi@" + friendName[i], 639);
+            Menu.add("Remove @whi@" + friendName[i], 792);
+            Menu.add("Message @whi@" + friendName[i], 639);
             return true;
         } else if (i >= 401 && i <= 500) {
-            info.demmonic.hdrs.media.impl.Menu.add("Remove @whi@" + w.messageDisabled, 322);
+            Menu.add("Remove @whi@" + w.messageDisabled, 322);
             return true;
         } else {
             return false;
@@ -2337,12 +2334,12 @@ public class Game extends GameShell {
 
                 dragArea = 0;
 
-                int optionCount = info.demmonic.hdrs.media.impl.Menu.count;
+                int optionCount = Menu.count;
 
                 if (dragging && dragCycle >= 5) {
                     hoveredSlotWidget = -1;
 
-                    info.demmonic.hdrs.media.impl.Menu.handle();
+                    Menu.handle();
 
                     if (hoveredSlotWidget == dragWidget && hoveredSlot != dragSlot) {
                         Widget w = Widget.instance[dragWidget];
@@ -2386,7 +2383,7 @@ public class Game extends GameShell {
                         out.writeLeShort(hoveredSlot);
                     }
                 } else if (mouseButtonSetting == 1 && optionCount > 2) {
-                    info.demmonic.hdrs.media.impl.Menu.show();
+                    Menu.show();
                 } else if (optionCount > 0) {
                     handleMenuOption(optionCount - 1);
                 }
@@ -2549,7 +2546,7 @@ public class Game extends GameShell {
     }
 
     public static void handleActorMenuOptions(ActorConfig ac, int x, int y, int index) {
-        if (info.demmonic.hdrs.media.impl.Menu.count >= 400) {
+        if (Menu.count >= 400) {
             return;
         }
 
@@ -2572,19 +2569,19 @@ public class Game extends GameShell {
         }
 
         if (selectedItem) {
-            info.demmonic.hdrs.media.impl.Menu.add("Use " + selectedItemName + " with @yel@" + s, 582, x, y, index);
+            Menu.add("Use " + selectedItemName + " with @yel@" + s, 582, x, y, index);
             return;
         }
 
         if (selectedWidget) {
             if (BitUtils.flagged(selectedMask, 0x2)) {
-                info.demmonic.hdrs.media.impl.Menu.add(selectedTooltip + " @yel@" + s, 413, x, y, index);
+                Menu.add(selectedTooltip + " @yel@" + s, 413, x, y, index);
             }
         } else {
             if (ac.action != null) {
                 for (int i = 4; i >= 0; i--) {
                     if (ac.action[i] != null && !ac.action[i].equalsIgnoreCase(JString.ATTACK)) {
-                        info.demmonic.hdrs.media.impl.Menu.add(ac.action[i] + " @yel@" + s, Action.ACTOR[i], x, y, index);
+                        Menu.add(ac.action[i] + " @yel@" + s, Action.ACTOR[i], x, y, index);
                     }
                 }
 
@@ -2596,11 +2593,11 @@ public class Game extends GameShell {
                         if (ac.combatLevel > self.combatLevel) {
                             off = 2000;
                         }
-                        info.demmonic.hdrs.media.impl.Menu.add(ac.action[i] + " @yel@" + s, Action.ACTOR[i] + off, x, y, index);
+                        Menu.add(ac.action[i] + " @yel@" + s, Action.ACTOR[i] + off, x, y, index);
                     }
                 }
             }
-            info.demmonic.hdrs.media.impl.Menu.add("Examine @yel@" + s, 1025, x, y, index);
+            Menu.add("Examine @yel@" + s, 1025, x, y, index);
         }
     }
 
@@ -3396,10 +3393,10 @@ public class Game extends GameShell {
 
         Chat.clear();
 
-        int param1 = info.demmonic.hdrs.media.impl.Menu.getParam(option, 0);
-        int param2 = info.demmonic.hdrs.media.impl.Menu.getParam(option, 1);
-        int param3 = info.demmonic.hdrs.media.impl.Menu.getParam(option, 2);
-        int action = info.demmonic.hdrs.media.impl.Menu.getAction(option);
+        int param1 = Menu.getParam(option, 0);
+        int param2 = Menu.getParam(option, 1);
+        int param3 = Menu.getParam(option, 2);
+        int action = Menu.getAction(option);
 
         if (action >= 2000) {
             action -= 2000;
@@ -3483,7 +3480,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3546,7 +3543,7 @@ public class Game extends GameShell {
         }
 
         if (action == 516) {
-            if (!info.demmonic.hdrs.media.impl.Menu.visible) {
+            if (!Menu.visible) {
                 landscape.clicked(Mouse.clickY - 4, Mouse.clickX - 4);
             } else {
                 landscape.clicked(param2 - 4, param1 - 4);
@@ -3579,13 +3576,13 @@ public class Game extends GameShell {
 
             if (Widget.instance[param2].parent == widgetOverlay) {
                 clickArea = 1;
-            } else if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            } else if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
 
         if (action == 337 || action == 42 || action == 792 || action == 322) {
-            String s = info.demmonic.hdrs.media.impl.Menu.getCaption(option);
+            String s = Menu.getCaption(option);
             int i = s.indexOf(JString.WHI);
             if (i != -1) {
                 long l = JString.toLong(s.substring(i + 5).trim());
@@ -3624,7 +3621,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3643,13 +3640,13 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
 
         if (action == 484 || action == 6) {
-            String s = info.demmonic.hdrs.media.impl.Menu.getCaption(option);
+            String s = Menu.getCaption(option);
             int j = s.indexOf(JString.WHI);
 
             if (j != -1) {
@@ -3703,7 +3700,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3722,7 +3719,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3771,7 +3768,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3816,7 +3813,7 @@ public class Game extends GameShell {
 
             if (Widget.instance[param2].parent == widgetOverlay) {
                 clickArea = 1;
-            } else if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            } else if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3833,7 +3830,7 @@ public class Game extends GameShell {
 
             if (Widget.instance[param2].parent == widgetOverlay) {
                 clickArea = 1;
-            } else if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            } else if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -4043,7 +4040,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -4063,13 +4060,13 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
 
         if (action == 606) {
-            String s = info.demmonic.hdrs.media.impl.Menu.getCaption(option);
+            String s = Menu.getCaption(option);
             int j = s.indexOf(JString.WHI);
 
             if (j != -1) {
@@ -4109,7 +4106,7 @@ public class Game extends GameShell {
         }
 
         if (action == 639) {
-            String s = info.demmonic.hdrs.media.impl.Menu.getCaption(option);
+            String s = Menu.getCaption(option);
             int j = s.indexOf(JString.WHI);
             if (j != -1) {
                 long l = JString.toLong(s.substring(j + 5).trim());
@@ -4143,7 +4140,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -4334,14 +4331,14 @@ public class Game extends GameShell {
         tmpHoveredWidget = 0;
 
         if (Mouse.within(Area.CHAT)) {
-            if (Chat.get_overlay() != -1) {
-                handleWidgetMouse(Widget.instance[Chat.get_overlay()], 17, 357, Mouse.lastX, Mouse.lastY, 0);
+            if (Chat.getOverlay() != -1) {
+                handleWidgetMouse(Widget.instance[Chat.getOverlay()], 17, 357, Mouse.lastX, Mouse.lastY, 0);
             } else if (Mouse.lastY < 434 && Mouse.lastX < 426) {
-                Chat.handle_mouse(Mouse.lastX - 17, Mouse.lastY - 357);
+                Chat.handleMouse(Mouse.lastX - 17, Mouse.lastY - 357);
             }
         }
 
-        if (Chat.get_overlay() != -1 && tmpHoveredWidget != hoveredChatWidget) {
+        if (Chat.getOverlay() != -1 && tmpHoveredWidget != hoveredChatWidget) {
             Chat.redraw = true;
             hoveredChatWidget = tmpHoveredWidget;
         }
@@ -5722,10 +5719,10 @@ public class Game extends GameShell {
                 if (r.archive == 0) {
                     Model.load(r.payload, r.file);
 
-                    if ((ondemand.mesh_flags(r.file) & 0x62) != 0) {
+                    if ((ondemand.modelFlags(r.file) & 0x62) != 0) {
                         Sidebar.draw = true;
 
-                        if (Chat.get_overlay() != -1) {
+                        if (Chat.getOverlay() != -1) {
                             Chat.redraw = true;
                         }
                     }
@@ -6082,17 +6079,17 @@ public class Game extends GameShell {
             return;
         }
 
-        if (info.demmonic.hdrs.media.impl.Menu.count >= 400) {
+        if (Menu.count >= 400) {
             return;
         }
 
         String suffix = p.toString();
 
         if (selectedItem) {
-            info.demmonic.hdrs.media.impl.Menu.add("Use " + selectedItemName + " with @whi@" + suffix, 491, x, y, index);
+            Menu.add("Use " + selectedItemName + " with @whi@" + suffix, 491, x, y, index);
         } else if (selectedWidget) {
             if ((selectedMask & 8) == 8) {
-                info.demmonic.hdrs.media.impl.Menu.add(selectedTooltip + " @whi@" + suffix, 365, x, y, index);
+                Menu.add(selectedTooltip + " @whi@" + suffix, 365, x, y, index);
             }
         } else {
             for (int i = 4; i >= 0; i--) {
@@ -6113,14 +6110,14 @@ public class Game extends GameShell {
                         offset = 2000;
                     }
 
-                    info.demmonic.hdrs.media.impl.Menu.add(playerAction[i] + " @whi@" + suffix, Action.PLAYER[i] + offset, x, y, index);
+                    Menu.add(playerAction[i] + " @whi@" + suffix, Action.PLAYER[i] + offset, x, y, index);
                 }
             }
         }
 
-        for (int i = 0; i < info.demmonic.hdrs.media.impl.Menu.count; i++) {
-            if (info.demmonic.hdrs.media.impl.Menu.getAction(i) == 516) {
-                info.demmonic.hdrs.media.impl.Menu.options[i].caption = "Walk here @whi@" + suffix;
+        for (int i = 0; i < Menu.count; i++) {
+            if (Menu.getAction(i) == 516) {
+                Menu.options[i].caption = "Walk here @whi@" + suffix;
                 break;
             }
         }
@@ -6158,7 +6155,7 @@ public class Game extends GameShell {
         if (sceneState == 1) {
             int state = getSceneLoadState((byte) -95);
             if (state != 0 && System.currentTimeMillis() - sceneLoadStart > 0x360_000L) {
-                Signlink.error(username + " glcfb " + serverSeed + "," + state + "," + lowDetail + "," + cache[0] + "," + ondemand.immediate_request_count() + "," + plane + "," + loadedRegionX + "," + loadedRegionY);
+                Signlink.error(username + " glcfb " + serverSeed + "," + state + "," + lowDetail + "," + cache[0] + "," + ondemand.immediateRequestCount() + "," + plane + "," + loadedRegionX + "," + loadedRegionY);
                 sceneLoadStart = System.currentTimeMillis();
             }
         }
@@ -6339,7 +6336,7 @@ public class Game extends GameShell {
 
     public static void handleViewportMouse() {
         if (!selectedItem && !selectedWidget) {
-            info.demmonic.hdrs.media.impl.Menu.add("Walk here", 516, Mouse.lastX, Mouse.lastY);
+            Menu.add("Walk here", 516, Mouse.lastX, Mouse.lastY);
         }
 
         int lastUid = -1;
@@ -6369,20 +6366,20 @@ public class Game extends GameShell {
                 }
 
                 if (selectedItem) {
-                    info.demmonic.hdrs.media.impl.Menu.add("Use " + selectedItemName + " with @cya@" + lc.name, 62, x, y, uid);
+                    Menu.add("Use " + selectedItemName + " with @cya@" + lc.name, 62, x, y, uid);
                 } else if (selectedWidget) {
                     if ((selectedMask & 4) == 4) {
-                        info.demmonic.hdrs.media.impl.Menu.add(selectedTooltip + " @cya@" + lc.name, 956, x, y, uid);
+                        Menu.add(selectedTooltip + " @cya@" + lc.name, 956, x, y, uid);
                     }
                 } else {
                     if (lc.action != null) {
                         for (int j = 4; j > -1; j--) {
                             if (lc.action[j] != null) {
-                                info.demmonic.hdrs.media.impl.Menu.add(lc.action[j] + " @cya@" + lc.name, Action.OBJECT[j], x, y, uid);
+                                Menu.add(lc.action[j] + " @cya@" + lc.name, Action.OBJECT[j], x, y, uid);
                             }
                         }
                     }
-                    info.demmonic.hdrs.media.impl.Menu.add("Examine @cya@" + lc.name, 1226, x, y, lc.index << 14);
+                    Menu.add("Examine @cya@" + lc.name, 1226, x, y, lc.index << 14);
                 }
             }
 
@@ -6434,20 +6431,20 @@ public class Game extends GameShell {
                     for (Item item = (Item) c.bottom(); item != null; item = (Item) c.previous()) {
                         ObjConfig oc = ObjConfig.get(item.index);
                         if (selectedItem) {
-                            info.demmonic.hdrs.media.impl.Menu.add("Use " + selectedItemName + " with @lre@" + oc.name, 511, x, y, item.index);
+                            Menu.add("Use " + selectedItemName + " with @lre@" + oc.name, 511, x, y, item.index);
                         } else if (selectedWidget) {
                             if ((selectedMask & 1) == 1) {
-                                info.demmonic.hdrs.media.impl.Menu.add(selectedTooltip + " @lre@" + oc.name, 94, x, y, item.index);
+                                Menu.add(selectedTooltip + " @lre@" + oc.name, 94, x, y, item.index);
                             }
                         } else {
                             for (int i = 4; i >= 0; i--) {
                                 if (oc.groundAction != null && oc.groundAction[i] != null) {
-                                    info.demmonic.hdrs.media.impl.Menu.add(oc.groundAction[i] + " @lre@" + oc.name, Action.GROUND_ITEM[i], x, y, item.index);
+                                    Menu.add(oc.groundAction[i] + " @lre@" + oc.name, Action.GROUND_ITEM[i], x, y, item.index);
                                 } else if (i == 2) {
-                                    info.demmonic.hdrs.media.impl.Menu.add("Take @lre@" + oc.name, 234, x, y, item.index);
+                                    Menu.add("Take @lre@" + oc.name, 234, x, y, item.index);
                                 }
                             }
-                            info.demmonic.hdrs.media.impl.Menu.add("Examine @lre@" + oc.name, 1448, x, y, item.index);
+                            Menu.add("Examine @lre@" + oc.name, 1448, x, y, item.index);
                         }
                     }
 
@@ -6503,25 +6500,25 @@ public class Game extends GameShell {
         }
 
         int clickButton = Mouse.clickButton;
-        int menuCount = info.demmonic.hdrs.media.impl.Menu.count;
+        int menuCount = Menu.count;
 
         if (selectedWidget && Mouse.clickX >= 516 && Mouse.clickY >= 160 && Mouse.clickX <= 765 && Mouse.clickY <= 205) {
             clickButton = 0;
         }
 
-        if (info.demmonic.hdrs.media.impl.Menu.visible) {
+        if (Menu.visible) {
             if (clickButton != 1) {
-                Area area = info.demmonic.hdrs.media.impl.Menu.area;
+                Area area = Menu.area;
 
                 int x = Mouse.lastX - area.x;
                 int y = Mouse.lastY - area.y;
-                int menuX = info.demmonic.hdrs.media.impl.Menu.x;
-                int menuY = info.demmonic.hdrs.media.impl.Menu.y;
-                int menuW = info.demmonic.hdrs.media.impl.Menu.width;
-                int menuH = info.demmonic.hdrs.media.impl.Menu.height;
+                int menuX = Menu.x;
+                int menuY = Menu.y;
+                int menuW = Menu.width;
+                int menuH = Menu.height;
 
                 if (x < menuX - 10 || x > menuX + menuW + 10 || y < menuY - 10 || y > menuY + menuH + 10) {
-                    info.demmonic.hdrs.media.impl.Menu.visible = false;
+                    Menu.visible = false;
                     if (area == Area.TAB) {
                         Sidebar.draw = true;
                     } else if (area == Area.CHAT) {
@@ -6531,11 +6528,11 @@ public class Game extends GameShell {
             }
 
             if (clickButton == 1) {
-                Area area = info.demmonic.hdrs.media.impl.Menu.area;
+                Area area = Menu.area;
 
-                int x = info.demmonic.hdrs.media.impl.Menu.x;
-                int y = info.demmonic.hdrs.media.impl.Menu.y;
-                int width = info.demmonic.hdrs.media.impl.Menu.width;
+                int x = Menu.x;
+                int y = Menu.y;
+                int width = Menu.width;
                 int clickX = Mouse.clickX - area.x;
                 int clickY = Mouse.clickY - area.y;
 
@@ -6551,7 +6548,7 @@ public class Game extends GameShell {
                     handleMenuOption(activeOption);
                 }
 
-                info.demmonic.hdrs.media.impl.Menu.visible = false;
+                Menu.visible = false;
 
                 if (area == Area.TAB) {
                     Sidebar.draw = true;
@@ -6562,12 +6559,12 @@ public class Game extends GameShell {
             }
         } else {
             if (clickButton == 1 && menuCount > 0) {
-                int action = info.demmonic.hdrs.media.impl.Menu.getLastAction();
+                int action = Menu.getLastAction();
 
                 for (int i : Action.DRAG) {
                     if (i == action) {
-                        int slot = info.demmonic.hdrs.media.impl.Menu.getLastParam(0);
-                        int index = info.demmonic.hdrs.media.impl.Menu.getLastParam(1);
+                        int slot = Menu.getLastParam(0);
+                        int index = Menu.getLastParam(1);
                         Widget w = Widget.instance[index];
 
                         if (w.itemsDraggable || w.itemsSwappable) {
@@ -6583,7 +6580,7 @@ public class Game extends GameShell {
                                 dragArea = 1;
                             }
 
-                            if (Widget.instance[index].parent == Chat.get_overlay()) {
+                            if (Widget.instance[index].parent == Chat.getOverlay()) {
                                 dragArea = 3;
                             }
                             return;
@@ -6603,7 +6600,7 @@ public class Game extends GameShell {
             }
 
             if (clickButton == 2 && menuCount > 0) {
-                info.demmonic.hdrs.media.impl.Menu.show();
+                Menu.show();
             }
         }
     }
@@ -6667,7 +6664,7 @@ public class Game extends GameShell {
                     }
 
                     if (!noOptions) {
-                        info.demmonic.hdrs.media.impl.Menu.add(child.option, 315, -1, child.index);
+                        Menu.add(child.option, 315, -1, child.index);
                     }
                 }
 
@@ -6676,23 +6673,23 @@ public class Game extends GameShell {
                     if (s.indexOf(' ') != -1) {
                         s = s.substring(0, s.indexOf(' '));
                     }
-                    info.demmonic.hdrs.media.impl.Menu.add(s + " @gre@" + child.optionSuffix, 626, -1, child.index);
+                    Menu.add(s + " @gre@" + child.optionSuffix, 626, -1, child.index);
                 }
 
                 if (child.optionType == 3 && hovered) {
-                    info.demmonic.hdrs.media.impl.Menu.add("Close", 200, -1, child.index);
+                    Menu.add("Close", 200, -1, child.index);
                 }
 
                 if (child.optionType == 4 && hovered) {
-                    info.demmonic.hdrs.media.impl.Menu.add(child.option, 169, -1, child.index);
+                    Menu.add(child.option, 169, -1, child.index);
                 }
 
                 if (child.optionType == 5 && hovered) {
-                    info.demmonic.hdrs.media.impl.Menu.add(child.option, 646, -1, child.index);
+                    Menu.add(child.option, 646, -1, child.index);
                 }
 
                 if (child.optionType == 6 && !dialogueOptionActive && hovered) {
-                    info.demmonic.hdrs.media.impl.Menu.add(child.option, 679, -1, child.index);
+                    Menu.add(child.option, 679, -1, child.index);
                 }
 
                 if (child.type == 2) {
@@ -6716,37 +6713,37 @@ public class Game extends GameShell {
                                     ObjConfig oc = ObjConfig.get(child.itemIndex[slot] - 1);
 
                                     if (oc == null) {
-                                        info.demmonic.hdrs.media.impl.Menu.add("Invalid Item", -1);
+                                        Menu.add("Invalid Item", -1);
                                         continue;
                                     }
 
                                     if (selectedItem && child.itemsHaveActions) {
                                         if (child.index != selectedItemWidget || slot != selectedItemSlot) {
-                                            info.demmonic.hdrs.media.impl.Menu.add("Use " + selectedItemName + " with @lre@" + oc.name, 870, slot, child.index, oc.index);
+                                            Menu.add("Use " + selectedItemName + " with @lre@" + oc.name, 870, slot, child.index, oc.index);
                                         }
                                     } else if (selectedWidget && child.itemsHaveActions) {
                                         if ((selectedMask & 0x10) == 16) {
-                                            info.demmonic.hdrs.media.impl.Menu.add(selectedTooltip + " @lre@" + oc.name, 543, slot, child.index, oc.index);
+                                            Menu.add(selectedTooltip + " @lre@" + oc.name, 543, slot, child.index, oc.index);
                                         }
                                     } else {
                                         if (child.itemsHaveActions) {
                                             for (int i = 4; i >= 3; i--) {
                                                 if (oc.action != null && oc.action[i] != null) {
-                                                    info.demmonic.hdrs.media.impl.Menu.add(oc.action[i] + " @lre@" + oc.name, Action.ITEM[i], slot, child.index, oc.index);
+                                                    Menu.add(oc.action[i] + " @lre@" + oc.name, Action.ITEM[i], slot, child.index, oc.index);
                                                 } else if (i == 4) {
-                                                    info.demmonic.hdrs.media.impl.Menu.add("Drop @lre@" + oc.name, 847, slot, child.index, oc.index);
+                                                    Menu.add("Drop @lre@" + oc.name, 847, slot, child.index, oc.index);
                                                 }
                                             }
                                         }
 
                                         if (child.itemsUsable) {
-                                            info.demmonic.hdrs.media.impl.Menu.add("Use @lre@" + oc.name, 447, slot, child.index, oc.index);
+                                            Menu.add("Use @lre@" + oc.name, 447, slot, child.index, oc.index);
                                         }
 
                                         if (child.itemsHaveActions && oc.action != null) {
                                             for (int i = 2; i >= 0; i--) {
                                                 if (oc.action[i] != null) {
-                                                    info.demmonic.hdrs.media.impl.Menu.add(oc.action[i] + " @lre@" + oc.name, Action.ITEM[i], slot, child.index, oc.index);
+                                                    Menu.add(oc.action[i] + " @lre@" + oc.name, Action.ITEM[i], slot, child.index, oc.index);
                                                 }
                                             }
                                         }
@@ -6754,12 +6751,12 @@ public class Game extends GameShell {
                                         if (child.itemActions != null) {
                                             for (int i = 4; i >= 0; i--) {
                                                 if (child.itemActions[i] != null) {
-                                                    info.demmonic.hdrs.media.impl.Menu.add(child.itemActions[i] + " @lre@" + oc.name, Action.WIDGET_ITEM[i], slot, child.index, oc.index);
+                                                    Menu.add(child.itemActions[i] + " @lre@" + oc.name, Action.WIDGET_ITEM[i], slot, child.index, oc.index);
                                                 }
                                             }
                                         }
 
-                                        info.demmonic.hdrs.media.impl.Menu.add("Examine @lre@" + oc.name, 1125, slot, child.index, oc.index);
+                                        Menu.add("Examine @lre@" + oc.name, 1125, slot, child.index, oc.index);
                                     }
                                 }
                             }
@@ -6894,7 +6891,7 @@ public class Game extends GameShell {
                     }
                     case "-offset": {
                         try {
-                            Game.port_offset = Integer.parseInt(args[++i]);
+                            Game.portOffset = Integer.parseInt(args[++i]);
                         } catch (Exception e) {
                             /* empty */
                         }
@@ -6963,7 +6960,7 @@ public class Game extends GameShell {
                 TitleScreen.draw(true);
             }
 
-            Game.connection = new Connection(instance, instance.getSocket(43594 + port_offset));
+            Game.connection = new Connection(instance, instance.getSocket(43594 + portOffset));
 
             long name_long = JString.toLong(username);
             int name_hash = (int) (name_long >> 16 & 0x1FL);
@@ -7057,8 +7054,8 @@ public class Game extends GameShell {
                 Game.nextUpdate = 0;
                 Game.logoutCycle = 0;
                 Game.markType = 0;
-                info.demmonic.hdrs.media.impl.Menu.reset();
-                info.demmonic.hdrs.media.impl.Menu.visible = false;
+                Menu.reset();
+                Menu.visible = false;
                 Game.instance.idleCycle = 0;
                 Chat.reset();
                 Game.selectedItem = false;
@@ -7110,7 +7107,7 @@ public class Game extends GameShell {
                 Sidebar.flashingTab = null;
                 Game.widgetUnderlay = -1;
                 Game.dialogueOptionActive = false;
-                info.demmonic.hdrs.media.impl.Menu.visible = false;
+                Menu.visible = false;
                 Game.inMultiZone = 0;
                 CharacterDesign.reset();
 
@@ -7194,8 +7191,8 @@ public class Game extends GameShell {
                 Game.psize = 0;
                 Game.netCycle = 0;
                 Game.nextUpdate = 0;
-                info.demmonic.hdrs.media.impl.Menu.reset();
-                info.demmonic.hdrs.media.impl.Menu.visible = false;
+                Menu.reset();
+                Menu.visible = false;
                 Game.sceneLoadStart = System.currentTimeMillis();
                 return;
             }
@@ -7414,9 +7411,9 @@ public class Game extends GameShell {
         LocConfig.staticModelCache.clear();
 
         if (lowDetail && Signlink.cacheFile != null) {
-            int meshCount = ondemand.get_file_count(0);
+            int meshCount = ondemand.getFileCount(0);
             for (int meshIndex = 0; meshIndex < meshCount; meshIndex++) {
-                int flags = ondemand.mesh_flags(meshIndex);
+                int flags = ondemand.modelFlags(meshIndex);
                 if ((flags & 0x79) == 0) {
                     Model.nullify(meshIndex);
                 }
@@ -8657,7 +8654,7 @@ public class Game extends GameShell {
         progressPercent = percent;
         progressCaption = caption;
 
-        TitleScreen.create_producers();
+        TitleScreen.createProducers();
 
         if (archive == null) {
             super.drawProgress(caption, percent);
@@ -8710,7 +8707,7 @@ public class Game extends GameShell {
     public URL getCodeBase() {
         try {
             if (instance.frame != null) {
-                return new URL("http://" + JString.SERVER + ':' + (80 + port_offset));
+                return new URL("http://" + JString.SERVER + ':' + (80 + portOffset));
             }
         } catch (Exception _ex) {
         }
@@ -8728,7 +8725,7 @@ public class Game extends GameShell {
 
     public void init() {
         nodeIndex = Integer.parseInt(getParameter("nodeid"));
-        port_offset = Integer.parseInt(getParameter("portoff"));
+        portOffset = Integer.parseInt(getParameter("portoff"));
 
         String s = getParameter("lowmem");
 
@@ -8913,7 +8910,7 @@ public class Game extends GameShell {
 
         TitleScreen.nullify();
         Flames.nullify();
-        info.demmonic.hdrs.media.impl.Menu.nullify();
+        Menu.nullify();
         LocConfig.nullify();
         ActorConfig.nullify();
         ObjConfig.nullify();
@@ -8983,17 +8980,17 @@ public class Game extends GameShell {
             drawProgress(JString.CONNECTING_TO_UPDATE_SERVER, 60);
 
             ondemand = new OnDemand();
-            ondemand.setup(archive_version, this);
+            ondemand.setup(archive_version);
 
-            SequenceFrame.init(ondemand.seq_frame_count());
-            Model.init(ondemand.get_file_count(0), ondemand);
+            SequenceFrame.init(ondemand.sequenceFrameCount());
+            Model.init(ondemand.getFileCount(0), ondemand);
 
             music = new MusicPlayer();
 
             if (!lowDetail) {
                 ondemand.sendRequest(2, 484);
 
-                while (ondemand.immediate_request_count() > 0) {
+                while (ondemand.immediateRequestCount() > 0) {
                     handleOndemand();
 
                     try {
@@ -9011,14 +9008,14 @@ public class Game extends GameShell {
 
             drawProgress(JString.REQUESTING_ANIMATIONS, 65);
             {
-                count = ondemand.get_file_count(1);
+                count = ondemand.getFileCount(1);
 
                 for (int i = 0; i < count; i++) {
                     ondemand.sendRequest(1, i);
                 }
 
-                while (ondemand.immediate_request_count() > 0) {
-                    int remaining = count - ondemand.immediate_request_count();
+                while (ondemand.immediateRequestCount() > 0) {
+                    int remaining = count - ondemand.immediateRequestCount();
 
                     if (remaining > 0) {
                         drawProgress("Loading animations - " + ((remaining * 100) / count) + "%", 65);
@@ -9039,19 +9036,19 @@ public class Game extends GameShell {
 
             drawProgress(JString.REQUESTING_MODELS, 70);
             {
-                count = ondemand.get_file_count(0);
+                count = ondemand.getFileCount(0);
 
                 for (int i = 0; i < count; i++) {
-                    int flags = ondemand.mesh_flags(i);
+                    int flags = ondemand.modelFlags(i);
                     if ((flags & 1) != 0) {
                         ondemand.sendRequest(0, i);
                     }
                 }
 
-                count = ondemand.immediate_request_count();
+                count = ondemand.immediateRequestCount();
 
-                while (ondemand.immediate_request_count() > 0) {
-                    int remaining = count - ondemand.immediate_request_count();
+                while (ondemand.immediateRequestCount() > 0) {
+                    int remaining = count - ondemand.immediateRequestCount();
 
                     if (remaining > 0) {
                         drawProgress("Loading models - " + (remaining * 100) / count + "%", 70);
@@ -9081,10 +9078,10 @@ public class Game extends GameShell {
                     ondemand.sendRequest(3, ondemand.getMapUid(48, 47, 1));
                     ondemand.sendRequest(3, ondemand.getMapUid(48, 148, 0));
                     ondemand.sendRequest(3, ondemand.getMapUid(48, 148, 1));
-                    count = ondemand.immediate_request_count();
+                    count = ondemand.immediateRequestCount();
 
-                    while (ondemand.immediate_request_count() > 0) {
-                        int remaining = count - ondemand.immediate_request_count();
+                    while (ondemand.immediateRequestCount() > 0) {
+                        int remaining = count - ondemand.immediateRequestCount();
 
                         if (remaining > 0) {
                             drawProgress("Loading maps - " + (remaining * 100) / count + "%", 75);
@@ -9099,10 +9096,10 @@ public class Game extends GameShell {
                     }
                 }
 
-                count = ondemand.get_file_count(0);
+                count = ondemand.getFileCount(0);
 
                 for (int i = 0; i < count; i++) {
-                    int flags = ondemand.mesh_flags(i);
+                    int flags = ondemand.modelFlags(i);
                     byte priority = 0;
 
                     if ((flags & 8) != 0) {
@@ -9130,11 +9127,11 @@ public class Game extends GameShell {
                     }
                 }
 
-                ondemand.request_regions(isMembers);
+                ondemand.requestRegions(isMembers);
 
                 if (!lowDetail) {
-                    for (int i = 1; i < ondemand.get_file_count(2); i++) {
-                        if (ondemand.has_midi(i)) {
+                    for (int i = 1; i < ondemand.getFileCount(2); i++) {
+                        if (ondemand.hasMidi(i)) {
                             ondemand.verify((byte) 1, 2, i);
                         }
                     }

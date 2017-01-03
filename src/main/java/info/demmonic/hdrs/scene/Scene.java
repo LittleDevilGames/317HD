@@ -1023,7 +1023,7 @@ public class Scene {
                                     int rgb_bitset;
 
                                     if (texture >= 0) {
-                                        hsl_bitset = Canvas3D.get_average_texture_rgb(texture);
+                                        hsl_bitset = Canvas3D.getAverageTextureRgb(texture);
                                         rgb_bitset = -1;
                                     } else if (f.color2 == 0xFF00FF) {
                                         hsl_bitset = 0;
