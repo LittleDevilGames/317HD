@@ -36,7 +36,7 @@ public class Cache {
             int sector = this.idx.readMedium();
 
             // Setup max sector for bound checking later.
-            int max_sector = (int) (this.data.length() / SECTOR_SIZE);
+            int maxSector = (int) (this.data.length() / SECTOR_SIZE);
 
             // If this file doesn't exist.
             if (size <= 0) {
@@ -44,7 +44,7 @@ public class Cache {
             }
 
             // If the sector doesn't exist.
-            if (sector <= 0 || sector > max_sector) {
+            if (sector <= 0 || sector > maxSector) {
                 //return null;
             }
 
@@ -66,25 +66,25 @@ public class Cache {
                 }
 
                 // Read the header of the current sector.
-                int file_index = this.data.readUnsignedShort();
-                int file_part = this.data.readUnsignedShort();
-                int next_sector = this.data.readMedium();
-                int sector_cache = this.data.readUnsignedByte();
+                int fileIndex = this.data.readUnsignedShort();
+                int filePart = this.data.readUnsignedShort();
+                int nextSector = this.data.readMedium();
+                int sectorCache = this.data.readUnsignedByte();
 
                 // Make sure all the information for this sector matches up to the file we're retrieving.
-                if (file_index != file) {
+                if (fileIndex != file) {
                     //return null;
                 }
 
-                if (file_part != part) {
+                if (filePart != part) {
                     //return null;
                 }
 
-                if (sector_cache != this.index) {
+                if (sectorCache != this.index) {
                     //return null;
                 }
 
-                if (next_sector < 0 || next_sector > max_sector) {
+                if (nextSector < 0 || nextSector > maxSector) {
                     //return null;
                 }
 
@@ -95,7 +95,7 @@ public class Cache {
                 read += remaining;
 
                 // We're now on our next sector. If our file only uses one sector then this doesn't matter.
-                sector = next_sector;
+                sector = nextSector;
 
                 // Increase the current part to keep track of how far into reading the file we are.
                 part++;
@@ -116,25 +116,25 @@ public class Cache {
         return (int) (this.data.length() / SECTOR_SIZE);
     }
 
-    public synchronized boolean put(byte[] data, int file_index) {
-        boolean exists = put(data, file_index, true);
+    public synchronized boolean put(byte[] data, int fileIndex) {
+        boolean exists = put(data, fileIndex, true);
 
         // If the file index we tried to write to doesn't exist or is empty.
         if (!exists) {
-            exists = put(data, file_index, false);
+            exists = put(data, fileIndex, false);
         }
 
         return exists;
     }
 
-    public synchronized boolean put(byte[] file_data, int file_index, boolean check_sectors) {
+    public synchronized boolean put(byte[] fileData, int fileIndex, boolean checkSectors) {
         try {
             int sector;
 
             // Check if the file already exists.
             // If so, then we'll just start from the sector it already occupies.
-            if (check_sectors) {
-                idx.seek(file_index * INDEX_SIZE);
+            if (checkSectors) {
+                idx.seek(fileIndex * INDEX_SIZE);
 
                 // Reads the index, but if we reach the end of the file then return false.
                 if (idx.read(buffer.payload, 0, INDEX_SIZE) < INDEX_SIZE) {
@@ -158,18 +158,18 @@ public class Cache {
             }
 
             // Update the index information.
-            idx.seek(file_index * INDEX_SIZE);
-            idx.writeMedium(file_data.length);
+            idx.seek(fileIndex * INDEX_SIZE);
+            idx.writeMedium(fileData.length);
             idx.writeMedium(sector);
 
             int written = 0;
 
             // Continue looping until we've written all the data.
-            for (int file_part = 0; written < file_data.length; file_part++) {
-                int next_sector = 0;
+            for (int filePart = 0; written < fileData.length; filePart++) {
+                int nextSector = 0;
 
                 // If the file exists already, and we're trying to replace its sectors.
-                if (check_sectors) {
+                if (checkSectors) {
                     data.seek(sector * SECTOR_SIZE);
 
                     // Reads the header, but if we reach the end of the file or have an invalid header,
@@ -181,16 +181,16 @@ public class Cache {
 
                         int file = buffer.readUnsignedShort();
                         int part = buffer.readUnsignedShort();
-                        next_sector = buffer.readMedium();
+                        nextSector = buffer.readMedium();
                         int cache = buffer.readUnsignedByte();
 
                         // Verify the sector
-                        if (file != file_index || part != file_part || cache != index) {
+                        if (file != fileIndex || part != filePart || cache != index) {
                             return false;
                         }
 
                         // Check sector bounds
-                        if (next_sector < 0 || (long) next_sector > data.length() / SECTOR_SIZE) {
+                        if (nextSector < 0 || (long) nextSector > data.length() / SECTOR_SIZE) {
                             return false;
                         }
                     }
@@ -199,34 +199,34 @@ public class Cache {
                 // The only reason next_sector would be 0 by here is if one of these scenarios occur:
                 // The file didn't have a next sector.
                 // We stopped checking for existing sectors, and are just appending new ones.
-                if (next_sector == 0) {
-                    check_sectors = false;
-                    next_sector = (int) ((data.length() + (SECTOR_SIZE - 1)) / SECTOR_SIZE);
+                if (nextSector == 0) {
+                    checkSectors = false;
+                    nextSector = (int) ((data.length() + (SECTOR_SIZE - 1)) / SECTOR_SIZE);
 
                     // If our data file doesn't exist yet, then we start SECTOR_SIZE bytes into it.
-                    if (next_sector == 0) {
-                        next_sector++;
+                    if (nextSector == 0) {
+                        nextSector++;
                     }
 
                     // If our next sector is our current sector, then just go to the next.
-                    if (next_sector == sector) {
-                        next_sector++;
+                    if (nextSector == sector) {
+                        nextSector++;
                     }
                 }
 
-                int remaining = file_data.length - written;
+                int remaining = fileData.length - written;
 
                 // The remaining data ends in our current sector, so we set it to 0 so it writes in this sector
                 // that there is no next sector.
                 if (remaining <= DATA_SIZE) {
-                    next_sector = 0;
+                    nextSector = 0;
                 }
 
                 // Write the sector header.
                 data.seek(sector * SECTOR_SIZE);
-                data.writeShort(file_index);
-                data.writeShort(file_part);
-                data.writeMedium(next_sector);
+                data.writeShort(fileIndex);
+                data.writeShort(filePart);
+                data.writeMedium(nextSector);
                 data.writeByte(this.index);
 
                 // We can only write so much data into one sector, so we're clamping how much is being written.
@@ -235,13 +235,13 @@ public class Cache {
                 }
 
                 // Write the data.
-                data.write(file_data, written, remaining);
+                data.write(fileData, written, remaining);
 
                 // Increase our written amount so our loop will eventually stop.
                 written += remaining;
 
                 // Set the current sector to the next.
-                sector = next_sector;
+                sector = nextSector;
             }
 
             return true;
