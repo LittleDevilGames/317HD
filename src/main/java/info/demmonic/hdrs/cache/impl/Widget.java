@@ -372,16 +372,16 @@ public class Widget {
                 w.option = b.readString();
                 if (w.option.length() == 0) {
                     if (w.optionType == 1) {
-                        w.option = JString.OK;
+                        w.option = "Ok";
                     }
                     if (w.optionType == 4) {
-                        w.option = JString.SELECT;
+                        w.option = "Select";
                     }
                     if (w.optionType == 5) {
-                        w.option = JString.SELECT;
+                        w.option = "Select";
                     }
                     if (w.optionType == 6) {
-                        w.option = JString.CONTINUE;
+                        w.option = "Continue";
                     }
                 }
             }
@@ -573,7 +573,7 @@ public class Widget {
                 }
 
                 if (this.optionType == 6 && Game.dialogueOptionActive) {
-                    s = JString.PLEASE_WAIT;
+                    s = "Please wait...";
                     rgb = this.rgbDisabled;
                 }
 

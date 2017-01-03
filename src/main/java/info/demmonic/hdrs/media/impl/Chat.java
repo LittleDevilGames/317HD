@@ -7,7 +7,10 @@ import info.demmonic.hdrs.input.Mouse;
 import info.demmonic.hdrs.input.model.Area;
 import info.demmonic.hdrs.input.model.Key;
 import info.demmonic.hdrs.io.Buffer;
-import info.demmonic.hdrs.media.*;
+import info.demmonic.hdrs.media.Bitmap;
+import info.demmonic.hdrs.media.BitmapFont;
+import info.demmonic.hdrs.media.Canvas2D;
+import info.demmonic.hdrs.media.Canvas3D;
 import info.demmonic.hdrs.util.JString;
 
 import java.awt.event.KeyEvent;
@@ -28,9 +31,9 @@ public class Chat extends Widget {
     public static final int SETTING_HIDE = 3;
     public static final int SETTING_OFF = 2;
     public static final int SETTING_ON = 0;
-    public static final String[] SETTINGS_PRIVATE = {JString.ON, JString.FRIENDS, JString.OFF};
-    public static final String[] SETTINGS_PUBLIC = {JString.ON, JString.FRIENDS, JString.OFF, JString.HIDE};
-    public static final String[] SETTINGS_TRADE = {JString.ON, JString.FRIENDS, JString.OFF};
+    public static final String[] SETTINGS_PRIVATE = {"On", "Friends", "Off"};
+    public static final String[] SETTINGS_PUBLIC = {"On", "Friends", "Off", "Hide"};
+    public static final String[] SETTINGS_TRADE = {"On", "Friends", "Off"};
     public static final byte TYPE_OVERLAY = 0;
     public static final byte TYPE_UNDERLAY = 1;
     public static final int TYPE_NORMAL = 0;
@@ -82,7 +85,7 @@ public class Chat extends Widget {
     }
 
     public static void clearInput() {
-        Chat.setInput(Chat.INPUT_CHAT, JString.BLANK);
+        Chat.setInput(Chat.INPUT_CHAT, "");
     }
 
     public static void clearOverlay() {
@@ -1162,10 +1165,10 @@ public class Chat extends Widget {
 
             background.draw(0, 0);
 
-            BitmapFont.NORMAL.draw(JString.PUBLIC_CHAT, 55, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
-            BitmapFont.NORMAL.draw(JString.PRIVATE_CHAT, 184, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
-            BitmapFont.NORMAL.draw(JString.TRADE_COMPETE, 324, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
-            BitmapFont.NORMAL.draw(JString.REPORT_ABUSE, 458, 33, 0xffffff, BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw("Public chat", 55, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw("Private chat", 184, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw("Trade/compete", 324, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw("Report abuse", 458, 33, 0xffffff, BitmapFont.SHADOW_CENTER);
 
             BitmapFont.NORMAL.draw(Chat.SETTINGS_PUBLIC[values[0]], 55, 41, Chat.SETTING_COLOR[values[0]], BitmapFont.SHADOW_CENTER);
             BitmapFont.NORMAL.draw(Chat.SETTINGS_PRIVATE[values[1]], 184, 41, Chat.SETTING_COLOR[values[1]], BitmapFont.SHADOW_CENTER);

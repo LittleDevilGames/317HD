@@ -6,7 +6,6 @@ import info.demmonic.hdrs.cache.impl.Widget;
 import info.demmonic.hdrs.input.model.Area;
 import info.demmonic.hdrs.media.Bitmap;
 import info.demmonic.hdrs.media.Canvas3D;
-import info.demmonic.hdrs.util.JString;
 
 public class Sidebar {
 
@@ -128,21 +127,21 @@ public class Sidebar {
 
         try {
             for (int i = 0; i < ICON.length; i++) {
-                ICON[i] = new Bitmap(archive, JString.SIDE_ICONS, i);
+                ICON[i] = new Bitmap(archive, "sideicons", i);
             }
         } catch (Exception e) {
         }
 
-        REDSTONE[0] = new Bitmap(archive, JString.REDSTONE_1);
-        REDSTONE[1] = new Bitmap(archive, JString.REDSTONE_2);
-        REDSTONE[2] = new Bitmap(archive, JString.REDSTONE_3);
-        REDSTONE[3] = new Bitmap(archive, JString.REDSTONE_1).flipHorizontally();
-        REDSTONE[4] = new Bitmap(archive, JString.REDSTONE_2).flipHorizontally();
-        REDSTONE[5] = new Bitmap(archive, JString.REDSTONE_1).flipVertically();
-        REDSTONE[6] = new Bitmap(archive, JString.REDSTONE_2).flipVertically();
-        REDSTONE[7] = new Bitmap(archive, JString.REDSTONE_3).flipVertically();
-        REDSTONE[8] = new Bitmap(archive, JString.REDSTONE_1).flipHorizontally().flipVertically();
-        REDSTONE[9] = new Bitmap(archive, JString.REDSTONE_2).flipHorizontally().flipVertically();
+        REDSTONE[0] = new Bitmap(archive, "redstone1");
+        REDSTONE[1] = new Bitmap(archive, "redstone2");
+        REDSTONE[2] = new Bitmap(archive, "redstone3");
+        REDSTONE[3] = new Bitmap(archive, "redstone1").flipHorizontally();
+        REDSTONE[4] = new Bitmap(archive, "redstone2").flipHorizontally();
+        REDSTONE[5] = new Bitmap(archive, "redstone1").flipVertically();
+        REDSTONE[6] = new Bitmap(archive, "redstone2").flipVertically();
+        REDSTONE[7] = new Bitmap(archive, "redstone3").flipVertically();
+        REDSTONE[8] = new Bitmap(archive, "redstone1").flipHorizontally().flipVertically();
+        REDSTONE[9] = new Bitmap(archive, "redstone2").flipHorizontally().flipVertically();
 
         int i = 0;
         TAB[i] = new Tab(i++, REDSTONE[0], ICON[0], 22, 10, 29, 13); // Combat Style

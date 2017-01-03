@@ -362,7 +362,7 @@ public class Game extends GameShell {
         lastSoundIndex = -1;
         aBooleanArray876 = new boolean[5];
         drawFlames = false;
-        reportAbuseInput = JString.BLANK;
+        reportAbuseInput = "";
         localPlayerIndex = -1;
         players = new Player[MAX_PLAYER_COUNT];
         playerIndices = new int[MAX_PLAYER_COUNT];
@@ -431,8 +431,8 @@ public class Game extends GameShell {
         serverSentChunk = false;
         camCinemaMode = false;
         mapZoomModifier = 1;
-        username = JString.BLANK;
-        password = JString.BLANK;
+        username = "";
+        password = "";
         reportAbuseWindex = -1;
         spawnedLocs = new Chain();
         chaseCamPitch = Camera.MIN_PITCH;
@@ -448,7 +448,7 @@ public class Game extends GameShell {
         dragging = false;
         soundDelay = new int[50];
         redraw = false;
-        TitleScreen.setMessage(JString.BLANK, JString.BLANK);
+        TitleScreen.setMessage("", "");
         xCamOffMod = 2;
         pathQueueX = new int[4000];
         pathQueueY = new int[4000];
@@ -603,7 +603,7 @@ public class Game extends GameShell {
             int y = 17;
 
             StringBuilder sb = new StringBuilder();
-            sb.append(JString.FPS_).append(counter.get());
+            sb.append("Fps: ").append(counter.get());
 
             BitmapFont.NORMAL.draw(sb.toString(), x, y, 0xFFFF00, BitmapFont.RIGHT | BitmapFont.SHADOW);
             y += 17;
@@ -612,15 +612,15 @@ public class Game extends GameShell {
             int memUsed = (int) ((runtime.totalMemory() - runtime.freeMemory()) / 1024L);
 
             sb.delete(0, sb.length());
-            sb.append(JString.MEM_).append(memUsed).append('k');
+            sb.append("Mem: ").append(memUsed).append('k');
 
             BitmapFont.NORMAL.draw(sb.toString(), x, y, 0xFFFF00, BitmapFont.RIGHT | BitmapFont.SHADOW);
             y += 17;
 
             sb.delete(0, sb.length());
-            sb.append(JString.OUT_).append(bytesSent).append(JString.BS_);
+            sb.append("Out: ").append(bytesSent).append("B/s");
             sb.append(' ');
-            sb.append(JString.IN_).append(bytesRead).append(JString.BS_);
+            sb.append("In: ").append(bytesRead).append("B/s");
 
             BitmapFont.NORMAL.draw(sb.toString(), x, y, 0xFFFF00, BitmapFont.RIGHT | BitmapFont.SHADOW);
             y += 17;
@@ -636,7 +636,7 @@ public class Game extends GameShell {
             int minutes = remaining / 60000;
             int seconds = (remaining / 1000) % 60;
 
-            BitmapFont.NORMAL.draw(JString.SYSTEM_UPDATE_IN + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds), 4, 328, 0xFFFF00, BitmapFont.SHADOW);
+            BitmapFont.NORMAL.draw("System update in: " + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds), 4, 328, 0xFFFF00, BitmapFont.SHADOW);
         }
     }
 
@@ -1558,11 +1558,11 @@ public class Game extends GameShell {
         int len = b.length();
 
         if (len > 12) {
-            b.insert(0, JString.GR2).replace(6, 22, JString.BLANK).append(JString._BILLION_).append(JString.WHI).append('(');
+            b.insert(0, "@gr2").replace(6, 22, "").append(" billion ").append("@whi@").append('(');
         } else if (len > 8) {
-            b.insert(0, JString.GRE).replace(8, 18, JString.BLANK).append(JString._MILLION_).append(JString.WHI).append('(');
+            b.insert(0, "@gre@").replace(8, 18, "").append(" million ").append("@whi@").append('(');
         } else if (len > 4) {
-            b.insert(0, JString.CYA).replace(8, 14, JString.BLANK).append(JString.K_).append(JString.WHI).append('(');
+            b.insert(0, "@cya@").replace(8, 14, "").append("K").append("@whi@").append('(');
         }
 
         return b.insert(0, ' ').append(s).append(')').toString();
@@ -1597,12 +1597,12 @@ public class Game extends GameShell {
         }
 
         if (friendCount >= 100 && freeFriendsList != 1) {
-            Chat.put(JString.FRIENDS_FULL, 0);
+            Chat.put("Your friendlist is full. Max of 100 for free users, and 200 for members", 0);
             return;
         }
 
         if (friendCount >= 200) {
-            Chat.put(JString.FRIENDS_FULL, 0);
+            Chat.put("Your friendlist is full. Max of 100 for free users, and 200 for members", 0);
             return;
         }
 
@@ -2378,7 +2378,7 @@ public class Game extends GameShell {
         } else {
             if (ac.action != null) {
                 for (int i = 4; i >= 0; i--) {
-                    if (ac.action[i] != null && !ac.action[i].equalsIgnoreCase(JString.ATTACK)) {
+                    if (ac.action[i] != null && !ac.action[i].equalsIgnoreCase("attack")) {
                         Menu.add(ac.action[i] + " @yel@" + s, Action.ACTOR[i], x, y, index);
                     }
                 }
@@ -2386,7 +2386,7 @@ public class Game extends GameShell {
             }
             if (ac.action != null) {
                 for (int i = 4; i >= 0; i--) {
-                    if (ac.action[i] != null && ac.action[i].equalsIgnoreCase(JString.ATTACK)) {
+                    if (ac.action[i] != null && ac.action[i].equalsIgnoreCase("attack")) {
                         int off = 0;
                         if (ac.combatLevel > self.combatLevel) {
                             off = 2000;
@@ -2555,7 +2555,7 @@ public class Game extends GameShell {
             }
         } catch (Exception _ex) {
             Signlink.error("glfc_ex " + self.sceneX + "," + self.sceneY + "," + chaseCamX + "," + chaseCamY + "," + loadedRegionX + "," + loadedRegionY + "," + mapBaseX + "," + mapBaseY);
-            throw new RuntimeException(JString.EEK);
+            throw new RuntimeException("eek");
         }
     }
 
@@ -2679,8 +2679,8 @@ public class Game extends GameShell {
             return;
         }
 
-        BitmapFont.NORMAL.draw(JString.CONNECTION_LOST, 256, 143, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
-        BitmapFont.NORMAL.draw(JString.ATTEMPTING_TO_REESTABLISH, 256, 158, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
+        BitmapFont.NORMAL.draw("Connection lost", 256, 143, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
+        BitmapFont.NORMAL.draw("Please wait - attempting to reestablish", 256, 158, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
         minimapState = 0;
         mapMarkerX = 0;
         loggedIn = false;
@@ -3376,7 +3376,7 @@ public class Game extends GameShell {
 
         if (action == 337 || action == 42 || action == 792 || action == 322) {
             String s = Menu.getCaption(option);
-            int i = s.indexOf(JString.WHI);
+            int i = s.indexOf("@whi@");
             if (i != -1) {
                 long l = JString.toLong(s.substring(i + 5).trim());
                 switch (action) {
@@ -3440,7 +3440,7 @@ public class Game extends GameShell {
 
         if (action == 484 || action == 6) {
             String s = Menu.getCaption(option);
-            int j = s.indexOf(JString.WHI);
+            int j = s.indexOf("@whi@");
 
             if (j != -1) {
                 s = s.substring(j + 5).trim();
@@ -3860,7 +3860,7 @@ public class Game extends GameShell {
 
         if (action == 606) {
             String s = Menu.getCaption(option);
-            int j = s.indexOf(JString.WHI);
+            int j = s.indexOf("@whi@");
 
             if (j != -1) {
                 if (widgetOverlay == -1) {
@@ -3900,7 +3900,7 @@ public class Game extends GameShell {
 
         if (action == 639) {
             String s = Menu.getCaption(option);
-            int j = s.indexOf(JString.WHI);
+            int j = s.indexOf("@whi@");
             if (j != -1) {
                 long l = JString.toLong(s.substring(j + 5).trim());
                 int friend_index = -1;
@@ -6671,8 +6671,8 @@ public class Game extends GameShell {
 
         TitleScreen.state = TitleScreen.State.WELCOME;
 
-        username = JString.BLANK;
-        password = JString.BLANK;
+        username = "";
+        password = "";
 
         clearCaches();
         landscape.reset();
@@ -6692,7 +6692,7 @@ public class Game extends GameShell {
 
         try {
             if (!reconnection) {
-                TitleScreen.setMessage(JString.BLANK, JString.CONNECTING_TO_SERVER);
+                TitleScreen.setMessage("", "Connecting to server...");
                 TitleScreen.draw(true);
             }
 
@@ -6856,62 +6856,62 @@ public class Game extends GameShell {
             }
 
             if (opcode == 3) {
-                TitleScreen.setMessage(JString.BLANK, JString.INVALID_CREDENTIALS);
+                TitleScreen.setMessage("", "Invalid username or password");
                 return;
             }
 
             if (opcode == 4) {
-                TitleScreen.setMessage(JString.ACCOUNT_DISABLED, JString.CHECK_MESSAGES);
+                TitleScreen.setMessage("Your account ahs been disabled", "Please check your message-centre for details");
                 return;
             }
 
             if (opcode == 5) {
-                TitleScreen.setMessage(JString.ALREADY_LOGGED_IN, JString.TRY_AGAIN_IN_60);
+                TitleScreen.setMessage("Your account is already logged in", "Try again in 60 secs...");
                 return;
             }
 
             if (opcode == 6) {
-                TitleScreen.setMessage(JString.UPDATED, JString.RELOAD_PAGE);
+                TitleScreen.setMessage("RoonScape has been updated!", "Please reload this page");
                 return;
             }
 
             if (opcode == 7) {
-                TitleScreen.setMessage(JString.WORLD_FULL, JString.DIFFERENT_WORLD);
+                TitleScreen.setMessage("This world is full", "Please use a different world");
                 return;
             }
 
             if (opcode == 8) {
-                TitleScreen.setMessage(JString.UNABLE_TO_CONNECT, JString.SERVER_OFFLINE);
+                TitleScreen.setMessage("Unable to connect.", "Login server offline.");
                 return;
             }
 
             if (opcode == 9) {
-                TitleScreen.setMessage(JString.LOGIN_LIMIT, JString.TOO_MANY_CONNECTIONS);
+                TitleScreen.setMessage("Login limit exceeded.", "Too many connections from your address.");
                 return;
             }
 
             if (opcode == 10) {
-                TitleScreen.setMessage(JString.UNABLE_TO_CONNECT, JString.BAD_SESSION);
+                TitleScreen.setMessage("Unable to connect.", "Bad session id");
                 return;
             }
 
             if (opcode == 11) {
-                TitleScreen.setMessage(JString.REJECTED_SESSION, JString.TRY_AGAIN);
+                TitleScreen.setMessage("Login server rejected session.", "Please try again.");
                 return;
             }
 
             if (opcode == 12) {
-                TitleScreen.setMessage(JString.NEED_MEMBERS, JString.PLEASE_SUBSCRIBE);
+                TitleScreen.setMessage("You need a members account to login to this world.", "Please subscribe, or use a different world.");
                 return;
             }
 
             if (opcode == 13) {
-                TitleScreen.setMessage(JString.COULDNT_LOGIN, JString.USE_DIFFERENT_WORLD);
+                TitleScreen.setMessage("Could not complete login", "Please try using a different world.");
                 return;
             }
 
             if (opcode == 14) {
-                TitleScreen.setMessage(JString.SERVER_UPDATING, JString.WAIT_1_MINUTE);
+                TitleScreen.setMessage("The server is being updated.", "Please wait 1 minute and try again.");
                 return;
             }
 
@@ -6933,22 +6933,22 @@ public class Game extends GameShell {
             }
 
             if (opcode == 16) {
-                TitleScreen.setMessage(JString.LOGIN_EXCEEDED, JString.WAIT_1_MINUTE);
+                TitleScreen.setMessage("Login attempts exceeded", "Please wait 1 minute and try again.");
                 return;
             }
 
             if (opcode == 17) {
-                TitleScreen.setMessage(JString.WITHIN_MEMBERS, JString.MOVE_TO_FREE);
+                TitleScreen.setMessage("You are standing in a members-only area.", "To play on this world, move to a free area first.");
                 return;
             }
 
             if (opcode == 20) {
-                TitleScreen.setMessage(JString.INVALID_SERVER, JString.DIFFERENT_WORLD);
+                TitleScreen.setMessage("Invalid loginserver requested.", "Please use a different world.");
                 return;
             }
             if (opcode == 21) {
                 for (int k1 = connection.getByte(); k1 >= 0; k1--) {
-                    TitleScreen.setMessage(JString.JUST_LEFT_WORLD, JString.TRANSFERRED + k1 + " seconds");
+                    TitleScreen.setMessage("You have only just left another world", "Your profile will be transferred in: " + k1 + " seconds");
                     TitleScreen.draw(true);
                     try {
                         Thread.sleep(1000L);
@@ -6970,20 +6970,20 @@ public class Game extends GameShell {
                         netLogin(username, password, reconnection);
                         return;
                     } else {
-                        TitleScreen.setMessage(JString.NO_RESPONSE, JString.WAIT_1_MINUTE);
+                        TitleScreen.setMessage("No response from loginserver", "Please wait 1 minute and try again.");
                         return;
                     }
                 } else {
-                    TitleScreen.setMessage(JString.NO_RESPONSE, JString.DIFFERENT_WORLD);
+                    TitleScreen.setMessage("No response from loginserver", "Please use a different world.");
                     return;
                 }
             } else {
                 System.out.println("response:" + opcode);
-                TitleScreen.setMessage(JString.UNEXPECTED_RESPONSE, JString.DIFFERENT_WORLD);
+                TitleScreen.setMessage("Unexpected server response", "Please use a different world");
                 return;
             }
         } catch (IOException _ex) {
-            TitleScreen.setMessage(JString.BLANK, JString.ERROR_CONNECTING);
+            TitleScreen.setMessage("", "Error connecting to server.");
         }
     }
 
@@ -7432,7 +7432,7 @@ public class Game extends GameShell {
 
         if (actorCount > Game.actorCount) {
             Signlink.error(username + " Too many npcs");
-            throw new RuntimeException(JString.EEK);
+            throw new RuntimeException("eek");
         }
 
         Game.actorCount = 0;
@@ -7503,13 +7503,13 @@ public class Game extends GameShell {
 
         if (b.position != psize) {
             Signlink.error(username + " size mismatch in getactorpos - pos:" + b.position + " psize:" + psize);
-            throw new RuntimeException(JString.EEK);
+            throw new RuntimeException("eek");
         }
 
         for (int i = 0; i < actorCount; i++) {
             if (actors[actorIndices[i]] == null) {
                 Signlink.error(username + " null entry in actor list - pos:" + i + " size:" + actorCount);
-                throw new RuntimeException(JString.EEK);
+                throw new RuntimeException("eek");
             }
         }
     }
@@ -7834,7 +7834,7 @@ public class Game extends GameShell {
 
         if (playerCount > Game.playerCount) {
             Signlink.error(username + " Too many players");
-            throw new RuntimeException(JString.EEK);
+            throw new RuntimeException("eek");
         }
 
         Game.playerCount = 0;
@@ -7905,13 +7905,13 @@ public class Game extends GameShell {
 
         if (b.position != psize) {
             Signlink.error("Error packet size mismatch in getplayer pos:" + b.position + " psize:" + psize);
-            throw new RuntimeException(JString.EEK);
+            throw new RuntimeException("eek");
         }
 
         for (int i = 0; i < playerCount; i++) {
             if (players[playerIndices[i]] == null) {
                 Signlink.error(username + " null entry in pl list - pos:" + i + " size:" + playerCount);
-                throw new RuntimeException(JString.EEK);
+                throw new RuntimeException("eek");
             }
         }
     }
@@ -7925,17 +7925,17 @@ public class Game extends GameShell {
 
         if (type >= 1 && type <= 100 || type >= 701 && type <= 800) {
             if (type == 1 && frenemiesStatus == 0) {
-                w.messageDisabled = JString.LOADING_FRIEND_LIST;
+                w.messageDisabled = "Loading friend list";
                 w.optionType = 0;
                 return;
             }
             if (type == 1 && frenemiesStatus == 1) {
-                w.messageDisabled = JString.CONNECTING_TO_FRIENDSERVER;
+                w.messageDisabled = "Connecting to friendserver";
                 w.optionType = 0;
                 return;
             }
             if (type == 2 && frenemiesStatus != 2) {
-                w.messageDisabled = JString.PLEASE_WAIT;
+                w.messageDisabled = "Please wait...";
                 w.optionType = 0;
                 return;
             }
@@ -7952,7 +7952,7 @@ public class Game extends GameShell {
             }
 
             if (type >= count) {
-                w.messageDisabled = JString.BLANK;
+                w.messageDisabled = "";
                 w.optionType = 0;
                 return;
             } else {
@@ -7976,17 +7976,17 @@ public class Game extends GameShell {
             }
 
             if (type >= count) {
-                w.messageDisabled = JString.BLANK;
+                w.messageDisabled = "";
                 w.optionType = 0;
                 return;
             }
 
             if (friendNode[type] == 0) {
-                w.messageDisabled = JString.OFFLINE;
+                w.messageDisabled = "@red@Offline";
             } else if (friendNode[type] == nodeIndex) {
-                w.messageDisabled = JString.WORLD + (friendNode[type] - 9);
+                w.messageDisabled = "@gre@World-" + (friendNode[type] - 9);
             } else {
-                w.messageDisabled = JString.WORLD + (friendNode[type] - 9);
+                w.messageDisabled = "@gre@World-" + (friendNode[type] - 9);
             }
 
             w.optionType = 1;
@@ -8010,13 +8010,13 @@ public class Game extends GameShell {
 
         if (type >= 401 && type <= 500) {
             if ((type -= 401) == 0 && frenemiesStatus == 0) {
-                w.messageDisabled = JString.LOADING_IGNORE_LIST;
+                w.messageDisabled = "Loading ignore list";
                 w.optionType = 0;
                 return;
             }
 
             if (type == 1 && frenemiesStatus == 0) {
-                w.messageDisabled = JString.PLEASE_WAIT;
+                w.messageDisabled = "Please wait...";
                 w.optionType = 0;
                 return;
             }
@@ -8028,7 +8028,7 @@ public class Game extends GameShell {
             }
 
             if (type >= count) {
-                w.messageDisabled = JString.BLANK;
+                w.messageDisabled = "";
                 w.optionType = 0;
                 return;
             } else {
@@ -8060,10 +8060,10 @@ public class Game extends GameShell {
         if (type == 620) {
             if (reportAbuseMute) {
                 w.rgbDisabled = 0x00ff00;
-                w.messageDisabled = JString.MUTE_ON;
+                w.messageDisabled = "Moderator option: Mute player for 48 hours: <ON>";
             } else {
                 w.rgbDisabled = 0xffffff;
-                w.messageDisabled = JString.MUTE_OFF;
+                w.messageDisabled = "Moderator option: Mute player for 48 hours: <OFF>";
             }
         }
 
@@ -8071,29 +8071,29 @@ public class Game extends GameShell {
             if (welcomeLastIp != 0) {
                 String s;
                 if (welcomeLastPlaydate == 0) {
-                    s = JString.EARLIER_TODAY;
+                    s = "earlier today";
                 } else if (welcomeLastPlaydate == 1) {
-                    s = JString.YESTERDAY;
+                    s = "yesterday";
                 } else {
-                    s = welcomeLastPlaydate + ' ' + JString.DAYS_AGO;
+                    s = welcomeLastPlaydate + ' ' + " days ago";
                 }
                 w.messageDisabled = "You last logged in " + s + " from: " + Signlink.resolvedDns;
             } else {
-                w.messageDisabled = JString.BLANK;
+                w.messageDisabled = "";
             }
         }
 
         if (type == 651) {
             if (welcomeUnreadMessages == 0) {
-                w.messageDisabled = JString.UNREAD_MESSAGES_0;
+                w.messageDisabled = "0 unread messages";
                 w.rgbDisabled = 0xFFFF00;
             }
             if (welcomeUnreadMessages == 1) {
-                w.messageDisabled = JString.UNREAD_MESSAGE_1;
+                w.messageDisabled = "1 unread message";
                 w.rgbDisabled = 0xFF00;
             }
             if (welcomeUnreadMessages > 1) {
-                w.messageDisabled = welcomeUnreadMessages + ' ' + JString.UNREAD_MESSAGES;
+                w.messageDisabled = welcomeUnreadMessages + ' ' + "unread messages";
                 w.rgbDisabled = 0xFF00;
             }
         }
@@ -8101,12 +8101,12 @@ public class Game extends GameShell {
         if (type == 652) {
             if (welcomeInfo == 201) {
                 if (welcomeNotify == 1) {
-                    w.messageDisabled = JString.NON_MEMBERS_1;
+                    w.messageDisabled = "@yel@This is a non-members world: @whi@Since you are a member we";
                 } else {
-                    w.messageDisabled = JString.BLANK;
+                    w.messageDisabled = "";
                 }
             } else if (welcomeInfo == 200) {
-                w.messageDisabled = JString.NO_RECOVERIES;
+                w.messageDisabled = "You have not yet set any password recovery questions.";
             } else {
                 String s1;
                 if (welcomeInfo == 0) {
@@ -8114,7 +8114,7 @@ public class Game extends GameShell {
                 } else if (welcomeInfo == 1) {
                     s1 = "Yesterday";
                 } else {
-                    s1 = welcomeInfo + ' ' + JString.DAYS_AGO;
+                    s1 = welcomeInfo + ' ' + " days ago";
                 }
                 w.messageDisabled = s1 + " you changed your recovery questions";
             }
@@ -8123,32 +8123,32 @@ public class Game extends GameShell {
         if (type == 653) {
             if (welcomeInfo == 201) {
                 if (welcomeNotify == 1) {
-                    w.messageDisabled = JString.NON_MEMBERS_2;
+                    w.messageDisabled = "@whi@recommend you use a members world instead. You may use";
                 } else {
-                    w.messageDisabled = JString.BLANK;
+                    w.messageDisabled = "";
                 }
             } else if (welcomeInfo == 200) {
-                w.messageDisabled = JString.SECURE_YOUR_ACCOUNT;
+                w.messageDisabled = "We strongly recommend you do so now to secure your account.";
             } else {
-                w.messageDisabled = JString.CANCEL_RECOVERIES;
+                w.messageDisabled = "If you do not remember making this change then cancel it immediately";
             }
         }
 
         if (type == 654) {
             if (welcomeInfo == 201) {
                 if (welcomeNotify == 1) {
-                    w.messageDisabled = JString.NON_MEMBERS_3;
+                    w.messageDisabled = "@whi@this world but member benefits are unavailable whilst here.";
                     return;
                 } else {
-                    w.messageDisabled = JString.BLANK;
+                    w.messageDisabled = "";
                     return;
                 }
             }
             if (welcomeInfo == 200) {
-                w.messageDisabled = JString.ACCOUNT_MANAGEMENT;
+                w.messageDisabled = "Do this from the 'account management' area on our front webpage";
                 return;
             }
-            w.messageDisabled = JString.ACCOUNT_MANAGEMENT;
+            w.messageDisabled = "Do this from the 'account management' area on our front webpage";
         }
     }
 
@@ -8413,7 +8413,6 @@ public class Game extends GameShell {
 
     public void retrieveChecksums() {
         archiveCrc[8] = 0;
-        String error = JString.UNKNOWN_ERROR;
 
         while (archiveCrc[8] == 0) {
             try {
@@ -8437,13 +8436,10 @@ public class Game extends GameShell {
                     archiveCrc[8] = 0;
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                error = JString.EOF_ERROR;
                 archiveCrc[8] = 0;
             } catch (IOException e) {
-                error = JString.CONNECTION_ERROR;
                 archiveCrc[8] = 0;
             } catch (Exception e) {
-                error = JString.UNEXPECTED_ERROR;
                 archiveCrc[8] = 0;
             }
 
@@ -8766,47 +8762,47 @@ public class Game extends GameShell {
                 Sidebar.load(archiveMedia);
 
                 for (int i = 0; i < imageMapMarkers.length; i++) {
-                    imageMapMarkers[i] = new Sprite(archiveMedia, JString.MAP_MARKER, i);
+                    imageMapMarkers[i] = new Sprite(archiveMedia, "mapmarker", i);
                 }
 
                 for (int i = 0; i < imageCrosses.length; i++) {
-                    imageCrosses[i] = new Sprite(archiveMedia, JString.CROSS, i);
+                    imageCrosses[i] = new Sprite(archiveMedia, "cross", i);
                 }
 
                 for (int i = 0; i < imageMapDots.length; i++) {
-                    imageMapDots[i] = new Sprite(archiveMedia, JString.MAP_DOTS, i);
+                    imageMapDots[i] = new Sprite(archiveMedia, "mapdots", i);
                 }
 
                 for (int i = 0; i < 2; i++) {
-                    bitmapModIcons[i] = new Bitmap(archiveMedia, JString.MOD_ICONS, i);
+                    bitmapModIcons[i] = new Bitmap(archiveMedia, "mod_icons", i);
                 }
 
                 bitmapModIcons[2] = bitmapModIcons[1];
 
                 try {
                     for (int i = 0; i < 100; i++) {
-                        bitmaps[i] = new Bitmap(archiveMedia, JString.MAP_SCENE, i);
+                        bitmaps[i] = new Bitmap(archiveMedia, "mapscene", i);
                     }
                 } catch (Exception e) {
                 }
 
                 try {
                     for (int i = 0; i < 100; i++) {
-                        imageMapFunctions[i] = new Sprite(archiveMedia, JString.MAP_FUNCTION, i);
+                        imageMapFunctions[i] = new Sprite(archiveMedia, "mapfunction", i);
                     }
                 } catch (Exception e) {
                 }
 
                 try {
                     for (int i = 0; i < 20; i++) {
-                        imageHitMarks[i] = new Sprite(archiveMedia, JString.HITMARKS, i);
+                        imageHitMarks[i] = new Sprite(archiveMedia, "hitmarks", i);
                     }
                 } catch (Exception e) {
                 }
 
                 try {
                     for (int i = 0; i < 8; i++) {
-                        imageHeadIcons[i] = new Sprite(archiveMedia, JString.HEADICONS, i);
+                        imageHeadIcons[i] = new Sprite(archiveMedia, "headicons", i);
                     }
                 } catch (Exception e) {
                 }
@@ -8817,8 +8813,8 @@ public class Game extends GameShell {
 
                 }
 
-                bitmap3 = new Bitmap(archiveMedia, JString.SCROLLBAR, 0);
-                bitmap2 = new Bitmap(archiveMedia, JString.SCROLLBAR, 1);
+                bitmap3 = new Bitmap(archiveMedia, "scollbar", 0);
+                bitmap2 = new Bitmap(archiveMedia, "scollbar", 1);
 
                 int redOffset = (int) (Math.random() * 11D) - 5;
                 int greenOffset = (int) (Math.random() * 11D) - 5;

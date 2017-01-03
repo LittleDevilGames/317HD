@@ -88,8 +88,8 @@ public class ObjConfig {
         }
 
         if (!Game.isMembers && config.isMembers) {
-            config.name = JString.MEMBERS_OBJECT;
-            config.description = JString.LOGIN_TO_A_MEMBERS_SERVER_TO_USE_THIS_OBJECT;
+            config.name = "Members Object";
+            config.description = "Login to a members' server to use this object.";
             config.groundAction = null;
             config.action = null;
             config.team = 0;
@@ -584,13 +584,6 @@ public class ObjConfig {
                 int j = i - 35;
 
                 String s = b.readString();
-
-                for (String s1 : JString.COMMON_OBJ_ACTIONS) {
-                    if (s.equals(s1)) {
-                        action[j] = s1;
-                        break;
-                    }
-                }
 
                 if (action[j] == null) {
                     action[j] = s;

@@ -6,7 +6,6 @@ import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.node.Chain;
 import info.demmonic.hdrs.node.Deque;
 import info.demmonic.hdrs.node.impl.OnDemandRequest;
-import info.demmonic.hdrs.util.JString;
 
 import java.io.*;
 import java.net.Socket;
@@ -59,7 +58,7 @@ public class OnDemand implements Runnable {
 
     public OnDemand() {
         sentRequests = new Chain();
-        message = JString.BLANK;
+        message = "";
         crc32 = new CRC32();
         buffer = new Buffer(500);
         filePriorities = new byte[4][];

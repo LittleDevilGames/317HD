@@ -3,12 +3,14 @@ package info.demmonic.hdrs.media.impl;
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.input.Keyboard;
 import info.demmonic.hdrs.input.Mouse;
-import info.demmonic.hdrs.media.*;
+import info.demmonic.hdrs.media.Bitmap;
+import info.demmonic.hdrs.media.BitmapFont;
+import info.demmonic.hdrs.media.Sprite;
 import info.demmonic.hdrs.util.JString;
 
 public class TitleScreen {
 
-    public static final String[] LOGIN_MESSAGE = new String[]{JString.BLANK, JString.BLANK};
+    public static final String[] LOGIN_MESSAGE = new String[]{"", ""};
     public static final String VALID_INPUT_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"\243$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
     public static Bitmap bitmapBox, bitmapButton;
     public static State state = State.WELCOME;
@@ -172,8 +174,8 @@ public class TitleScreen {
                     state = State.ABOUT;
                     field = 0;
                 } else if (Mouse.clicked(389, 271, 147, 41)) {
-                    LOGIN_MESSAGE[0] = JString.BLANK;
-                    LOGIN_MESSAGE[1] = JString.ENTER_YOUR_CREDENTIALS;
+                    LOGIN_MESSAGE[0] = "";
+                    LOGIN_MESSAGE[1] = "Enter your username & password.";
                     state = State.LOGIN;
                     field = 0;
                 }

@@ -5,7 +5,6 @@ import info.demmonic.hdrs.input.Mouse;
 import info.demmonic.hdrs.input.model.Area;
 import info.demmonic.hdrs.media.BitmapFont;
 import info.demmonic.hdrs.media.Canvas2D;
-import info.demmonic.hdrs.util.JString;
 import info.demmonic.hdrs.util.RSColor;
 
 public class Menu {
@@ -36,7 +35,7 @@ public class Menu {
         Canvas2D.fillRect(x + 1, y + 1, width - 2, 16, RSColor.BLACK);
         Canvas2D.drawRect(x + 1, y + 18, width - 2, height - 19, RSColor.BLACK);
 
-        BitmapFont.BOLD.draw(JString.CHOOSE_OPTION, x + 3, y + 14, COLOR_FOREGROUND);
+        BitmapFont.BOLD.draw("Choose Option", x + 3, y + 14, COLOR_FOREGROUND);
 
         int currentX = Mouse.lastX - area.x;
         int curretY = Mouse.lastY - area.y;
@@ -130,7 +129,7 @@ public class Menu {
     }
 
     public static void show() {
-        int width = BitmapFont.BOLD.getWidth(JString.CHOOSE_OPTION);
+        int width = BitmapFont.BOLD.getWidth("Choose Option");
         int height = 15 * count + 21;
 
         for (int i = 0; i < Menu.count; i++) {
