@@ -11,6 +11,4 @@ public class GroundDecoration {
     public int sceneZ;
     public int uid;
 
-    public GroundDecoration() {
-    }
 }
