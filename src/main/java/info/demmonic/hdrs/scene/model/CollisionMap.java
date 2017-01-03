@@ -6,9 +6,9 @@ public class CollisionMap {
     public int width;
     public int height;
 
-    public CollisionMap(int size_x, int size_y) {
-        this.width = size_x;
-        this.height = size_y;
+    public CollisionMap(int sizeX, int sizeY) {
+        this.width = sizeX;
+        this.height = sizeY;
         this.flags = new int[this.width][this.height];
         this.defaults();
     }
@@ -17,22 +17,22 @@ public class CollisionMap {
         flags[x][y] |= flag;
     }
 
-    public void addLoc(int loc_x, int loc_y, int size_x, int size_y, int rotation, boolean blocks_projectiles) {
+    public void addLoc(int locX, int locY, int sizeX, int sizeY, int rotation, boolean blocksProjectiles) {
         int flag = 256;
 
-        if (blocks_projectiles) {
+        if (blocksProjectiles) {
             flag += 0x20000;
         }
 
         if (rotation == 1 || rotation == 3) {
-            int size_x2 = size_x;
-            size_x = size_y;
-            size_y = size_x2;
+            int sizeX1 = sizeX;
+            sizeX = sizeY;
+            sizeY = sizeX1;
         }
 
-        for (int x = loc_x; x < loc_x + size_x; x++) {
+        for (int x = locX; x < locX + sizeX; x++) {
             if (x >= 0 && x < this.width) {
-                for (int y = loc_y; y < loc_y + size_y; y++) {
+                for (int y = locY; y < locY + sizeY; y++) {
                     if (y >= 0 && y < this.height) {
                         this.add(x, y, flag);
                     }
@@ -41,7 +41,7 @@ public class CollisionMap {
         }
     }
 
-    public void addWall(int x, int y, int type, int rotation, boolean blocks_projectiles) {
+    public void addWall(int x, int y, int type, int rotation, boolean blocksProjectiles) {
         if (type == 0) {
             if (rotation == 0) {
                 add(x, y, 128);
@@ -100,7 +100,7 @@ public class CollisionMap {
                 add(x - 1, y, 8);
             }
         }
-        if (blocks_projectiles) {
+        if (blocksProjectiles) {
             if (type == 0) {
                 if (rotation == 0) {
                     add(x, y, 0x10000);
@@ -162,8 +162,8 @@ public class CollisionMap {
         }
     }
 
-    public boolean atDecoration(int x, int y, int dest_x, int dest_y, int type, int rotation) {
-        if (x == dest_x && y == dest_y) {
+    public boolean atDecoration(int x, int y, int destX, int destY, int type, int rotation) {
+        if (x == destX && y == destY) {
             return true;
         }
         if (type == 6 || type == 7) {
@@ -171,188 +171,188 @@ public class CollisionMap {
                 rotation = rotation + 2 & 3;
             }
             if (rotation == 0) {
-                if (x == dest_x + 1 && y == dest_y && (flags[x][y] & 0x80) == 0) {
+                if (x == destX + 1 && y == destY && (flags[x][y] & 0x80) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y - 1 && (flags[x][y] & 2) == 0) {
+                if (x == destX && y == destY - 1 && (flags[x][y] & 2) == 0) {
                     return true;
                 }
             } else if (rotation == 1) {
-                if (x == dest_x - 1 && y == dest_y && (flags[x][y] & 8) == 0) {
+                if (x == destX - 1 && y == destY && (flags[x][y] & 8) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y - 1 && (flags[x][y] & 2) == 0) {
+                if (x == destX && y == destY - 1 && (flags[x][y] & 2) == 0) {
                     return true;
                 }
             } else if (rotation == 2) {
-                if (x == dest_x - 1 && y == dest_y && (flags[x][y] & 8) == 0) {
+                if (x == destX - 1 && y == destY && (flags[x][y] & 8) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y + 1 && (flags[x][y] & 0x20) == 0) {
+                if (x == destX && y == destY + 1 && (flags[x][y] & 0x20) == 0) {
                     return true;
                 }
             } else if (rotation == 3) {
-                if (x == dest_x + 1 && y == dest_y && (flags[x][y] & 0x80) == 0) {
+                if (x == destX + 1 && y == destY && (flags[x][y] & 0x80) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y + 1 && (flags[x][y] & 0x20) == 0) {
+                if (x == destX && y == destY + 1 && (flags[x][y] & 0x20) == 0) {
                     return true;
                 }
             }
         }
         if (type == 8) {
-            if (x == dest_x && y == dest_y + 1 && (flags[x][y] & 0x20) == 0) {
+            if (x == destX && y == destY + 1 && (flags[x][y] & 0x20) == 0) {
                 return true;
             }
-            if (x == dest_x && y == dest_y - 1 && (flags[x][y] & 2) == 0) {
+            if (x == destX && y == destY - 1 && (flags[x][y] & 2) == 0) {
                 return true;
             }
-            if (x == dest_x - 1 && y == dest_y && (flags[x][y] & 8) == 0) {
+            if (x == destX - 1 && y == destY && (flags[x][y] & 8) == 0) {
                 return true;
             }
-            if (x == dest_x + 1 && y == dest_y && (flags[x][y] & 0x80) == 0) {
+            if (x == destX + 1 && y == destY && (flags[x][y] & 0x80) == 0) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean atObject(int x, int y, int dest_x, int dest_y, int size_x, int size_y, int face) {
-        int max_x = (dest_x + size_x) - 1;
-        int max_y = (dest_y + size_y) - 1;
+    public boolean atObject(int x, int y, int destX, int destY, int sizeX, int sizeY, int face) {
+        int maxX = (destX + sizeX) - 1;
+        int maxY = (destY + sizeY) - 1;
 
-        if (x >= dest_x && x <= max_x && y >= dest_y && y <= max_y) {
+        if (x >= destX && x <= maxX && y >= destY && y <= maxY) {
             return true;
         }
 
-        if (x == dest_x - 1 && y >= dest_y && y <= max_y && (flags[x][y] & 0x8) == 0 && (face & 0x8) == 0) {
+        if (x == destX - 1 && y >= destY && y <= maxY && (flags[x][y] & 0x8) == 0 && (face & 0x8) == 0) {
             return true;
         }
 
-        if (x == max_x + 1 && y >= dest_y && y <= max_y && (flags[x][y] & 0x80) == 0 && (face & 0x2) == 0) {
+        if (x == maxX + 1 && y >= destY && y <= maxY && (flags[x][y] & 0x80) == 0 && (face & 0x2) == 0) {
             return true;
         }
 
-        if (y == dest_y - 1 && x >= dest_x && x <= max_x && (flags[x][y] & 0x2) == 0 && (face & 0x4) == 0) {
+        if (y == destY - 1 && x >= destX && x <= maxX && (flags[x][y] & 0x2) == 0 && (face & 0x4) == 0) {
             return true;
         }
 
-        return y == max_y + 1 && x >= dest_x && x <= max_x && (flags[x][y] & 0x20) == 0 && (face & 0x1) == 0;
+        return y == maxY + 1 && x >= destX && x <= maxX && (flags[x][y] & 0x20) == 0 && (face & 0x1) == 0;
     }
 
-    public boolean atWall(int x, int y, int dest_x, int dest_y, int type, int rotation) {
-        if (x == dest_x && y == dest_y) {
+    public boolean atWall(int x, int y, int destX, int destY, int type, int rotation) {
+        if (x == destX && y == destY) {
             return true;
         }
         if (type == 0) {
             if (rotation == 0) {
-                if (x == dest_x - 1 && y == dest_y) {
+                if (x == destX - 1 && y == destY) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y + 1 && (flags[x][y] & 0x1280120) == 0) {
+                if (x == destX && y == destY + 1 && (flags[x][y] & 0x1280120) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y - 1 && (flags[x][y] & 0x1280102) == 0) {
+                if (x == destX && y == destY - 1 && (flags[x][y] & 0x1280102) == 0) {
                     return true;
                 }
             } else if (rotation == 1) {
-                if (x == dest_x && y == dest_y + 1) {
+                if (x == destX && y == destY + 1) {
                     return true;
                 }
-                if (x == dest_x - 1 && y == dest_y && (flags[x][y] & 0x1280108) == 0) {
+                if (x == destX - 1 && y == destY && (flags[x][y] & 0x1280108) == 0) {
                     return true;
                 }
-                if (x == dest_x + 1 && y == dest_y && (flags[x][y] & 0x1280180) == 0) {
+                if (x == destX + 1 && y == destY && (flags[x][y] & 0x1280180) == 0) {
                     return true;
                 }
             } else if (rotation == 2) {
-                if (x == dest_x + 1 && y == dest_y) {
+                if (x == destX + 1 && y == destY) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y + 1 && (flags[x][y] & 0x1280120) == 0) {
+                if (x == destX && y == destY + 1 && (flags[x][y] & 0x1280120) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y - 1 && (flags[x][y] & 0x1280102) == 0) {
+                if (x == destX && y == destY - 1 && (flags[x][y] & 0x1280102) == 0) {
                     return true;
                 }
             } else if (rotation == 3) {
-                if (x == dest_x && y == dest_y - 1) {
+                if (x == destX && y == destY - 1) {
                     return true;
                 }
-                if (x == dest_x - 1 && y == dest_y && (flags[x][y] & 0x1280108) == 0) {
+                if (x == destX - 1 && y == destY && (flags[x][y] & 0x1280108) == 0) {
                     return true;
                 }
-                if (x == dest_x + 1 && y == dest_y && (flags[x][y] & 0x1280180) == 0) {
+                if (x == destX + 1 && y == destY && (flags[x][y] & 0x1280180) == 0) {
                     return true;
                 }
             }
         }
         if (type == 2) {
             if (rotation == 0) {
-                if (x == dest_x - 1 && y == dest_y) {
+                if (x == destX - 1 && y == destY) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y + 1) {
+                if (x == destX && y == destY + 1) {
                     return true;
                 }
-                if (x == dest_x + 1 && y == dest_y && (flags[x][y] & 0x1280180) == 0) {
+                if (x == destX + 1 && y == destY && (flags[x][y] & 0x1280180) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y - 1 && (flags[x][y] & 0x1280102) == 0) {
+                if (x == destX && y == destY - 1 && (flags[x][y] & 0x1280102) == 0) {
                     return true;
                 }
             } else if (rotation == 1) {
-                if (x == dest_x - 1 && y == dest_y && (flags[x][y] & 0x1280108) == 0) {
+                if (x == destX - 1 && y == destY && (flags[x][y] & 0x1280108) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y + 1) {
+                if (x == destX && y == destY + 1) {
                     return true;
                 }
-                if (x == dest_x + 1 && y == dest_y) {
+                if (x == destX + 1 && y == destY) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y - 1 && (flags[x][y] & 0x1280102) == 0) {
+                if (x == destX && y == destY - 1 && (flags[x][y] & 0x1280102) == 0) {
                     return true;
                 }
             } else if (rotation == 2) {
-                if (x == dest_x - 1 && y == dest_y && (flags[x][y] & 0x1280108) == 0) {
+                if (x == destX - 1 && y == destY && (flags[x][y] & 0x1280108) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y + 1 && (flags[x][y] & 0x1280120) == 0) {
+                if (x == destX && y == destY + 1 && (flags[x][y] & 0x1280120) == 0) {
                     return true;
                 }
-                if (x == dest_x + 1 && y == dest_y) {
+                if (x == destX + 1 && y == destY) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y - 1) {
+                if (x == destX && y == destY - 1) {
                     return true;
                 }
             } else if (rotation == 3) {
-                if (x == dest_x - 1 && y == dest_y) {
+                if (x == destX - 1 && y == destY) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y + 1 && (flags[x][y] & 0x1280120) == 0) {
+                if (x == destX && y == destY + 1 && (flags[x][y] & 0x1280120) == 0) {
                     return true;
                 }
-                if (x == dest_x + 1 && y == dest_y && (flags[x][y] & 0x1280180) == 0) {
+                if (x == destX + 1 && y == destY && (flags[x][y] & 0x1280180) == 0) {
                     return true;
                 }
-                if (x == dest_x && y == dest_y - 1) {
+                if (x == destX && y == destY - 1) {
                     return true;
                 }
             }
         }
         if (type == 9) {
-            if (x == dest_x && y == dest_y + 1 && (flags[x][y] & 0x20) == 0) {
+            if (x == destX && y == destY + 1 && (flags[x][y] & 0x20) == 0) {
                 return true;
             }
-            if (x == dest_x && y == dest_y - 1 && (flags[x][y] & 2) == 0) {
+            if (x == destX && y == destY - 1 && (flags[x][y] & 2) == 0) {
                 return true;
             }
-            if (x == dest_x - 1 && y == dest_y && (flags[x][y] & 8) == 0) {
+            if (x == destX - 1 && y == destY && (flags[x][y] & 8) == 0) {
                 return true;
             }
-            if (x == dest_x + 1 && y == dest_y && (flags[x][y] & 0x80) == 0) {
+            if (x == destX + 1 && y == destY && (flags[x][y] & 0x80) == 0) {
                 return true;
             }
         }
@@ -360,12 +360,12 @@ public class CollisionMap {
     }
 
     public void defaults() {
-        int border_x = this.width - 1;
-        int border_y = this.height - 1;
+        int borderX = this.width - 1;
+        int borderY = this.height - 1;
 
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.height; y++) {
-                if (x == 0 || y == 0 || x == border_x || y == border_y) {
+                if (x == 0 || y == 0 || x == borderX || y == borderY) {
                     flags[x][y] = 0xFFFFFF;
                 } else {
                     flags[x][y] = 0x1000000;
@@ -382,22 +382,22 @@ public class CollisionMap {
         this.flags[x][y] &= 0xFFFFFF - flags;
     }
 
-    public void removeLoc(int x, int y, int size_x, int size_y, int rotation, boolean blocks_projectiles) {
+    public void removeLoc(int x, int y, int sizeX, int sizeY, int rotation, boolean blocksProjectiles) {
         int flags = 256;
 
-        if (blocks_projectiles) {
+        if (blocksProjectiles) {
             flags += 0x20000;
         }
 
         if (rotation == 1 || rotation == 3) {
-            int size_x2 = size_x;
-            size_x = size_y;
-            size_y = size_x2;
+            int sizeX1 = sizeX;
+            sizeX = sizeY;
+            sizeY = sizeX1;
         }
 
-        for (int i = x; i < x + size_x; i++) {
+        for (int i = x; i < x + sizeX; i++) {
             if (i >= 0 && i < this.width) {
-                for (int j = y; j < y + size_y; j++) {
+                for (int j = y; j < y + sizeY; j++) {
                     if (j >= 0 && j < this.height) {
                         remove(i, j, flags);
                     }
@@ -406,7 +406,7 @@ public class CollisionMap {
         }
     }
 
-    public void remove_wall(int x, int y, int type, int rotation, boolean blocks_projectiles) {
+    public void removeWall(int x, int y, int type, int rotation, boolean blocksProjectiles) {
         if (type == 0) {
             if (rotation == 0) {
                 remove(x, y, 128);
@@ -465,7 +465,7 @@ public class CollisionMap {
                 remove(x - 1, y, 8);
             }
         }
-        if (blocks_projectiles) {
+        if (blocksProjectiles) {
             if (type == 0) {
                 if (rotation == 0) {
                     remove(x, y, 0x10000);

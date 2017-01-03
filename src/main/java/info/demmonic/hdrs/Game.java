@@ -485,7 +485,7 @@ public class Game extends GameShell {
                     LocConfig lc = LocConfig.get(loc_index);
 
                     if (lc.hasCollisions) {
-                        collisionMaps[plane].remove_wall(x, y, loc_type, loc_rot, lc.blocksProjectiles);
+                        collisionMaps[plane].removeWall(x, y, loc_type, loc_rot, lc.blocksProjectiles);
                     }
                 }
 
