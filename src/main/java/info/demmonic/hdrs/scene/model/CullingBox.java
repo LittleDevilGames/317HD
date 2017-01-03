@@ -21,6 +21,4 @@ public class CullingBox {
     public int minZ;
     public int occlusionType;
 
-    public CullingBox() {
-    }
 }
