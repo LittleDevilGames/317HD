@@ -35,8 +35,8 @@ public class Widget {
     public int height;
     public boolean hidden;
     public int hoverIndex;
-    public Sprite image_disabled;
-    public Sprite image_enabled;
+    public Sprite imageDisabled;
+    public Sprite imageEnabled;
     public short index;
     public String itemActions[];
     public int itemCount[];
@@ -50,7 +50,7 @@ public class Widget {
     public boolean itemsSwappable;
     public boolean itemsUsable;
     public String messageDisabled;
-    public String message_enabled;
+    public String messageEnabled;
     public int modelIndexDisabled;
     public int modelIndexEnabled;
     public int modelPitch;
@@ -82,10 +82,10 @@ public class Widget {
     public short x;
     public short y;
 
-    public static void draw(int index, int x, int y, int scroll_amount) {
+    public static void draw(int index, int x, int y, int scrollAmount) {
         Widget w = Widget.get(index);
         if (w != null) {
-            w.draw(x, y, scroll_amount);
+            w.draw(x, y, scrollAmount);
         }
     }
 
@@ -114,8 +114,8 @@ public class Widget {
         return s;
     }
 
-    public static boolean handleSequences(int cycle, int widget_index) {
-        Widget w = Widget.get(widget_index);
+    public static boolean handleSequences(int cycle, int widgetIndex) {
+        Widget w = Widget.get(widgetIndex);
         if (w != null) {
             w.handleSequences(cycle);
         }
@@ -125,16 +125,16 @@ public class Widget {
     private static void loadClientscript(Widget w, Buffer b) {
         int count = b.readUnsignedByte();
 
-        byte[] compare_type = null;
-        int[] compare_value = null;
+        byte[] compareType = null;
+        int[] compareValue = null;
 
         if (count > 0) {
-            compare_type = new byte[count];
-            compare_value = new int[count];
+            compareType = new byte[count];
+            compareValue = new int[count];
 
             for (int i = 0; i < count; i++) {
-                compare_type[i] = b.readByte();
-                compare_value[i] = b.readUnsignedShort();
+                compareType[i] = b.readByte();
+                compareValue[i] = b.readUnsignedShort();
             }
         }
 
@@ -146,9 +146,9 @@ public class Widget {
             for (int i = 0; i < count; i++) {
                 Script s = new Script(w, b, i);
 
-                if (compare_type != null && i < compare_type.length) {
-                    s.compareType = compare_type[i];
-                    s.compareValue = compare_value[i];
+                if (compareType != null && i < compareType.length) {
+                    s.compareType = compareType[i];
+                    s.compareValue = compareValue[i];
                 }
 
                 w.script[i] = s;
@@ -279,7 +279,7 @@ public class Widget {
 
             if (w.type == 4) {
                 w.messageDisabled = b.readString();
-                w.message_enabled = b.readString();
+                w.messageEnabled = b.readString();
             }
 
             if (w.type == 1 || w.type == 3 || w.type == 4) {
@@ -297,14 +297,14 @@ public class Widget {
 
                 if (media != null && str.length() > 0) {
                     int i = str.lastIndexOf(',');
-                    w.image_disabled = getSprite(media, str.substring(0, i), Integer.parseInt(str.substring(i + 1)));
+                    w.imageDisabled = getSprite(media, str.substring(0, i), Integer.parseInt(str.substring(i + 1)));
                 }
 
                 str = b.readString();
 
                 if (media != null && str.length() > 0) {
                     int i = str.lastIndexOf(',');
-                    w.image_enabled = getSprite(media, str.substring(0, i), Integer.parseInt(str.substring(i + 1)));
+                    w.imageEnabled = getSprite(media, str.substring(0, i), Integer.parseInt(str.substring(i + 1)));
                 }
             }
 
@@ -396,84 +396,84 @@ public class Widget {
             case 2: {
                 int slot = 0;
 
-                for (int slot_y = 0; slot_y < this.height; slot_y++) {
-                    for (int slot_x = 0; slot_x < this.width; slot_x++) {
-                        int draw_x = x + slot_x * (32 + this.itemMarginX);
-                        int draw_y = y + slot_y * (32 + this.itemMarginY);
+                for (int slotY = 0; slotY < this.height; slotY++) {
+                    for (int slotX = 0; slotX < this.width; slotX++) {
+                        int drawX = x + slotX * (32 + this.itemMarginX);
+                        int drawY = y + slotY * (32 + this.itemMarginY);
 
                         if (slot < 20) {
-                            draw_x += this.itemSlotX[slot];
-                            draw_y += this.itemSlotY[slot];
+                            drawX += this.itemSlotX[slot];
+                            drawY += this.itemSlotY[slot];
                         }
 
                         if (this.itemIndex[slot] > 0) {
-                            int drag_dx = 0;
-                            int drag_dy = 0;
-                            int item_index = this.itemIndex[slot] - 1;
+                            int dragDx = 0;
+                            int dragDy = 0;
+                            int itemIndex = this.itemIndex[slot] - 1;
 
-                            if (draw_x > Canvas2D.leftX - 32 && draw_x < Canvas2D.rightX && draw_y > Canvas2D.leftY - 32 && draw_y < Canvas2D.rightY || Game.dragArea != 0 && Game.dragSlot == slot) {
-                                int outline_rgb = 0;
+                            if (drawX > Canvas2D.leftX - 32 && drawX < Canvas2D.rightX && drawY > Canvas2D.leftY - 32 && drawY < Canvas2D.rightY || Game.dragArea != 0 && Game.dragSlot == slot) {
+                                int outlineRgb = 0;
 
                                 if (Game.selectedItem && Game.selectedItemSlot == slot && Game.selectedItemWidget == this.index) {
-                                    outline_rgb = 0xFFFFFF;
+                                    outlineRgb = 0xFFFFFF;
                                 }
 
-                                Sprite s = ObjConfig.get_sprite(item_index, this.itemCount[slot], outline_rgb);
+                                Sprite s = ObjConfig.getSprite(itemIndex, this.itemCount[slot], outlineRgb);
 
                                 if (s != null) {
                                     if (Game.dragArea != 0 && Game.dragSlot == slot && Game.dragWidget == this.index) {
 
-                                        drag_dx = Mouse.lastX - Game.dragStartX;
-                                        drag_dy = Mouse.lastY - Game.dragStartY;
+                                        dragDx = Mouse.lastX - Game.dragStartX;
+                                        dragDy = Mouse.lastY - Game.dragStartY;
 
-                                        if (drag_dx < 5 && drag_dx > -5) {
-                                            drag_dx = 0;
+                                        if (dragDx < 5 && dragDx > -5) {
+                                            dragDx = 0;
                                         }
 
-                                        if (drag_dy < 5 && drag_dy > -5) {
-                                            drag_dy = 0;
+                                        if (dragDy < 5 && dragDy > -5) {
+                                            dragDy = 0;
                                         }
 
                                         if (Game.dragCycle < 5) {
-                                            drag_dx = 0;
-                                            drag_dy = 0;
+                                            dragDx = 0;
+                                            dragDy = 0;
                                         }
 
-                                        s.draw(draw_x + drag_dx, draw_y + drag_dy, 128);
+                                        s.draw(drawX + dragDx, drawY + dragDy, 128);
 
-                                        if (draw_y + drag_dy < Canvas2D.leftY && this.scrollAmount > 0) {
-                                            int scroll_dec = (Game.animCycle * (Canvas2D.leftY - draw_y - drag_dy)) / 3;
+                                        if (drawY + dragDy < Canvas2D.leftY && this.scrollAmount > 0) {
+                                            int scrollDec = (Game.animCycle * (Canvas2D.leftY - drawY - dragDy)) / 3;
 
-                                            if (scroll_dec > Game.animCycle * 10) {
-                                                scroll_dec = Game.animCycle * 10;
+                                            if (scrollDec > Game.animCycle * 10) {
+                                                scrollDec = Game.animCycle * 10;
                                             }
 
-                                            if (scroll_dec > this.scrollAmount) {
-                                                scroll_dec = this.scrollAmount;
+                                            if (scrollDec > this.scrollAmount) {
+                                                scrollDec = this.scrollAmount;
                                             }
 
-                                            this.scrollAmount -= scroll_dec;
-                                            Game.dragStartY += scroll_dec;
+                                            this.scrollAmount -= scrollDec;
+                                            Game.dragStartY += scrollDec;
                                         }
 
-                                        if (draw_y + drag_dy + 32 > Canvas2D.rightY && this.scrollAmount < this.scrollHeight - this.height) {
-                                            int scroll_inc = (Game.animCycle * ((draw_y + drag_dy + 32) - Canvas2D.rightY)) / 3;
+                                        if (drawY + dragDy + 32 > Canvas2D.rightY && this.scrollAmount < this.scrollHeight - this.height) {
+                                            int scrollInc = (Game.animCycle * ((drawY + dragDy + 32) - Canvas2D.rightY)) / 3;
 
-                                            if (scroll_inc > Game.animCycle * 10) {
-                                                scroll_inc = Game.animCycle * 10;
+                                            if (scrollInc > Game.animCycle * 10) {
+                                                scrollInc = Game.animCycle * 10;
                                             }
 
-                                            if (scroll_inc > this.scrollHeight - this.height - this.scrollAmount) {
-                                                scroll_inc = this.scrollHeight - this.height - this.scrollAmount;
+                                            if (scrollInc > this.scrollHeight - this.height - this.scrollAmount) {
+                                                scrollInc = this.scrollHeight - this.height - this.scrollAmount;
                                             }
 
-                                            this.scrollAmount += scroll_inc;
-                                            Game.dragStartY -= scroll_inc;
+                                            this.scrollAmount += scrollInc;
+                                            Game.dragStartY -= scrollInc;
                                         }
                                     } else if (Game.clickArea != 0 && Game.clickedItemSlot == slot && Game.clickedItemWidget == this.index) {
-                                        s.draw(draw_x, draw_y, 128);
+                                        s.draw(drawX, drawY, 128);
                                     } else {
-                                        s.drawMasked(draw_x, draw_y);
+                                        s.drawMasked(drawX, drawY);
                                     }
 
                                     if (s.cropWidth == 33 || this.itemCount[slot] != 1) {
@@ -492,7 +492,7 @@ public class Widget {
                                             s1 = "-2";
                                         }
 
-                                        BitmapFont.SMALL.draw(s1, draw_x + drag_dx, draw_y + drag_dy + 9, 0xFFFF00, BitmapFont.SHADOW);
+                                        BitmapFont.SMALL.draw(s1, drawX + dragDx, drawY + dragDy + 9, 0xFFFF00, BitmapFont.SHADOW);
                                     }
                                 }
                             }
@@ -501,7 +501,7 @@ public class Widget {
                             Sprite s = this.slotImage[slot];
 
                             if (s != null) {
-                                s.drawMasked(draw_x, draw_y);
+                                s.drawMasked(drawX, drawY);
                             }
                         }
 
@@ -563,8 +563,8 @@ public class Widget {
                     if (hovered && this.colorHoverEnabled != 0) {
                         rgb = this.colorHoverEnabled;
                     }
-                    if (this.message_enabled.length() > 0) {
-                        s = this.message_enabled;
+                    if (this.messageEnabled.length() > 0) {
+                        s = this.messageEnabled;
                     }
                 } else {
                     rgb = this.rgbDisabled;
@@ -587,7 +587,7 @@ public class Widget {
                     }
                 }
 
-                for (int draw_y = y + f.height; s.length() > 0; draw_y += f.height) {
+                for (int drawY = y + f.height; s.length() > 0; drawY += f.height) {
                     if (s.indexOf('%') != -1) {
                         for (int j = 1; j < 5; j++) {
                             do {
@@ -624,9 +624,9 @@ public class Widget {
                     }
 
                     if (this.centered) {
-                        f.draw(message, x + (this.width / 2), draw_y, rgb, (this.shadow ? BitmapFont.SHADOW : 0) | BitmapFont.CENTER | BitmapFont.ALLOW_TAGS);
+                        f.draw(message, x + (this.width / 2), drawY, rgb, (this.shadow ? BitmapFont.SHADOW : 0) | BitmapFont.CENTER | BitmapFont.ALLOW_TAGS);
                     } else {
-                        f.draw(message, x, draw_y, rgb, (this.shadow ? BitmapFont.SHADOW : 0) + BitmapFont.ALLOW_TAGS);
+                        f.draw(message, x, drawY, rgb, (this.shadow ? BitmapFont.SHADOW : 0) + BitmapFont.ALLOW_TAGS);
                     }
                 }
                 return;
@@ -636,9 +636,9 @@ public class Widget {
                 Sprite s;
 
                 if (this.isEnabled()) {
-                    s = this.image_enabled;
+                    s = this.imageEnabled;
                 } else {
-                    s = this.image_disabled;
+                    s = this.imageDisabled;
                 }
 
                 if (s != null) {
@@ -648,8 +648,8 @@ public class Widget {
             }
 
             case 6: {
-                int center_x = Canvas3D.centerX;
-                int center_y = Canvas3D.centerY;
+                int centerX = Canvas3D.centerX;
+                int centerY = Canvas3D.centerY;
 
                 Canvas3D.centerX = x + this.width / 2;
                 Canvas3D.centerY = y + this.height / 2;
@@ -658,14 +658,14 @@ public class Widget {
                 int cos = MathUtils.cos[this.modelPitch] * this.modelZoom >> 16;
 
                 boolean enabled = this.isEnabled();
-                int anim_index = enabled ? this.seqIndexEnabled : this.seqIndexDisabled;
+                int animIndex = enabled ? this.seqIndexEnabled : this.seqIndexDisabled;
 
                 Model m;
 
-                if (anim_index == -1) {
+                if (animIndex == -1) {
                     m = this.getMesh(-1, -1, enabled);
                 } else {
-                    Sequence s = Sequence.instance[anim_index];
+                    Sequence s = Sequence.instance[animIndex];
                     m = this.getMesh(s.framePrimary[this.sequenceFrame], s.frameSecondary[this.sequenceFrame], enabled);
                 }
 
@@ -673,8 +673,8 @@ public class Widget {
                     m.draw(0, this.modelYaw, 0, this.modelPitch, 0, sin, cos);
                 }
 
-                Canvas3D.centerX = center_x;
-                Canvas3D.centerY = center_y;
+                Canvas3D.centerX = centerX;
+                Canvas3D.centerY = centerY;
                 return;
             }
 
@@ -682,8 +682,8 @@ public class Widget {
                 BitmapFont rsf = this.font;
                 int slot = 0;
 
-                for (int slot_y = 0; slot_y < this.height; slot_y++) {
-                    for (int slot_x = 0; slot_x < this.width; slot_x++) {
+                for (int slotY = 0; slotY < this.height; slotY++) {
+                    for (int slotX = 0; slotX < this.width; slotX++) {
                         if (this.itemIndex[slot] > 0) {
                             ObjConfig oc = ObjConfig.get(this.itemIndex[slot] - 1);
                             String message = oc.name;
@@ -692,13 +692,13 @@ public class Widget {
                                 message = message + " x" + Game.formatItemAmount(this.itemCount[slot]);
                             }
 
-                            int draw_x = x + slot_x * (115 + this.itemMarginX);
-                            int draw_y = y + slot_y * (12 + this.itemMarginY);
+                            int drawX = x + slotX * (115 + this.itemMarginX);
+                            int drawY = y + slotY * (12 + this.itemMarginY);
 
                             if (this.centered) {
-                                rsf.draw(message, draw_x + this.width / 2, draw_y, this.rgbDisabled, this.shadow ? BitmapFont.SHADOW : 0);
+                                rsf.draw(message, drawX + this.width / 2, drawY, this.rgbDisabled, this.shadow ? BitmapFont.SHADOW : 0);
                             } else {
-                                rsf.drawString(message, draw_x, draw_y, this.rgbDisabled, this.shadow, false);
+                                rsf.drawString(message, drawX, drawY, this.rgbDisabled, this.shadow, false);
                             }
                         }
                         slot++;
@@ -709,7 +709,7 @@ public class Widget {
         }
     }
 
-    public void draw(int x, int y, int scroll_amount) {
+    public void draw(int x, int y, int scrollAmount) {
         if (!this.visible) {
             return;
         }
@@ -736,7 +736,7 @@ public class Widget {
 
         for (int i = 0; i < this.children.length; i++) {
             int childX = this.childX[i] + x;
-            int childY = (this.childY[i] + y) - scroll_amount;
+            int childY = (this.childY[i] + y) - scrollAmount;
 
             Widget child = Widget.instance[this.children[i]];
 

@@ -98,7 +98,7 @@ public class ObjConfig {
         return config;
     }
 
-    public static Sprite get_sprite(int index, int count, int outline_color) {
+    public static Sprite getSprite(int index, int count, int outline_color) {
         if (outline_color == 0) {
             Sprite s = (Sprite) spriteCache.get(index);
             if (s != null && s.cropHeight != count && s.cropHeight != -1) {
@@ -141,7 +141,7 @@ public class ObjConfig {
         Sprite s1 = null;
 
         if (c.note_template_index != -1) {
-            s1 = get_sprite(c.note_item_index, 10, -1);
+            s1 = getSprite(c.note_item_index, 10, -1);
 
             if (s1 == null) {
                 return null;

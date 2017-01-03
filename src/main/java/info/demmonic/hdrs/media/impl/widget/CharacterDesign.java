@@ -162,26 +162,26 @@ public class CharacterDesign {
 
         if (type == 324) {
             if (buttonDisabled == null) {
-                buttonDisabled = widget.image_disabled;
-                buttonEnabled = widget.image_enabled;
+                buttonDisabled = widget.imageDisabled;
+                buttonEnabled = widget.imageEnabled;
             }
             if (male) {
-                widget.image_disabled = buttonEnabled;
+                widget.imageDisabled = buttonEnabled;
             } else {
-                widget.image_disabled = buttonDisabled;
+                widget.imageDisabled = buttonDisabled;
             }
             return true;
         }
 
         if (type == 325) {
             if (buttonDisabled == null) {
-                buttonDisabled = widget.image_disabled;
-                buttonEnabled = widget.image_enabled;
+                buttonDisabled = widget.imageDisabled;
+                buttonEnabled = widget.imageEnabled;
             }
             if (male) {
-                widget.image_disabled = buttonDisabled;
+                widget.imageDisabled = buttonDisabled;
             } else {
-                widget.image_disabled = buttonEnabled;
+                widget.imageDisabled = buttonEnabled;
             }
             return true;
         }
