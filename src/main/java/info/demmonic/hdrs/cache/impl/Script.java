@@ -62,11 +62,11 @@ public class Script {
 
                     case 4: {
                         Widget w = Widget.instance[code[i++]];
-                        int item_index = code[i++];
+                        int itemIndex = code[i++];
 
-                        if (item_index >= 0 && item_index < ObjConfig.count && (!ObjConfig.get(item_index).isMembers || Game.isMembers)) {
+                        if (itemIndex >= 0 && itemIndex < ObjConfig.count && (!ObjConfig.get(itemIndex).isMembers || Game.isMembers)) {
                             for (int j = 0; j < w.itemIndex.length; j++) {
-                                if (w.itemIndex[j] == item_index + 1) {
+                                if (w.itemIndex[j] == itemIndex + 1) {
                                     register += w.itemCount[j];
                                 }
                             }
@@ -108,10 +108,10 @@ public class Script {
                     case 10: {
                         Widget child = Widget.get(code[i++]);
                         if (child != null) {
-                            int item_index = code[i++] + 1;
-                            if (item_index >= 0 && item_index < ObjConfig.count && (!ObjConfig.get(item_index).isMembers || Game.isMembers)) {
+                            int itemIndex = code[i++] + 1;
+                            if (itemIndex >= 0 && itemIndex < ObjConfig.count && (!ObjConfig.get(itemIndex).isMembers || Game.isMembers)) {
                                 for (int slot = 0; slot < child.itemIndex.length; slot++) {
-                                    if (child.itemIndex[slot] != item_index) {
+                                    if (child.itemIndex[slot] != itemIndex) {
                                         continue;
                                     }
                                     register = 999999999;
