@@ -149,11 +149,11 @@ public class Canvas2D extends CacheLink {
         if (y1 > Canvas2D.height) {
             y1 = Canvas2D.height;
         }
-        int x_difference = Math.abs(x1 - x0);
-        int y_difference = Math.abs(y1 - y0);
-        int x_delta = (x0 < x1 ? 1 : -1);
-        int y_delta = (y0 < y1 ? 1 : -1);
-        int slope = x_difference - y_difference;
+        int xDifference = Math.abs(x1 - x0);
+        int yDifference = Math.abs(y1 - y0);
+        int xDelta = (x0 < x1 ? 1 : -1);
+        int yDelta = (y0 < y1 ? 1 : -1);
+        int slope = xDifference - yDifference;
         int err2 = 0;
 
         for (; ; ) {
@@ -165,9 +165,9 @@ public class Canvas2D extends CacheLink {
 
             err2 = 2 * slope;
 
-            if (err2 > -y_difference) {
-                slope -= y_difference;
-                x0 += x_delta;
+            if (err2 > -yDifference) {
+                slope -= yDifference;
+                x0 += xDelta;
             }
 
             if (x0 == x1 && y0 == y1) {
@@ -175,9 +175,9 @@ public class Canvas2D extends CacheLink {
                 break;
             }
 
-            if (err2 < x_difference) {
-                slope += x_difference;
-                y0 += y_delta;
+            if (err2 < xDifference) {
+                slope += xDifference;
+                y0 += yDelta;
             }
         }
     }
