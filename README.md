@@ -1,6 +1,8 @@
 # 317HD
 A 317 client with the rendering engine ported to libgdx
 
+[![Build Status](https://travis-ci.org/demmonic/317HD.svg?branch=master)](https://travis-ci.org/demmonic/317HD)
+
 # What's with these naming conventions, are you stupid?
 It's not my fault. The most complete refactor of a 317 client was poorly done. I'm not wasting my time refactoring one from scratch.
 
