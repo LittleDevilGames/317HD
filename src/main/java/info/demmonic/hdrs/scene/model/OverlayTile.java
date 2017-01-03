@@ -117,22 +117,22 @@ public class OverlayTile {
     public short[] vertexY;
     public short[] vertexZ;
 
-    public OverlayTile(int localX, int localY, short v_sw, short v_se, short v_ne, short v_nw, int rgb_sw, int rgb_se, int rgb_ne, int rgb_nw, int rgb_bitset, int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, int hsl_bitset, byte texture_index, int rotation, int shape) {
+    public OverlayTile(int localX, int localY, short vSw, short vSe, short vNe, short vNw, int rgbSw, int rgbSe, int rgbNe, int rgbNw, int rgbBitset, int hslSw, int hslSe, int hslNe, int hslNw, int hslBitset, byte textureIndex, int rotation, int shape) {
         this.ignoreUv = true;
 
-        if (v_sw != v_se || v_sw != v_ne || v_sw != v_nw) {
+        if (vSw != vSe || vSw != vNe || vSw != vNw) {
             this.ignoreUv = false;
         }
 
         this.shape = shape;
         this.rotation = rotation;
-        this.rgb = rgb_bitset;
-        this.hsl = hsl_bitset;
+        this.rgb = rgbBitset;
+        this.hsl = hslBitset;
 
-        short tile_size = 128;
-        byte half = (byte) (tile_size / 2);
-        byte quarter = (byte) (tile_size / 4);
-        byte third = (byte) ((tile_size * 3) / 4);
+        short tileSize = 128;
+        byte half = (byte) (tileSize / 2);
+        byte quarter = (byte) (tileSize / 4);
+        byte third = (byte) ((tileSize * 3) / 4);
 
         int[] opcodes = CLIPPING_FLAG[shape];
         int length = opcodes.length;
@@ -140,11 +140,11 @@ public class OverlayTile {
         this.triangleX = new short[length];
         this.triangleY = new short[length];
         this.triangleZ = new short[length];
-        int[] hsl_array = new int[length];
-        int[] rgb_array = new int[length];
+        int[] hslArray = new int[length];
+        int[] rgbArray = new int[length];
 
-        short s_x = (short) (localX * tile_size);
-        short s_y = (short) (localY * tile_size);
+        short sX = (short) (localX * tileSize);
+        short sY = (short) (localY * tileSize);
 
         for (int i = 0; i < length; i++) {
             int opcode = opcodes[i];
@@ -169,141 +169,141 @@ public class OverlayTile {
 
             switch (opcode) {
                 case 1:
-                    x = s_x;
-                    z = s_y;
-                    y = v_sw;
-                    hsl = hsl_sw;
-                    rgb = rgb_sw;
+                    x = sX;
+                    z = sY;
+                    y = vSw;
+                    hsl = hslSw;
+                    rgb = rgbSw;
                     break;
                 case 2:
-                    x = (short) (s_x + half);
-                    z = s_y;
-                    y = (short) (v_sw + v_se >> 1);
-                    hsl = hsl_sw + hsl_se >> 1;
-                    rgb = rgb_sw + rgb_se >> 1;
+                    x = (short) (sX + half);
+                    z = sY;
+                    y = (short) (vSw + vSe >> 1);
+                    hsl = hslSw + hslSe >> 1;
+                    rgb = rgbSw + rgbSe >> 1;
                     break;
                 case 3:
-                    x = (short) (s_x + tile_size);
-                    z = s_y;
-                    y = v_se;
-                    hsl = hsl_se;
-                    rgb = rgb_se;
+                    x = (short) (sX + tileSize);
+                    z = sY;
+                    y = vSe;
+                    hsl = hslSe;
+                    rgb = rgbSe;
                     break;
                 case 4:
-                    x = (short) (s_x + tile_size);
-                    z = (short) (s_y + half);
-                    y = (short) (v_se + v_ne >> 1);
-                    hsl = hsl_se + hsl_ne >> 1;
-                    rgb = rgb_se + rgb_ne >> 1;
+                    x = (short) (sX + tileSize);
+                    z = (short) (sY + half);
+                    y = (short) (vSe + vNe >> 1);
+                    hsl = hslSe + hslNe >> 1;
+                    rgb = rgbSe + rgbNe >> 1;
                     break;
                 case 5:
-                    x = (short) (s_x + tile_size);
-                    z = (short) (s_y + tile_size);
-                    y = v_ne;
-                    hsl = hsl_ne;
-                    rgb = rgb_ne;
+                    x = (short) (sX + tileSize);
+                    z = (short) (sY + tileSize);
+                    y = vNe;
+                    hsl = hslNe;
+                    rgb = rgbNe;
                     break;
                 case 6:
-                    x = (short) (s_x + half);
-                    z = (short) (s_y + tile_size);
-                    y = (short) (v_ne + v_nw >> 1);
-                    hsl = hsl_ne + hsl_nw >> 1;
-                    rgb = rgb_ne + rgb_nw >> 1;
+                    x = (short) (sX + half);
+                    z = (short) (sY + tileSize);
+                    y = (short) (vNe + vNw >> 1);
+                    hsl = hslNe + hslNw >> 1;
+                    rgb = rgbNe + rgbNw >> 1;
                     break;
                 case 7:
-                    x = s_x;
-                    z = (short) (s_y + tile_size);
-                    y = v_nw;
-                    hsl = hsl_nw;
-                    rgb = rgb_nw;
+                    x = sX;
+                    z = (short) (sY + tileSize);
+                    y = vNw;
+                    hsl = hslNw;
+                    rgb = rgbNw;
                     break;
                 case 8:
-                    x = s_x;
-                    z = (short) (s_y + half);
-                    y = (short) (v_nw + v_sw >> 1);
-                    hsl = hsl_nw + hsl_sw >> 1;
-                    rgb = rgb_nw + rgb_sw >> 1;
+                    x = sX;
+                    z = (short) (sY + half);
+                    y = (short) (vNw + vSw >> 1);
+                    hsl = hslNw + hslSw >> 1;
+                    rgb = rgbNw + rgbSw >> 1;
                     break;
                 case 9:
-                    x = (short) (s_x + half);
-                    z = (short) (s_y + quarter);
-                    y = (short) (v_sw + v_se >> 1);
-                    hsl = hsl_sw + hsl_se >> 1;
-                    rgb = rgb_sw + rgb_se >> 1;
+                    x = (short) (sX + half);
+                    z = (short) (sY + quarter);
+                    y = (short) (vSw + vSe >> 1);
+                    hsl = hslSw + hslSe >> 1;
+                    rgb = rgbSw + rgbSe >> 1;
                     break;
                 case 10:
-                    x = (short) (s_x + third);
-                    z = (short) (s_y + half);
-                    y = (short) (v_se + v_ne >> 1);
-                    hsl = hsl_se + hsl_ne >> 1;
-                    rgb = rgb_se + rgb_ne >> 1;
+                    x = (short) (sX + third);
+                    z = (short) (sY + half);
+                    y = (short) (vSe + vNe >> 1);
+                    hsl = hslSe + hslNe >> 1;
+                    rgb = rgbSe + rgbNe >> 1;
                     break;
                 case 11:
-                    x = (short) (s_x + half);
-                    z = (short) (s_y + third);
-                    y = (short) (v_ne + v_nw >> 1);
-                    hsl = hsl_ne + hsl_nw >> 1;
-                    rgb = rgb_ne + rgb_nw >> 1;
+                    x = (short) (sX + half);
+                    z = (short) (sY + third);
+                    y = (short) (vNe + vNw >> 1);
+                    hsl = hslNe + hslNw >> 1;
+                    rgb = rgbNe + rgbNw >> 1;
                     break;
                 case 12:
-                    x = (short) (s_x + quarter);
-                    z = (short) (s_y + half);
-                    y = (short) (v_nw + v_sw >> 1);
-                    hsl = hsl_nw + hsl_sw >> 1;
-                    rgb = rgb_nw + rgb_sw >> 1;
+                    x = (short) (sX + quarter);
+                    z = (short) (sY + half);
+                    y = (short) (vNw + vSw >> 1);
+                    hsl = hslNw + hslSw >> 1;
+                    rgb = rgbNw + rgbSw >> 1;
                     break;
                 case 13:
-                    x = (short) (s_x + quarter);
-                    z = (short) (s_y + quarter);
-                    y = v_sw;
-                    hsl = hsl_sw;
-                    rgb = rgb_sw;
+                    x = (short) (sX + quarter);
+                    z = (short) (sY + quarter);
+                    y = vSw;
+                    hsl = hslSw;
+                    rgb = rgbSw;
                     break;
                 case 14:
-                    x = (short) (s_x + third);
-                    z = (short) (s_y + quarter);
-                    y = v_se;
-                    hsl = hsl_se;
-                    rgb = rgb_se;
+                    x = (short) (sX + third);
+                    z = (short) (sY + quarter);
+                    y = vSe;
+                    hsl = hslSe;
+                    rgb = rgbSe;
                     break;
                 case 15:
-                    x = (short) (s_x + third);
-                    z = (short) (s_y + third);
-                    y = v_ne;
-                    hsl = hsl_ne;
-                    rgb = rgb_ne;
+                    x = (short) (sX + third);
+                    z = (short) (sY + third);
+                    y = vNe;
+                    hsl = hslNe;
+                    rgb = rgbNe;
                     break;
                 default:
-                    x = (short) (s_x + quarter);
-                    z = (short) (s_y + third);
-                    y = v_nw;
-                    hsl = hsl_nw;
-                    rgb = rgb_nw;
+                    x = (short) (sX + quarter);
+                    z = (short) (sY + third);
+                    y = vNw;
+                    hsl = hslNw;
+                    rgb = rgbNw;
                     break;
             }
 
             this.triangleX[i] = x;
             this.triangleY[i] = y;
             this.triangleZ[i] = z;
-            hsl_array[i] = hsl;
-            rgb_array[i] = rgb;
+            hslArray[i] = hsl;
+            rgbArray[i] = rgb;
         }
 
         byte[] path = CLIPPING_PATH[shape];
-        int vertex_count = path.length / 4;
-        this.vertexX = new short[vertex_count];
-        this.vertexY = new short[vertex_count];
-        this.vertexZ = new short[vertex_count];
-        this.vertexColorA = new int[vertex_count];
-        this.vertexColorB = new int[vertex_count];
-        this.vertexColorC = new int[vertex_count];
+        int vertexCount = path.length / 4;
+        this.vertexX = new short[vertexCount];
+        this.vertexY = new short[vertexCount];
+        this.vertexZ = new short[vertexCount];
+        this.vertexColorA = new int[vertexCount];
+        this.vertexColorB = new int[vertexCount];
+        this.vertexColorC = new int[vertexCount];
 
-        if (texture_index != -1) {
-            this.triangleTextureIndex = new byte[vertex_count];
+        if (textureIndex != -1) {
+            this.triangleTextureIndex = new byte[vertexCount];
         }
 
         int i = 0;
-        for (int j = 0; j < vertex_count; j++) {
+        for (int j = 0; j < vertexCount; j++) {
             int type = path[i];
             short x = path[i + 1];
             short y = path[i + 2];
@@ -327,20 +327,20 @@ public class OverlayTile {
             this.vertexZ[j] = z;
 
             if (type == 0) {
-                this.vertexColorA[j] = hsl_array[x];
-                this.vertexColorB[j] = hsl_array[y];
-                this.vertexColorC[j] = hsl_array[z];
+                this.vertexColorA[j] = hslArray[x];
+                this.vertexColorB[j] = hslArray[y];
+                this.vertexColorC[j] = hslArray[z];
 
                 if (this.triangleTextureIndex != null) {
                     this.triangleTextureIndex[j] = -1;
                 }
             } else {
-                this.vertexColorA[j] = rgb_array[x];
-                this.vertexColorB[j] = rgb_array[y];
-                this.vertexColorC[j] = rgb_array[z];
+                this.vertexColorA[j] = rgbArray[x];
+                this.vertexColorB[j] = rgbArray[y];
+                this.vertexColorC[j] = rgbArray[z];
 
                 if (this.triangleTextureIndex != null) {
-                    this.triangleTextureIndex[j] = texture_index;
+                    this.triangleTextureIndex[j] = textureIndex;
                 }
             }
         }
