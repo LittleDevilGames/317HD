@@ -152,11 +152,11 @@ public class JString {
         return new String(characters, 12 - len, len);
     }
 
-    public static boolean isVowel(String s, int char_index) {
-        if (char_index < 0 || char_index > s.length()) {
+    public static boolean isVowel(String s, int charIndex) {
+        if (charIndex < 0 || charIndex > s.length()) {
             return false;
         }
-        char c = s.charAt(char_index);
+        char c = s.charAt(charIndex);
         return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
     }
 
