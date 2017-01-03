@@ -104,11 +104,11 @@ public class Loc extends Renderable {
 
         if (varbitIndex != -1) {
             VarBit varbit = VarBit.instance[varbitIndex];
-            int varp_index = varbit.setting;
+            int varpIndex = varbit.setting;
             int offset = varbit.offset;
             int shift = varbit.shift;
             int j1 = Game.LSB_BIT_MASK[shift - offset];
-            i = Game.settings[varp_index] >> offset & j1;
+            i = Game.settings[varpIndex] >> offset & j1;
         } else if (settingIndex != -1) {
             i = Game.settings[settingIndex];
         }
