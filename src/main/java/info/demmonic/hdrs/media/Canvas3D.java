@@ -2,6 +2,7 @@ package info.demmonic.hdrs.media;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.cache.Archive;
+import info.demmonic.hdrs.util.ColorUtils;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -132,7 +133,7 @@ public class Canvas3D extends Canvas2D {
                 int green = (int) (d5 * 256D);
                 int blue = (int) (d6 * 256D);
                 int rgb = (red << 16) + (green << 8) + blue;
-                rgb = Canvas3D.linearRgbBrightness(rgb, brightness);
+                rgb = ColorUtils.linearRgbBrightness(rgb, brightness);
 
                 if (rgb == 0) {
                     rgb = 1;
@@ -147,7 +148,7 @@ public class Canvas3D extends Canvas2D {
                 int palette[] = texture[i].palette;
                 texturePalette[i] = new int[palette.length];
                 for (int j = 0; j < palette.length; j++) {
-                    texturePalette[i][j] = Canvas3D.linearRgbBrightness(palette[j], brightness);
+                    texturePalette[i][j] = ColorUtils.linearRgbBrightness(palette[j], brightness);
 
                     if ((texturePalette[i][j] & 0xf8f8ff) == 0 && j != 0) {
                         texturePalette[i][j] = 1;
@@ -2059,7 +2060,7 @@ public class Canvas3D extends Canvas2D {
             blue += texturePalette[texture][i] & 0xff;
         }
 
-        int rgb = linearRgbBrightness(((red / count) << 16) + ((green / count) << 8) + (blue / count), 1.3999999999999999D);
+        int rgb = ColorUtils.linearRgbBrightness(((red / count) << 16) + ((green / count) << 8) + (blue / count), 1.3999999999999999D);
 
         if (rgb == 0) {
             rgb = 1;
@@ -2142,13 +2143,6 @@ public class Canvas3D extends Canvas2D {
             }
         }
         return texels;
-    }
-
-    public static int linearRgbBrightness(int rgb, double brightness) {
-        double r = Math.pow((double) (rgb >> 16) / 256D, brightness);
-        double g = Math.pow((double) (rgb >> 8 & 0xff) / 256D, brightness);
-        double b = Math.pow((double) (rgb & 0xff) / 256D, brightness);
-        return ((int) (r * 256D) << 16) + ((int) (g * 256D) << 8) + (int) (b * 256D);
     }
 
     public static void nullify() {

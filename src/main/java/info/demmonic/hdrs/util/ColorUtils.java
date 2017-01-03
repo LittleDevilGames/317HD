@@ -79,4 +79,11 @@ public class ColorUtils {
         return (hsl & 0xff80) + brightness;
     }
 
+    public static int linearRgbBrightness(int rgb, double brightness) {
+        double r = Math.pow((double) (rgb >> 16) / 256D, brightness);
+        double g = Math.pow((double) (rgb >> 8 & 0xff) / 256D, brightness);
+        double b = Math.pow((double) (rgb & 0xff) / 256D, brightness);
+        return ((int) (r * 256D) << 16) + ((int) (g * 256D) << 8) + (int) (b * 256D);
+    }
+
 }
