@@ -479,16 +479,6 @@ public class Chat extends Widget {
                                 break;
                             }
 
-                            case "boom": {
-                                int x = Game.self.getLocalX();
-                                int y = Game.self.getLocalY();
-                                int plane = Game.plane;
-
-                                Game.landscape.setTileUnderlayColor(x, y, plane, 0, 7, 126, 126, 126, 126);
-                                Game.generateMinimap(plane);
-                                break;
-                            }
-
                             case "testupdate": {
                                 int time = 60;
                                 try {

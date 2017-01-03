@@ -102,7 +102,7 @@ public class OverlayTile {
     public static int tmpTriangleZ[] = new int[6];
 
     public int hsl;
-    public boolean ignore_uv;
+    public boolean ignoreUv;
     public int rgb;
     public int rotation;
     public int shape;
@@ -118,10 +118,10 @@ public class OverlayTile {
     public short[] vertexZ;
 
     public OverlayTile(int localX, int localY, short v_sw, short v_se, short v_ne, short v_nw, int rgb_sw, int rgb_se, int rgb_ne, int rgb_nw, int rgb_bitset, int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, int hsl_bitset, byte texture_index, int rotation, int shape) {
-        this.ignore_uv = true;
+        this.ignoreUv = true;
 
         if (v_sw != v_se || v_sw != v_ne || v_sw != v_nw) {
-            this.ignore_uv = false;
+            this.ignoreUv = false;
         }
 
         this.shape = shape;

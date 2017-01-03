@@ -149,7 +149,7 @@ public class Scene {
                 r = new Loc(locIndex, locRotation, 0, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addWall(r, null, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[locRotation], 0, arrangement, true, uid);
+            l.addWall(r, null, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[locRotation], 0, arrangement, uid);
 
             if (c.hasCollisions) {
                 cm.addWall(x, y, locType, locRotation, c.blocksProjectiles);
@@ -163,7 +163,7 @@ public class Scene {
                 r = new Loc(locIndex, locRotation, 1, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[locRotation], 0, arrangement, true, uid);
+            l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[locRotation], 0, arrangement, uid);
 
             if (c.hasCollisions) {
                 cm.addWall(x, y, locType, locRotation, c.blocksProjectiles);
@@ -181,7 +181,7 @@ public class Scene {
                 r2 = new Loc(locIndex, nextRotation, 2, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addWall(r1, r2, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[locRotation], WALL_ROOT_DRAW_FLAGS[nextRotation], arrangement, true, uid);
+            l.addWall(r1, r2, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[locRotation], WALL_ROOT_DRAW_FLAGS[nextRotation], arrangement, uid);
 
             if (c.hasCollisions) {
                 cm.addWall(x, y, locType, locRotation, c.blocksProjectiles);
@@ -195,7 +195,7 @@ public class Scene {
                 r = new Loc(locIndex, locRotation, 3, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[locRotation], 0, arrangement, true, uid);
+            l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[locRotation], 0, arrangement, uid);
 
             if (c.hasCollisions) {
                 cm.addWall(x, y, locType, locRotation, c.blocksProjectiles);
@@ -514,7 +514,7 @@ public class Scene {
                     r = new Loc(locIndex, rotation, 0, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_ROOT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
+                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_ROOT_DRAW_FLAGS[rotation], 0, arrangement, uid);
 
                 if (rotation == 0) {
                     if (c.castsShadow) {
@@ -571,7 +571,7 @@ public class Scene {
                     r = new Loc(locIndex, rotation, 1, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_EXT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
+                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_EXT_DRAW_FLAGS[rotation], 0, arrangement, uid);
 
                 if (c.castsShadow) {
                     if (rotation == 0) {
@@ -601,7 +601,7 @@ public class Scene {
                     r2 = new Loc(locIndex, nextRotation, 2, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.addWall(r1, r2, x, y, heightAverage, plane, WALL_ROOT_DRAW_FLAGS[rotation], WALL_ROOT_DRAW_FLAGS[nextRotation], arrangement, true, uid);
+                landscape.addWall(r1, r2, x, y, heightAverage, plane, WALL_ROOT_DRAW_FLAGS[rotation], WALL_ROOT_DRAW_FLAGS[nextRotation], arrangement, uid);
 
                 if (c.isSolid) {
                     if (rotation == 0) {
@@ -635,7 +635,7 @@ public class Scene {
                     r = new Loc(locIndex, rotation, 3, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_EXT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
+                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_EXT_DRAW_FLAGS[rotation], 0, arrangement, uid);
 
                 if (c.castsShadow) {
                     if (rotation == 0) {
