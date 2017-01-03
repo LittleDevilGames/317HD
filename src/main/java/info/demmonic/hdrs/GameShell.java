@@ -1,10 +1,10 @@
 package info.demmonic.hdrs;
 
+import info.demmonic.hdrs.input.Keyboard;
+import info.demmonic.hdrs.input.Mouse;
 import info.demmonic.hdrs.net.Jaggrab;
 import info.demmonic.hdrs.util.FrameCounter;
 import info.demmonic.hdrs.util.JString;
-import info.demmonic.hdrs.input.Keyboard;
-import info.demmonic.hdrs.input.Mouse;
 import info.demmonic.hdrs.util.NanoTimer;
 
 import java.applet.Applet;

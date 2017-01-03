@@ -1,12 +1,16 @@
 package info.demmonic.hdrs.cache.impl;
 
-import info.demmonic.hdrs.cache.Archive;
+import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.Signlink;
+import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.cache.model.ActorConfig;
 import info.demmonic.hdrs.cache.model.ObjConfig;
 import info.demmonic.hdrs.input.Mouse;
 import info.demmonic.hdrs.io.Buffer;
+import info.demmonic.hdrs.media.BitmapFont;
 import info.demmonic.hdrs.media.Canvas2D;
+import info.demmonic.hdrs.media.Canvas3D;
+import info.demmonic.hdrs.media.Sprite;
 import info.demmonic.hdrs.node.List;
 import info.demmonic.hdrs.scene.model.Model;
 import info.demmonic.hdrs.util.JString;

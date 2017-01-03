@@ -3,9 +3,8 @@ package info.demmonic.hdrs.media.impl;
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.input.Keyboard;
 import info.demmonic.hdrs.input.Mouse;
-import info.demmonic.hdrs.media.ImageProducer;
+import info.demmonic.hdrs.media.*;
 import info.demmonic.hdrs.util.JString;
-import info.demmonic.hdrs.media.Canvas2D;
 
 public class TitleScreen {
 

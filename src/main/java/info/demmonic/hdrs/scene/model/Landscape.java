@@ -1,9 +1,9 @@
 package info.demmonic.hdrs.scene.model;
 
 import info.demmonic.hdrs.Game;
-import info.demmonic.hdrs.node.Chain;
 import info.demmonic.hdrs.media.Canvas2D;
 import info.demmonic.hdrs.media.Canvas3D;
+import info.demmonic.hdrs.node.Chain;
 import info.demmonic.hdrs.node.impl.Renderable;
 
 public class Landscape {

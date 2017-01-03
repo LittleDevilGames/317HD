@@ -2,10 +2,10 @@ package info.demmonic.hdrs.media.impl;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.media.Bitmap;
-import info.demmonic.hdrs.media.ImageProducer;
-import info.demmonic.hdrs.util.RSColor;
 import info.demmonic.hdrs.media.Canvas2D;
+import info.demmonic.hdrs.media.ImageProducer;
 import info.demmonic.hdrs.media.Sprite;
+import info.demmonic.hdrs.util.RSColor;
 
 import java.util.Arrays;
 

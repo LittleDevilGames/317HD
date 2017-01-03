@@ -2,11 +2,11 @@ package info.demmonic.hdrs.media.impl;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.input.Mouse;
-import info.demmonic.hdrs.util.JString;
-import info.demmonic.hdrs.util.RSColor;
 import info.demmonic.hdrs.input.model.Area;
 import info.demmonic.hdrs.media.BitmapFont;
 import info.demmonic.hdrs.media.Canvas2D;
+import info.demmonic.hdrs.util.JString;
+import info.demmonic.hdrs.util.RSColor;
 
 public class Menu {
 

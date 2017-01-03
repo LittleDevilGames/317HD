@@ -1,7 +1,7 @@
 package info.demmonic.hdrs.media;
 
-import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.Game;
+import info.demmonic.hdrs.cache.Archive;
 
 import java.awt.*;
 import java.awt.image.*;

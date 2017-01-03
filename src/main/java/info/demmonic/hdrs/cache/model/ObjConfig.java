@@ -2,14 +2,14 @@ package info.demmonic.hdrs.cache.model;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.cache.Archive;
-import info.demmonic.hdrs.scene.model.Model;
-import info.demmonic.hdrs.util.JString;
 import info.demmonic.hdrs.io.Buffer;
 import info.demmonic.hdrs.media.Canvas2D;
 import info.demmonic.hdrs.media.Canvas3D;
 import info.demmonic.hdrs.media.Sprite;
 import info.demmonic.hdrs.node.List;
 import info.demmonic.hdrs.node.impl.Renderable;
+import info.demmonic.hdrs.scene.model.Model;
+import info.demmonic.hdrs.util.JString;
 
 public class ObjConfig {
 

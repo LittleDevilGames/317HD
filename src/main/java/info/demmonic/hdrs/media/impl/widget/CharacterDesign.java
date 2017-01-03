@@ -2,10 +2,10 @@ package info.demmonic.hdrs.media.impl.widget;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.cache.impl.IdentityKit;
-import info.demmonic.hdrs.cache.impl.Widget;
-import info.demmonic.hdrs.scene.model.Model;
 import info.demmonic.hdrs.cache.impl.Sequence;
+import info.demmonic.hdrs.cache.impl.Widget;
 import info.demmonic.hdrs.media.Sprite;
+import info.demmonic.hdrs.scene.model.Model;
 
 public class CharacterDesign {
 
