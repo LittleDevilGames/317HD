@@ -59,8 +59,8 @@ public class SpotAnim extends Renderable {
     }
 
     public void update(int i) {
-        for (this.seq_cycle += i; this.seq_cycle > this.config.seq.get_frame_length(this.seq_frame); ) {
-            this.seq_cycle -= this.config.seq.get_frame_length(this.seq_frame) + 1;
+        for (this.seq_cycle += i; this.seq_cycle > this.config.seq.getFrameLength(this.seq_frame); ) {
+            this.seq_cycle -= this.config.seq.getFrameLength(this.seq_frame) + 1;
             this.seq_frame++;
 
             if (this.seq_frame >= this.config.seq.frame_count && (this.seq_frame < 0 || this.seq_frame >= this.config.seq.frame_count)) {

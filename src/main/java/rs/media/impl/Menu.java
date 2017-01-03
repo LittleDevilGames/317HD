@@ -126,7 +126,7 @@ public class Menu {
             return;
         }
         Menu.prepare();
-        Game.handle_mouse();
+        Game.handleMouse();
         Menu.sort();
     }
 

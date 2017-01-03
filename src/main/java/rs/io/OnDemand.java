@@ -74,7 +74,7 @@ public class OnDemand implements Runnable {
         wanted = new Chain();
     }
 
-    public void clear_passive_requests() {
+    public void clearPassiveRequests() {
         synchronized (passive_requests) {
             passive_requests.clear();
         }
@@ -108,7 +108,7 @@ public class OnDemand implements Runnable {
         return file_versions[archive].length;
     }
 
-    public int get_map_uid(int x, int y, int type) {
+    public int getMapUid(int x, int y, int type) {
         int uid = (x << 8) + y;
         for (int i = 0; i < map_index.length; i++) {
             if (map_index[i] == uid) {
@@ -228,7 +228,7 @@ public class OnDemand implements Runnable {
         }
     }
 
-    public boolean has_landscape(int index) {
+    public boolean hasLandscape(int index) {
         for (int k = 0; k < map_index.length; k++) {
             if (map_landscape[k] == index) {
                 return true;
@@ -356,7 +356,7 @@ public class OnDemand implements Runnable {
                 if (file_priorities[r.archive][r.file] != 0) {
                     file_priorities[r.archive][r.file] = 0;
                     sent_requests.pushBack(r);
-                    send_request(r);
+                    sendRequest(r);
                     retreiving = true;
 
                     if (extras_loaded < extras_total) {
@@ -386,7 +386,7 @@ public class OnDemand implements Runnable {
                         r1.file = i;
                         r1.immediate = false;
                         sent_requests.pushBack(r1);
-                        send_request(r1);
+                        sendRequest(r1);
                         retreiving = true;
 
                         if (extras_loaded < extras_total) {
@@ -434,7 +434,7 @@ public class OnDemand implements Runnable {
             file_priorities[request.archive][request.file] = 0;
             sent_requests.pushBack(request);
             immediate_requests_sent++;
-            send_request(request);
+            sendRequest(request);
             retreiving = true;
         }
     }
@@ -462,7 +462,7 @@ public class OnDemand implements Runnable {
     }
 
     public void request_model(int i) {
-        send_request(0, i);
+        sendRequest(0, i);
     }
 
     public void request_regions(boolean members) {
@@ -522,7 +522,7 @@ public class OnDemand implements Runnable {
 
                         if (r.cycle > 50) {
                             r.cycle = 0;
-                            send_request(r);
+                            sendRequest(r);
                         }
                     }
                 }
@@ -533,7 +533,7 @@ public class OnDemand implements Runnable {
                         request.cycle++;
                         if (request.cycle > 50) {
                             request.cycle = 0;
-                            send_request(request);
+                            sendRequest(request);
                         }
                     }
 
@@ -585,7 +585,7 @@ public class OnDemand implements Runnable {
         }
     }
 
-    public void send_request(int archive, int file) {
+    public void sendRequest(int archive, int file) {
         if (archive < 0 || archive > file_versions.length || file < 0 || file >= file_versions[archive].length) {
             return;
         }
@@ -615,7 +615,7 @@ public class OnDemand implements Runnable {
         }
     }
 
-    public void send_request(OnDemandRequest node) {
+    public void sendRequest(OnDemandRequest node) {
         try {
             if (socket == null) {
                 long currentTime = System.currentTimeMillis();

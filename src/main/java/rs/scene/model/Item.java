@@ -6,13 +6,13 @@ import rs.node.impl.Renderable;
 public class Item extends Renderable {
 
     public short index;
-    public int stack_index;
+    public int stackIndex;
 
     public Item() {
     }
 
     @Override
     public Model getModel() {
-        return ObjConfig.get(index).get_model(stack_index);
+        return ObjConfig.get(index).get_model(stackIndex);
     }
 }

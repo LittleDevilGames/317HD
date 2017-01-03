@@ -24,7 +24,7 @@ public class ImageProducer {
     public ImageProducer(int width, int height, boolean alpha) {
         this.width = width;
         this.height = height;
-        this.component = Game.get_component();
+        this.component = Game.getSingletonComponent();
         int count = width * height;
         this.pixels = new int[count];
         this.image = new BufferedImage(alpha ? TRANSPARENT_COLOR_MODEL : OPAQUE_COLOR_MODEL, Raster.createWritableRaster(OPAQUE_COLOR_MODEL.createCompatibleSampleModel(width, height), new DataBufferInt(pixels, count), null), false, new Hashtable<Object, Object>());

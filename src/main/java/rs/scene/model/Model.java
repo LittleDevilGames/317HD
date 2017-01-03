@@ -26,7 +26,7 @@ public class Model extends Renderable {
     public static int anIntArrayArray1674[][] = new int[12][2000];
     public static Header[] header;
     public static OnDemand ondemand;
-    public static boolean scene_clickable;
+    public static boolean sceneClickable;
     public static int mouse_x;
     public static int mouse_y;
     public static int hovered_count;
@@ -1807,7 +1807,7 @@ public class Model extends Renderable {
 
         boolean hoverable = false;
 
-        if (uid > 0 && scene_clickable) {
+        if (uid > 0 && sceneClickable) {
             int k5 = cam_dist - l2;
 
             if (k5 <= 50) {

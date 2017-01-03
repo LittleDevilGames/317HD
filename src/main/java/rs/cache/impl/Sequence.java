@@ -17,7 +17,7 @@ public class Sequence {
     public short padding;
     public short priority;
     public short reset_cycle;
-    public short speed_flag;
+    public short speedFlag;
     public short type;
     public int[] vertices;
     public short walk_flag;
@@ -29,7 +29,7 @@ public class Sequence {
         override_shield_index = -1;
         override_weapon_index = -1;
         reset_cycle = 99;
-        speed_flag = -1;
+        speedFlag = -1;
         walk_flag = -1;
         type = 2;
 
@@ -76,7 +76,7 @@ public class Sequence {
             } else if (i == 8) {
                 reset_cycle = (short) s.readUnsignedByte();
             } else if (i == 9) {
-                speed_flag = (short) s.readUnsignedByte();
+                speedFlag = (short) s.readUnsignedByte();
             } else if (i == 10) {
                 walk_flag = (short) s.readUnsignedByte();
             } else if (i == 11) {
@@ -96,11 +96,11 @@ public class Sequence {
             frame_length[0] = -1;
         }
 
-        if (speed_flag == -1) {
+        if (speedFlag == -1) {
             if (vertices != null) {
-                speed_flag = 2;
+                speedFlag = 2;
             } else {
-                speed_flag = 0;
+                speedFlag = 0;
             }
         }
 
@@ -124,7 +124,7 @@ public class Sequence {
         }
     }
 
-    public int get_frame_length(int frame) {
+    public int getFrameLength(int frame) {
         int i = this.frame_length[frame];
 
         if (i == 0) {

@@ -15,14 +15,8 @@ public class RSColor {
     public static final int SCROLLBAR_LOWLIGHT = 0x332D25;
     public static final int WHITE = 0xFFFFFF;
 
-    /**
-     * Used to get the colored level tag depending on the difference of your local player's combat level and the provided.
-     *
-     * @param level the other level.
-     * @return the level tag.
-     */
     public static String getLevelTag(int level) {
-        int difference = Game.self.combat_level - level;
+        int difference = Game.self.combatLevel - level;
         StringBuilder s = new StringBuilder(" ");
         if (difference < -9) {
             s.append("@red@");
@@ -46,14 +40,6 @@ public class RSColor {
         return s.append("(level-").append(level).append(")").toString();
     }
 
-    /**
-     * Mixes the two provided colors together using the specified opacity.
-     *
-     * @param a       the first color.
-     * @param b       the second color.
-     * @param opacity the opacity.
-     * @return the mixed color.
-     */
     public static int mix(int a, int b, int opacity) {
         int alpha = 256 - opacity;
         return ((a & 0xff00ff) * alpha + (b & 0xff00ff) * opacity & 0xff00ff00) + ((a & 0xff00) * alpha + (b & 0xff00) * opacity & 0xff0000) >> 8;

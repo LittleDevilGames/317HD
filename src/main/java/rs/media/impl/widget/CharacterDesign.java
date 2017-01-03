@@ -120,9 +120,9 @@ public class CharacterDesign {
 
     public static boolean update(Widget widget, int type) {
         if (type == 327) {
-            widget.model_zoom = 600;
-            widget.model_pitch = 150;
-            widget.model_yaw = (int) (Math.sin((double) Game.loopCycle / 48D) * 256D) & 0x07FF;
+            widget.modelZoom = 600;
+            widget.modelPitch = 150;
+            widget.modelYaw = (int) (Math.sin((double) Game.loopCycle / 48D) * 256D) & 0x07FF;
 
             if (update) {
                 for (int i = 0; i < 7; i++) {
@@ -153,10 +153,10 @@ public class CharacterDesign {
                 }
 
                 mesh.applyVertexWeights();
-                mesh.applySequenceFrame(Sequence.instance[Game.self.stand_animation].framePrimary[0]);
+                mesh.applySequenceFrame(Sequence.instance[Game.self.standAnimation].framePrimary[0]);
                 mesh.applyLighting(64, 850, -30, -50, -30, true);
-                widget.model_type_disabled = 5;
-                widget.model_index_disabled = 0;
+                widget.modelTypeDisabled = 5;
+                widget.modelIndexDisabled = 0;
                 Widget.set_mesh(5, 0, mesh);
             }
             return true;

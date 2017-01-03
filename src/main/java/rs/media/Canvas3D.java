@@ -61,7 +61,7 @@ public class Canvas3D extends Canvas2D {
 
     }
 
-    public static void clear_textures() {
+    public static void clearTextures() {
         texelPool = null;
 
         for (int j = 0; j < 50; j++) {
@@ -69,7 +69,7 @@ public class Canvas3D extends Canvas2D {
         }
     }
 
-    public static void create_palette(double brightness) {
+    public static void createPalette(double brightness) {
         brightness += Math.random() * 0.030D - 0.015D;
         int position = 0;
 
@@ -168,7 +168,7 @@ public class Canvas3D extends Canvas2D {
         }
 
         for (int i = 0; i < 50; i++) {
-            update_texture(i);
+            updateTexture(i);
         }
 
     }
@@ -2199,7 +2199,7 @@ public class Canvas3D extends Canvas2D {
         centerY = height / 2;
     }
 
-    public static void setup_texel_pools() {
+    public static void setupTexelPools() {
         if (texelPool == null) {
             texelPointer = 20;
 
@@ -2275,7 +2275,7 @@ public class Canvas3D extends Canvas2D {
         }
     }
 
-    public static void update_texture(int i) {
+    public static void updateTexture(int i) {
         if (texelCache[i] == null)
             return;
         texelPool[texelPointer++] = texelCache[i];

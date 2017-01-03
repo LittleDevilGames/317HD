@@ -273,7 +273,7 @@ public class TitleScreen {
 
                 if (Mouse.clicked(228, 301, 147, 41)) {
                     Game.reconnectionAttempts = 0;
-                    Game.net_login(Game.username, Game.password, false);
+                    Game.netLogin(Game.username, Game.password, false);
 
                     if (Game.loggedIn) {
                         return;

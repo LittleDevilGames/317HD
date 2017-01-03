@@ -29,7 +29,7 @@ public class Projectile extends Renderable {
     public int start_x;
     public int start_y;
     public int start_z;
-    public int target_index;
+    public int targetIndex;
 
     public Projectile(int arc_size, int end_z, int cycle_start, int cycle_end, int parent_size, int plane, int start_z, int start_y, int start_x, int target, int spotanim_index) {
         this.mobile = false;
@@ -42,7 +42,7 @@ public class Projectile extends Renderable {
         this.cycle_end = cycle_end;
         this.arc_size = arc_size;
         this.parent_size = parent_size;
-        this.target_index = target;
+        this.targetIndex = target;
         this.offset_z = end_z;
         this.mobile = false;
     }
@@ -89,8 +89,8 @@ public class Projectile extends Renderable {
         pitch = (int) (Math.atan2(speed_z, speed) * (32595 / 100)) & 0x7ff;
 
         if (config.seq != null) {
-            for (seq_cycle += cycle; seq_cycle > config.seq.get_frame_length(seq_frame); ) {
-                seq_cycle -= config.seq.get_frame_length(seq_frame) + 1;
+            for (seq_cycle += cycle; seq_cycle > config.seq.getFrameLength(seq_frame); ) {
+                seq_cycle -= config.seq.getFrameLength(seq_frame) + 1;
                 seq_frame++;
                 if (seq_frame >= config.seq.frame_count) {
                     seq_frame = 0;

@@ -22,10 +22,10 @@ public class Widget {
     public static Widget[] instance;
     public static List model_cache = new List(30);
     public static List sprite_cache;
-    public int action_type;
+    public int actionType;
     public boolean centered;
-    public short child_x[];
-    public short child_y[];
+    public short childX[];
+    public short childY[];
     public short children[];
     public int color_hover_disabled;
     public int color_hover_enabled;
@@ -37,42 +37,42 @@ public class Widget {
     public Sprite image_disabled;
     public Sprite image_enabled;
     public short index;
-    public String item_actions[];
-    public int item_count[];
-    public short item_index[];
-    public short item_margin_x;
-    public short item_margin_y;
-    public short item_slot_x[];
-    public short item_slot_y[];
+    public String itemActions[];
+    public int itemCount[];
+    public short itemIndex[];
+    public short itemMarginX;
+    public short itemMarginY;
+    public short itemSlotX[];
+    public short itemSlotY[];
     public boolean items_draggable;
-    public boolean items_have_actions;
+    public boolean itemsHaveActions;
     public boolean items_swappable;
-    public boolean items_usable;
-    public String message_disabled;
+    public boolean itemsUsable;
+    public String messageDisabled;
     public String message_enabled;
-    public int model_index_disabled;
+    public int modelIndexDisabled;
     public int model_index_enabled;
-    public int model_pitch;
-    public int model_type_disabled;
+    public int modelPitch;
+    public int modelTypeDisabled;
     public int model_type_enabled;
-    public int model_yaw;
-    public int model_zoom;
+    public int modelYaw;
+    public int modelZoom;
     public byte opacity;
     public String option;
     public int option_action;
     public String option_prefix;
     public String option_suffix;
-    public byte option_type;
+    public byte optionType;
     public short parent;
-    public int rgb_disabled;
+    public int rgbDisabled;
     public int rgb_enabled;
     public Script[] script;
-    public int scroll_amount;
+    public int scrollAmount;
     public int scroll_height;
-    public int seq_index_disabled;
+    public int seqIndexDisabled;
     public int seq_index_enabled;
-    public int sequence_cycle;
-    public int sequence_frame;
+    public int sequenceCycle;
+    public int sequenceFrame;
     public boolean shadow;
     public Sprite slot_image[];
     public byte type;
@@ -113,10 +113,10 @@ public class Widget {
         return s;
     }
 
-    public static boolean handle_sequences(int cycle, int widget_index) {
+    public static boolean handleSequences(int cycle, int widget_index) {
         Widget w = Widget.get(widget_index);
         if (w != null) {
-            w.handle_sequences(cycle);
+            w.handleSequences(cycle);
         }
         return false;
     }
@@ -155,7 +155,7 @@ public class Widget {
         }
     }
 
-    public static void reset_animations(int index) {
+    public static void resetAnimations(int index) {
         Widget w = Widget.get(index);
         if (w != null) {
             w.reset_sequence();
@@ -191,8 +191,8 @@ public class Widget {
             w.index = (short) index;
             w.parent = (short) parent;
             w.type = b.readByte();
-            w.option_type = b.readByte();
-            w.action_type = b.readUnsignedShort();
+            w.optionType = b.readByte();
+            w.actionType = b.readUnsignedShort();
             w.width = b.readUnsignedShort();
             w.height = b.readUnsignedShort();
             w.opacity = (byte) b.readUnsignedByte();
@@ -212,33 +212,33 @@ public class Widget {
 
                 int count = b.readUnsignedShort();
                 w.children = new short[count];
-                w.child_x = new short[count];
-                w.child_y = new short[count];
+                w.childX = new short[count];
+                w.childY = new short[count];
 
                 for (int i = 0; i < count; i++) {
                     w.children[i] = (short) b.readUnsignedShort();
-                    w.child_x[i] = (short) b.readUnsignedShort();
-                    w.child_y[i] = (short) b.readUnsignedShort();
+                    w.childX[i] = (short) b.readUnsignedShort();
+                    w.childY[i] = (short) b.readUnsignedShort();
                 }
             }
 
             if (w.type == 2) {
-                w.item_index = new short[w.width * w.height];
-                w.item_count = new int[w.width * w.height];
+                w.itemIndex = new short[w.width * w.height];
+                w.itemCount = new int[w.width * w.height];
                 w.items_draggable = b.readByte() == 1;
-                w.items_have_actions = b.readByte() == 1;
-                w.items_usable = b.readByte() == 1;
+                w.itemsHaveActions = b.readByte() == 1;
+                w.itemsUsable = b.readByte() == 1;
                 w.items_swappable = b.readByte() == 1;
-                w.item_margin_x = (short) b.readUnsignedByte();
-                w.item_margin_y = (short) b.readUnsignedByte();
-                w.item_slot_x = new short[20];
-                w.item_slot_y = new short[20];
+                w.itemMarginX = (short) b.readUnsignedByte();
+                w.itemMarginY = (short) b.readUnsignedByte();
+                w.itemSlotX = new short[20];
+                w.itemSlotY = new short[20];
                 w.slot_image = new Sprite[20];
 
                 for (int i = 0; i < 20; i++) {
                     if (b.readUnsignedByte() == 1) {
-                        w.item_slot_x[i] = (short) b.readUnsignedShort();
-                        w.item_slot_y[i] = (short) b.readUnsignedShort();
+                        w.itemSlotX[i] = (short) b.readUnsignedShort();
+                        w.itemSlotY[i] = (short) b.readUnsignedShort();
                         String str = b.readString();
 
                         if (media != null && str.length() > 0) {
@@ -248,11 +248,11 @@ public class Widget {
                     }
                 }
 
-                w.item_actions = new String[5];
+                w.itemActions = new String[5];
                 for (int i = 0; i < 5; i++) {
-                    w.item_actions[i] = b.readString();
-                    if (w.item_actions[i].length() == 0) {
-                        w.item_actions[i] = null;
+                    w.itemActions[i] = b.readString();
+                    if (w.itemActions[i].length() == 0) {
+                        w.itemActions[i] = null;
                     }
                 }
 
@@ -272,12 +272,12 @@ public class Widget {
             }
 
             if (w.type == 4) {
-                w.message_disabled = b.readString();
+                w.messageDisabled = b.readString();
                 w.message_enabled = b.readString();
             }
 
             if (w.type == 1 || w.type == 3 || w.type == 4) {
-                w.rgb_disabled = b.readInt();
+                w.rgbDisabled = b.readInt();
             }
 
             if (w.type == 3 || w.type == 4) {
@@ -305,8 +305,8 @@ public class Widget {
             if (w.type == 6) {
                 int i = b.readUnsignedByte();
                 if (i != 0) {
-                    w.model_type_disabled = 1;
-                    w.model_index_disabled = (i - 1 << 8) + b.readUnsignedByte();
+                    w.modelTypeDisabled = 1;
+                    w.modelIndexDisabled = (i - 1 << 8) + b.readUnsignedByte();
                 }
 
                 i = b.readUnsignedByte();
@@ -317,9 +317,9 @@ public class Widget {
 
                 i = b.readUnsignedByte();
                 if (i != 0) {
-                    w.seq_index_disabled = (i - 1 << 8) + b.readUnsignedByte();
+                    w.seqIndexDisabled = (i - 1 << 8) + b.readUnsignedByte();
                 } else {
-                    w.seq_index_disabled = -1;
+                    w.seqIndexDisabled = -1;
                 }
 
                 i = b.readUnsignedByte();
@@ -329,50 +329,50 @@ public class Widget {
                     w.seq_index_enabled = -1;
                 }
 
-                w.model_zoom = b.readUnsignedShort();
-                w.model_pitch = b.readUnsignedShort();
-                w.model_yaw = b.readUnsignedShort();
+                w.modelZoom = b.readUnsignedShort();
+                w.modelPitch = b.readUnsignedShort();
+                w.modelYaw = b.readUnsignedShort();
             }
 
             if (w.type == 7) {
-                w.item_index = new short[w.width * w.height];
-                w.item_count = new int[w.width * w.height];
+                w.itemIndex = new short[w.width * w.height];
+                w.itemCount = new int[w.width * w.height];
                 w.centered = b.readByte() == 1;
                 w.font = fonts[b.readUnsignedByte()];
                 w.shadow = b.readByte() == 1;
-                w.rgb_disabled = b.readInt();
-                w.item_margin_x = (short) b.readUnsignedShort();
-                w.item_margin_y = (short) b.readUnsignedShort();
-                w.items_have_actions = b.readByte() == 1;
-                w.item_actions = new String[5];
+                w.rgbDisabled = b.readInt();
+                w.itemMarginX = (short) b.readUnsignedShort();
+                w.itemMarginY = (short) b.readUnsignedShort();
+                w.itemsHaveActions = b.readByte() == 1;
+                w.itemActions = new String[5];
 
                 for (int i = 0; i < 5; i++) {
-                    w.item_actions[i] = b.readString();
-                    if (w.item_actions[i].length() == 0) {
-                        w.item_actions[i] = null;
+                    w.itemActions[i] = b.readString();
+                    if (w.itemActions[i].length() == 0) {
+                        w.itemActions[i] = null;
                     }
                 }
             }
 
-            if (w.option_type == 2 || w.type == 2) {
+            if (w.optionType == 2 || w.type == 2) {
                 w.option_prefix = b.readString();
                 w.option_suffix = b.readString();
                 w.option_action = b.readUnsignedShort();
             }
 
-            if (w.option_type == 1 || w.option_type == 4 || w.option_type == 5 || w.option_type == 6) {
+            if (w.optionType == 1 || w.optionType == 4 || w.optionType == 5 || w.optionType == 6) {
                 w.option = b.readString();
                 if (w.option.length() == 0) {
-                    if (w.option_type == 1) {
+                    if (w.optionType == 1) {
                         w.option = JString.OK;
                     }
-                    if (w.option_type == 4) {
+                    if (w.optionType == 4) {
                         w.option = JString.SELECT;
                     }
-                    if (w.option_type == 5) {
+                    if (w.optionType == 5) {
                         w.option = JString.SELECT;
                     }
-                    if (w.option_type == 6) {
+                    if (w.optionType == 6) {
                         w.option = JString.CONTINUE;
                     }
                 }
@@ -389,18 +389,18 @@ public class Widget {
 
                 for (int slot_y = 0; slot_y < this.height; slot_y++) {
                     for (int slot_x = 0; slot_x < this.width; slot_x++) {
-                        int draw_x = x + slot_x * (32 + this.item_margin_x);
-                        int draw_y = y + slot_y * (32 + this.item_margin_y);
+                        int draw_x = x + slot_x * (32 + this.itemMarginX);
+                        int draw_y = y + slot_y * (32 + this.itemMarginY);
 
                         if (slot < 20) {
-                            draw_x += this.item_slot_x[slot];
-                            draw_y += this.item_slot_y[slot];
+                            draw_x += this.itemSlotX[slot];
+                            draw_y += this.itemSlotY[slot];
                         }
 
-                        if (this.item_index[slot] > 0) {
+                        if (this.itemIndex[slot] > 0) {
                             int drag_dx = 0;
                             int drag_dy = 0;
-                            int item_index = this.item_index[slot] - 1;
+                            int item_index = this.itemIndex[slot] - 1;
 
                             if (draw_x > Canvas2D.left_x - 32 && draw_x < Canvas2D.right_x && draw_y > Canvas2D.left_y - 32 && draw_y < Canvas2D.right_y || Game.dragArea != 0 && Game.dragSlot == slot) {
                                 int outline_rgb = 0;
@@ -409,7 +409,7 @@ public class Widget {
                                     outline_rgb = 0xFFFFFF;
                                 }
 
-                                Sprite s = ObjConfig.get_sprite(item_index, this.item_count[slot], outline_rgb);
+                                Sprite s = ObjConfig.get_sprite(item_index, this.itemCount[slot], outline_rgb);
 
                                 if (s != null) {
                                     if (Game.dragArea != 0 && Game.dragSlot == slot && Game.dragWidget == this.index) {
@@ -432,33 +432,33 @@ public class Widget {
 
                                         s.draw(draw_x + drag_dx, draw_y + drag_dy, 128);
 
-                                        if (draw_y + drag_dy < Canvas2D.left_y && this.scroll_amount > 0) {
+                                        if (draw_y + drag_dy < Canvas2D.left_y && this.scrollAmount > 0) {
                                             int scroll_dec = (Game.animCycle * (Canvas2D.left_y - draw_y - drag_dy)) / 3;
 
                                             if (scroll_dec > Game.animCycle * 10) {
                                                 scroll_dec = Game.animCycle * 10;
                                             }
 
-                                            if (scroll_dec > this.scroll_amount) {
-                                                scroll_dec = this.scroll_amount;
+                                            if (scroll_dec > this.scrollAmount) {
+                                                scroll_dec = this.scrollAmount;
                                             }
 
-                                            this.scroll_amount -= scroll_dec;
+                                            this.scrollAmount -= scroll_dec;
                                             Game.dragStartY += scroll_dec;
                                         }
 
-                                        if (draw_y + drag_dy + 32 > Canvas2D.right_y && this.scroll_amount < this.scroll_height - this.height) {
+                                        if (draw_y + drag_dy + 32 > Canvas2D.right_y && this.scrollAmount < this.scroll_height - this.height) {
                                             int scroll_inc = (Game.animCycle * ((draw_y + drag_dy + 32) - Canvas2D.right_y)) / 3;
 
                                             if (scroll_inc > Game.animCycle * 10) {
                                                 scroll_inc = Game.animCycle * 10;
                                             }
 
-                                            if (scroll_inc > this.scroll_height - this.height - this.scroll_amount) {
-                                                scroll_inc = this.scroll_height - this.height - this.scroll_amount;
+                                            if (scroll_inc > this.scroll_height - this.height - this.scrollAmount) {
+                                                scroll_inc = this.scroll_height - this.height - this.scrollAmount;
                                             }
 
-                                            this.scroll_amount += scroll_inc;
+                                            this.scrollAmount += scroll_inc;
                                             Game.dragStartY -= scroll_inc;
                                         }
                                     } else if (Game.clickArea != 0 && Game.clickedItemSlot == slot && Game.clickedItemWidget == this.index) {
@@ -467,8 +467,8 @@ public class Widget {
                                         s.drawMasked(draw_x, draw_y);
                                     }
 
-                                    if (s.cropWidth == 33 || this.item_count[slot] != 1) {
-                                        int count = this.item_count[slot];
+                                    if (s.cropWidth == 33 || this.itemCount[slot] != 1) {
+                                        int count = this.itemCount[slot];
                                         String s1 = null;
 
                                         if (count >= 10_000_000) {
@@ -517,7 +517,7 @@ public class Widget {
                         color = this.color_hover_enabled;
                     }
                 } else {
-                    color = this.rgb_disabled;
+                    color = this.rgbDisabled;
                     if (hovered && this.color_hover_disabled != 0) {
                         color = this.color_hover_disabled;
                     }
@@ -539,7 +539,7 @@ public class Widget {
 
             case 4: {
                 BitmapFont f = this.font;
-                String s = this.message_disabled;
+                String s = this.messageDisabled;
 
                 boolean hovered = false;
 
@@ -558,15 +558,15 @@ public class Widget {
                         s = this.message_enabled;
                     }
                 } else {
-                    rgb = this.rgb_disabled;
+                    rgb = this.rgbDisabled;
                     if (hovered && this.color_hover_disabled != 0) {
                         rgb = this.color_hover_disabled;
                     }
                 }
 
-                if (this.option_type == 6 && Game.dialogueOptionActive) {
+                if (this.optionType == 6 && Game.dialogueOptionActive) {
                     s = JString.PLEASE_WAIT;
-                    rgb = this.rgb_disabled;
+                    rgb = this.rgbDisabled;
                 }
 
                 if (Canvas2D.width == 479) {
@@ -645,11 +645,11 @@ public class Widget {
                 Canvas3D.centerX = x + this.width / 2;
                 Canvas3D.centerY = y + this.height / 2;
 
-                int sin = Canvas3D.sin[this.model_pitch] * this.model_zoom >> 16;
-                int cos = Canvas3D.cos[this.model_pitch] * this.model_zoom >> 16;
+                int sin = Canvas3D.sin[this.modelPitch] * this.modelZoom >> 16;
+                int cos = Canvas3D.cos[this.modelPitch] * this.modelZoom >> 16;
 
                 boolean enabled = this.is_enabled();
-                int anim_index = enabled ? this.seq_index_enabled : this.seq_index_disabled;
+                int anim_index = enabled ? this.seq_index_enabled : this.seqIndexDisabled;
 
                 Model m;
 
@@ -657,11 +657,11 @@ public class Widget {
                     m = this.get_mesh(-1, -1, enabled);
                 } else {
                     Sequence s = Sequence.instance[anim_index];
-                    m = this.get_mesh(s.framePrimary[this.sequence_frame], s.frame_secondary[this.sequence_frame], enabled);
+                    m = this.get_mesh(s.framePrimary[this.sequenceFrame], s.frame_secondary[this.sequenceFrame], enabled);
                 }
 
                 if (m != null) {
-                    m.draw(0, this.model_yaw, 0, this.model_pitch, 0, sin, cos);
+                    m.draw(0, this.modelYaw, 0, this.modelPitch, 0, sin, cos);
                 }
 
                 Canvas3D.centerX = center_x;
@@ -675,21 +675,21 @@ public class Widget {
 
                 for (int slot_y = 0; slot_y < this.height; slot_y++) {
                     for (int slot_x = 0; slot_x < this.width; slot_x++) {
-                        if (this.item_index[slot] > 0) {
-                            ObjConfig oc = ObjConfig.get(this.item_index[slot] - 1);
+                        if (this.itemIndex[slot] > 0) {
+                            ObjConfig oc = ObjConfig.get(this.itemIndex[slot] - 1);
                             String message = oc.name;
 
-                            if (oc.stackable || this.item_count[slot] != 1) {
-                                message = message + " x" + Game.format_item_amount(this.item_count[slot]);
+                            if (oc.stackable || this.itemCount[slot] != 1) {
+                                message = message + " x" + Game.formatItemAmount(this.itemCount[slot]);
                             }
 
-                            int draw_x = x + slot_x * (115 + this.item_margin_x);
-                            int draw_y = y + slot_y * (12 + this.item_margin_y);
+                            int draw_x = x + slot_x * (115 + this.itemMarginX);
+                            int draw_y = y + slot_y * (12 + this.itemMarginY);
 
                             if (this.centered) {
-                                rsf.draw(message, draw_x + this.width / 2, draw_y, this.rgb_disabled, this.shadow ? BitmapFont.SHADOW : 0);
+                                rsf.draw(message, draw_x + this.width / 2, draw_y, this.rgbDisabled, this.shadow ? BitmapFont.SHADOW : 0);
                             } else {
-                                rsf.drawString(message, draw_x, draw_y, this.rgb_disabled, this.shadow, false);
+                                rsf.drawString(message, draw_x, draw_y, this.rgbDisabled, this.shadow, false);
                             }
                         }
                         slot++;
@@ -726,8 +726,8 @@ public class Widget {
         Canvas2D.setBounds(x, y, x + this.width, y + this.height);
 
         for (int i = 0; i < this.children.length; i++) {
-            int child_x = this.child_x[i] + x;
-            int child_y = (this.child_y[i] + y) - scroll_amount;
+            int child_x = this.childX[i] + x;
+            int child_y = (this.childY[i] + y) - scroll_amount;
 
             Widget child = Widget.instance[this.children[i]];
 
@@ -738,23 +738,23 @@ public class Widget {
             child_x += child.x;
             child_y += child.y;
 
-            if (child.action_type > 0) {
-                Game.update_widget(child);
+            if (child.actionType > 0) {
+                Game.updateWidget(child);
             }
 
             if (child.type == 0) {
-                if (child.scroll_amount > child.scroll_height - child.height) {
-                    child.scroll_amount = child.scroll_height - child.height;
+                if (child.scrollAmount > child.scroll_height - child.height) {
+                    child.scrollAmount = child.scroll_height - child.height;
                 }
 
-                if (child.scroll_amount < 0) {
-                    child.scroll_amount = 0;
+                if (child.scrollAmount < 0) {
+                    child.scrollAmount = 0;
                 }
 
-                child.draw(child_x, child_y, child.scroll_amount);
+                child.draw(child_x, child_y, child.scrollAmount);
 
                 if (child.scroll_height > child.height) {
-                    Game.draw_scrollbar(child_x + child.width, child_y, child.height, child.scroll_height, child.scroll_amount);
+                    Game.draw_scrollbar(child_x + child.width, child_y, child.height, child.scroll_height, child.scrollAmount);
                 }
             } else {
                 child.draw(child_x, child_y);
@@ -795,7 +795,7 @@ public class Widget {
         if (enabled) {
             m = get_mesh(this.model_type_enabled, this.model_index_enabled);
         } else {
-            m = get_mesh(this.model_type_disabled, this.model_index_disabled);
+            m = get_mesh(this.modelTypeDisabled, this.modelIndexDisabled);
         }
 
         if (m == null) {
@@ -824,7 +824,7 @@ public class Widget {
         return m;
     }
 
-    public boolean handle_sequences(int cycle) {
+    public boolean handleSequences(int cycle) {
         boolean update = false;
 
         if (this.children == null) {
@@ -839,21 +839,21 @@ public class Widget {
             Widget w = Widget.instance[this.children[i]];
 
             if (w.type == 1) {
-                update |= w.handle_sequences(cycle);
+                update |= w.handleSequences(cycle);
             }
 
-            if (w.type == 6 && (w.seq_index_disabled != -1 || w.seq_index_enabled != -1)) {
-                int seq_index = w.is_enabled() ? w.seq_index_enabled : w.seq_index_disabled;
+            if (w.type == 6 && (w.seqIndexDisabled != -1 || w.seq_index_enabled != -1)) {
+                int seq_index = w.is_enabled() ? w.seq_index_enabled : w.seqIndexDisabled;
 
                 if (seq_index != -1) {
                     Sequence sequence = Sequence.instance[seq_index];
-                    for (w.sequence_cycle += cycle; w.sequence_cycle > sequence.get_frame_length(w.sequence_frame); ) {
-                        w.sequence_cycle -= sequence.get_frame_length(w.sequence_frame) + 1;
-                        w.sequence_frame++;
-                        if (w.sequence_frame >= sequence.frame_count) {
-                            w.sequence_frame -= sequence.padding;
-                            if (w.sequence_frame < 0 || w.sequence_frame >= sequence.frame_count) {
-                                w.sequence_frame = 0;
+                    for (w.sequenceCycle += cycle; w.sequenceCycle > sequence.getFrameLength(w.sequenceFrame); ) {
+                        w.sequenceCycle -= sequence.getFrameLength(w.sequenceFrame) + 1;
+                        w.sequenceFrame++;
+                        if (w.sequenceFrame >= sequence.frame_count) {
+                            w.sequenceFrame -= sequence.padding;
+                            if (w.sequenceFrame < 0 || w.sequenceFrame >= sequence.frame_count) {
+                                w.sequenceFrame = 0;
                             }
                         }
                         update = true;
@@ -916,32 +916,32 @@ public class Widget {
                 w.reset_sequence();
             }
 
-            w.sequence_frame = 0;
-            w.sequence_cycle = 0;
+            w.sequenceFrame = 0;
+            w.sequenceCycle = 0;
         }
     }
 
     public void scroll(int amount) {
-        this.scroll_amount += (this.scroll_height / 30.25D) * amount;
+        this.scrollAmount += (this.scroll_height / 30.25D) * amount;
 
-        if (this.scroll_amount < 0) {
-            this.scroll_amount = 0;
+        if (this.scrollAmount < 0) {
+            this.scrollAmount = 0;
         }
 
         int max = this.scroll_height - this.height;
 
-        if (this.scroll_amount > max) {
-            this.scroll_amount = max;
+        if (this.scrollAmount > max) {
+            this.scrollAmount = max;
         }
     }
 
-    public void swap_slots(int from, int to) {
-        int original = item_index[from];
-        item_index[from] = item_index[to];
-        item_index[to] = (short) original;
-        original = item_count[from];
-        item_count[from] = item_count[to];
-        item_count[to] = original;
+    public void swapSlots(int from, int to) {
+        int original = itemIndex[from];
+        itemIndex[from] = itemIndex[to];
+        itemIndex[to] = (short) original;
+        original = itemCount[from];
+        itemCount[from] = itemCount[to];
+        itemCount[to] = original;
     }
 
 }

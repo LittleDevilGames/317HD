@@ -82,7 +82,7 @@ public class Chat extends Widget {
     public static void clear() {
         Chat.set_state(State.NONE);
         Chat.set_input(INPUT_DIALOGUE, "");
-        Chat.set_message(MESSAGE_INPUT, null);
+        Chat.setMessage(MESSAGE_INPUT, null);
         Chat.redraw = true;
     }
 
@@ -109,8 +109,8 @@ public class Chat extends Widget {
     /**
      * Sets the overlay to -1 and redraws.
      */
-    public static void clear_overlay() {
-        Chat.set_overlay(-1);
+    public static void clearOverlay() {
+        Chat.setOverlay(-1);
         Chat.redraw = true;
     }
 
@@ -118,7 +118,7 @@ public class Chat extends Widget {
      * Sets the underlay to -1 and redraws.
      */
     public static void clear_underlay() {
-        Chat.set_underlay(-1);
+        Chat.setUnderlay(-1);
         Chat.redraw = true;
     }
 
@@ -175,8 +175,8 @@ public class Chat extends Widget {
         if (no_input) {
             if (Chat.get_overlay() != -1) {
                 Widget.draw(Chat.get_overlay(), 0, 0, 0);
-            } else if (Chat.get_underlay() != -1) {
-                Widget.draw(Chat.get_underlay(), 0, 0, 0);
+            } else if (Chat.getUnderlay() != -1) {
+                Widget.draw(Chat.getUnderlay(), 0, 0, 0);
             } else {
                 Public.draw();
             }
@@ -195,7 +195,7 @@ public class Chat extends Widget {
 
         producer.draw(17, 357);
         Game.producerScene.prepare();
-        Canvas3D.pixels = Game.viewport_pixels;
+        Canvas3D.pixels = Game.viewportPixels;
     }
 
     public static Chat get() {
@@ -226,7 +226,7 @@ public class Chat extends Widget {
      * @param type the type.
      * @return the message.
      */
-    public static String get_message(byte type) {
+    public static String getMessage(byte type) {
         return message.get(type);
     }
 
@@ -244,7 +244,7 @@ public class Chat extends Widget {
      *
      * @param index the widget index.
      */
-    public static void set_overlay(int index) {
+    public static void setOverlay(int index) {
         widget.put(TYPE_OVERLAY, index);
         Chat.redraw = true;
     }
@@ -274,7 +274,7 @@ public class Chat extends Widget {
      *
      * @return the widget index.
      */
-    public static int get_underlay() {
+    public static int getUnderlay() {
         return widget.get(TYPE_UNDERLAY);
     }
 
@@ -283,7 +283,7 @@ public class Chat extends Widget {
      *
      * @param index the widget index.
      */
-    public static void set_underlay(int index) {
+    public static void setUnderlay(int index) {
         widget.put(TYPE_UNDERLAY, index);
         Chat.redraw = true;
     }
@@ -307,7 +307,7 @@ public class Chat extends Widget {
         return input.get(INPUT_CHAT).toString();
     }
 
-    public static void handle_keyboard(int key) {
+    public static void handleKeyboard(int key) {
         State state = Chat.get_state();
 
         if (state != State.NONE && state.has_input) {
@@ -316,21 +316,21 @@ public class Chat extends Widget {
                     String input = Chat.get_input(Chat.INPUT_DIALOGUE).toString();
                     switch (state) {
                         case ADD_FRIEND:
-                            Game.friend_add(JString.toLong(input));
+                            Game.friendAdd(JString.toLong(input));
                             break;
                         case REMOVE_FRIEND:
                             if (Game.friendCount > 0) {
-                                Game.friend_remove(JString.toLong(input));
+                                Game.friendRemove(JString.toLong(input));
                             }
                             break;
                         case ADD_IGNORE:
                             if (Game.ignoreCount < 100) {
-                                Game.ignore_add(JString.toLong(input));
+                                Game.ignoreAdd(JString.toLong(input));
                             }
                             break;
                         case REMOVE_IGNORE:
                             if (Game.ignoreCount > 0) {
-                                Game.ignore_remove(JString.toLong(input));
+                                Game.ignoreRemove(JString.toLong(input));
                             }
                             break;
                         case SEND_MESSAGE:
@@ -466,11 +466,11 @@ public class Chat extends Widget {
                                 Game.cam_cinema_dest_z = 384;
                                 Game.cam_cinema_base_speed = 1;
                                 Game.cam_cinema_speed = 8;
-                                Game.cam_cinema_aim_x = Game.self.get_local_x();
-                                Game.cam_cinema_aim_y = Game.self.get_local_y();
-                                Game.cam_cinema_aim_z = 128;
-                                Game.cam_cinema_rot_base = 1;
-                                Game.cam_cinema_rot_modifier = 32;
+                                Game.camCinemaAimX = Game.self.get_local_x();
+                                Game.camCinemaAimY = Game.self.get_local_y();
+                                Game.camCinemaAimZ = 128;
+                                Game.camCinemaRotBase = 1;
+                                Game.camCinemaRotModifier = 32;
                                 break;
                             }
 
@@ -530,12 +530,12 @@ public class Chat extends Widget {
                             }
 
                             case "map": {
-                                Game.generate_minimap(Game.plane);
+                                Game.generateMinimap(Game.plane);
                                 break;
                             }
 
                             case "dropclient": {
-                                Game.net_disconnect();
+                                Game.netDisconnect();
                                 break;
                             }
 
@@ -575,7 +575,7 @@ public class Chat extends Widget {
                                 int plane = Game.plane;
 
                                 Game.landscape.setTileUnderlayColor(x, y, plane, 0, 7, 126, 126, 126, 126);
-                                Game.generate_minimap(plane);
+                                Game.generateMinimap(plane);
                                 break;
                             }
 
@@ -614,7 +614,7 @@ public class Chat extends Widget {
                                     break;
                                 }
 
-                                Game.ondemand.send_request(2, song);
+                                Game.ondemand.sendRequest(2, song);
                                 break;
                             }
 
@@ -737,10 +737,10 @@ public class Chat extends Widget {
                             Game.out.putLength(Game.out.position - start);
                             message = JString.getFiltered(message);
 
-                            Game.self.spoken_message = message;
-                            Game.self.spoken_color = color;
-                            Game.self.spoken_effect = effect;
-                            Game.self.spoken_life = 150;
+                            Game.self.spokenMessage = message;
+                            Game.self.spokenColor = color;
+                            Game.self.spokenEffect = effect;
+                            Game.self.spokenLife = 150;
 
                             if (Game.localRights > 0) {
                                 Chat.put(new StringBuilder("@cr").append(Game.localRights).append("@").append(Game.self.name).toString(), message, 2);
@@ -788,7 +788,7 @@ public class Chat extends Widget {
             }
 
             int type = message.type;
-            int line_y = (70 - count * 14) + Chat.get().scroll_amount + 4;
+            int line_y = (70 - count * 14) + Chat.get().scrollAmount + 4;
 
             if (line_y < -20) {
                 break;
@@ -804,7 +804,7 @@ public class Chat extends Widget {
                 count++;
             }
 
-            if ((type == 1 || type == 2) && (type == 1 || Settings.values[1] == Chat.SETTING_ON || Settings.values[1] == Chat.SETTING_FRIENDS && Game.friend_exists(name))) {
+            if ((type == 1 || type == 2) && (type == 1 || Settings.values[1] == Chat.SETTING_ON || Settings.values[1] == Chat.SETTING_FRIENDS && Game.friendExists(name))) {
                 if (y > line_y - 14 && y <= line_y && !name.equals(Game.self.name)) {
                     if (Game.localRights >= 1) {
                         Menu.add("Report abuse @whi@" + name, 606);
@@ -815,7 +815,7 @@ public class Chat extends Widget {
                 count++;
             }
 
-            if ((type == 3 || type == 7) && Settings.private_area == 0 && (type == 7 || Settings.values[1] == Chat.SETTING_ON || Settings.values[1] == Chat.SETTING_FRIENDS && Game.friend_exists(name))) {
+            if ((type == 3 || type == 7) && Settings.privateArea == 0 && (type == 7 || Settings.values[1] == Chat.SETTING_ON || Settings.values[1] == Chat.SETTING_FRIENDS && Game.friendExists(name))) {
                 if (y > line_y - 14 && y <= line_y) {
                     if (Game.localRights >= 1) {
                         Menu.add("Report abuse @whi@" + name, 606);
@@ -826,18 +826,18 @@ public class Chat extends Widget {
                 count++;
             }
 
-            if (type == 4 && (Settings.values[2] == Chat.SETTING_ON || Settings.values[2] == Chat.SETTING_FRIENDS && Game.friend_exists(name))) {
+            if (type == 4 && (Settings.values[2] == Chat.SETTING_ON || Settings.values[2] == Chat.SETTING_FRIENDS && Game.friendExists(name))) {
                 if (y > line_y - 14 && y <= line_y) {
                     Menu.add("Accept trade @whi@" + name, 484);
                 }
                 count++;
             }
 
-            if ((type == 5 || type == 6) && Settings.private_area == 0 && Settings.values[1] < Chat.SETTING_OFF) {
+            if ((type == 5 || type == 6) && Settings.privateArea == 0 && Settings.values[1] < Chat.SETTING_OFF) {
                 count++;
             }
 
-            if (type == 8 && (Settings.values[2] == Chat.SETTING_ON || Settings.values[2] == Chat.SETTING_FRIENDS && Game.friend_exists(name))) {
+            if (type == 8 && (Settings.values[2] == Chat.SETTING_ON || Settings.values[2] == Chat.SETTING_FRIENDS && Game.friendExists(name))) {
                 if (y > line_y - 14 && y <= line_y) {
                     Menu.add("Accept challenge @whi@" + name, 6);
                 }
@@ -892,13 +892,13 @@ public class Chat extends Widget {
      * Creates the inputs if they don't exist and creates/resets all of the chat lines.
      */
     public static void reset() {
-        Chat.set_overlay(-1);
-        Chat.set_underlay(-1);
+        Chat.setOverlay(-1);
+        Chat.setUnderlay(-1);
         Chat.set_state(State.NONE);
         Chat.clear(INPUT_CHAT);
         Chat.clear(INPUT_DIALOGUE);
-        Chat.set_message(MESSAGE_INPUT, null);
-        Chat.set_message(MESSAGE_NOTIFY, null);
+        Chat.setMessage(MESSAGE_INPUT, null);
+        Chat.setMessage(MESSAGE_NOTIFY, null);
 
         for (int i = 0; i < lines.length; i++) {
             if (lines[i] == null) {
@@ -921,7 +921,7 @@ public class Chat extends Widget {
     public static void set(State state, String message) {
         Chat.set_state(state);
         Chat.set_input(INPUT_DIALOGUE, "");
-        Chat.set_message(MESSAGE_INPUT, message);
+        Chat.setMessage(MESSAGE_INPUT, message);
         Chat.redraw = true;
     }
 
@@ -943,7 +943,7 @@ public class Chat extends Widget {
      * @param type    the type.
      * @param message the message.
      */
-    public static void set_message(byte type, String message) {
+    public static void setMessage(byte type, String message) {
         Chat.message.put(type, message);
         Chat.redraw = true;
     }
@@ -956,7 +956,7 @@ public class Chat extends Widget {
 
         if (Chat.get_overlay() != -1) {
             Widget widget = Widget.get(Chat.get_overlay());
-            if (widget != null && widget.handle_sequences(Game.animCycle)) {
+            if (widget != null && widget.handleSequences(Game.animCycle)) {
                 Chat.redraw = true;
             }
         }
@@ -969,7 +969,7 @@ public class Chat extends Widget {
             Chat.redraw = true;
         }
 
-        if (Chat.get_message(Chat.MESSAGE_NOTIFY) != null) {
+        if (Chat.getMessage(Chat.MESSAGE_NOTIFY) != null) {
             Chat.redraw = true;
         }
 
@@ -1044,7 +1044,7 @@ public class Chat extends Widget {
         public static final int FONT_COLOR = 0x00FFFF;
 
         public static void draw() {
-            if (Settings.private_area == 0) {
+            if (Settings.privateArea == 0) {
                 return;
             }
 
@@ -1071,7 +1071,7 @@ public class Chat extends Widget {
                     name = name.substring(5);
                 }
 
-                if ((type == 3 || type == 7) && (type == 7 || Settings.values[1] == 0 || Settings.values[1] == 1 && Game.friend_exists(name))) {
+                if ((type == 3 || type == 7) && (type == 7 || Settings.values[1] == 0 || Settings.values[1] == 1 && Game.friendExists(name))) {
                     int y = DRAW_X - (count * 13);
                     int x = 4;
 
@@ -1108,7 +1108,7 @@ public class Chat extends Widget {
         }
 
         public static void handle_mouse() {
-            if (Settings.private_area == 0) {
+            if (Settings.privateArea == 0) {
                 return;
             }
 
@@ -1129,7 +1129,7 @@ public class Chat extends Widget {
                     name = name.substring(5);
                 }
 
-                if ((type == 3 || type == 7) && (type == 7 || Settings.values[1] == 0 || Settings.values[1] == 1 && Game.friend_exists(name))) {
+                if ((type == 3 || type == 7) && (type == 7 || Settings.values[1] == 0 || Settings.values[1] == 1 && Game.friendExists(name))) {
                     int y = 329 - count * 13;
                     if (Mouse.lastX > 4 && Mouse.lastY - 4 > y - 10 && Mouse.lastY - 4 <= y + 3) {
                         int width = BitmapFont.NORMAL.getWidth("From:  " + name + message.message) + 25;
@@ -1181,7 +1181,7 @@ public class Chat extends Widget {
                 String name = line.prefix;
                 String message = line.message;
                 int type = line.type;
-                int y = (MESSAGE_START_Y - (count * MESSAGE_HEIGHT)) + Chat.get().scroll_amount;
+                int y = (MESSAGE_START_Y - (count * MESSAGE_HEIGHT)) + Chat.get().scrollAmount;
                 byte rights = 0;
 
                 if (name != null) {
@@ -1198,7 +1198,7 @@ public class Chat extends Widget {
                     count++;
                 }
 
-                if ((type == TYPE_MODERATOR || type == TYPE_PLAYER) && (type == TYPE_MODERATOR || Settings.values[0] == SETTING_ON || Settings.values[0] == SETTING_FRIENDS && Game.friend_exists(name))) {
+                if ((type == TYPE_MODERATOR || type == TYPE_PLAYER) && (type == TYPE_MODERATOR || Settings.values[0] == SETTING_ON || Settings.values[0] == SETTING_FRIENDS && Game.friendExists(name))) {
                     if (y > 0 && y < 110) {
                         int x = 4;
                         if (rights > 0) {
@@ -1212,7 +1212,7 @@ public class Chat extends Widget {
                     count++;
                 }
 
-                if ((type == TYPE_MODERATOR_PRIVATE || type == TYPE_PLAYER_PRIVATE) && Settings.private_area == 0 && (type == TYPE_MODERATOR_PRIVATE || Settings.values[1] == SETTING_ON || Settings.values[1] == SETTING_FRIENDS && Game.friend_exists(name))) {
+                if ((type == TYPE_MODERATOR_PRIVATE || type == TYPE_PLAYER_PRIVATE) && Settings.privateArea == 0 && (type == TYPE_MODERATOR_PRIVATE || Settings.values[1] == SETTING_ON || Settings.values[1] == SETTING_FRIENDS && Game.friendExists(name))) {
                     if (y > 0 && y < 110) {
                         int x = 4;
                         font.draw(0, "From", x, y);
@@ -1230,21 +1230,21 @@ public class Chat extends Widget {
                     count++;
                 }
 
-                if (type == TYPE_TRADE_REQUEST && (Settings.values[2] == SETTING_ON || Settings.values[2] == SETTING_FRIENDS && Game.friend_exists(name))) {
+                if (type == TYPE_TRADE_REQUEST && (Settings.values[2] == SETTING_ON || Settings.values[2] == SETTING_FRIENDS && Game.friendExists(name))) {
                     if (y > 0 && y < 110) {
                         font.draw(0x800080, name + " " + message, 4, y);
                     }
                     count++;
                 }
 
-                if (type == TYPE_NOTIFY_PRIVATE && Settings.private_area == 0 && Settings.values[1] < SETTING_OFF) {
+                if (type == TYPE_NOTIFY_PRIVATE && Settings.privateArea == 0 && Settings.values[1] < SETTING_OFF) {
                     if (y > 0 && y < 110) {
                         font.draw(0x800000, message, 4, y);
                     }
                     count++;
                 }
 
-                if (type == TYPE_SENT_MESSAGE && Settings.private_area == 0 && Settings.values[1] < SETTING_OFF) {
+                if (type == TYPE_SENT_MESSAGE && Settings.privateArea == 0 && Settings.values[1] < SETTING_OFF) {
                     if (y > 0 && y < 110) {
                         font.draw(0, "To " + name + ":", 4, y);
                         font.draw(0x800000, message, 12 + font.getWidth("To " + name), y);
@@ -1252,7 +1252,7 @@ public class Chat extends Widget {
                     count++;
                 }
 
-                if (type == TYPE_DUEL_REQUEST && (Settings.values[2] == SETTING_ON || Settings.values[2] == SETTING_FRIENDS && Game.friend_exists(name))) {
+                if (type == TYPE_DUEL_REQUEST && (Settings.values[2] == SETTING_ON || Settings.values[2] == SETTING_FRIENDS && Game.friendExists(name))) {
                     if (y > 0 && y < 110) {
                         font.draw(0x7e3200, name + " " + message, 4, y);
                     }
@@ -1293,7 +1293,7 @@ public class Chat extends Widget {
                 chat.scroll_height = MIN_HEIGHT;
             }
 
-            Game.draw_scrollbar(x, y, height, chat.scroll_height, chat.scroll_height - chat.scroll_amount - height);
+            Game.draw_scrollbar(x, y, height, chat.scroll_height, chat.scroll_height - chat.scrollAmount - height);
         }
 
         /**
@@ -1309,13 +1309,13 @@ public class Chat extends Widget {
 
             Chat chat = Chat.get();
 
-            chat.scroll_amount = chat.scroll_height - chat.scroll_amount - 77;
+            chat.scrollAmount = chat.scroll_height - chat.scrollAmount - 77;
 
             if (Area.CHAT.containsMouse()) {
-                Game.handle_scrollbar(chat, 463, 0, Mouse.lastX - 17, Mouse.lastY - 357, 77, chat.scroll_height, false);
+                Game.handleScrollbar(chat, 463, 0, Mouse.lastX - 17, Mouse.lastY - 357, 77, chat.scroll_height, false);
             }
 
-            int i = chat.scroll_height - 77 - chat.scroll_amount;
+            int i = chat.scroll_height - 77 - chat.scrollAmount;
 
             if (i < 0) {
                 i = 0;
@@ -1325,8 +1325,8 @@ public class Chat extends Widget {
                 i = chat.scroll_height - 77;
             }
 
-            if (chat.scroll_amount != i) {
-                chat.scroll_amount = i;
+            if (chat.scrollAmount != i) {
+                chat.scrollAmount = i;
                 Chat.redraw = true;
             }
 
@@ -1336,10 +1336,10 @@ public class Chat extends Widget {
     public static class Settings {
 
         public static Bitmap background;
-        public static int private_area;
+        public static int privateArea;
         public static ImageProducer producer;
         public static boolean redraw;
-        public static boolean show_effects = true;
+        public static boolean showEffects = true;
         public static int[] values = new int[3];
 
         static {
@@ -1386,7 +1386,7 @@ public class Chat extends Widget {
                     adjust(2);
                 } else if (Mouse.clicked(412, 467, 100, 32)) {
                     if (Game.widgetOverlay == -1) {
-                        Game.close_widgets();
+                        Game.closeWidgets();
                         Game.reportAbuseInput = "";
                         Game.reportAbuseMute = false;
 
@@ -1396,7 +1396,7 @@ public class Chat extends Widget {
                         }
 
                         for (int i = 0; i < Widget.instance.length; i++) {
-                            if (Widget.instance[i] == null || Widget.instance[i].action_type != 600) {
+                            if (Widget.instance[i] == null || Widget.instance[i].actionType != 600) {
                                 continue;
                             }
                             Game.reportAbuseWindex = Game.widgetOverlay = Widget.instance[i].parent;

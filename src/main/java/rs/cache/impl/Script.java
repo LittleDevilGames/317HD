@@ -65,9 +65,9 @@ public class Script {
                         int item_index = code[i++];
 
                         if (item_index >= 0 && item_index < ObjConfig.count && (!ObjConfig.get(item_index).is_members || Game.isMembers)) {
-                            for (int j = 0; j < w.item_index.length; j++) {
-                                if (w.item_index[j] == item_index + 1) {
-                                    register += w.item_count[j];
+                            for (int j = 0; j < w.itemIndex.length; j++) {
+                                if (w.itemIndex[j] == item_index + 1) {
+                                    register += w.itemCount[j];
                                 }
                             }
                         }
@@ -90,7 +90,7 @@ public class Script {
                     }
 
                     case 8: {
-                        register = Game.self.combat_level;
+                        register = Game.self.combatLevel;
                         break;
                     }
 
@@ -110,8 +110,8 @@ public class Script {
                         if (child != null) {
                             int item_index = code[i++] + 1;
                             if (item_index >= 0 && item_index < ObjConfig.count && (!ObjConfig.get(item_index).is_members || Game.isMembers)) {
-                                for (int slot = 0; slot < child.item_index.length; slot++) {
-                                    if (child.item_index[slot] != item_index) {
+                                for (int slot = 0; slot < child.itemIndex.length; slot++) {
+                                    if (child.itemIndex[slot] != item_index) {
                                         continue;
                                     }
                                     register = 999999999;

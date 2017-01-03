@@ -18,7 +18,7 @@ public class ActorConfig {
     public boolean aBoolean93;
     public String[] action;
     public int brightness;
-    public short combat_level;
+    public short combatLevel;
     public String description;
     public short[] dialog_model_index;
     public byte has_options;
@@ -110,7 +110,7 @@ public class ActorConfig {
             } else if (opcode == 93) {
                 show_on_minimap = false;
             } else if (opcode == 95) {
-                combat_level = (short) b.readUnsignedShort();
+                combatLevel = (short) b.readUnsignedShort();
             } else if (opcode == 97) {
                 scale_x = (short) b.readUnsignedShort();
             } else if (opcode == 98) {
@@ -186,7 +186,7 @@ public class ActorConfig {
         this.varbit_index = -1;
         this.turn_180_seq = -1;
         this.setting_index = -1;
-        this.combat_level = -1;
+        this.combatLevel = -1;
         this.move_seq = -1;
         this.has_options = 1;
         this.head_icon = -1;
@@ -203,7 +203,7 @@ public class ActorConfig {
 
     public Model get_dialog_model() {
         if (override_index != null) {
-            ActorConfig config = get_overriding_config();
+            ActorConfig config = getOverridingConfig();
             if (config == null) {
                 return null;
             } else {
@@ -249,7 +249,7 @@ public class ActorConfig {
 
     public Model getModel(int vertices[], int frame1, int frame2) {
         if (override_index != null) {
-            ActorConfig config = get_overriding_config();
+            ActorConfig config = getOverridingConfig();
 
             if (config == null) {
                 return null;
@@ -316,7 +316,7 @@ public class ActorConfig {
         return m;
     }
 
-    public ActorConfig get_overriding_config() {
+    public ActorConfig getOverridingConfig() {
         int value = -1;
 
         if (varbit_index != -1) {

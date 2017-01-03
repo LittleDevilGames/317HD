@@ -60,7 +60,7 @@ public class Sidebar {
 
         producer.draw(553, 205);
         Game.producerScene.prepare();
-        Canvas3D.pixels = Game.viewport_pixels;
+        Canvas3D.pixels = Game.viewportPixels;
     }
 
     public static void drawTabs() {

@@ -18,7 +18,7 @@ public class ObjConfig {
     public static int count;
     public static List model_cache = new List(50);
     public static int pointer[];
-    public static List sprite_cache = new List(100);
+    public static List spriteCache = new List(100);
     public static Buffer buffer;
     public String action[];
     public short brightness;
@@ -30,12 +30,12 @@ public class ObjConfig {
     public short female_model3;
     public byte female_off_y;
     public String ground_action[];
-    public short icon_dist;
-    public short icon_pitch;
+    public short iconDist;
+    public short iconPitch;
     public short icon_roll;
     public short icon_x;
     public short icon_y;
-    public short icon_yaw;
+    public short iconYaw;
     public short index;
     public boolean is_members;
     public short male_dialog_model1;
@@ -100,7 +100,7 @@ public class ObjConfig {
 
     public static Sprite get_sprite(int index, int count, int outline_color) {
         if (outline_color == 0) {
-            Sprite s = (Sprite) sprite_cache.get(index);
+            Sprite s = (Sprite) spriteCache.get(index);
             if (s != null && s.cropHeight != count && s.cropHeight != -1) {
                 s.detach();
                 s = null;
@@ -166,7 +166,7 @@ public class ObjConfig {
         Canvas2D.fillRect(0, 0, 32, 32, 0);
         Canvas3D.prepare();
 
-        int dist = c.icon_dist;
+        int dist = c.iconDist;
 
         if (outline_color == -1) {
             dist = (int) ((double) dist * 1.50D);
@@ -176,10 +176,10 @@ public class ObjConfig {
             dist = (int) ((double) dist * 1.04D);
         }
 
-        int sin = Canvas3D.sin[c.icon_pitch] * dist >> 16;
-        int cos = Canvas3D.cos[c.icon_pitch] * dist >> 16;
+        int sin = Canvas3D.sin[c.iconPitch] * dist >> 16;
+        int cos = Canvas3D.cos[c.iconPitch] * dist >> 16;
 
-        m.draw(0, c.icon_yaw, c.icon_roll, c.icon_pitch, c.icon_x, sin + (((Renderable) (m)).height / 2) + c.icon_y, cos + c.icon_y);
+        m.draw(0, c.iconYaw, c.icon_roll, c.iconPitch, c.icon_x, sin + (((Renderable) (m)).height / 2) + c.icon_y, cos + c.icon_y);
 
         for (int x = 31; x >= 0; x--) {
             for (int y = 31; y >= 0; y--) {
@@ -234,7 +234,7 @@ public class ObjConfig {
         }
 
         if (outline_color == 0) {
-            sprite_cache.insert(s, index);
+            spriteCache.insert(s, index);
         }
 
         Canvas2D.prepare(_width, _height, _pixels2d);
@@ -256,7 +256,7 @@ public class ObjConfig {
 
     public static void nullify() {
         ObjConfig.model_cache = null;
-        ObjConfig.sprite_cache = null;
+        ObjConfig.spriteCache = null;
         ObjConfig.pointer = null;
         ObjConfig.cache = null;
         ObjConfig.buffer = null;
@@ -289,9 +289,9 @@ public class ObjConfig {
         description = null;
         old_color = null;
         new_color = null;
-        icon_dist = 2000;
-        icon_pitch = 0;
-        icon_yaw = 0;
+        iconDist = 2000;
+        iconPitch = 0;
+        iconYaw = 0;
         icon_roll = 0;
         icon_x = 0;
         icon_y = 0;
@@ -531,11 +531,11 @@ public class ObjConfig {
             } else if (i == 3) {
                 description = b.readString();
             } else if (i == 4) {
-                icon_dist = (short) b.readUnsignedShort();
+                iconDist = (short) b.readUnsignedShort();
             } else if (i == 5) {
-                icon_pitch = (short) b.readUnsignedShort();
+                iconPitch = (short) b.readUnsignedShort();
             } else if (i == 6) {
-                icon_yaw = (short) b.readUnsignedShort();
+                iconYaw = (short) b.readUnsignedShort();
             } else if (i == 7) {
                 int x = b.readUnsignedShort();
 
@@ -648,9 +648,9 @@ public class ObjConfig {
     public void to_note() {
         ObjConfig a = get(note_template_index);
         model_index = a.model_index;
-        icon_dist = a.icon_dist;
-        icon_pitch = a.icon_pitch;
-        icon_yaw = a.icon_yaw;
+        iconDist = a.iconDist;
+        iconPitch = a.iconPitch;
+        iconYaw = a.iconYaw;
         icon_roll = a.icon_roll;
         icon_x = a.icon_x;
         icon_y = a.icon_y;

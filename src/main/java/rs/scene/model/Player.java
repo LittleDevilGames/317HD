@@ -19,24 +19,24 @@ public class Player extends Entity {
 
     public ActorConfig actor_override;
     public int[] colors;
-    public short combat_level;
+    public short combatLevel;
     public short[] equipment_indices;
     public byte gender;
     public byte headicon_flag;
-    public int loc_end_cycle;
-    public int loc_x1;
-    public int loc_y1;
-    public Model loc_model;
-    public int loc_start_cycle;
-    public int loc_x0;
-    public int loc_y0;
-    public int loc_x;
-    public int loc_y;
-    public int loc_z;
-    public boolean low_lod;
+    public int locEndCycle;
+    public int locX1;
+    public int locY1;
+    public Model locModel;
+    public int locStartCycle;
+    public int locX0;
+    public int locY0;
+    public int locX;
+    public int locY;
+    public int locZ;
+    public boolean lowLod;
     public long model_uid;
     public String name;
-    public int scene_z;
+    public int sceneZ;
     public int skill_level;
     public int team;
     public long uid;
@@ -44,7 +44,7 @@ public class Player extends Entity {
 
     public Player() {
         uid = -1L;
-        low_lod = false;
+        lowLod = false;
         colors = new int[5];
         visible = false;
         equipment_indices = new short[12];
@@ -54,10 +54,10 @@ public class Player extends Entity {
         if (actor_override != null) {
             int frame = -1;
 
-            if (super.seq_index >= 0 && super.seq_delay_cycle == 0) {
-                frame = Sequence.instance[super.seq_index].framePrimary[super.seq_frame];
-            } else if (super.move_seq_index >= 0) {
-                frame = Sequence.instance[super.move_seq_index].framePrimary[super.move_seq_frame];
+            if (super.seqIndex >= 0 && super.seqDelayCycle == 0) {
+                frame = Sequence.instance[super.seqIndex].framePrimary[super.seqFrame];
+            } else if (super.moveSeqIndex >= 0) {
+                frame = Sequence.instance[super.moveSeqIndex].framePrimary[super.moveSeqFrame];
             }
 
             return actor_override.getModel(null, frame, -1);
@@ -69,12 +69,12 @@ public class Player extends Entity {
         int shield_override = -1;
         int weapon_override = -1;
 
-        if (super.seq_index >= 0 && super.seq_delay_cycle == 0) {
-            Sequence a = Sequence.instance[super.seq_index];
-            frame1 = a.framePrimary[super.seq_frame];
+        if (super.seqIndex >= 0 && super.seqDelayCycle == 0) {
+            Sequence a = Sequence.instance[super.seqIndex];
+            frame1 = a.framePrimary[super.seqFrame];
 
-            if (super.move_seq_index >= 0 && super.move_seq_index != super.stand_animation) {
-                frame2 = Sequence.instance[super.move_seq_index].framePrimary[super.move_seq_frame];
+            if (super.moveSeqIndex >= 0 && super.moveSeqIndex != super.standAnimation) {
+                frame2 = Sequence.instance[super.moveSeqIndex].framePrimary[super.moveSeqFrame];
             }
 
             if (a.override_shield_index >= 0) {
@@ -86,8 +86,8 @@ public class Player extends Entity {
                 weapon_override = a.override_weapon_index;
                 model_uid += weapon_override - equipment_indices[3] << 48;
             }
-        } else if (super.move_seq_index >= 0) {
-            frame1 = Sequence.instance[super.move_seq_index].framePrimary[super.move_seq_frame];
+        } else if (super.moveSeqIndex >= 0) {
+            frame1 = Sequence.instance[super.moveSeqIndex].framePrimary[super.moveSeqFrame];
         }
 
         Model model = (Model) model_cache.get(model_uid);
@@ -173,7 +173,7 @@ public class Player extends Entity {
         }
 
         // Doesn't apply animations.
-        if (low_lod) {
+        if (lowLod) {
             return model;
         }
 
@@ -181,7 +181,7 @@ public class Player extends Entity {
         m.replace(model, (frame1 == -1) & (frame2 == -1));
 
         if (frame1 != -1 && frame2 != -1) {
-            m.apply_sequence_frames(Sequence.instance[super.seq_index].vertices, frame1, frame2);
+            m.apply_sequence_frames(Sequence.instance[super.seqIndex].vertices, frame1, frame2);
         } else if (frame1 != -1) {
             m.applySequenceFrame(frame1);
         }
@@ -270,7 +270,7 @@ public class Player extends Entity {
 
         built.is_clickable = true;
 
-        if (low_lod) {
+        if (lowLod) {
             return built;
         }
 
@@ -280,7 +280,7 @@ public class Player extends Entity {
 
             if (sa_model != null) {
                 Model m = new Model(true, super.spotanimFrame == -1, false, sa_model);
-                m.translate(0, -super.graphic_offset_y, 0);
+                m.translate(0, -super.graphicOffsetY, 0);
                 m.applyVertexWeights();
                 m.applySequenceFrame(effect.seq.framePrimary[super.spotanimFrame]);
                 m.triangleGroups = null;
@@ -295,39 +295,39 @@ public class Player extends Entity {
             }
         }
 
-        if (this.loc_model != null) {
-            if (Game.loopCycle >= loc_end_cycle) {
-                this.loc_model = null;
+        if (this.locModel != null) {
+            if (Game.loopCycle >= locEndCycle) {
+                this.locModel = null;
             }
-            if (Game.loopCycle >= loc_start_cycle && Game.loopCycle < loc_end_cycle) {
-                Model m = this.loc_model;
-                m.translate(loc_x - super.scene_x, loc_z - scene_z, loc_y - super.scene_y);
+            if (Game.loopCycle >= locStartCycle && Game.loopCycle < locEndCycle) {
+                Model m = this.locModel;
+                m.translate(locX - super.sceneX, locZ - sceneZ, locY - super.sceneY);
 
-                if (super.dest_rotation == 512) {
+                if (super.destRotation == 512) {
                     m.rotate_cw();
                     m.rotate_cw();
                     m.rotate_cw();
-                } else if (super.dest_rotation == 1024) {
+                } else if (super.destRotation == 1024) {
                     m.rotate_cw();
                     m.rotate_cw();
-                } else if (super.dest_rotation == 1536) {
+                } else if (super.destRotation == 1536) {
                     m.rotate_cw();
                 }
 
                 built = new Model(2, true, new Model[]{built, m});
 
-                if (super.dest_rotation == 512) {
+                if (super.destRotation == 512) {
                     m.rotate_cw();
-                } else if (super.dest_rotation == 1024) {
+                } else if (super.destRotation == 1024) {
                     m.rotate_cw();
                     m.rotate_cw();
-                } else if (super.dest_rotation == 1536) {
+                } else if (super.destRotation == 1536) {
                     m.rotate_cw();
                     m.rotate_cw();
                     m.rotate_cw();
                 }
 
-                m.translate(super.scene_x - loc_x, scene_z - loc_z, super.scene_y - loc_y);
+                m.translate(super.sceneX - locX, sceneZ - locZ, super.sceneY - locY);
             }
         }
 
@@ -346,7 +346,7 @@ public class Player extends Entity {
         sb.append(this.name);
 
         if (this.skill_level == 0) {
-            sb.append(RSColor.getLevelTag(this.combat_level));
+            sb.append(RSColor.getLevelTag(this.combatLevel));
         } else {
             sb.append(" (skill-");
             sb.append(this.skill_level);
@@ -400,9 +400,9 @@ public class Player extends Entity {
             this.colors[i] = j;
         }
 
-        super.stand_animation = s.readUnsignedShort();
-        if (super.stand_animation == 65535) {
-            super.stand_animation = -1;
+        super.standAnimation = s.readUnsignedShort();
+        if (super.standAnimation == 65535) {
+            super.standAnimation = -1;
         }
 
         super.stand_turn_animation = s.readUnsignedShort();
@@ -410,24 +410,24 @@ public class Player extends Entity {
             super.stand_turn_animation = -1;
         }
 
-        super.walk_animation = s.readUnsignedShort();
-        if (super.walk_animation == 65535) {
-            super.walk_animation = -1;
+        super.walkAnimation = s.readUnsignedShort();
+        if (super.walkAnimation == 65535) {
+            super.walkAnimation = -1;
         }
 
-        super.turn_180_animation = s.readUnsignedShort();
-        if (super.turn_180_animation == 65535) {
-            super.turn_180_animation = -1;
+        super.turn180Animation = s.readUnsignedShort();
+        if (super.turn180Animation == 65535) {
+            super.turn180Animation = -1;
         }
 
-        super.turn_r_animation = s.readUnsignedShort();
-        if (super.turn_r_animation == 65535) {
-            super.turn_r_animation = -1;
+        super.turnRAnimation = s.readUnsignedShort();
+        if (super.turnRAnimation == 65535) {
+            super.turnRAnimation = -1;
         }
 
-        super.turn_l_animation = s.readUnsignedShort();
-        if (super.turn_l_animation == 65535) {
-            super.turn_l_animation = -1;
+        super.turnLAnimation = s.readUnsignedShort();
+        if (super.turnLAnimation == 65535) {
+            super.turnLAnimation = -1;
         }
 
         super.run_animation = s.readUnsignedShort();
@@ -436,7 +436,7 @@ public class Player extends Entity {
         }
 
         this.name = JString.getFormattedString(s.readLong());
-        this.combat_level = (short) s.readUnsignedByte();
+        this.combatLevel = (short) s.readUnsignedByte();
         this.skill_level = s.readUnsignedShort();
         this.visible = true;
         this.model_uid = 0L;

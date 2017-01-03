@@ -827,7 +827,7 @@ public class Scene {
         }
     }
 
-    public void create_land_mesh(CollisionMap[] cm, Landscape l) {
+    public void createLandMesh(CollisionMap[] cm, Landscape l) {
         for (int plane = 0; plane < 4; plane++) {
             for (int x = 0; x < 104; x++) {
                 for (int z = 0; z < 104; z++) {

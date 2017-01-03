@@ -14,19 +14,19 @@ public class Actor extends Entity {
     public Model getBuiltModel() {
         int frame1 = -1;
 
-        if (super.seq_index >= 0 && super.seq_delay_cycle == 0) {
-            frame1 = Sequence.instance[super.seq_index].framePrimary[super.seq_frame];
+        if (super.seqIndex >= 0 && super.seqDelayCycle == 0) {
+            frame1 = Sequence.instance[super.seqIndex].framePrimary[super.seqFrame];
             int frame2 = -1;
 
-            if (super.move_seq_index >= 0 && super.move_seq_index != super.stand_animation) {
-                frame2 = Sequence.instance[super.move_seq_index].framePrimary[super.move_seq_frame];
+            if (super.moveSeqIndex >= 0 && super.moveSeqIndex != super.standAnimation) {
+                frame2 = Sequence.instance[super.moveSeqIndex].framePrimary[super.moveSeqFrame];
             }
 
-            return config.getModel(Sequence.instance[super.seq_index].vertices, frame1, frame2);
+            return config.getModel(Sequence.instance[super.seqIndex].vertices, frame1, frame2);
         }
 
-        if (super.move_seq_index >= 0) {
-            frame1 = Sequence.instance[super.move_seq_index].framePrimary[super.move_seq_frame];
+        if (super.moveSeqIndex >= 0) {
+            frame1 = Sequence.instance[super.moveSeqIndex].framePrimary[super.moveSeqFrame];
         }
 
         return config.getModel(null, frame1, -1);
@@ -54,7 +54,7 @@ public class Actor extends Entity {
                 int anim = c.seq.framePrimary[super.spotanimFrame];
 
                 Model m1 = new Model(true, anim == -1, false, m);
-                m1.translate(0, -super.graphic_offset_y, 0);
+                m1.translate(0, -super.graphicOffsetY, 0);
                 m1.applyVertexWeights();
                 m1.applySequenceFrame(anim);
                 m1.triangleGroups = null;
