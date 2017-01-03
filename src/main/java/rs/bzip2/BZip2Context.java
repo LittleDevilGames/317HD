@@ -34,8 +34,7 @@ public class BZip2Context {
     public int nInUse;
     public int nBlockpp;
     public int unzftab[];
-    public int anIntArray585[];
-    public int anIntArray586[];
+    public int cftab[];
     public int mtf16[];
     public int minLens[];
     public int limit[][];
@@ -44,8 +43,7 @@ public class BZip2Context {
 
     public BZip2Context() {
         unzftab = new int[256];
-        anIntArray585 = new int[257];
-        anIntArray586 = new int[257];
+        cftab = new int[257];
         inUse = new boolean[256];
         inUse16 = new boolean[16];
         seqToUnseq = new byte[256];

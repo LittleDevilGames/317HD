@@ -26,7 +26,7 @@ public class BZip2 {
         }
     }
 
-    public static void method226(BZip2Context c) {
+    public static void parseNextFileHeader(BZip2Context c) {
         byte stateOutCh = c.stateOutCh;
         int stateOutLen = c.stateOutLen;
         int nBlockUsed = c.nBlockUsed;
@@ -419,19 +419,19 @@ public class BZip2 {
 
             c.stateOutLen = 0;
             c.stateOutCh = 0;
-            c.anIntArray585[0] = 0;
+            c.cftab[0] = 0;
             for (int j2 = 1; j2 <= 256; j2++) {
-                c.anIntArray585[j2] = c.unzftab[j2 - 1];
+                c.cftab[j2] = c.unzftab[j2 - 1];
             }
 
             for (int k2 = 1; k2 <= 256; k2++) {
-                c.anIntArray585[k2] += c.anIntArray585[k2 - 1];
+                c.cftab[k2] += c.cftab[k2 - 1];
             }
 
             for (int l2 = 0; l2 < last; l2++) {
-                byte byte7 = (byte) (BZip2Context.ll8[l2] & 0xff);
-                BZip2Context.ll8[c.anIntArray585[byte7 & 0xff]] |= l2 << 8;
-                c.anIntArray585[byte7 & 0xff]++;
+                byte ch = (byte) (BZip2Context.ll8[l2] & 0xff);
+                BZip2Context.ll8[c.cftab[ch & 0xff]] |= l2 << 8;
+                c.cftab[ch & 0xff]++;
             }
 
             c.nextOut = BZip2Context.ll8[c.origPtr] >> 8;
@@ -441,7 +441,7 @@ public class BZip2 {
             c.nextOut >>= 8;
             c.nBlockUsed++;
             c.nBlockpp = last;
-            method226(c);
+            parseNextFileHeader(c);
             if (c.nBlockUsed == c.nBlockpp + 1 && c.stateOutLen == 0) {
                 flag19 = true;
             } else {
