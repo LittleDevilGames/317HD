@@ -296,7 +296,7 @@ public class ActorConfig {
         m.replace(model, (frame1 == -1) & (frame2 == -1));
 
         if (frame1 != -1 && frame2 != -1) {
-            m.apply_sequence_frames(vertices, frame1, frame2);
+            m.applySequenceFrames(vertices, frame1, frame2);
         } else if (frame1 != -1) {
             m.applySequenceFrame(frame1);
         }
@@ -310,7 +310,7 @@ public class ActorConfig {
         m.vertexWeights = null;
 
         if (has_options == 1) {
-            m.is_clickable = true;
+            m.isClickable = true;
         }
 
         return m;

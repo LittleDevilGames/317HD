@@ -383,7 +383,7 @@ public class ObjConfig {
         }
 
         mesh.applyLighting(64 + brightness, 768 + specular, -50, -10, -50, true);
-        mesh.is_clickable = true;
+        mesh.isClickable = true;
         modelCache.insert(mesh, index);
 
         return mesh;

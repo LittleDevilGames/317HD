@@ -1209,9 +1209,9 @@ public class Game extends GameShell {
         int cycle_3d = Canvas3D.cycle;
 
         Model.sceneClickable = true;
-        Model.hovered_count = 0;
-        Model.mouse_x = Mouse.lastX - 4;
-        Model.mouse_y = Mouse.lastY - 4;
+        Model.hoveredCount = 0;
+        Model.mouseX = Mouse.lastX - 4;
+        Model.mouseY = Mouse.lastY - 4;
         Canvas2D.clear();
 
         landscape.draw(Camera.x, Camera.y, Camera.yaw, Camera.z, occlusionTopPlane, Camera.pitch);
@@ -6130,8 +6130,8 @@ public class Game extends GameShell {
 
         int lastUid = -1;
 
-        for (int idx = 0; idx < Model.hovered_count; idx++) {
-            int uid = Model.hovered_uid[idx];
+        for (int idx = 0; idx < Model.hoveredCount; idx++) {
+            int uid = Model.hoveredUid[idx];
             int x = uid & 0x7f;
             int y = uid >> 7 & 0x7f;
             int type = uid >> 29 & 3;

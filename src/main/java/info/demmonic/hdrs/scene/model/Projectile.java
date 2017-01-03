@@ -74,7 +74,7 @@ public class Projectile extends Renderable {
             m.scale(config.scale, config.height, config.scale);
         }
 
-        m.set_pitch(pitch);
+        m.setPitch(pitch);
         m.applyLighting(64 + config.brightness, 850 + config.specular, -30, -50, -30, true);
         return m;
     }

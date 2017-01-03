@@ -14,9 +14,9 @@ public class Model extends Renderable {
     public static int anInt1681;
     public static int anInt1682;
     public static int anInt1683;
-    public static short replace_vertex_x[] = new short[2000];
-    public static short replace_vertex_y[] = new short[2000];
-    public static short replace_vertex_z[] = new short[2000];
+    public static short replaceVertexX[] = new short[2000];
+    public static short replaceVertexY[] = new short[2000];
+    public static short replaceVertexZ[] = new short[2000];
     public static int anIntArray1625[] = new int[2000];
     public static int anIntArray1671[] = new int[1500];
     public static int anIntArray1673[] = new int[12];
@@ -28,173 +28,173 @@ public class Model extends Renderable {
     public static Header[] header;
     public static OnDemand ondemand;
     public static boolean sceneClickable;
-    public static int mouse_x;
-    public static int mouse_y;
-    public static int hovered_count;
-    public static int[] hovered_uid = new int[1000];
+    public static int mouseX;
+    public static int mouseY;
+    public static int hoveredCount;
+    public static int[] hoveredUid = new int[1000];
     public static Model temporary = new Model();
-    public static int tmp_screen_x[] = new int[10];
-    public static int tmp_screen_y[] = new int[10];
-    public static int tmp_hsl[] = new int[10];
-    public static int tmp_textured_x[] = new int[4096];
-    public static int tmp_textured_y[] = new int[4096];
-    public static int tmp_textured_z[] = new int[4096];
-    public static int triangle_x[] = new int[4096];
-    public static int triangle_y[] = new int[4096];
-    public static int triangle_depth[] = new int[4096];
-    public static boolean triangle_project[] = new boolean[4096];
-    public static boolean triangle_check_bounds[] = new boolean[4096];
+    public static int tmpScreenX[] = new int[10];
+    public static int tmpScreenY[] = new int[10];
+    public static int tmpHsl[] = new int[10];
+    public static int tmpTexturedX[] = new int[4096];
+    public static int tmpTexturedY[] = new int[4096];
+    public static int tmpTexturedZ[] = new int[4096];
+    public static int triangleX[] = new int[4096];
+    public static int triangleY[] = new int[4096];
+    public static int triangleDepth[] = new int[4096];
+    public static boolean triangleProject[] = new boolean[4096];
+    public static boolean triangleCheckBounds[] = new boolean[4096];
     public static int palette[];
-    public static int shadow_decay[];
+    public static int shadowDecay[];
 
     static {
         palette = Canvas3D.palette;
-        shadow_decay = Canvas3D.shadowDecay;
+        shadowDecay = Canvas3D.shadowDecay;
     }
 
     public int anInt1641;
-    public boolean is_clickable;
+    public boolean isClickable;
     public int maxHorizon;
-    public int max_x;
-    public int max_y;
-    public int max_z;
-    public int min_x;
-    public int min_z;
-    public int pile_height;
-    public int texture_map_x[];
-    public int texture_map_y[];
-    public int texture_map_z[];
-    public int textured_triangle_count;
-    public int tri_hsl1[];
-    public int tri_hsl2[];
-    public int tri_hsl3[];
-    public int triangle_alpha[];
-    public int triangle_color[];
-    public int triangle_count;
+    public int maxX;
+    public int maxY;
+    public int maxZ;
+    public int minX;
+    public int minZ;
+    public int pileHeight;
+    public int textureMapX[];
+    public int textureMapY[];
+    public int textureMapZ[];
+    public int texturedTriangleCount;
+    public int triHsl1[];
+    public int triHsl2[];
+    public int triHsl3[];
+    public int triangleAlpha[];
+    public int triangleColor[];
+    public int triangleCount;
     public int triangleGroups[][];
-    public int triangle_info[];
-    public int triangle_priority[];
-    public int triangle_tskin[];
-    public short triangle_viewspace_a[];
-    public short triangle_viewspace_b[];
-    public short triangle_viewspace_c[];
+    public int triangleInfo[];
+    public int trianglePriority[];
+    public int triangleTskin[];
+    public short triangleViewspaceA[];
+    public short triangleViewspaceB[];
+    public short triangleViewspaceC[];
     public int unknown2;
     public int unknown3;
-    public short vertex_count;
-    public int vertex_skin_types[];
+    public short vertexCount;
+    public int vertexSkinTypes[];
     public int vertexWeights[][];
-    public short[] vertex_x;
-    public short[] vertex_y;
-    public short[] vertex_z;
+    public short[] vertexX;
+    public short[] vertexY;
+    public short[] vertexZ;
     public Vertex[] vertices;
 
     public Model() {
-        is_clickable = false;
+        isClickable = false;
     }
 
-    public Model(boolean copy_colors, boolean copy_opacity, boolean copy_vertices, Model m) {
-        is_clickable = false;
-        vertex_count = m.vertex_count;
-        triangle_count = m.triangle_count;
-        textured_triangle_count = m.textured_triangle_count;
+    public Model(boolean copyColors, boolean copyOpacity, boolean copyVertices, Model m) {
+        isClickable = false;
+        vertexCount = m.vertexCount;
+        triangleCount = m.triangleCount;
+        texturedTriangleCount = m.texturedTriangleCount;
 
-        if (copy_vertices) {
-            vertex_x = m.vertex_x;
-            vertex_y = m.vertex_y;
-            vertex_z = m.vertex_z;
+        if (copyVertices) {
+            vertexX = m.vertexX;
+            vertexY = m.vertexY;
+            vertexZ = m.vertexZ;
         } else {
-            vertex_x = new short[vertex_count];
-            vertex_y = new short[vertex_count];
-            vertex_z = new short[vertex_count];
+            vertexX = new short[vertexCount];
+            vertexY = new short[vertexCount];
+            vertexZ = new short[vertexCount];
 
-            for (int i = 0; i < vertex_count; i++) {
-                vertex_x[i] = m.vertex_x[i];
-                vertex_y[i] = m.vertex_y[i];
-                vertex_z[i] = m.vertex_z[i];
+            for (int i = 0; i < vertexCount; i++) {
+                vertexX[i] = m.vertexX[i];
+                vertexY[i] = m.vertexY[i];
+                vertexZ[i] = m.vertexZ[i];
             }
         }
 
-        if (copy_colors) {
-            triangle_color = m.triangle_color;
+        if (copyColors) {
+            triangleColor = m.triangleColor;
         } else {
-            triangle_color = new int[triangle_count];
+            triangleColor = new int[triangleCount];
 
-            for (int i = 0; i < triangle_count; i++) {
-                triangle_color[i] = m.triangle_color[i];
+            for (int i = 0; i < triangleCount; i++) {
+                triangleColor[i] = m.triangleColor[i];
             }
         }
 
-        if (copy_opacity) {
-            triangle_alpha = m.triangle_alpha;
+        if (copyOpacity) {
+            triangleAlpha = m.triangleAlpha;
         } else {
-            triangle_alpha = new int[triangle_count];
+            triangleAlpha = new int[triangleCount];
 
-            if (m.triangle_alpha == null) {
-                for (int i = 0; i < triangle_count; i++) {
-                    triangle_alpha[i] = 0;
+            if (m.triangleAlpha == null) {
+                for (int i = 0; i < triangleCount; i++) {
+                    triangleAlpha[i] = 0;
                 }
             } else {
-                for (int i = 0; i < triangle_count; i++) {
-                    triangle_alpha[i] = m.triangle_alpha[i];
+                for (int i = 0; i < triangleCount; i++) {
+                    triangleAlpha[i] = m.triangleAlpha[i];
                 }
             }
         }
 
-        vertex_skin_types = m.vertex_skin_types;
-        triangle_tskin = m.triangle_tskin;
-        triangle_info = m.triangle_info;
-        triangle_viewspace_a = m.triangle_viewspace_a;
-        triangle_viewspace_b = m.triangle_viewspace_b;
-        triangle_viewspace_c = m.triangle_viewspace_c;
-        triangle_priority = m.triangle_priority;
+        vertexSkinTypes = m.vertexSkinTypes;
+        triangleTskin = m.triangleTskin;
+        triangleInfo = m.triangleInfo;
+        triangleViewspaceA = m.triangleViewspaceA;
+        triangleViewspaceB = m.triangleViewspaceB;
+        triangleViewspaceC = m.triangleViewspaceC;
+        trianglePriority = m.trianglePriority;
         anInt1641 = m.anInt1641;
-        texture_map_x = m.texture_map_x;
-        texture_map_y = m.texture_map_y;
-        texture_map_z = m.texture_map_z;
+        textureMapX = m.textureMapX;
+        textureMapY = m.textureMapY;
+        textureMapZ = m.textureMapZ;
     }
 
-    public Model(boolean copy_y_vertices, boolean copy_shading, Model m) {
-        is_clickable = false;
+    public Model(boolean copyYVertices, boolean copyShading, Model m) {
+        isClickable = false;
 
-        vertex_count = m.vertex_count;
-        triangle_count = m.triangle_count;
-        textured_triangle_count = m.textured_triangle_count;
+        vertexCount = m.vertexCount;
+        triangleCount = m.triangleCount;
+        texturedTriangleCount = m.texturedTriangleCount;
 
-        if (copy_y_vertices) {
-            vertex_y = new short[vertex_count];
-            for (int j = 0; j < vertex_count; j++) {
-                vertex_y[j] = m.vertex_y[j];
+        if (copyYVertices) {
+            vertexY = new short[vertexCount];
+            for (int j = 0; j < vertexCount; j++) {
+                vertexY[j] = m.vertexY[j];
             }
         } else {
-            vertex_y = m.vertex_y;
+            vertexY = m.vertexY;
         }
 
-        if (copy_shading) {
-            tri_hsl1 = new int[triangle_count];
-            tri_hsl2 = new int[triangle_count];
-            tri_hsl3 = new int[triangle_count];
+        if (copyShading) {
+            triHsl1 = new int[triangleCount];
+            triHsl2 = new int[triangleCount];
+            triHsl3 = new int[triangleCount];
 
-            for (int i = 0; i < triangle_count; i++) {
-                tri_hsl1[i] = m.tri_hsl1[i];
-                tri_hsl2[i] = m.tri_hsl2[i];
-                tri_hsl3[i] = m.tri_hsl3[i];
+            for (int i = 0; i < triangleCount; i++) {
+                triHsl1[i] = m.triHsl1[i];
+                triHsl2[i] = m.triHsl2[i];
+                triHsl3[i] = m.triHsl3[i];
             }
 
-            triangle_info = new int[triangle_count];
+            triangleInfo = new int[triangleCount];
 
-            if (m.triangle_info == null) {
-                for (int i = 0; i < triangle_count; i++) {
-                    triangle_info[i] = 0;
+            if (m.triangleInfo == null) {
+                for (int i = 0; i < triangleCount; i++) {
+                    triangleInfo[i] = 0;
                 }
             } else {
-                for (int i = 0; i < triangle_count; i++) {
-                    triangle_info[i] = m.triangle_info[i];
+                for (int i = 0; i < triangleCount; i++) {
+                    triangleInfo[i] = m.triangleInfo[i];
                 }
             }
 
-            super.normal = new Vertex[vertex_count];
+            super.normal = new Vertex[vertexCount];
 
-            for (int i = 0; i < vertex_count; i++) {
+            for (int i = 0; i < vertexCount; i++) {
                 Vertex v1 = super.normal[i] = new Vertex();
                 Vertex v2 = m.normal[i];
                 v1.x = v2.x;
@@ -205,159 +205,159 @@ public class Model extends Renderable {
 
             vertices = m.vertices;
         } else {
-            tri_hsl1 = m.tri_hsl1;
-            tri_hsl2 = m.tri_hsl2;
-            tri_hsl3 = m.tri_hsl3;
-            triangle_info = m.triangle_info;
+            triHsl1 = m.triHsl1;
+            triHsl2 = m.triHsl2;
+            triHsl3 = m.triHsl3;
+            triangleInfo = m.triangleInfo;
         }
 
-        vertex_x = m.vertex_x;
-        vertex_z = m.vertex_z;
-        triangle_color = m.triangle_color;
-        triangle_alpha = m.triangle_alpha;
-        triangle_priority = m.triangle_priority;
+        vertexX = m.vertexX;
+        vertexZ = m.vertexZ;
+        triangleColor = m.triangleColor;
+        triangleAlpha = m.triangleAlpha;
+        trianglePriority = m.trianglePriority;
         anInt1641 = m.anInt1641;
-        triangle_viewspace_a = m.triangle_viewspace_a;
-        triangle_viewspace_b = m.triangle_viewspace_b;
-        triangle_viewspace_c = m.triangle_viewspace_c;
-        texture_map_x = m.texture_map_x;
-        texture_map_y = m.texture_map_y;
-        texture_map_z = m.texture_map_z;
+        triangleViewspaceA = m.triangleViewspaceA;
+        triangleViewspaceB = m.triangleViewspaceB;
+        triangleViewspaceC = m.triangleViewspaceC;
+        textureMapX = m.textureMapX;
+        textureMapY = m.textureMapY;
+        textureMapZ = m.textureMapZ;
         super.height = ((Renderable) (m)).height;
-        max_y = m.max_y;
+        maxY = m.maxY;
         maxHorizon = m.maxHorizon;
         unknown2 = m.unknown2;
         unknown3 = m.unknown3;
-        min_x = m.min_x;
-        max_z = m.max_z;
-        min_z = m.min_z;
-        max_x = m.max_x;
+        minX = m.minX;
+        maxZ = m.maxZ;
+        minZ = m.minZ;
+        maxX = m.maxX;
     }
 
     public Model(int index) {
-        is_clickable = false;
+        isClickable = false;
         Header config = header[index];
 
-        vertex_count = config.vertex_count;
-        triangle_count = config.triangle_count;
-        textured_triangle_count = config.textured_triangle_count;
+        vertexCount = config.vertexCount;
+        triangleCount = config.triangleCount;
+        texturedTriangleCount = config.texturedTriangleCount;
 
-        vertex_x = new short[vertex_count];
-        vertex_y = new short[vertex_count];
-        vertex_z = new short[vertex_count];
+        vertexX = new short[vertexCount];
+        vertexY = new short[vertexCount];
+        vertexZ = new short[vertexCount];
 
-        triangle_viewspace_a = new short[triangle_count];
-        triangle_viewspace_b = new short[triangle_count];
-        triangle_viewspace_c = new short[triangle_count];
+        triangleViewspaceA = new short[triangleCount];
+        triangleViewspaceB = new short[triangleCount];
+        triangleViewspaceC = new short[triangleCount];
 
-        texture_map_x = new int[textured_triangle_count];
-        texture_map_y = new int[textured_triangle_count];
-        texture_map_z = new int[textured_triangle_count];
+        textureMapX = new int[texturedTriangleCount];
+        textureMapY = new int[texturedTriangleCount];
+        textureMapZ = new int[texturedTriangleCount];
 
         if (config.anInt376 >= 0) {
-            vertex_skin_types = new int[vertex_count];
+            vertexSkinTypes = new int[vertexCount];
         }
 
-        if (config.draw_type_stream_pos >= 0) {
-            triangle_info = new int[triangle_count];
+        if (config.drawTypeStreamPos >= 0) {
+            triangleInfo = new int[triangleCount];
         }
 
-        if (config.priority_stream_pos >= 0) {
-            triangle_priority = new int[triangle_count];
+        if (config.priorityStreamPos >= 0) {
+            trianglePriority = new int[triangleCount];
         } else {
-            anInt1641 = -config.priority_stream_pos - 1;
+            anInt1641 = -config.priorityStreamPos - 1;
         }
 
-        if (config.alpha_stream_pos >= 0) {
-            triangle_alpha = new int[triangle_count];
+        if (config.alphaStreamPos >= 0) {
+            triangleAlpha = new int[triangleCount];
         }
 
-        if (config.tskin_stream_pos >= 0) {
-            triangle_tskin = new int[triangle_count];
+        if (config.tskinStreamPos >= 0) {
+            triangleTskin = new int[triangleCount];
         }
 
-        triangle_color = new int[triangle_count];
+        triangleColor = new int[triangleCount];
 
-        Buffer color_stream = new Buffer(config.payload);
-        color_stream.position = config.anInt372;
+        Buffer colorStream = new Buffer(config.payload);
+        colorStream.position = config.anInt372;
 
-        Buffer type_stream = new Buffer(config.payload);
-        type_stream.position = config.textured_triangle_stream_pos;
+        Buffer typeStream = new Buffer(config.payload);
+        typeStream.position = config.texturedTriangleStreamPos;
 
-        Buffer priority_stream = new Buffer(config.payload);
-        priority_stream.position = config.anInt374;
+        Buffer priorityStream = new Buffer(config.payload);
+        priorityStream.position = config.anInt374;
 
-        Buffer alpha_stream = new Buffer(config.payload);
-        alpha_stream.position = config.anInt375;
+        Buffer alphaStream = new Buffer(config.payload);
+        alphaStream.position = config.anInt375;
 
-        Buffer tskin_stream = new Buffer(config.payload);
-        tskin_stream.position = config.anInt376;
+        Buffer tskinStream = new Buffer(config.payload);
+        tskinStream.position = config.anInt376;
 
         int x = 0;
         int y = 0;
         int z = 0;
 
         // VERTEX_DIRECTION_Chunk
-        for (int v = 0; v < vertex_count; v++) {
-            int flag = color_stream.readUnsignedByte();
+        for (int v = 0; v < vertexCount; v++) {
+            int flag = colorStream.readUnsignedByte();
 
-            int off_x = 0;
-            int off_y = 0;
-            int off_z = 0;
+            int offX = 0;
+            int offY = 0;
+            int offZ = 0;
 
             if ((flag & 1) != 0) {
-                off_x = type_stream.readSmart();
+                offX = typeStream.readSmart();
             }
 
             if ((flag & 2) != 0) {
-                off_y = priority_stream.readSmart();
+                offY = priorityStream.readSmart();
             }
 
             if ((flag & 4) != 0) {
-                off_z = alpha_stream.readSmart();
+                offZ = alphaStream.readSmart();
             }
 
-            vertex_x[v] = (short) (x + off_x);
-            vertex_y[v] = (short) (y + off_y);
-            vertex_z[v] = (short) (z + off_z);
+            vertexX[v] = (short) (x + offX);
+            vertexY[v] = (short) (y + offY);
+            vertexZ[v] = (short) (z + offZ);
 
-            x = vertex_x[v];
-            y = vertex_y[v];
-            z = vertex_z[v];
+            x = vertexX[v];
+            y = vertexY[v];
+            z = vertexZ[v];
 
-            if (vertex_skin_types != null) {
-                vertex_skin_types[v] = tskin_stream.readUnsignedByte();
-            }
-        }
-
-        color_stream.position = config.triangle_color_stream_pos;
-        type_stream.position = config.draw_type_stream_pos;
-        priority_stream.position = config.priority_stream_pos;
-        alpha_stream.position = config.alpha_stream_pos;
-        tskin_stream.position = config.tskin_stream_pos;
-
-        for (int i = 0; i < triangle_count; i++) {
-            triangle_color[i] = color_stream.readUnsignedShort();
-
-            if (triangle_info != null) {
-                triangle_info[i] = type_stream.readUnsignedByte();
-            }
-
-            if (triangle_priority != null) {
-                triangle_priority[i] = priority_stream.readUnsignedByte();
-            }
-
-            if (triangle_alpha != null) {
-                triangle_alpha[i] = alpha_stream.readUnsignedByte();
-            }
-
-            if (triangle_tskin != null) {
-                triangle_tskin[i] = tskin_stream.readUnsignedByte();
+            if (vertexSkinTypes != null) {
+                vertexSkinTypes[v] = tskinStream.readUnsignedByte();
             }
         }
 
-        color_stream.position = config.anInt377;
-        type_stream.position = config.anInt378;
+        colorStream.position = config.triangleColorStreamPos;
+        typeStream.position = config.drawTypeStreamPos;
+        priorityStream.position = config.priorityStreamPos;
+        alphaStream.position = config.alphaStreamPos;
+        tskinStream.position = config.tskinStreamPos;
+
+        for (int i = 0; i < triangleCount; i++) {
+            triangleColor[i] = colorStream.readUnsignedShort();
+
+            if (triangleInfo != null) {
+                triangleInfo[i] = typeStream.readUnsignedByte();
+            }
+
+            if (trianglePriority != null) {
+                trianglePriority[i] = priorityStream.readUnsignedByte();
+            }
+
+            if (triangleAlpha != null) {
+                triangleAlpha[i] = alphaStream.readUnsignedByte();
+            }
+
+            if (triangleTskin != null) {
+                triangleTskin[i] = tskinStream.readUnsignedByte();
+            }
+        }
+
+        colorStream.position = config.anInt377;
+        typeStream.position = config.anInt378;
 
         x = 0;
         y = 0;
@@ -365,325 +365,325 @@ public class Model extends Renderable {
         int last = 0;
 
         // TRIANGLE_TYPE_Chunk
-        for (int i = 0; i < triangle_count; i++) {
-            int type = type_stream.readUnsignedByte();
+        for (int i = 0; i < triangleCount; i++) {
+            int type = typeStream.readUnsignedByte();
 
             if (type == 1) {
-                x = color_stream.readSmart() + last;
+                x = colorStream.readSmart() + last;
                 last = x;
-                y = color_stream.readSmart() + last;
+                y = colorStream.readSmart() + last;
                 last = y;
-                z = color_stream.readSmart() + last;
+                z = colorStream.readSmart() + last;
                 last = z;
-                triangle_viewspace_a[i] = (short) x;
-                triangle_viewspace_b[i] = (short) y;
-                triangle_viewspace_c[i] = (short) z;
+                triangleViewspaceA[i] = (short) x;
+                triangleViewspaceB[i] = (short) y;
+                triangleViewspaceC[i] = (short) z;
             }
 
             if (type == 2) {
                 y = z;
-                z = color_stream.readSmart() + last;
+                z = colorStream.readSmart() + last;
                 last = z;
-                triangle_viewspace_a[i] = (short) x;
-                triangle_viewspace_b[i] = (short) y;
-                triangle_viewspace_c[i] = (short) z;
+                triangleViewspaceA[i] = (short) x;
+                triangleViewspaceB[i] = (short) y;
+                triangleViewspaceC[i] = (short) z;
             }
 
             if (type == 3) {
                 x = z;
-                z = color_stream.readSmart() + last;
+                z = colorStream.readSmart() + last;
                 last = z;
-                triangle_viewspace_a[i] = (short) x;
-                triangle_viewspace_b[i] = (short) y;
-                triangle_viewspace_c[i] = (short) z;
+                triangleViewspaceA[i] = (short) x;
+                triangleViewspaceB[i] = (short) y;
+                triangleViewspaceC[i] = (short) z;
             }
 
             if (type == 4) {
                 int k4 = x;
                 x = y;
                 y = k4;
-                z = color_stream.readSmart() + last;
+                z = colorStream.readSmart() + last;
                 last = z;
-                triangle_viewspace_a[i] = (short) x;
-                triangle_viewspace_b[i] = (short) y;
-                triangle_viewspace_c[i] = (short) z;
+                triangleViewspaceA[i] = (short) x;
+                triangleViewspaceB[i] = (short) y;
+                triangleViewspaceC[i] = (short) z;
             }
         }
 
-        color_stream.position = config.texture_map_stream_pos;
+        colorStream.position = config.textureMapStreamPos;
 
-        for (int i = 0; i < textured_triangle_count; i++) {
-            texture_map_x[i] = color_stream.readUnsignedShort();
-            texture_map_y[i] = color_stream.readUnsignedShort();
-            texture_map_z[i] = color_stream.readUnsignedShort();
+        for (int i = 0; i < texturedTriangleCount; i++) {
+            textureMapX[i] = colorStream.readUnsignedShort();
+            textureMapY[i] = colorStream.readUnsignedShort();
+            textureMapZ[i] = colorStream.readUnsignedShort();
         }
 
     }
 
-    public Model(int model_count, boolean flag, Model models[]) {
-        is_clickable = false;
-        boolean has_info = false;
-        boolean has_priority = false;
-        boolean has_alpha = false;
-        boolean has_color = false;
-        vertex_count = 0;
-        triangle_count = 0;
-        textured_triangle_count = 0;
+    public Model(int modelCount, boolean flag, Model models[]) {
+        isClickable = false;
+        boolean hasInfo = false;
+        boolean hasPriority = false;
+        boolean hasAlpha = false;
+        boolean hasColor = false;
+        vertexCount = 0;
+        triangleCount = 0;
+        texturedTriangleCount = 0;
         anInt1641 = -1;
 
-        for (int k = 0; k < model_count; k++) {
+        for (int k = 0; k < modelCount; k++) {
             Model m = models[k];
             if (m != null) {
-                vertex_count += m.vertex_count;
-                triangle_count += m.triangle_count;
-                textured_triangle_count += m.textured_triangle_count;
-                has_info |= m.triangle_info != null;
+                vertexCount += m.vertexCount;
+                triangleCount += m.triangleCount;
+                texturedTriangleCount += m.texturedTriangleCount;
+                hasInfo |= m.triangleInfo != null;
 
-                if (m.triangle_priority != null) {
-                    has_priority = true;
+                if (m.trianglePriority != null) {
+                    hasPriority = true;
                 } else {
                     if (anInt1641 == -1) {
                         anInt1641 = m.anInt1641;
                     }
                     if (anInt1641 != m.anInt1641) {
-                        has_priority = true;
+                        hasPriority = true;
                     }
                 }
 
-                has_alpha |= m.triangle_alpha != null;
-                has_color |= m.triangle_color != null;
+                hasAlpha |= m.triangleAlpha != null;
+                hasColor |= m.triangleColor != null;
             }
         }
 
-        vertex_x = new short[vertex_count];
-        vertex_y = new short[vertex_count];
-        vertex_z = new short[vertex_count];
+        vertexX = new short[vertexCount];
+        vertexY = new short[vertexCount];
+        vertexZ = new short[vertexCount];
 
-        triangle_viewspace_a = new short[triangle_count];
-        triangle_viewspace_b = new short[triangle_count];
-        triangle_viewspace_c = new short[triangle_count];
+        triangleViewspaceA = new short[triangleCount];
+        triangleViewspaceB = new short[triangleCount];
+        triangleViewspaceC = new short[triangleCount];
 
-        tri_hsl1 = new int[triangle_count];
-        tri_hsl2 = new int[triangle_count];
-        tri_hsl3 = new int[triangle_count];
+        triHsl1 = new int[triangleCount];
+        triHsl2 = new int[triangleCount];
+        triHsl3 = new int[triangleCount];
 
-        texture_map_x = new int[textured_triangle_count];
-        texture_map_y = new int[textured_triangle_count];
-        texture_map_z = new int[textured_triangle_count];
+        textureMapX = new int[texturedTriangleCount];
+        textureMapY = new int[texturedTriangleCount];
+        textureMapZ = new int[texturedTriangleCount];
 
-        if (has_info) {
-            triangle_info = new int[triangle_count];
+        if (hasInfo) {
+            triangleInfo = new int[triangleCount];
         }
 
-        if (has_priority) {
-            triangle_priority = new int[triangle_count];
+        if (hasPriority) {
+            trianglePriority = new int[triangleCount];
         }
 
-        if (has_alpha) {
-            triangle_alpha = new int[triangle_count];
+        if (hasAlpha) {
+            triangleAlpha = new int[triangleCount];
         }
-        if (has_color) {
-            triangle_color = new int[triangle_count];
+        if (hasColor) {
+            triangleColor = new int[triangleCount];
         }
 
-        vertex_count = 0;
-        triangle_count = 0;
-        textured_triangle_count = 0;
+        vertexCount = 0;
+        triangleCount = 0;
+        texturedTriangleCount = 0;
 
         int i = 0;
 
-        for (int j = 0; j < model_count; j++) {
+        for (int j = 0; j < modelCount; j++) {
             Model m = models[j];
 
             if (m != null) {
-                int v_count = vertex_count;
+                int vCount = vertexCount;
 
-                for (int k = 0; k < m.vertex_count; k++) {
-                    vertex_x[vertex_count] = m.vertex_x[k];
-                    vertex_y[vertex_count] = m.vertex_y[k];
-                    vertex_z[vertex_count] = m.vertex_z[k];
-                    vertex_count++;
+                for (int k = 0; k < m.vertexCount; k++) {
+                    vertexX[vertexCount] = m.vertexX[k];
+                    vertexY[vertexCount] = m.vertexY[k];
+                    vertexZ[vertexCount] = m.vertexZ[k];
+                    vertexCount++;
                 }
 
-                for (int k = 0; k < m.triangle_count; k++) {
-                    triangle_viewspace_a[triangle_count] = (short) (m.triangle_viewspace_a[k] + v_count);
-                    triangle_viewspace_b[triangle_count] = (short) (m.triangle_viewspace_b[k] + v_count);
-                    triangle_viewspace_c[triangle_count] = (short) (m.triangle_viewspace_c[k] + v_count);
+                for (int k = 0; k < m.triangleCount; k++) {
+                    triangleViewspaceA[triangleCount] = (short) (m.triangleViewspaceA[k] + vCount);
+                    triangleViewspaceB[triangleCount] = (short) (m.triangleViewspaceB[k] + vCount);
+                    triangleViewspaceC[triangleCount] = (short) (m.triangleViewspaceC[k] + vCount);
 
-                    tri_hsl1[triangle_count] = m.tri_hsl1[k];
-                    tri_hsl2[triangle_count] = m.tri_hsl2[k];
-                    tri_hsl3[triangle_count] = m.tri_hsl3[k];
+                    triHsl1[triangleCount] = m.triHsl1[k];
+                    triHsl2[triangleCount] = m.triHsl2[k];
+                    triHsl3[triangleCount] = m.triHsl3[k];
 
-                    if (has_info) {
-                        if (m.triangle_info == null) {
-                            triangle_info[triangle_count] = 0;
+                    if (hasInfo) {
+                        if (m.triangleInfo == null) {
+                            triangleInfo[triangleCount] = 0;
                         } else {
-                            int j2 = m.triangle_info[k];
+                            int j2 = m.triangleInfo[k];
                             if ((j2 & 2) == 2) {
                                 j2 += i << 2;
                             }
-                            triangle_info[triangle_count] = j2;
+                            triangleInfo[triangleCount] = j2;
                         }
                     }
 
-                    if (has_priority) {
-                        if (m.triangle_priority == null) {
-                            triangle_priority[triangle_count] = m.anInt1641;
+                    if (hasPriority) {
+                        if (m.trianglePriority == null) {
+                            trianglePriority[triangleCount] = m.anInt1641;
                         } else {
-                            triangle_priority[triangle_count] = m.triangle_priority[k];
+                            trianglePriority[triangleCount] = m.trianglePriority[k];
                         }
                     }
 
-                    if (has_alpha) {
-                        if (m.triangle_alpha == null) {
-                            triangle_alpha[triangle_count] = 0;
+                    if (hasAlpha) {
+                        if (m.triangleAlpha == null) {
+                            triangleAlpha[triangleCount] = 0;
                         } else {
-                            triangle_alpha[triangle_count] = m.triangle_alpha[k];
+                            triangleAlpha[triangleCount] = m.triangleAlpha[k];
                         }
                     }
 
-                    if (has_color && m.triangle_color != null) {
-                        triangle_color[triangle_count] = m.triangle_color[k];
+                    if (hasColor && m.triangleColor != null) {
+                        triangleColor[triangleCount] = m.triangleColor[k];
                     }
 
-                    triangle_count++;
+                    triangleCount++;
                 }
 
-                for (int k = 0; k < m.textured_triangle_count; k++) {
-                    texture_map_x[textured_triangle_count] = m.texture_map_x[k] + v_count;
-                    texture_map_y[textured_triangle_count] = m.texture_map_y[k] + v_count;
-                    texture_map_z[textured_triangle_count] = m.texture_map_z[k] + v_count;
-                    textured_triangle_count++;
+                for (int k = 0; k < m.texturedTriangleCount; k++) {
+                    textureMapX[texturedTriangleCount] = m.textureMapX[k] + vCount;
+                    textureMapY[texturedTriangleCount] = m.textureMapY[k] + vCount;
+                    textureMapZ[texturedTriangleCount] = m.textureMapZ[k] + vCount;
+                    texturedTriangleCount++;
                 }
 
-                i += m.textured_triangle_count;
+                i += m.texturedTriangleCount;
             }
         }
 
         method466();
     }
 
-    public Model(int model_count, Model models[]) {
-        is_clickable = false;
-        boolean has_info = false;
-        boolean has_priorities = false;
-        boolean has_alpha = false;
-        boolean has_tskins = false;
-        vertex_count = 0;
-        triangle_count = 0;
-        textured_triangle_count = 0;
+    public Model(int modelCount, Model models[]) {
+        isClickable = false;
+        boolean hasInfo = false;
+        boolean hasPriorities = false;
+        boolean hasAlpha = false;
+        boolean hasTskins = false;
+        vertexCount = 0;
+        triangleCount = 0;
+        texturedTriangleCount = 0;
         anInt1641 = -1;
 
-        for (int i = 0; i < model_count; i++) {
+        for (int i = 0; i < modelCount; i++) {
             Model m = models[i];
             if (m != null) {
-                vertex_count += m.vertex_count;
-                triangle_count += m.triangle_count;
-                textured_triangle_count += m.textured_triangle_count;
-                has_info |= m.triangle_info != null;
+                vertexCount += m.vertexCount;
+                triangleCount += m.triangleCount;
+                texturedTriangleCount += m.texturedTriangleCount;
+                hasInfo |= m.triangleInfo != null;
 
-                if (m.triangle_priority != null) {
-                    has_priorities = true;
+                if (m.trianglePriority != null) {
+                    hasPriorities = true;
                 } else {
                     if (anInt1641 == -1) {
                         anInt1641 = m.anInt1641;
                     }
                     if (anInt1641 != m.anInt1641) {
-                        has_priorities = true;
+                        hasPriorities = true;
                     }
                 }
 
-                has_alpha |= m.triangle_alpha != null;
-                has_tskins |= m.triangle_tskin != null;
+                hasAlpha |= m.triangleAlpha != null;
+                hasTskins |= m.triangleTskin != null;
             }
         }
 
-        vertex_x = new short[vertex_count];
-        vertex_y = new short[vertex_count];
-        vertex_z = new short[vertex_count];
-        vertex_skin_types = new int[vertex_count];
+        vertexX = new short[vertexCount];
+        vertexY = new short[vertexCount];
+        vertexZ = new short[vertexCount];
+        vertexSkinTypes = new int[vertexCount];
 
-        triangle_viewspace_a = new short[triangle_count];
-        triangle_viewspace_b = new short[triangle_count];
-        triangle_viewspace_c = new short[triangle_count];
+        triangleViewspaceA = new short[triangleCount];
+        triangleViewspaceB = new short[triangleCount];
+        triangleViewspaceC = new short[triangleCount];
 
-        texture_map_x = new int[textured_triangle_count];
-        texture_map_y = new int[textured_triangle_count];
-        texture_map_z = new int[textured_triangle_count];
+        textureMapX = new int[texturedTriangleCount];
+        textureMapY = new int[texturedTriangleCount];
+        textureMapZ = new int[texturedTriangleCount];
 
-        if (has_info) {
-            triangle_info = new int[triangle_count];
+        if (hasInfo) {
+            triangleInfo = new int[triangleCount];
         }
 
-        if (has_priorities) {
-            triangle_priority = new int[triangle_count];
+        if (hasPriorities) {
+            trianglePriority = new int[triangleCount];
         }
 
-        if (has_alpha) {
-            triangle_alpha = new int[triangle_count];
+        if (hasAlpha) {
+            triangleAlpha = new int[triangleCount];
         }
 
-        if (has_tskins) {
-            triangle_tskin = new int[triangle_count];
+        if (hasTskins) {
+            triangleTskin = new int[triangleCount];
         }
 
-        triangle_color = new int[triangle_count];
-        vertex_count = 0;
-        triangle_count = 0;
-        textured_triangle_count = 0;
+        triangleColor = new int[triangleCount];
+        vertexCount = 0;
+        triangleCount = 0;
+        texturedTriangleCount = 0;
 
         int l = 0;
-        for (int i = 0; i < model_count; i++) {
+        for (int i = 0; i < modelCount; i++) {
             Model m = models[i];
             if (m != null) {
-                for (int j = 0; j < m.triangle_count; j++) {
-                    if (has_info) {
-                        if (m.triangle_info == null) {
-                            triangle_info[triangle_count] = 0;
+                for (int j = 0; j < m.triangleCount; j++) {
+                    if (hasInfo) {
+                        if (m.triangleInfo == null) {
+                            triangleInfo[triangleCount] = 0;
                         } else {
-                            int k1 = m.triangle_info[j];
+                            int k1 = m.triangleInfo[j];
                             if ((k1 & 2) == 2) {
                                 k1 += l << 2;
                             }
-                            triangle_info[triangle_count] = k1;
+                            triangleInfo[triangleCount] = k1;
                         }
                     }
 
-                    if (has_priorities) {
-                        if (m.triangle_priority == null) {
-                            triangle_priority[triangle_count] = m.anInt1641;
+                    if (hasPriorities) {
+                        if (m.trianglePriority == null) {
+                            trianglePriority[triangleCount] = m.anInt1641;
                         } else {
-                            triangle_priority[triangle_count] = m.triangle_priority[j];
+                            trianglePriority[triangleCount] = m.trianglePriority[j];
                         }
                     }
 
-                    if (has_alpha) {
-                        if (m.triangle_alpha == null) {
-                            triangle_alpha[triangle_count] = 0;
+                    if (hasAlpha) {
+                        if (m.triangleAlpha == null) {
+                            triangleAlpha[triangleCount] = 0;
                         } else {
-                            triangle_alpha[triangle_count] = m.triangle_alpha[j];
+                            triangleAlpha[triangleCount] = m.triangleAlpha[j];
                         }
                     }
 
-                    if (has_tskins && m.triangle_tskin != null) {
-                        triangle_tskin[triangle_count] = m.triangle_tskin[j];
+                    if (hasTskins && m.triangleTskin != null) {
+                        triangleTskin[triangleCount] = m.triangleTskin[j];
                     }
 
-                    triangle_color[triangle_count] = m.triangle_color[j];
-                    triangle_viewspace_a[triangle_count] = method465(m, m.triangle_viewspace_a[j]);
-                    triangle_viewspace_b[triangle_count] = method465(m, m.triangle_viewspace_b[j]);
-                    triangle_viewspace_c[triangle_count] = method465(m, m.triangle_viewspace_c[j]);
-                    triangle_count++;
+                    triangleColor[triangleCount] = m.triangleColor[j];
+                    triangleViewspaceA[triangleCount] = method465(m, m.triangleViewspaceA[j]);
+                    triangleViewspaceB[triangleCount] = method465(m, m.triangleViewspaceB[j]);
+                    triangleViewspaceC[triangleCount] = method465(m, m.triangleViewspaceC[j]);
+                    triangleCount++;
                 }
 
-                for (int j = 0; j < m.textured_triangle_count; j++) {
-                    texture_map_x[textured_triangle_count] = method465(m, m.texture_map_x[j]);
-                    texture_map_y[textured_triangle_count] = method465(m, m.texture_map_y[j]);
-                    texture_map_z[textured_triangle_count] = method465(m, m.texture_map_z[j]);
-                    textured_triangle_count++;
+                for (int j = 0; j < m.texturedTriangleCount; j++) {
+                    textureMapX[texturedTriangleCount] = method465(m, m.textureMapX[j]);
+                    textureMapY[texturedTriangleCount] = method465(m, m.textureMapY[j]);
+                    textureMapZ[texturedTriangleCount] = method465(m, m.textureMapZ[j]);
+                    texturedTriangleCount++;
                 }
 
-                l += m.textured_triangle_count;
+                l += m.texturedTriangleCount;
             }
         }
 
@@ -725,9 +725,9 @@ public class Model extends Renderable {
     public static void load(byte[] data, int index) {
         if (data == null) {
             Header h = header[index] = new Header();
-            h.vertex_count = 0;
-            h.triangle_count = 0;
-            h.textured_triangle_count = 0;
+            h.vertexCount = 0;
+            h.triangleCount = 0;
+            h.texturedTriangleCount = 0;
             return;
         }
 
@@ -737,15 +737,15 @@ public class Model extends Renderable {
         Header h = header[index] = new Header();
         h.payload = data;
 
-        h.vertex_count = (short) b.readUnsignedShort();
-        h.triangle_count = b.readUnsignedShort();
-        h.textured_triangle_count = b.readUnsignedByte();
+        h.vertexCount = (short) b.readUnsignedShort();
+        h.triangleCount = b.readUnsignedShort();
+        h.texturedTriangleCount = b.readUnsignedByte();
 
-        int has_textures = b.readUnsignedByte();
+        int hasTextures = b.readUnsignedByte();
         int priority = b.readUnsignedByte();
-        int has_alpha = b.readUnsignedByte();
-        int has_skins = b.readUnsignedByte();
-        int has_vertex_skins = b.readUnsignedByte();
+        int hasAlpha = b.readUnsignedByte();
+        int hasSkins = b.readUnsignedByte();
+        int hasVertexSkins = b.readUnsignedByte();
         int xDataLength = b.readUnsignedShort();
         int yDataLength = b.readUnsignedShort();
         int zDataLength = b.readUnsignedShort();
@@ -755,58 +755,58 @@ public class Model extends Renderable {
 
         h.anInt372 = position;
 
-        position += h.vertex_count;
+        position += h.vertexCount;
         h.anInt378 = position;
 
-        position += h.triangle_count;
-        h.priority_stream_pos = position;
+        position += h.triangleCount;
+        h.priorityStreamPos = position;
 
         if (priority == 255) {
-            position += h.triangle_count;
+            position += h.triangleCount;
         } else {
-            h.priority_stream_pos = -priority - 1;
+            h.priorityStreamPos = -priority - 1;
         }
 
-        h.tskin_stream_pos = position;
+        h.tskinStreamPos = position;
 
-        if (has_skins == 1) {
-            position += h.triangle_count;
+        if (hasSkins == 1) {
+            position += h.triangleCount;
         } else {
-            h.tskin_stream_pos = -1;
+            h.tskinStreamPos = -1;
         }
 
-        h.draw_type_stream_pos = position;
+        h.drawTypeStreamPos = position;
 
-        if (has_textures == 1) {
-            position += h.triangle_count;
+        if (hasTextures == 1) {
+            position += h.triangleCount;
         } else {
-            h.draw_type_stream_pos = -1;
+            h.drawTypeStreamPos = -1;
         }
 
         h.anInt376 = position;
 
-        if (has_vertex_skins == 1) {
-            position += h.vertex_count;
+        if (hasVertexSkins == 1) {
+            position += h.vertexCount;
         } else {
             h.anInt376 = -1;
         }
 
-        h.alpha_stream_pos = position;
+        h.alphaStreamPos = position;
 
-        if (has_alpha == 1) {
-            position += h.triangle_count;
+        if (hasAlpha == 1) {
+            position += h.triangleCount;
         } else {
-            h.alpha_stream_pos = -1;
+            h.alphaStreamPos = -1;
         }
 
         h.anInt377 = position;
         position += triDataLength;
 
-        h.triangle_color_stream_pos = position;
-        position += h.triangle_count * 2;
-        h.texture_map_stream_pos = position;
-        position += h.textured_triangle_count * 6;
-        h.textured_triangle_stream_pos = position;
+        h.triangleColorStreamPos = position;
+        position += h.triangleCount * 2;
+        h.textureMapStreamPos = position;
+        position += h.texturedTriangleCount * 6;
+        h.texturedTriangleStreamPos = position;
         position += xDataLength;
         h.anInt374 = position;
         position += yDataLength;
@@ -816,14 +816,14 @@ public class Model extends Renderable {
 
     public static void nullify() {
         header = null;
-        triangle_check_bounds = null;
-        triangle_project = null;
-        triangle_x = null;
-        triangle_y = null;
-        triangle_depth = null;
-        tmp_textured_x = null;
-        tmp_textured_y = null;
-        tmp_textured_z = null;
+        triangleCheckBounds = null;
+        triangleProject = null;
+        triangleX = null;
+        triangleY = null;
+        triangleDepth = null;
+        tmpTexturedX = null;
+        tmpTexturedY = null;
+        tmpTexturedZ = null;
         anIntArray1671 = null;
         anIntArrayArray1672 = null;
         anIntArray1673 = null;
@@ -832,14 +832,14 @@ public class Model extends Renderable {
         anIntArray1676 = null;
         anIntArray1677 = null;
         palette = null;
-        shadow_decay = null;
+        shadowDecay = null;
     }
 
     public static void nullify(int index) {
         header[index] = null;
     }
 
-    public static int set_hsl_lightness(int hsl, int lightness, int info) {
+    public static int setHslLightness(int hsl, int lightness, int info) {
         if ((info & 2) == 2) {
             if (lightness < 0) {
                 lightness = 0;
@@ -862,90 +862,90 @@ public class Model extends Renderable {
         return (hsl & 0xff80) + lightness;
     }
 
-    public void applyLighting(int light_brightness, int specular_distribution, int light_x, int light_y, int light_z) {
-        for (int i = 0; i < triangle_count; i++) {
-            int x = triangle_viewspace_a[i];
-            int y = triangle_viewspace_b[i];
-            int z = triangle_viewspace_c[i];
+    public void applyLighting(int lightBrightness, int specularDistribution, int lightX, int lightY, int lightZ) {
+        for (int i = 0; i < triangleCount; i++) {
+            int x = triangleViewspaceA[i];
+            int y = triangleViewspaceB[i];
+            int z = triangleViewspaceC[i];
 
-            if (triangle_info == null) {
-                int hsl = triangle_color[i];
+            if (triangleInfo == null) {
+                int hsl = triangleColor[i];
                 Vertex v = super.normal[x];
 
-                int lightness = light_brightness + (light_x * v.x + light_y * v.y + light_z * v.z) / (specular_distribution * v.w);
-                tri_hsl1[i] = set_hsl_lightness(hsl, lightness, 0);
+                int lightness = lightBrightness + (lightX * v.x + lightY * v.y + lightZ * v.z) / (specularDistribution * v.w);
+                triHsl1[i] = setHslLightness(hsl, lightness, 0);
 
                 v = super.normal[y];
-                lightness = light_brightness + (light_x * v.x + light_y * v.y + light_z * v.z) / (specular_distribution * v.w);
-                tri_hsl2[i] = set_hsl_lightness(hsl, lightness, 0);
+                lightness = lightBrightness + (lightX * v.x + lightY * v.y + lightZ * v.z) / (specularDistribution * v.w);
+                triHsl2[i] = setHslLightness(hsl, lightness, 0);
 
                 v = super.normal[z];
-                lightness = light_brightness + (light_x * v.x + light_y * v.y + light_z * v.z) / (specular_distribution * v.w);
-                tri_hsl3[i] = set_hsl_lightness(hsl, lightness, 0);
-            } else if ((triangle_info[i] & 1) == 0) {
-                int hsl = triangle_color[i];
-                int info = triangle_info[i];
+                lightness = lightBrightness + (lightX * v.x + lightY * v.y + lightZ * v.z) / (specularDistribution * v.w);
+                triHsl3[i] = setHslLightness(hsl, lightness, 0);
+            } else if ((triangleInfo[i] & 1) == 0) {
+                int hsl = triangleColor[i];
+                int info = triangleInfo[i];
 
                 Vertex v = super.normal[x];
-                int lightness = light_brightness + (light_x * v.x + light_y * v.y + light_z * v.z) / (specular_distribution * v.w);
-                tri_hsl1[i] = set_hsl_lightness(hsl, lightness, info);
+                int lightness = lightBrightness + (lightX * v.x + lightY * v.y + lightZ * v.z) / (specularDistribution * v.w);
+                triHsl1[i] = setHslLightness(hsl, lightness, info);
 
                 v = super.normal[y];
-                lightness = light_brightness + (light_x * v.x + light_y * v.y + light_z * v.z) / (specular_distribution * v.w);
-                tri_hsl2[i] = set_hsl_lightness(hsl, lightness, info);
+                lightness = lightBrightness + (lightX * v.x + lightY * v.y + lightZ * v.z) / (specularDistribution * v.w);
+                triHsl2[i] = setHslLightness(hsl, lightness, info);
 
                 v = super.normal[z];
-                lightness = light_brightness + (light_x * v.x + light_y * v.y + light_z * v.z) / (specular_distribution * v.w);
-                tri_hsl3[i] = set_hsl_lightness(hsl, lightness, info);
+                lightness = lightBrightness + (lightX * v.x + lightY * v.y + lightZ * v.z) / (specularDistribution * v.w);
+                triHsl3[i] = setHslLightness(hsl, lightness, info);
             }
         }
 
         super.normal = null;
         this.vertices = null;
-        this.vertex_skin_types = null;
-        this.triangle_tskin = null;
+        this.vertexSkinTypes = null;
+        this.triangleTskin = null;
 
-        if (this.triangle_info != null) {
-            for (int i = 0; i < this.triangle_count; i++) {
-                if ((this.triangle_info[i] & 2) == 2) {
+        if (this.triangleInfo != null) {
+            for (int i = 0; i < this.triangleCount; i++) {
+                if ((this.triangleInfo[i] & 2) == 2) {
                     return;
                 }
             }
         }
 
-        this.triangle_color = null;
+        this.triangleColor = null;
     }
 
-    public void applyLighting(int light_brightness, int specular_factor, int light_x, int light_y, int light_z, boolean smooth_shading) {
-        int light_length = (int) Math.sqrt(light_x * light_x + light_y * light_y + light_z * light_z);
-        int specular_distribution = specular_factor * light_length >> 8;
+    public void applyLighting(int lightBrightness, int specularFactor, int lightX, int lightY, int lightZ, boolean smoothShading) {
+        int lightLength = (int) Math.sqrt(lightX * lightX + lightY * lightY + lightZ * lightZ);
+        int specularDistribution = specularFactor * lightLength >> 8;
 
-        if (tri_hsl1 == null) {
-            tri_hsl1 = new int[triangle_count];
-            tri_hsl2 = new int[triangle_count];
-            tri_hsl3 = new int[triangle_count];
+        if (triHsl1 == null) {
+            triHsl1 = new int[triangleCount];
+            triHsl2 = new int[triangleCount];
+            triHsl3 = new int[triangleCount];
         }
 
         if (super.normal == null) {
-            super.normal = new Vertex[vertex_count];
+            super.normal = new Vertex[vertexCount];
 
-            for (int i = 0; i < vertex_count; i++) {
+            for (int i = 0; i < vertexCount; i++) {
                 super.normal[i] = new Vertex();
             }
         }
 
-        for (int i = 0; i < triangle_count; i++) {
-            int x_i = triangle_viewspace_a[i];
-            int y_i = triangle_viewspace_b[i];
-            int z_i = triangle_viewspace_c[i];
+        for (int i = 0; i < triangleCount; i++) {
+            int xI = triangleViewspaceA[i];
+            int yI = triangleViewspaceB[i];
+            int zI = triangleViewspaceC[i];
 
-            int j3 = vertex_x[y_i] - vertex_x[x_i];
-            int k3 = vertex_y[y_i] - vertex_y[x_i];
-            int l3 = vertex_z[y_i] - vertex_z[x_i];
+            int j3 = vertexX[yI] - vertexX[xI];
+            int k3 = vertexY[yI] - vertexY[xI];
+            int l3 = vertexZ[yI] - vertexZ[xI];
 
-            int i4 = vertex_x[z_i] - vertex_x[x_i];
-            int j4 = vertex_y[z_i] - vertex_y[x_i];
-            int k4 = vertex_z[z_i] - vertex_z[x_i];
+            int i4 = vertexX[zI] - vertexX[xI];
+            int j4 = vertexY[zI] - vertexY[xI];
+            int k4 = vertexZ[zI] - vertexZ[xI];
 
             int x = k3 * k4 - j4 * l3;
             int y = l3 * i4 - k4 * j3;
@@ -966,43 +966,43 @@ public class Model extends Renderable {
             y = (y * 256) / length;
             z = (z * 256) / length;
 
-            if (triangle_info == null || (triangle_info[i] & 1) == 0) {
-                Vertex v = super.normal[x_i];
+            if (triangleInfo == null || (triangleInfo[i] & 1) == 0) {
+                Vertex v = super.normal[xI];
                 v.x += x;
                 v.y += y;
                 v.z += z;
                 v.w++;
-                v = super.normal[y_i];
+                v = super.normal[yI];
                 v.x += x;
                 v.y += y;
                 v.z += z;
                 v.w++;
-                v = super.normal[z_i];
+                v = super.normal[zI];
                 v.x += x;
                 v.y += y;
                 v.z += z;
                 v.w++;
             } else {
-                tri_hsl1[i] = set_hsl_lightness(triangle_color[i], light_brightness + (light_x * x + light_y * y + light_z * z) / (specular_distribution + specular_distribution / 2), triangle_info[i]);
+                triHsl1[i] = setHslLightness(triangleColor[i], lightBrightness + (lightX * x + lightY * y + lightZ * z) / (specularDistribution + specularDistribution / 2), triangleInfo[i]);
             }
         }
 
-        if (smooth_shading) {
-            applyLighting(light_brightness, specular_distribution, light_x, light_y, light_z);
+        if (smoothShading) {
+            applyLighting(lightBrightness, specularDistribution, lightX, lightY, lightZ);
         } else {
-            vertices = new Vertex[vertex_count];
+            vertices = new Vertex[vertexCount];
 
-            for (int i = 0; i < vertex_count; i++) {
+            for (int i = 0; i < vertexCount; i++) {
                 Vertex v = super.normal[i];
-                Vertex n_v = vertices[i] = new Vertex();
-                n_v.x = v.x;
-                n_v.y = v.y;
-                n_v.z = v.z;
-                n_v.w = v.w;
+                Vertex nV = vertices[i] = new Vertex();
+                nV.x = v.x;
+                nV.y = v.y;
+                nV.z = v.z;
+                nV.w = v.w;
             }
 
         }
-        if (smooth_shading) {
+        if (smoothShading) {
             method466();
             return;
         } else {
@@ -1011,16 +1011,16 @@ public class Model extends Renderable {
         }
     }
 
-    public void applySequenceFrame(int seq_index) {
+    public void applySequenceFrame(int seqIndex) {
         if (vertexWeights == null) {
             return;
         }
 
-        if (seq_index == -1) {
+        if (seqIndex == -1) {
             return;
         }
 
-        SequenceFrame s = SequenceFrame.get(seq_index);
+        SequenceFrame s = SequenceFrame.get(seqIndex);
 
         if (s == null) {
             return;
@@ -1032,12 +1032,12 @@ public class Model extends Renderable {
         anInt1683 = 0;
 
         for (int frame = 0; frame < s.frameCount; frame++) {
-            int v_index = s.vertices[frame];
-            this.transform(skin.opcodes[v_index], skin.vertices[v_index], s.vertexX[frame], s.vertexY[frame], s.vertexZ[frame]);
+            int vIndex = s.vertices[frame];
+            this.transform(skin.opcodes[vIndex], skin.vertices[vIndex], s.vertexX[frame], s.vertexY[frame], s.vertexZ[frame]);
         }
     }
 
-    public void apply_sequence_frames(int[] vertices, int frame1, int frame2) {
+    public void applySequenceFrames(int[] vertices, int frame1, int frame2) {
         if (frame1 == -1) {
             return;
         }
@@ -1098,117 +1098,117 @@ public class Model extends Renderable {
     }
 
     public void applyVertexWeights() {
-        if (vertex_skin_types != null) {
-            int weight_counts[] = new int[256];
-            int top_label = 0;
+        if (vertexSkinTypes != null) {
+            int weightCounts[] = new int[256];
+            int topLabel = 0;
 
-            for (int i = 0; i < vertex_count; i++) {
-                int label = vertex_skin_types[i];
-                weight_counts[label]++;
+            for (int i = 0; i < vertexCount; i++) {
+                int label = vertexSkinTypes[i];
+                weightCounts[label]++;
 
-                if (label > top_label) {
-                    top_label = label;
+                if (label > topLabel) {
+                    topLabel = label;
                 }
             }
 
-            vertexWeights = new int[top_label + 1][];
+            vertexWeights = new int[topLabel + 1][];
 
-            for (int i = 0; i <= top_label; i++) {
-                vertexWeights[i] = new int[weight_counts[i]];
-                weight_counts[i] = 0;
+            for (int i = 0; i <= topLabel; i++) {
+                vertexWeights[i] = new int[weightCounts[i]];
+                weightCounts[i] = 0;
             }
 
-            for (int i = 0; i < vertex_count; i++) {
-                int label = vertex_skin_types[i];
-                vertexWeights[label][weight_counts[label]++] = i;
+            for (int i = 0; i < vertexCount; i++) {
+                int label = vertexSkinTypes[i];
+                vertexWeights[label][weightCounts[label]++] = i;
             }
 
-            vertex_skin_types = null;
-            weight_counts = null;
+            vertexSkinTypes = null;
+            weightCounts = null;
         }
 
-        if (triangle_tskin != null) {
-            int skin_counts[] = new int[256];
-            int top_skin = 0;
+        if (triangleTskin != null) {
+            int skinCounts[] = new int[256];
+            int topSkin = 0;
 
-            for (int i = 0; i < triangle_count; i++) {
-                int skin = triangle_tskin[i];
-                skin_counts[skin]++;
+            for (int i = 0; i < triangleCount; i++) {
+                int skin = triangleTskin[i];
+                skinCounts[skin]++;
 
-                if (skin > top_skin) {
-                    top_skin = skin;
+                if (skin > topSkin) {
+                    topSkin = skin;
                 }
             }
 
-            triangleGroups = new int[top_skin + 1][];
+            triangleGroups = new int[topSkin + 1][];
 
-            for (int i = 0; i <= top_skin; i++) {
-                triangleGroups[i] = new int[skin_counts[i]];
-                skin_counts[i] = 0;
+            for (int i = 0; i <= topSkin; i++) {
+                triangleGroups[i] = new int[skinCounts[i]];
+                skinCounts[i] = 0;
             }
 
-            for (int i = 0; i < triangle_count; i++) {
-                int group = triangle_tskin[i];
-                triangleGroups[group][skin_counts[group]++] = i;
+            for (int i = 0; i < triangleCount; i++) {
+                int group = triangleTskin[i];
+                triangleGroups[group][skinCounts[group]++] = i;
             }
 
-            triangle_tskin = null;
-            skin_counts = null;
+            triangleTskin = null;
+            skinCounts = null;
         }
     }
 
-    public void draw(int pitch, int yaw, int roll, int camera_pitch, int camera_x, int camera_y, int camera_z) {
-        int center_x = Canvas3D.centerX;
-        int center_y = Canvas3D.centerY;
-        int pitch_sin = MathUtils.sin[pitch];
-        int pitch_cos = MathUtils.cos[pitch];
-        int yaw_sin = MathUtils.sin[yaw];
-        int yaw_cos = MathUtils.cos[yaw];
-        int roll_sin = MathUtils.sin[roll];
-        int roll_cos = MathUtils.cos[roll];
-        int arc_sin = MathUtils.sin[camera_pitch];
-        int arc_cos = MathUtils.cos[camera_pitch];
-        int cam_dist = camera_y * arc_sin + camera_z * arc_cos >> 16;
+    public void draw(int pitch, int yaw, int roll, int cameraPitch, int cameraX, int cameraY, int cameraZ) {
+        int centerX = Canvas3D.centerX;
+        int centerY = Canvas3D.centerY;
+        int pitchSin = MathUtils.sin[pitch];
+        int pitchCos = MathUtils.cos[pitch];
+        int yawSin = MathUtils.sin[yaw];
+        int yawCos = MathUtils.cos[yaw];
+        int rollSin = MathUtils.sin[roll];
+        int rollCos = MathUtils.cos[roll];
+        int arcSin = MathUtils.sin[cameraPitch];
+        int arcCos = MathUtils.cos[cameraPitch];
+        int camDist = cameraY * arcSin + cameraZ * arcCos >> 16;
 
-        for (int i = 0; i < vertex_count; i++) {
-            int x = vertex_x[i];
-            int y = vertex_y[i];
-            int z = vertex_z[i];
+        for (int i = 0; i < vertexCount; i++) {
+            int x = vertexX[i];
+            int y = vertexY[i];
+            int z = vertexZ[i];
 
             if (roll != 0) {
-                int x2 = y * roll_sin + x * roll_cos >> 16;
-                y = y * roll_cos - x * roll_sin >> 16;
+                int x2 = y * rollSin + x * rollCos >> 16;
+                y = y * rollCos - x * rollSin >> 16;
                 x = x2;
             }
 
             if (pitch != 0) {
-                int y2 = y * pitch_cos - z * pitch_sin >> 16;
-                z = y * pitch_sin + z * pitch_cos >> 16;
+                int y2 = y * pitchCos - z * pitchSin >> 16;
+                z = y * pitchSin + z * pitchCos >> 16;
                 y = y2;
             }
 
             if (yaw != 0) {
-                int x2 = z * yaw_sin + x * yaw_cos >> 16;
-                z = z * yaw_cos - x * yaw_sin >> 16;
+                int x2 = z * yawSin + x * yawCos >> 16;
+                z = z * yawCos - x * yawSin >> 16;
                 x = x2;
             }
 
-            x += camera_x;
-            y += camera_y;
-            z += camera_z;
+            x += cameraX;
+            y += cameraY;
+            z += cameraZ;
 
-            int y2 = y * arc_cos - z * arc_sin >> 16;
-            z = y * arc_sin + z * arc_cos >> 16;
+            int y2 = y * arcCos - z * arcSin >> 16;
+            z = y * arcSin + z * arcCos >> 16;
             y = y2;
 
-            triangle_depth[i] = z - cam_dist;
-            triangle_x[i] = center_x + (x << 9) / z;
-            triangle_y[i] = center_y + (y << 9) / z;
+            triangleDepth[i] = z - camDist;
+            triangleX[i] = centerX + (x << 9) / z;
+            triangleY[i] = centerY + (y << 9) / z;
 
-            if (textured_triangle_count > 0) {
-                tmp_textured_x[i] = x;
-                tmp_textured_y[i] = y;
-                tmp_textured_z[i] = z;
+            if (texturedTriangleCount > 0) {
+                tmpTexturedX[i] = x;
+                tmpTexturedY[i] = y;
+                tmpTexturedZ[i] = z;
             }
         }
 
@@ -1220,55 +1220,55 @@ public class Model extends Renderable {
         }
     }
 
-    public void draw_triangle(int i) {
-        if (triangle_project[i]) {
-            draw_triangle2(i);
+    public void drawTriangle(int i) {
+        if (triangleProject[i]) {
+            drawTriangle2(i);
             return;
         }
 
-        int x_i = triangle_viewspace_a[i];
-        int y_i = triangle_viewspace_b[i];
-        int z_i = triangle_viewspace_c[i];
+        int xI = triangleViewspaceA[i];
+        int yI = triangleViewspaceB[i];
+        int zI = triangleViewspaceC[i];
 
-        Canvas3D.checkBounds = triangle_check_bounds[i];
+        Canvas3D.checkBounds = triangleCheckBounds[i];
 
-        if (triangle_alpha == null) {
+        if (triangleAlpha == null) {
             Canvas3D.opacity = 0;
         } else {
-            Canvas3D.opacity = triangle_alpha[i];
+            Canvas3D.opacity = triangleAlpha[i];
         }
 
         int type;
 
-        if (triangle_info == null) {
+        if (triangleInfo == null) {
             type = 0;
         } else {
-            type = triangle_info[i] & 3;
+            type = triangleInfo[i] & 3;
         }
 
         switch (type) {
             case 0: { // Shaded
-                Canvas3D.drawShadedTriangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl2[i], tri_hsl3[i]);
+                Canvas3D.drawShadedTriangle(triangleX[xI], triangleY[xI], triangleX[yI], triangleY[yI], triangleX[zI], triangleY[zI], triHsl1[i], triHsl2[i], triHsl3[i]);
                 return;
             }
             case 1: { // Flat
-                Canvas3D.drawFlatTriangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], palette[tri_hsl1[i]]);
+                Canvas3D.drawFlatTriangle(triangleX[xI], triangleY[xI], triangleX[yI], triangleY[yI], triangleX[zI], triangleY[zI], palette[triHsl1[i]]);
                 return;
             }
             case 2: { // Shaded Texture
-                int j = triangle_info[i] >> 2;
-                int x = texture_map_x[j];
-                int y = texture_map_y[j];
-                int z = texture_map_z[j];
-                Canvas3D.drawTexturedTriangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl2[i], tri_hsl3[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                int j = triangleInfo[i] >> 2;
+                int x = textureMapX[j];
+                int y = textureMapY[j];
+                int z = textureMapZ[j];
+                Canvas3D.drawTexturedTriangle(triangleX[xI], triangleY[xI], triangleX[yI], triangleY[yI], triangleX[zI], triangleY[zI], triHsl1[i], triHsl2[i], triHsl3[i], tmpTexturedX[x], tmpTexturedY[x], tmpTexturedZ[x], tmpTexturedX[y], tmpTexturedY[y], tmpTexturedZ[y], tmpTexturedX[z], tmpTexturedY[z], tmpTexturedZ[z], triangleColor[i]);
                 return;
             }
             case 3: { // Flat Texture
-                int j = triangle_info[i] >> 2;
-                int x = texture_map_x[j];
-                int y = texture_map_y[j];
-                int z = texture_map_z[j];
-                Canvas3D.drawTexturedTriangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                int j = triangleInfo[i] >> 2;
+                int x = textureMapX[j];
+                int y = textureMapY[j];
+                int z = textureMapZ[j];
+                Canvas3D.drawTexturedTriangle(triangleX[xI], triangleY[xI], triangleX[yI], triangleY[yI], triangleX[zI], triangleY[zI], triHsl1[i], triHsl1[i], triHsl1[i], tmpTexturedX[x], tmpTexturedY[x], tmpTexturedZ[x], tmpTexturedX[y], tmpTexturedY[y], tmpTexturedZ[y], tmpTexturedX[z], tmpTexturedY[z], tmpTexturedZ[z], triangleColor[i]);
                 return;
             }
         }
@@ -1276,12 +1276,12 @@ public class Model extends Renderable {
 
     public short method465(Model model, int vertex) {
         short j = -1;
-        short x = model.vertex_x[vertex];
-        short y = model.vertex_y[vertex];
-        short z = model.vertex_z[vertex];
+        short x = model.vertexX[vertex];
+        short y = model.vertexY[vertex];
+        short z = model.vertexZ[vertex];
 
-        for (short i = 0; i < vertex_count; i++) {
-            if (x != vertex_x[i] || y != vertex_y[i] || z != vertex_z[i]) {
+        for (short i = 0; i < vertexCount; i++) {
+            if (x != vertexX[i] || y != vertexY[i] || z != vertexZ[i]) {
                 continue;
             }
             j = i;
@@ -1289,15 +1289,15 @@ public class Model extends Renderable {
         }
 
         if (j == -1) {
-            vertex_x[vertex_count] = x;
-            vertex_y[vertex_count] = y;
-            vertex_z[vertex_count] = z;
+            vertexX[vertexCount] = x;
+            vertexY[vertexCount] = y;
+            vertexZ[vertexCount] = z;
 
-            if (model.vertex_skin_types != null) {
-                vertex_skin_types[vertex_count] = model.vertex_skin_types[vertex];
+            if (model.vertexSkinTypes != null) {
+                vertexSkinTypes[vertexCount] = model.vertexSkinTypes[vertex];
             }
 
-            j = vertex_count++;
+            j = vertexCount++;
         }
 
         return j;
@@ -1306,19 +1306,19 @@ public class Model extends Renderable {
     public void method466() {
         super.height = 0;
         maxHorizon = 0;
-        max_y = 0;
+        maxY = 0;
 
-        for (int i = 0; i < vertex_count; i++) {
-            int x = vertex_x[i];
-            int y = vertex_y[i];
-            int z = vertex_z[i];
+        for (int i = 0; i < vertexCount; i++) {
+            int x = vertexX[i];
+            int y = vertexY[i];
+            int z = vertexZ[i];
 
             if (-y > super.height) {
                 super.height = -y;
             }
 
-            if (y > max_y) {
-                max_y = y;
+            if (y > maxY) {
+                maxY = y;
             }
 
             int horizon = x * x + z * z;
@@ -1330,65 +1330,65 @@ public class Model extends Renderable {
 
         maxHorizon = (int) (Math.sqrt(maxHorizon) + 0.99D);
         unknown2 = (int) (Math.sqrt(maxHorizon * maxHorizon + super.height * super.height) + 0.99D);
-        unknown3 = unknown2 + (int) (Math.sqrt(maxHorizon * maxHorizon + max_y * max_y) + 0.99D);
+        unknown3 = unknown2 + (int) (Math.sqrt(maxHorizon * maxHorizon + maxY * maxY) + 0.99D);
     }
 
     public void method467() {
         super.height = 0;
-        max_y = 0;
+        maxY = 0;
 
-        for (int i = 0; i < vertex_count; i++) {
-            int v_y = vertex_y[i];
+        for (int i = 0; i < vertexCount; i++) {
+            int vY = vertexY[i];
 
-            if (-v_y > super.height) {
-                super.height = -v_y;
+            if (-vY > super.height) {
+                super.height = -vY;
             }
 
-            if (v_y > max_y) {
-                max_y = v_y;
+            if (vY > maxY) {
+                maxY = vY;
             }
         }
 
         unknown2 = (int) (Math.sqrt(maxHorizon * maxHorizon + super.height * super.height) + 0.99D);
-        unknown3 = unknown2 + (int) (Math.sqrt(maxHorizon * maxHorizon + max_y * max_y) + 0.99D);
+        unknown3 = unknown2 + (int) (Math.sqrt(maxHorizon * maxHorizon + maxY * maxY) + 0.99D);
     }
 
     public void method468() {
         super.height = 0;
         maxHorizon = 0;
-        max_y = 0;
-        min_x = 999999;
-        max_x = 0xfff0bdc1;
-        max_z = 0xfffe7961;
-        min_z = 99999;
+        maxY = 0;
+        minX = 999999;
+        maxX = 0xfff0bdc1;
+        maxZ = 0xfffe7961;
+        minZ = 99999;
 
-        for (int i = 0; i < vertex_count; i++) {
-            int x = vertex_x[i];
-            int y = vertex_y[i];
-            int z = vertex_z[i];
+        for (int i = 0; i < vertexCount; i++) {
+            int x = vertexX[i];
+            int y = vertexY[i];
+            int z = vertexZ[i];
 
-            if (x < min_x) {
-                min_x = x;
+            if (x < minX) {
+                minX = x;
             }
 
-            if (x > max_x) {
-                max_x = x;
+            if (x > maxX) {
+                maxX = x;
             }
 
-            if (z < min_z) {
-                min_z = z;
+            if (z < minZ) {
+                minZ = z;
             }
 
-            if (z > max_z) {
-                max_z = z;
+            if (z > maxZ) {
+                maxZ = z;
             }
 
             if (-y > super.height) {
                 super.height = -y;
             }
 
-            if (y > max_y) {
-                max_y = y;
+            if (y > maxY) {
+                maxY = y;
             }
 
             int horizon = x * x + z * z;
@@ -1400,7 +1400,7 @@ public class Model extends Renderable {
 
         maxHorizon = (int) Math.sqrt(maxHorizon);
         unknown2 = (int) Math.sqrt(maxHorizon * maxHorizon + super.height * super.height);
-        unknown3 = unknown2 + (int) Math.sqrt(maxHorizon * maxHorizon + max_y * max_y);
+        unknown3 = unknown2 + (int) Math.sqrt(maxHorizon * maxHorizon + maxY * maxY);
     }
 
     // TODO: Figure out the sorting method for this.
@@ -1409,36 +1409,36 @@ public class Model extends Renderable {
             anIntArray1671[i] = 0;
         }
 
-        for (int i = 0; i < triangle_count; i++) {
-            if (triangle_info == null || triangle_info[i] != -1) {
-                int a = triangle_viewspace_a[i];
-                int b = triangle_viewspace_b[i];
-                int c = triangle_viewspace_c[i];
+        for (int i = 0; i < triangleCount; i++) {
+            if (triangleInfo == null || triangleInfo[i] != -1) {
+                int a = triangleViewspaceA[i];
+                int b = triangleViewspaceB[i];
+                int c = triangleViewspaceC[i];
 
-                int x1 = triangle_x[a];
-                int x2 = triangle_x[b];
-                int x3 = triangle_x[c];
+                int x1 = triangleX[a];
+                int x2 = triangleX[b];
+                int x3 = triangleX[c];
 
                 if (project && (x1 == -5000 || x2 == -5000 || x3 == -5000)) {
-                    triangle_project[i] = true;
-                    int depth = (triangle_depth[a] + triangle_depth[b] + triangle_depth[c]) / 3 + unknown2;
+                    triangleProject[i] = true;
+                    int depth = (triangleDepth[a] + triangleDepth[b] + triangleDepth[c]) / 3 + unknown2;
                     anIntArrayArray1672[depth][anIntArray1671[depth]++] = i;
                 } else {
-                    if (hoverable && tri_contains(mouse_x, mouse_y, x1, triangle_y[a], triangle_y[b], x2, triangle_y[c], x3)) {
-                        hovered_uid[hovered_count++] = uid;
+                    if (hoverable && triContains(mouseX, mouseY, x1, triangleY[a], triangleY[b], x2, triangleY[c], x3)) {
+                        hoveredUid[hoveredCount++] = uid;
                         hoverable = false;
                     }
 
-                    if ((x1 - x2) * (triangle_y[c] - triangle_y[b]) - (triangle_y[a] - triangle_y[b]) * (x3 - x2) > 0) {
-                        triangle_project[i] = false;
+                    if ((x1 - x2) * (triangleY[c] - triangleY[b]) - (triangleY[a] - triangleY[b]) * (x3 - x2) > 0) {
+                        triangleProject[i] = false;
 
                         if (x1 < 0 || x2 < 0 || x3 < 0 || x1 > Canvas2D.bound || x2 > Canvas2D.bound || x3 > Canvas2D.bound) {
-                            triangle_check_bounds[i] = true;
+                            triangleCheckBounds[i] = true;
                         } else {
-                            triangle_check_bounds[i] = false;
+                            triangleCheckBounds[i] = false;
                         }
 
-                        int depth = (triangle_depth[a] + triangle_depth[b] + triangle_depth[c]) / 3 + unknown2;
+                        int depth = (triangleDepth[a] + triangleDepth[b] + triangleDepth[c]) / 3 + unknown2;
 
                         anIntArrayArray1672[depth][anIntArray1671[depth]++] = i;
                     }
@@ -1446,7 +1446,7 @@ public class Model extends Renderable {
             }
         }
 
-        if (triangle_priority == null) {
+        if (trianglePriority == null) {
             for (int i = unknown3 - 1; i >= 0; i--) {
                 int l1 = anIntArray1671[i];
 
@@ -1454,7 +1454,7 @@ public class Model extends Renderable {
                     int[] triangles = anIntArrayArray1672[i];
 
                     for (int k = 0; k < l1; k++) {
-                        draw_triangle(triangles[k]);
+                        drawTriangle(triangles[k]);
                     }
                 }
             }
@@ -1473,7 +1473,7 @@ public class Model extends Renderable {
 
                 for (int j = 0; j < k2; j++) {
                     int triangle = triangles[j];
-                    int priority = triangle_priority[triangle];
+                    int priority = trianglePriority[triangle];
                     int j6 = anIntArray1673[priority]++;
 
                     anIntArrayArray1674[priority][j6] = triangle;
@@ -1526,7 +1526,7 @@ public class Model extends Renderable {
 
         for (int l6 = 0; l6 < 10; l6++) {
             while (l6 == 0 && i5 > l2) {
-                draw_triangle(triangles[i++]);
+                drawTriangle(triangles[i++]);
 
                 if (i == k6 && triangles != anIntArrayArray1674[11]) {
                     i = 0;
@@ -1543,7 +1543,7 @@ public class Model extends Renderable {
             }
 
             while (l6 == 3 && i5 > k3) {
-                draw_triangle(triangles[i++]);
+                drawTriangle(triangles[i++]);
                 if (i == k6 && triangles != anIntArrayArray1674[11]) {
                     i = 0;
                     k6 = anIntArray1673[11];
@@ -1558,7 +1558,7 @@ public class Model extends Renderable {
             }
 
             while (l6 == 5 && i5 > j4) {
-                draw_triangle(triangles[i++]);
+                drawTriangle(triangles[i++]);
                 if (i == k6 && triangles != anIntArrayArray1674[11]) {
                     i = 0;
                     k6 = anIntArray1673[11];
@@ -1574,12 +1574,12 @@ public class Model extends Renderable {
             int i7 = anIntArray1673[l6];
             int ai4[] = anIntArrayArray1674[l6];
             for (int j7 = 0; j7 < i7; j7++) {
-                draw_triangle(ai4[j7]);
+                drawTriangle(ai4[j7]);
             }
         }
 
         while (i5 != -1000) {
-            draw_triangle(triangles[i++]);
+            drawTriangle(triangles[i++]);
             if (i == k6 && triangles != anIntArrayArray1674[11]) {
                 i = 0;
                 triangles = anIntArrayArray1674[11];
@@ -1594,96 +1594,96 @@ public class Model extends Renderable {
         }
     }
 
-    public void draw_triangle2(int i) {
-        int center_x = Canvas3D.centerX;
-        int center_y = Canvas3D.centerY;
+    public void drawTriangle2(int i) {
+        int centerX = Canvas3D.centerX;
+        int centerY = Canvas3D.centerY;
 
         int j = 0;
 
-        int a = triangle_viewspace_a[i];
-        int b = triangle_viewspace_b[i];
-        int c = triangle_viewspace_c[i];
+        int a = triangleViewspaceA[i];
+        int b = triangleViewspaceB[i];
+        int c = triangleViewspaceC[i];
 
-        int a_z = tmp_textured_z[a];
-        int b_z = tmp_textured_z[b];
-        int c_z = tmp_textured_z[c];
+        int aZ = tmpTexturedZ[a];
+        int bZ = tmpTexturedZ[b];
+        int cZ = tmpTexturedZ[c];
 
-        if (a_z >= 50) {
-            tmp_screen_x[j] = triangle_x[a];
-            tmp_screen_y[j] = triangle_y[a];
-            tmp_hsl[j++] = tri_hsl1[i];
+        if (aZ >= 50) {
+            tmpScreenX[j] = triangleX[a];
+            tmpScreenY[j] = triangleY[a];
+            tmpHsl[j++] = triHsl1[i];
         } else {
-            int x = tmp_textured_x[a];
-            int y = tmp_textured_y[a];
-            int hsl = tri_hsl1[i];
+            int x = tmpTexturedX[a];
+            int y = tmpTexturedY[a];
+            int hsl = triHsl1[i];
 
-            if (c_z >= 50) {
-                int decay = (50 - a_z) * shadow_decay[c_z - a_z];
-                tmp_screen_x[j] = center_x + (x + ((tmp_textured_x[c] - x) * decay >> 16) << 9) / 50;
-                tmp_screen_y[j] = center_y + (y + ((tmp_textured_y[c] - y) * decay >> 16) << 9) / 50;
-                tmp_hsl[j++] = hsl + ((tri_hsl3[i] - hsl) * decay >> 16);
+            if (cZ >= 50) {
+                int decay = (50 - aZ) * shadowDecay[cZ - aZ];
+                tmpScreenX[j] = centerX + (x + ((tmpTexturedX[c] - x) * decay >> 16) << 9) / 50;
+                tmpScreenY[j] = centerY + (y + ((tmpTexturedY[c] - y) * decay >> 16) << 9) / 50;
+                tmpHsl[j++] = hsl + ((triHsl3[i] - hsl) * decay >> 16);
             }
 
-            if (b_z >= 50) {
-                int decay = (50 - a_z) * shadow_decay[b_z - a_z];
-                tmp_screen_x[j] = center_x + (x + ((tmp_textured_x[b] - x) * decay >> 16) << 9) / 50;
-                tmp_screen_y[j] = center_y + (y + ((tmp_textured_y[b] - y) * decay >> 16) << 9) / 50;
-                tmp_hsl[j++] = hsl + ((tri_hsl2[i] - hsl) * decay >> 16);
+            if (bZ >= 50) {
+                int decay = (50 - aZ) * shadowDecay[bZ - aZ];
+                tmpScreenX[j] = centerX + (x + ((tmpTexturedX[b] - x) * decay >> 16) << 9) / 50;
+                tmpScreenY[j] = centerY + (y + ((tmpTexturedY[b] - y) * decay >> 16) << 9) / 50;
+                tmpHsl[j++] = hsl + ((triHsl2[i] - hsl) * decay >> 16);
             }
         }
 
-        if (b_z >= 50) {
-            tmp_screen_x[j] = triangle_x[b];
-            tmp_screen_y[j] = triangle_y[b];
-            tmp_hsl[j++] = tri_hsl2[i];
+        if (bZ >= 50) {
+            tmpScreenX[j] = triangleX[b];
+            tmpScreenY[j] = triangleY[b];
+            tmpHsl[j++] = triHsl2[i];
         } else {
-            int x = tmp_textured_x[b];
-            int y = tmp_textured_y[b];
-            int hsl = tri_hsl2[i];
+            int x = tmpTexturedX[b];
+            int y = tmpTexturedY[b];
+            int hsl = triHsl2[i];
 
-            if (a_z >= 50) {
-                int i6 = (50 - b_z) * shadow_decay[a_z - b_z];
-                tmp_screen_x[j] = center_x + (x + ((tmp_textured_x[a] - x) * i6 >> 16) << 9) / 50;
-                tmp_screen_y[j] = center_y + (y + ((tmp_textured_y[a] - y) * i6 >> 16) << 9) / 50;
-                tmp_hsl[j++] = hsl + ((tri_hsl1[i] - hsl) * i6 >> 16);
+            if (aZ >= 50) {
+                int i6 = (50 - bZ) * shadowDecay[aZ - bZ];
+                tmpScreenX[j] = centerX + (x + ((tmpTexturedX[a] - x) * i6 >> 16) << 9) / 50;
+                tmpScreenY[j] = centerY + (y + ((tmpTexturedY[a] - y) * i6 >> 16) << 9) / 50;
+                tmpHsl[j++] = hsl + ((triHsl1[i] - hsl) * i6 >> 16);
             }
 
-            if (c_z >= 50) {
-                int j6 = (50 - b_z) * shadow_decay[c_z - b_z];
-                tmp_screen_x[j] = center_x + (x + ((tmp_textured_x[c] - x) * j6 >> 16) << 9) / 50;
-                tmp_screen_y[j] = center_y + (y + ((tmp_textured_y[c] - y) * j6 >> 16) << 9) / 50;
-                tmp_hsl[j++] = hsl + ((tri_hsl3[i] - hsl) * j6 >> 16);
+            if (cZ >= 50) {
+                int j6 = (50 - bZ) * shadowDecay[cZ - bZ];
+                tmpScreenX[j] = centerX + (x + ((tmpTexturedX[c] - x) * j6 >> 16) << 9) / 50;
+                tmpScreenY[j] = centerY + (y + ((tmpTexturedY[c] - y) * j6 >> 16) << 9) / 50;
+                tmpHsl[j++] = hsl + ((triHsl3[i] - hsl) * j6 >> 16);
             }
         }
 
-        if (c_z >= 50) {
-            tmp_screen_x[j] = triangle_x[c];
-            tmp_screen_y[j] = triangle_y[c];
-            tmp_hsl[j++] = tri_hsl3[i];
+        if (cZ >= 50) {
+            tmpScreenX[j] = triangleX[c];
+            tmpScreenY[j] = triangleY[c];
+            tmpHsl[j++] = triHsl3[i];
         } else {
-            int x = tmp_textured_x[c];
-            int y = tmp_textured_y[c];
-            int hsl = tri_hsl3[i];
-            if (b_z >= 50) {
-                int k6 = (50 - c_z) * shadow_decay[b_z - c_z];
-                tmp_screen_x[j] = center_x + (x + ((tmp_textured_x[b] - x) * k6 >> 16) << 9) / 50;
-                tmp_screen_y[j] = center_y + (y + ((tmp_textured_y[b] - y) * k6 >> 16) << 9) / 50;
-                tmp_hsl[j++] = hsl + ((tri_hsl2[i] - hsl) * k6 >> 16);
+            int x = tmpTexturedX[c];
+            int y = tmpTexturedY[c];
+            int hsl = triHsl3[i];
+            if (bZ >= 50) {
+                int k6 = (50 - cZ) * shadowDecay[bZ - cZ];
+                tmpScreenX[j] = centerX + (x + ((tmpTexturedX[b] - x) * k6 >> 16) << 9) / 50;
+                tmpScreenY[j] = centerY + (y + ((tmpTexturedY[b] - y) * k6 >> 16) << 9) / 50;
+                tmpHsl[j++] = hsl + ((triHsl2[i] - hsl) * k6 >> 16);
             }
-            if (a_z >= 50) {
-                int l6 = (50 - c_z) * shadow_decay[a_z - c_z];
-                tmp_screen_x[j] = center_x + (x + ((tmp_textured_x[a] - x) * l6 >> 16) << 9) / 50;
-                tmp_screen_y[j] = center_y + (y + ((tmp_textured_y[a] - y) * l6 >> 16) << 9) / 50;
-                tmp_hsl[j++] = hsl + ((tri_hsl1[i] - hsl) * l6 >> 16);
+            if (aZ >= 50) {
+                int l6 = (50 - cZ) * shadowDecay[aZ - cZ];
+                tmpScreenX[j] = centerX + (x + ((tmpTexturedX[a] - x) * l6 >> 16) << 9) / 50;
+                tmpScreenY[j] = centerY + (y + ((tmpTexturedY[a] - y) * l6 >> 16) << 9) / 50;
+                tmpHsl[j++] = hsl + ((triHsl1[i] - hsl) * l6 >> 16);
             }
         }
 
-        int x0 = tmp_screen_x[0];
-        int x1 = tmp_screen_x[1];
-        int x2 = tmp_screen_x[2];
-        int y0 = tmp_screen_y[0];
-        int y1 = tmp_screen_y[1];
-        int y2 = tmp_screen_y[2];
+        int x0 = tmpScreenX[0];
+        int x1 = tmpScreenX[1];
+        int x2 = tmpScreenX[2];
+        int y0 = tmpScreenY[0];
+        int y1 = tmpScreenY[1];
+        int y2 = tmpScreenY[2];
 
         if ((x0 - x1) * (y2 - y1) - (y0 - y1) * (x2 - x1) > 0) {
             Canvas3D.checkBounds = false;
@@ -1694,116 +1694,116 @@ public class Model extends Renderable {
 
                 int type;
 
-                if (triangle_info == null) {
+                if (triangleInfo == null) {
                     type = 0;
                 } else {
-                    type = triangle_info[i] & 3;
+                    type = triangleInfo[i] & 3;
                 }
 
                 if (type == 0) {
-                    Canvas3D.drawShadedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2]);
+                    Canvas3D.drawShadedTriangle(x0, y0, x1, y1, x2, y2, tmpHsl[0], tmpHsl[1], tmpHsl[2]);
                 } else if (type == 1) {
-                    Canvas3D.drawFlatTriangle(x0, y0, x1, y1, x2, y2, palette[tri_hsl1[i]]);
+                    Canvas3D.drawFlatTriangle(x0, y0, x1, y1, x2, y2, palette[triHsl1[i]]);
                 } else if (type == 2) {
-                    int k = triangle_info[i] >> 2;
-                    int x = texture_map_x[k];
-                    int y = texture_map_y[k];
-                    int z = texture_map_z[k];
-                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    int k = triangleInfo[i] >> 2;
+                    int x = textureMapX[k];
+                    int y = textureMapY[k];
+                    int z = textureMapZ[k];
+                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tmpHsl[0], tmpHsl[1], tmpHsl[2], tmpTexturedX[x], tmpTexturedY[x], tmpTexturedZ[x], tmpTexturedX[y], tmpTexturedY[y], tmpTexturedZ[y], tmpTexturedX[z], tmpTexturedY[z], tmpTexturedZ[z], triangleColor[i]);
                 } else if (type == 3) {
-                    int k = triangle_info[i] >> 2;
-                    int x = texture_map_x[k];
-                    int y = texture_map_y[k];
-                    int z = texture_map_z[k];
-                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    int k = triangleInfo[i] >> 2;
+                    int x = textureMapX[k];
+                    int y = textureMapY[k];
+                    int z = textureMapZ[k];
+                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, triHsl1[i], triHsl1[i], triHsl1[i], tmpTexturedX[x], tmpTexturedY[x], tmpTexturedZ[x], tmpTexturedX[y], tmpTexturedY[y], tmpTexturedZ[y], tmpTexturedX[z], tmpTexturedY[z], tmpTexturedZ[z], triangleColor[i]);
                 }
             } else if (j == 4) {
-                if (x0 < 0 || x1 < 0 || x2 < 0 || x0 > Canvas2D.bound || x1 > Canvas2D.bound || x2 > Canvas2D.bound || tmp_screen_x[3] < 0 || tmp_screen_x[3] > Canvas2D.bound) {
+                if (x0 < 0 || x1 < 0 || x2 < 0 || x0 > Canvas2D.bound || x1 > Canvas2D.bound || x2 > Canvas2D.bound || tmpScreenX[3] < 0 || tmpScreenX[3] > Canvas2D.bound) {
                     Canvas3D.checkBounds = true;
                 }
 
                 int type;
 
-                if (triangle_info == null) {
+                if (triangleInfo == null) {
                     type = 0;
                 } else {
-                    type = triangle_info[i] & 3;
+                    type = triangleInfo[i] & 3;
                 }
 
                 if (type == 0) {
-                    Canvas3D.drawShadedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2]);
-                    Canvas3D.drawShadedTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tmp_hsl[0], tmp_hsl[2], tmp_hsl[3]);
+                    Canvas3D.drawShadedTriangle(x0, y0, x1, y1, x2, y2, tmpHsl[0], tmpHsl[1], tmpHsl[2]);
+                    Canvas3D.drawShadedTriangle(x0, y0, x2, y2, tmpScreenX[3], tmpScreenY[3], tmpHsl[0], tmpHsl[2], tmpHsl[3]);
                 } else if (type == 1) {
-                    int rgb = palette[tri_hsl1[i]];
+                    int rgb = palette[triHsl1[i]];
                     Canvas3D.drawFlatTriangle(x0, y0, x1, y1, x2, y2, rgb);
-                    Canvas3D.drawFlatTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], rgb);
+                    Canvas3D.drawFlatTriangle(x0, y0, x2, y2, tmpScreenX[3], tmpScreenY[3], rgb);
                 } else if (type == 2) {
-                    int k = triangle_info[i] >> 2;
-                    int x = texture_map_x[k];
-                    int y = texture_map_y[k];
-                    int z = texture_map_z[k];
-                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
-                    Canvas3D.drawTexturedTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tmp_hsl[0], tmp_hsl[2], tmp_hsl[3], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    int k = triangleInfo[i] >> 2;
+                    int x = textureMapX[k];
+                    int y = textureMapY[k];
+                    int z = textureMapZ[k];
+                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tmpHsl[0], tmpHsl[1], tmpHsl[2], tmpTexturedX[x], tmpTexturedY[x], tmpTexturedZ[x], tmpTexturedX[y], tmpTexturedY[y], tmpTexturedZ[y], tmpTexturedX[z], tmpTexturedY[z], tmpTexturedZ[z], triangleColor[i]);
+                    Canvas3D.drawTexturedTriangle(x0, y0, x2, y2, tmpScreenX[3], tmpScreenY[3], tmpHsl[0], tmpHsl[2], tmpHsl[3], tmpTexturedX[x], tmpTexturedY[x], tmpTexturedZ[x], tmpTexturedX[y], tmpTexturedY[y], tmpTexturedZ[y], tmpTexturedX[z], tmpTexturedY[z], tmpTexturedZ[z], triangleColor[i]);
                 } else if (type == 3) {
-                    int k = triangle_info[i] >> 2;
-                    int x = texture_map_x[k];
-                    int y = texture_map_y[k];
-                    int z = texture_map_z[k];
-                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
-                    Canvas3D.drawTexturedTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    int k = triangleInfo[i] >> 2;
+                    int x = textureMapX[k];
+                    int y = textureMapY[k];
+                    int z = textureMapZ[k];
+                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, triHsl1[i], triHsl1[i], triHsl1[i], tmpTexturedX[x], tmpTexturedY[x], tmpTexturedZ[x], tmpTexturedX[y], tmpTexturedY[y], tmpTexturedZ[y], tmpTexturedX[z], tmpTexturedY[z], tmpTexturedZ[z], triangleColor[i]);
+                    Canvas3D.drawTexturedTriangle(x0, y0, x2, y2, tmpScreenX[3], tmpScreenY[3], triHsl1[i], triHsl1[i], triHsl1[i], tmpTexturedX[x], tmpTexturedY[x], tmpTexturedZ[x], tmpTexturedX[y], tmpTexturedY[y], tmpTexturedZ[y], tmpTexturedX[z], tmpTexturedY[z], tmpTexturedZ[z], triangleColor[i]);
                 }
             }
         }
     }
 
     @Override
-    public void render(int rotation, int pitch_sin, int pitch_cos, int yaw_sin, int yaw_cos, int x, int y, int z, int uid) {
-        int j2 = y * yaw_cos - x * yaw_sin >> 16;
-        int cam_dist = z * pitch_sin + j2 * pitch_cos >> 16;
-        int l2 = maxHorizon * pitch_cos >> 16;
-        int angle = cam_dist + l2;
+    public void render(int rotation, int pitchSin, int pitchCos, int yawSin, int yawCos, int x, int y, int z, int uid) {
+        int j2 = y * yawCos - x * yawSin >> 16;
+        int camDist = z * pitchSin + j2 * pitchCos >> 16;
+        int l2 = maxHorizon * pitchCos >> 16;
+        int angle = camDist + l2;
 
-        if (angle <= 50 || cam_dist >= 3500) {
+        if (angle <= 50 || camDist >= 3500) {
             return;
         }
 
-        int j3 = y * yaw_sin + x * yaw_cos >> 16;
+        int j3 = y * yawSin + x * yawCos >> 16;
 
         int x1 = j3 - maxHorizon << 9;
-        if (x1 / angle >= Canvas2D.center_x) {
+        if (x1 / angle >= Canvas2D.centerX2d) {
             return;
         }
 
         int x2 = j3 + maxHorizon << 9;
-        if (x2 / angle <= -Canvas2D.center_x) {
+        if (x2 / angle <= -Canvas2D.centerX2d) {
             return;
         }
 
-        int i4 = z * pitch_cos - j2 * pitch_sin >> 16;
-        int j4 = maxHorizon * pitch_sin >> 16;
+        int i4 = z * pitchCos - j2 * pitchSin >> 16;
+        int j4 = maxHorizon * pitchSin >> 16;
 
         int y2 = i4 + j4 << 9;
-        if (y2 / angle <= -Canvas2D.center_y) {
+        if (y2 / angle <= -Canvas2D.centerY2d) {
             return;
         }
 
-        int l4 = j4 + (super.height * pitch_cos >> 16);
+        int l4 = j4 + (super.height * pitchCos >> 16);
         int y1 = i4 - l4 << 9;
-        if (y1 / angle >= Canvas2D.center_y) {
+        if (y1 / angle >= Canvas2D.centerY2d) {
             return;
         }
 
-        int j5 = l2 + (super.height * pitch_sin >> 16);
+        int j5 = l2 + (super.height * pitchSin >> 16);
         boolean flag = false;
 
-        if (cam_dist - j5 <= 50) {
+        if (camDist - j5 <= 50) {
             flag = true;
         }
 
         boolean hoverable = false;
 
         if (uid > 0 && sceneClickable) {
-            int k5 = cam_dist - l2;
+            int k5 = camDist - l2;
 
             if (k5 <= 50) {
                 k5 = 50;
@@ -1825,19 +1825,19 @@ public class Model extends Renderable {
                 y1 /= k5;
             }
 
-            int dx = mouse_x - Canvas3D.centerX;
-            int dy = mouse_y - Canvas3D.centerY;
+            int dx = mouseX - Canvas3D.centerX;
+            int dy = mouseY - Canvas3D.centerY;
             if (dx > x1 && dx < x2 && dy > y1 && dy < y2) {
-                if (is_clickable) {
-                    hovered_uid[hovered_count++] = uid;
+                if (isClickable) {
+                    hoveredUid[hoveredCount++] = uid;
                 } else {
                     hoverable = true;
                 }
             }
         }
 
-        int center_x = Canvas3D.centerX;
-        int center_y = Canvas3D.centerY;
+        int centerX = Canvas3D.centerX;
+        int centerY = Canvas3D.centerY;
         int sin = 0;
         int cos = 0;
 
@@ -1846,43 +1846,43 @@ public class Model extends Renderable {
             cos = MathUtils.cos[rotation];
         }
 
-        for (int v = 0; v < vertex_count; v++) {
-            int v_x = vertex_x[v];
-            int v_y = vertex_y[v];
-            int v_z = vertex_z[v];
+        for (int v = 0; v < vertexCount; v++) {
+            int vX = vertexX[v];
+            int vY = vertexY[v];
+            int vZ = vertexZ[v];
 
             if (rotation != 0) {
-                int j8 = v_z * sin + v_x * cos >> 16;
-                v_z = v_z * cos - v_x * sin >> 16;
-                v_x = j8;
+                int j8 = vZ * sin + vX * cos >> 16;
+                vZ = vZ * cos - vX * sin >> 16;
+                vX = j8;
             }
 
-            v_x += x;
-            v_y += z;
-            v_z += y;
+            vX += x;
+            vY += z;
+            vZ += y;
 
-            int i = v_z * yaw_sin + v_x * yaw_cos >> 16;
-            v_z = v_z * yaw_cos - v_x * yaw_sin >> 16;
-            v_x = i;
+            int i = vZ * yawSin + vX * yawCos >> 16;
+            vZ = vZ * yawCos - vX * yawSin >> 16;
+            vX = i;
 
-            i = v_y * pitch_cos - v_z * pitch_sin >> 16;
-            v_z = v_y * pitch_sin + v_z * pitch_cos >> 16;
-            v_y = i;
+            i = vY * pitchCos - vZ * pitchSin >> 16;
+            vZ = vY * pitchSin + vZ * pitchCos >> 16;
+            vY = i;
 
-            triangle_depth[v] = v_z - cam_dist;
+            triangleDepth[v] = vZ - camDist;
 
-            if (v_z >= 50) {
-                triangle_x[v] = center_x + (v_x << 9) / v_z;
-                triangle_y[v] = center_y + (v_y << 9) / v_z;
+            if (vZ >= 50) {
+                triangleX[v] = centerX + (vX << 9) / vZ;
+                triangleY[v] = centerY + (vY << 9) / vZ;
             } else {
-                triangle_x[v] = -5000;
+                triangleX[v] = -5000;
                 flag = true;
             }
 
-            if (flag || textured_triangle_count > 0) {
-                tmp_textured_x[v] = v_x;
-                tmp_textured_y[v] = v_y;
-                tmp_textured_z[v] = v_z;
+            if (flag || texturedTriangleCount > 0) {
+                tmpTexturedX[v] = vX;
+                tmpTexturedY[v] = vY;
+                tmpTexturedZ[v] = vZ;
             }
         }
 
@@ -1893,96 +1893,96 @@ public class Model extends Renderable {
     }
 
     public void replace(Model m, boolean flag) {
-        vertex_count = m.vertex_count;
-        triangle_count = m.triangle_count;
-        textured_triangle_count = m.textured_triangle_count;
+        vertexCount = m.vertexCount;
+        triangleCount = m.triangleCount;
+        texturedTriangleCount = m.texturedTriangleCount;
 
-        if (replace_vertex_x.length < vertex_count) {
-            replace_vertex_x = new short[vertex_count + 100];
-            replace_vertex_y = new short[vertex_count + 100];
-            replace_vertex_z = new short[vertex_count + 100];
+        if (replaceVertexX.length < vertexCount) {
+            replaceVertexX = new short[vertexCount + 100];
+            replaceVertexY = new short[vertexCount + 100];
+            replaceVertexZ = new short[vertexCount + 100];
         }
 
-        vertex_x = replace_vertex_x;
-        vertex_y = replace_vertex_y;
-        vertex_z = replace_vertex_z;
+        vertexX = replaceVertexX;
+        vertexY = replaceVertexY;
+        vertexZ = replaceVertexZ;
 
-        for (int k = 0; k < vertex_count; k++) {
-            vertex_x[k] = m.vertex_x[k];
-            vertex_y[k] = m.vertex_y[k];
-            vertex_z[k] = m.vertex_z[k];
+        for (int k = 0; k < vertexCount; k++) {
+            vertexX[k] = m.vertexX[k];
+            vertexY[k] = m.vertexY[k];
+            vertexZ[k] = m.vertexZ[k];
         }
 
         if (flag) {
-            triangle_alpha = m.triangle_alpha;
+            triangleAlpha = m.triangleAlpha;
         } else {
-            if (anIntArray1625.length < triangle_count) {
-                anIntArray1625 = new int[triangle_count + 100];
+            if (anIntArray1625.length < triangleCount) {
+                anIntArray1625 = new int[triangleCount + 100];
             }
-            triangle_alpha = anIntArray1625;
+            triangleAlpha = anIntArray1625;
 
-            if (m.triangle_alpha == null) {
-                for (int l = 0; l < triangle_count; l++) {
-                    triangle_alpha[l] = 0;
+            if (m.triangleAlpha == null) {
+                for (int l = 0; l < triangleCount; l++) {
+                    triangleAlpha[l] = 0;
                 }
             } else {
-                for (int i1 = 0; i1 < triangle_count; i1++) {
-                    triangle_alpha[i1] = m.triangle_alpha[i1];
+                for (int i1 = 0; i1 < triangleCount; i1++) {
+                    triangleAlpha[i1] = m.triangleAlpha[i1];
                 }
 
             }
         }
 
-        triangle_info = m.triangle_info;
-        triangle_color = m.triangle_color;
-        triangle_priority = m.triangle_priority;
+        triangleInfo = m.triangleInfo;
+        triangleColor = m.triangleColor;
+        trianglePriority = m.trianglePriority;
         anInt1641 = m.anInt1641;
         triangleGroups = m.triangleGroups;
         vertexWeights = m.vertexWeights;
-        triangle_viewspace_a = m.triangle_viewspace_a;
-        triangle_viewspace_b = m.triangle_viewspace_b;
-        triangle_viewspace_c = m.triangle_viewspace_c;
-        tri_hsl1 = m.tri_hsl1;
-        tri_hsl2 = m.tri_hsl2;
-        tri_hsl3 = m.tri_hsl3;
-        texture_map_x = m.texture_map_x;
-        texture_map_y = m.texture_map_y;
-        texture_map_z = m.texture_map_z;
+        triangleViewspaceA = m.triangleViewspaceA;
+        triangleViewspaceB = m.triangleViewspaceB;
+        triangleViewspaceC = m.triangleViewspaceC;
+        triHsl1 = m.triHsl1;
+        triHsl2 = m.triHsl2;
+        triHsl3 = m.triHsl3;
+        textureMapX = m.textureMapX;
+        textureMapY = m.textureMapY;
+        textureMapZ = m.textureMapZ;
     }
 
-    public void rotate_ccw() {
-        for (int i = 0; i < vertex_count; i++) {
-            vertex_z[i] = (short) -vertex_z[i];
+    public void rotateCcw() {
+        for (int i = 0; i < vertexCount; i++) {
+            vertexZ[i] = (short) -vertexZ[i];
         }
 
-        for (int i = 0; i < triangle_count; i++) {
-            int n_z = triangle_viewspace_a[i];
-            triangle_viewspace_a[i] = triangle_viewspace_c[i];
-            triangle_viewspace_c[i] = (short) n_z;
+        for (int i = 0; i < triangleCount; i++) {
+            int nZ = triangleViewspaceA[i];
+            triangleViewspaceA[i] = triangleViewspaceC[i];
+            triangleViewspaceC[i] = (short) nZ;
         }
     }
 
-    public void rotate_cw() {
-        for (int i = 0; i < vertex_count; i++) {
-            int new_z = vertex_x[i];
-            vertex_x[i] = vertex_z[i];
-            vertex_z[i] = (short) -new_z;
+    public void rotateCw() {
+        for (int i = 0; i < vertexCount; i++) {
+            int newZ = vertexX[i];
+            vertexX[i] = vertexZ[i];
+            vertexZ[i] = (short) -newZ;
         }
     }
 
     public void scale(int x, int y, int z) {
-        for (int i = 0; i < vertex_count; i++) {
-            vertex_x[i] = (short) ((vertex_x[i] * x) / 128);
-            vertex_y[i] = (short) ((vertex_y[i] * y) / 128);
-            vertex_z[i] = (short) ((vertex_z[i] * z) / 128);
+        for (int i = 0; i < vertexCount; i++) {
+            vertexX[i] = (short) ((vertexX[i] * x) / 128);
+            vertexY[i] = (short) ((vertexY[i] * y) / 128);
+            vertexZ[i] = (short) ((vertexZ[i] * z) / 128);
         }
 
     }
 
     public void setColor(int from, int to) {
-        for (int i = 0; i < this.triangle_count; i++) {
-            if (this.triangle_color[i] == from) {
-                this.triangle_color[i] = to;
+        for (int i = 0; i < this.triangleCount; i++) {
+            if (this.triangleColor[i] == from) {
+                this.triangleColor[i] = to;
             }
         }
     }
@@ -1996,18 +1996,18 @@ public class Model extends Renderable {
         }
     }
 
-    public void set_pitch(int pitch) {
+    public void setPitch(int pitch) {
         int sin = MathUtils.sin[pitch];
         int cos = MathUtils.cos[pitch];
-        for (int i = 0; i < vertex_count; i++) {
-            int new_y = vertex_y[i] * cos - vertex_z[i] * sin >> 16;
-            vertex_z[i] = (short) (vertex_y[i] * sin + vertex_z[i] * cos >> 16);
-            vertex_y[i] = (short) new_y;
+        for (int i = 0; i < vertexCount; i++) {
+            int newY = vertexY[i] * cos - vertexZ[i] * sin >> 16;
+            vertexZ[i] = (short) (vertexY[i] * sin + vertexZ[i] * cos >> 16);
+            vertexY[i] = (short) newY;
         }
     }
 
     public void transform(int opcode, int vertices[], int x, int y, int z) {
-        int vertex_count = vertices.length;
+        int vertexCount = vertices.length;
 
         if (opcode == 0) {
             int j1 = 0;
@@ -2015,15 +2015,15 @@ public class Model extends Renderable {
             anInt1682 = 0;
             anInt1683 = 0;
 
-            for (int i = 0; i < vertex_count; i++) {
+            for (int i = 0; i < vertexCount; i++) {
                 int j = vertices[i];
                 if (j < vertexWeights.length) {
-                    int v_weights[] = vertexWeights[j];
-                    for (int v_weight = 0; v_weight < v_weights.length; v_weight++) {
-                        int weight_vertex = v_weights[v_weight];
-                        anInt1681 += vertex_x[weight_vertex];
-                        anInt1682 += vertex_y[weight_vertex];
-                        anInt1683 += vertex_z[weight_vertex];
+                    int vWeights[] = vertexWeights[j];
+                    for (int vWeight = 0; vWeight < vWeights.length; vWeight++) {
+                        int weightVertex = vWeights[vWeight];
+                        anInt1681 += vertexX[weightVertex];
+                        anInt1682 += vertexY[weightVertex];
+                        anInt1683 += vertexZ[weightVertex];
                         j1++;
                     }
                 }
@@ -2044,15 +2044,15 @@ public class Model extends Renderable {
 
         // Translation
         if (opcode == 1) {
-            for (int i = 0; i < vertex_count; i++) {
+            for (int i = 0; i < vertexCount; i++) {
                 int j = vertices[i];
                 if (j < vertexWeights.length) {
-                    int vertice_indices[] = vertexWeights[j];
-                    for (int k = 0; k < vertice_indices.length; k++) {
-                        int v_index = vertice_indices[k];
-                        vertex_x[v_index] += x;
-                        vertex_y[v_index] += y;
-                        vertex_z[v_index] += z;
+                    int verticeIndices[] = vertexWeights[j];
+                    for (int k = 0; k < verticeIndices.length; k++) {
+                        int vIndex = verticeIndices[k];
+                        vertexX[vIndex] += x;
+                        vertexY[vIndex] += y;
+                        vertexZ[vIndex] += z;
                     }
                 }
             }
@@ -2061,15 +2061,15 @@ public class Model extends Renderable {
 
         // Rotation
         if (opcode == 2) {
-            for (int i = 0; i < vertex_count; i++) {
+            for (int i = 0; i < vertexCount; i++) {
                 int j = vertices[i];
                 if (j < vertexWeights.length) {
-                    int vertice_indices[] = vertexWeights[j];
-                    for (int k = 0; k < vertice_indices.length; k++) {
-                        int v_index = vertice_indices[k];
-                        vertex_x[v_index] -= anInt1681;
-                        vertex_y[v_index] -= anInt1682;
-                        vertex_z[v_index] -= anInt1683;
+                    int verticeIndices[] = vertexWeights[j];
+                    for (int k = 0; k < verticeIndices.length; k++) {
+                        int vIndex = verticeIndices[k];
+                        vertexX[vIndex] -= anInt1681;
+                        vertexY[vIndex] -= anInt1682;
+                        vertexZ[vIndex] -= anInt1683;
                         int pitch = (x & 0xff) * 8;
                         int yaw = (y & 0xff) * 8;
                         int roll = (z & 0xff) * 8;
@@ -2077,30 +2077,30 @@ public class Model extends Renderable {
                         if (roll != 0) {
                             int sin = MathUtils.sin[roll];
                             int cos = MathUtils.cos[roll];
-                            int new_x = vertex_y[v_index] * sin + vertex_x[v_index] * cos >> 16;
-                            vertex_y[v_index] = (short) (vertex_y[v_index] * cos - vertex_x[v_index] * sin >> 16);
-                            vertex_x[v_index] = (short) new_x;
+                            int newX = vertexY[vIndex] * sin + vertexX[vIndex] * cos >> 16;
+                            vertexY[vIndex] = (short) (vertexY[vIndex] * cos - vertexX[vIndex] * sin >> 16);
+                            vertexX[vIndex] = (short) newX;
                         }
 
                         if (pitch != 0) {
                             int sin = MathUtils.sin[pitch];
                             int cos = MathUtils.cos[pitch];
-                            int new_y = vertex_y[v_index] * cos - vertex_z[v_index] * sin >> 16;
-                            vertex_z[v_index] = (short) (vertex_y[v_index] * sin + vertex_z[v_index] * cos >> 16);
-                            vertex_y[v_index] = (short) new_y;
+                            int newY = vertexY[vIndex] * cos - vertexZ[vIndex] * sin >> 16;
+                            vertexZ[vIndex] = (short) (vertexY[vIndex] * sin + vertexZ[vIndex] * cos >> 16);
+                            vertexY[vIndex] = (short) newY;
                         }
 
                         if (yaw != 0) {
                             int sin = MathUtils.sin[yaw];
                             int cos = MathUtils.cos[yaw];
-                            int new_z = vertex_z[v_index] * sin + vertex_x[v_index] * cos >> 16;
-                            vertex_z[v_index] = (short) (vertex_z[v_index] * cos - vertex_x[v_index] * sin >> 16);
-                            vertex_x[v_index] = (short) new_z;
+                            int newZ = vertexZ[vIndex] * sin + vertexX[vIndex] * cos >> 16;
+                            vertexZ[vIndex] = (short) (vertexZ[vIndex] * cos - vertexX[vIndex] * sin >> 16);
+                            vertexX[vIndex] = (short) newZ;
                         }
 
-                        vertex_x[v_index] += anInt1681;
-                        vertex_y[v_index] += anInt1682;
-                        vertex_z[v_index] += anInt1683;
+                        vertexX[vIndex] += anInt1681;
+                        vertexY[vIndex] += anInt1682;
+                        vertexZ[vIndex] += anInt1683;
                     }
 
                 }
@@ -2110,21 +2110,21 @@ public class Model extends Renderable {
         }
 
         if (opcode == 3) {
-            for (int i = 0; i < vertex_count; i++) {
+            for (int i = 0; i < vertexCount; i++) {
                 int j = vertices[i];
                 if (j < vertexWeights.length) {
-                    int vertex_index[] = vertexWeights[j];
-                    for (int k = 0; k < vertex_index.length; k++) {
-                        int v = vertex_index[k];
-                        vertex_x[v] -= anInt1681;
-                        vertex_y[v] -= anInt1682;
-                        vertex_z[v] -= anInt1683;
-                        vertex_x[v] = (short) ((vertex_x[v] * x) / 128);
-                        vertex_y[v] = (short) ((vertex_y[v] * y) / 128);
-                        vertex_z[v] = (short) ((vertex_z[v] * z) / 128);
-                        vertex_x[v] += anInt1681;
-                        vertex_y[v] += anInt1682;
-                        vertex_z[v] += anInt1683;
+                    int vertexIndex[] = vertexWeights[j];
+                    for (int k = 0; k < vertexIndex.length; k++) {
+                        int v = vertexIndex[k];
+                        vertexX[v] -= anInt1681;
+                        vertexY[v] -= anInt1682;
+                        vertexZ[v] -= anInt1683;
+                        vertexX[v] = (short) ((vertexX[v] * x) / 128);
+                        vertexY[v] = (short) ((vertexY[v] * y) / 128);
+                        vertexZ[v] = (short) ((vertexZ[v] * z) / 128);
+                        vertexX[v] += anInt1681;
+                        vertexY[v] += anInt1682;
+                        vertexZ[v] += anInt1683;
                     }
 
                 }
@@ -2134,22 +2134,22 @@ public class Model extends Renderable {
         }
 
         // Set Alpha
-        if (opcode == 5 && triangleGroups != null && triangle_alpha != null) {
-            for (int i = 0; i < vertex_count; i++) {
+        if (opcode == 5 && triangleGroups != null && triangleAlpha != null) {
+            for (int i = 0; i < vertexCount; i++) {
                 int group = vertices[i];
 
                 if (group < triangleGroups.length) {
-                    int tri_indices[] = triangleGroups[group];
+                    int triIndices[] = triangleGroups[group];
 
-                    for (int k = 0; k < tri_indices.length; k++) {
-                        int tri_index = tri_indices[k];
+                    for (int k = 0; k < triIndices.length; k++) {
+                        int triIndex = triIndices[k];
 
-                        triangle_alpha[tri_index] += x * 8;
+                        triangleAlpha[triIndex] += x * 8;
 
-                        if (triangle_alpha[tri_index] < 0) {
-                            triangle_alpha[tri_index] = 0;
-                        } else if (triangle_alpha[tri_index] > 255) {
-                            triangle_alpha[tri_index] = 255;
+                        if (triangleAlpha[triIndex] < 0) {
+                            triangleAlpha[triIndex] = 0;
+                        } else if (triangleAlpha[triIndex] > 255) {
+                            triangleAlpha[triIndex] = 255;
                         }
                     }
 
@@ -2160,15 +2160,15 @@ public class Model extends Renderable {
     }
 
     public void translate(int x, int y, int z) {
-        for (int i = 0; i < vertex_count; i++) {
-            vertex_x[i] += x;
-            vertex_y[i] += y;
-            vertex_z[i] += z;
+        for (int i = 0; i < vertexCount; i++) {
+            vertexX[i] += x;
+            vertexY[i] += y;
+            vertexZ[i] += z;
         }
 
     }
 
-    public boolean tri_contains(int x, int y, int x1, int y1, int y2, int x2, int y3, int x3) {
+    public boolean triContains(int x, int y, int x1, int y1, int y2, int x2, int y3, int x3) {
         if (y < y1 && y < y2 && y < y3) {
             return false;
         }
@@ -2182,23 +2182,23 @@ public class Model extends Renderable {
     }
 
     public static class Header {
-        public int alpha_stream_pos;
+        public int alphaStreamPos;
         public int anInt372;
         public int anInt374;
         public int anInt375;
         public int anInt376;
         public int anInt377;
         public int anInt378;
-        public int draw_type_stream_pos;
+        public int drawTypeStreamPos;
         public byte[] payload;
-        public int priority_stream_pos;
-        public int texture_map_stream_pos;
-        public int textured_triangle_count;
-        public int textured_triangle_stream_pos;
-        public int triangle_color_stream_pos;
-        public int triangle_count;
-        public int tskin_stream_pos;
-        public short vertex_count;
+        public int priorityStreamPos;
+        public int textureMapStreamPos;
+        public int texturedTriangleCount;
+        public int texturedTriangleStreamPos;
+        public int triangleColorStreamPos;
+        public int triangleCount;
+        public int tskinStreamPos;
+        public short vertexCount;
     }
 
 }

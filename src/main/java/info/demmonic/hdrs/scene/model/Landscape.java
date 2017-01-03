@@ -484,7 +484,7 @@ public class Landscape {
         if (t != null) {
             for (int i = 0; i < t.locCount; i++) {
                 if (t.locs[i].node instanceof Model) {
-                    int offset = ((Model) t.locs[i].node).pile_height;
+                    int offset = ((Model) t.locs[i].node).pileHeight;
 
                     if (offset > min_z) {
                         min_z = offset;
@@ -1535,30 +1535,30 @@ public class Landscape {
         anInt488++;
 
         int i = 0;
-        short v_x[] = m2.vertex_x;
-        int v_c = m2.vertex_count;
+        short v_x[] = m2.vertexX;
+        int v_c = m2.vertexCount;
 
         // Loop through every vertex
-        for (int j = 0; j < m1.vertex_count; j++) {
+        for (int j = 0; j < m1.vertexCount; j++) {
             Vertex v1 = ((Renderable) (m1)).normal[j];
             Vertex v2 = m1.vertices[j];
 
             if (v2.w != 0) {
 
-                int y = m1.vertex_y[j] - y_offset;
-                if (y <= m2.max_y) {
+                int y = m1.vertexY[j] - y_offset;
+                if (y <= m2.maxY) {
 
-                    int x = m1.vertex_x[j] - x_offset;
-                    if (x >= m2.min_x && x <= m2.max_x) {
+                    int x = m1.vertexX[j] - x_offset;
+                    if (x >= m2.minX && x <= m2.maxX) {
 
-                        int z = m1.vertex_z[j] - z_offset;
-                        if (z >= m2.min_z && z <= m2.max_z) {
+                        int z = m1.vertexZ[j] - z_offset;
+                        if (z >= m2.minZ && z <= m2.maxZ) {
 
                             for (int k = 0; k < v_c; k++) {
                                 Vertex v3 = ((Renderable) (m2)).normal[k];
                                 Vertex v4 = m2.vertices[k];
 
-                                if (x == v_x[k] && z == m2.vertex_z[k] && y == m2.vertex_y[k] && v4.w != 0) {
+                                if (x == v_x[k] && z == m2.vertexZ[k] && y == m2.vertexY[k] && v4.w != 0) {
                                     v1.x += v4.x;
                                     v1.y += v4.y;
                                     v1.z += v4.z;
@@ -1585,15 +1585,15 @@ public class Landscape {
             return;
         }
 
-        for (int k1 = 0; k1 < m1.triangle_count; k1++) {
-            if (anIntArray486[m1.triangle_viewspace_a[k1]] == anInt488 && anIntArray486[m1.triangle_viewspace_b[k1]] == anInt488 && anIntArray486[m1.triangle_viewspace_c[k1]] == anInt488) {
-                m1.triangle_info[k1] = -1;
+        for (int k1 = 0; k1 < m1.triangleCount; k1++) {
+            if (anIntArray486[m1.triangleViewspaceA[k1]] == anInt488 && anIntArray486[m1.triangleViewspaceB[k1]] == anInt488 && anIntArray486[m1.triangleViewspaceC[k1]] == anInt488) {
+                m1.triangleInfo[k1] = -1;
             }
         }
 
-        for (int l1 = 0; l1 < m2.triangle_count; l1++) {
-            if (anIntArray487[m2.triangle_viewspace_a[l1]] == anInt488 && anIntArray487[m2.triangle_viewspace_b[l1]] == anInt488 && anIntArray487[m2.triangle_viewspace_c[l1]] == anInt488) {
-                m2.triangle_info[l1] = -1;
+        for (int l1 = 0; l1 < m2.triangleCount; l1++) {
+            if (anIntArray487[m2.triangleViewspaceA[l1]] == anInt488 && anIntArray487[m2.triangleViewspaceB[l1]] == anInt488 && anIntArray487[m2.triangleViewspaceC[l1]] == anInt488) {
+                m2.triangleInfo[l1] = -1;
             }
         }
     }

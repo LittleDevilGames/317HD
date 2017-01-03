@@ -50,7 +50,7 @@ public class SpotAnim extends Renderable {
 
         if (this.config.rotation != 0) {
             for (int i = 0; i < this.config.rotation / 90; i++) {
-                m.rotate_cw();
+                m.rotateCw();
             }
         }
 

@@ -181,7 +181,7 @@ public class Player extends Entity {
         m.replace(model, (frame1 == -1) & (frame2 == -1));
 
         if (frame1 != -1 && frame2 != -1) {
-            m.apply_sequence_frames(Sequence.instance[super.seqIndex].vertices, frame1, frame2);
+            m.applySequenceFrames(Sequence.instance[super.seqIndex].vertices, frame1, frame2);
         } else if (frame1 != -1) {
             m.applySequenceFrame(frame1);
         }
@@ -268,7 +268,7 @@ public class Player extends Entity {
 
         super.height = ((Renderable) (built)).height;
 
-        built.is_clickable = true;
+        built.isClickable = true;
 
         if (lowLod) {
             return built;
@@ -304,34 +304,34 @@ public class Player extends Entity {
                 m.translate(locX - super.sceneX, locZ - sceneZ, locY - super.sceneY);
 
                 if (super.destRotation == 512) {
-                    m.rotate_cw();
-                    m.rotate_cw();
-                    m.rotate_cw();
+                    m.rotateCw();
+                    m.rotateCw();
+                    m.rotateCw();
                 } else if (super.destRotation == 1024) {
-                    m.rotate_cw();
-                    m.rotate_cw();
+                    m.rotateCw();
+                    m.rotateCw();
                 } else if (super.destRotation == 1536) {
-                    m.rotate_cw();
+                    m.rotateCw();
                 }
 
                 built = new Model(2, true, new Model[]{built, m});
 
                 if (super.destRotation == 512) {
-                    m.rotate_cw();
+                    m.rotateCw();
                 } else if (super.destRotation == 1024) {
-                    m.rotate_cw();
-                    m.rotate_cw();
+                    m.rotateCw();
+                    m.rotateCw();
                 } else if (super.destRotation == 1536) {
-                    m.rotate_cw();
-                    m.rotate_cw();
-                    m.rotate_cw();
+                    m.rotateCw();
+                    m.rotateCw();
+                    m.rotateCw();
                 }
 
                 m.translate(super.sceneX - locX, sceneZ - locZ, super.sceneY - locY);
             }
         }
 
-        built.is_clickable = true;
+        built.isClickable = true;
         return built;
     }
 

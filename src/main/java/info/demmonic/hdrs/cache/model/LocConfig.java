@@ -149,7 +149,7 @@ public class LocConfig {
                     }
 
                     if (rotate) {
-                        m.rotate_ccw();
+                        m.rotateCcw();
                     }
 
                     staticModelCache.insert(m, index);
@@ -203,7 +203,7 @@ public class LocConfig {
                 }
 
                 if (rotate) {
-                    m.rotate_ccw();
+                    m.rotateCcw();
                 }
 
                 staticModelCache.insert(m, mesh_index);
@@ -234,7 +234,7 @@ public class LocConfig {
         }
 
         while (rotation-- > 0) {
-            model.rotate_cw();
+            model.rotateCw();
         }
 
         if (oldColor != null) {
@@ -252,7 +252,7 @@ public class LocConfig {
         model.applyLighting(64 + brightness, 768 + specular * 5, -50, -10, -50, !flatShading);
 
         if (raisesItemPiles == 1) {
-            model.pile_height = model.height;
+            model.pileHeight = model.height;
         }
 
         modelCache.insert(model, uid);
@@ -274,13 +274,13 @@ public class LocConfig {
         if (adjustToTerrain) {
             int v_avg = (v_sw + v_se + v_ne + v_nw) / 4;
 
-            for (int i = 0; i < m.vertex_count; i++) {
-                int x = m.vertex_x[i];
-                int z = m.vertex_z[i];
+            for (int i = 0; i < m.vertexCount; i++) {
+                int x = m.vertexX[i];
+                int z = m.vertexZ[i];
                 int l2 = v_sw + ((v_se - v_sw) * (x + 64)) / 128;
                 int i3 = v_nw + ((v_ne - v_nw) * (x + 64)) / 128;
                 int v_y = l2 + ((i3 - l2) * (z + 64)) / 128;
-                m.vertex_y[i] += v_y - v_avg;
+                m.vertexY[i] += v_y - v_avg;
             }
 
             m.method467();

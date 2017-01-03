@@ -9,8 +9,8 @@ public class Canvas2D extends CacheLink {
     public static int alpha;
     public static int width;
     public static int height;
-    public static int center_y;
-    public static int center_x;
+    public static int centerY2d;
+    public static int centerX2d;
     public static int bound;
     public static int leftX;
     public static int leftY;
@@ -358,8 +358,8 @@ public class Canvas2D extends CacheLink {
         Canvas2D.rightX = width;
         Canvas2D.rightY = height;
         Canvas2D.bound = rightX - 1;
-        Canvas2D.center_x = rightX / 2;
-        Canvas2D.center_y = rightY / 2;
+        Canvas2D.centerX2d = rightX / 2;
+        Canvas2D.centerY2d = rightY / 2;
     }
 
     public static void setBounds(int x0, int y0, int x1, int y1) {
@@ -384,8 +384,8 @@ public class Canvas2D extends CacheLink {
         Canvas2D.rightX = x1;
         Canvas2D.rightY = y1;
         Canvas2D.bound = rightX - 1;
-        Canvas2D.center_x = rightX / 2;
-        Canvas2D.center_y = rightY / 2;
+        Canvas2D.centerX2d = rightX / 2;
+        Canvas2D.centerY2d = rightY / 2;
     }
 
     public enum DrawType {

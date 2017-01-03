@@ -811,7 +811,7 @@ public class Widget {
             return null;
         }
 
-        if (frame1 == -1 && frame2 == -1 && m.triangle_color == null) {
+        if (frame1 == -1 && frame2 == -1 && m.triangleColor == null) {
             return m;
         }
 
