@@ -54,7 +54,7 @@ public class Model extends Renderable {
 
     public int anInt1641;
     public boolean is_clickable;
-    public int max_horizon;
+    public int maxHorizon;
     public int max_x;
     public int max_y;
     public int max_z;
@@ -225,7 +225,7 @@ public class Model extends Renderable {
         texture_map_z = m.texture_map_z;
         super.height = ((Renderable) (m)).height;
         max_y = m.max_y;
-        max_horizon = m.max_horizon;
+        maxHorizon = m.maxHorizon;
         unknown2 = m.unknown2;
         unknown3 = m.unknown3;
         min_x = m.min_x;
@@ -1305,7 +1305,7 @@ public class Model extends Renderable {
 
     public void method466() {
         super.height = 0;
-        max_horizon = 0;
+        maxHorizon = 0;
         max_y = 0;
 
         for (int i = 0; i < vertex_count; i++) {
@@ -1323,14 +1323,14 @@ public class Model extends Renderable {
 
             int horizon = x * x + z * z;
 
-            if (horizon > max_horizon) {
-                max_horizon = horizon;
+            if (horizon > maxHorizon) {
+                maxHorizon = horizon;
             }
         }
 
-        max_horizon = (int) (Math.sqrt(max_horizon) + 0.99D);
-        unknown2 = (int) (Math.sqrt(max_horizon * max_horizon + super.height * super.height) + 0.99D);
-        unknown3 = unknown2 + (int) (Math.sqrt(max_horizon * max_horizon + max_y * max_y) + 0.99D);
+        maxHorizon = (int) (Math.sqrt(maxHorizon) + 0.99D);
+        unknown2 = (int) (Math.sqrt(maxHorizon * maxHorizon + super.height * super.height) + 0.99D);
+        unknown3 = unknown2 + (int) (Math.sqrt(maxHorizon * maxHorizon + max_y * max_y) + 0.99D);
     }
 
     public void method467() {
@@ -1349,13 +1349,13 @@ public class Model extends Renderable {
             }
         }
 
-        unknown2 = (int) (Math.sqrt(max_horizon * max_horizon + super.height * super.height) + 0.99D);
-        unknown3 = unknown2 + (int) (Math.sqrt(max_horizon * max_horizon + max_y * max_y) + 0.99D);
+        unknown2 = (int) (Math.sqrt(maxHorizon * maxHorizon + super.height * super.height) + 0.99D);
+        unknown3 = unknown2 + (int) (Math.sqrt(maxHorizon * maxHorizon + max_y * max_y) + 0.99D);
     }
 
     public void method468() {
         super.height = 0;
-        max_horizon = 0;
+        maxHorizon = 0;
         max_y = 0;
         min_x = 999999;
         max_x = 0xfff0bdc1;
@@ -1393,14 +1393,14 @@ public class Model extends Renderable {
 
             int horizon = x * x + z * z;
 
-            if (horizon > max_horizon) {
-                max_horizon = horizon;
+            if (horizon > maxHorizon) {
+                maxHorizon = horizon;
             }
         }
 
-        max_horizon = (int) Math.sqrt(max_horizon);
-        unknown2 = (int) Math.sqrt(max_horizon * max_horizon + super.height * super.height);
-        unknown3 = unknown2 + (int) Math.sqrt(max_horizon * max_horizon + max_y * max_y);
+        maxHorizon = (int) Math.sqrt(maxHorizon);
+        unknown2 = (int) Math.sqrt(maxHorizon * maxHorizon + super.height * super.height);
+        unknown3 = unknown2 + (int) Math.sqrt(maxHorizon * maxHorizon + max_y * max_y);
     }
 
     // TODO: Figure out the sorting method for this.
@@ -1760,7 +1760,7 @@ public class Model extends Renderable {
     public void render(int rotation, int pitch_sin, int pitch_cos, int yaw_sin, int yaw_cos, int x, int y, int z, int uid) {
         int j2 = y * yaw_cos - x * yaw_sin >> 16;
         int cam_dist = z * pitch_sin + j2 * pitch_cos >> 16;
-        int l2 = max_horizon * pitch_cos >> 16;
+        int l2 = maxHorizon * pitch_cos >> 16;
         int angle = cam_dist + l2;
 
         if (angle <= 50 || cam_dist >= 3500) {
@@ -1769,18 +1769,18 @@ public class Model extends Renderable {
 
         int j3 = y * yaw_sin + x * yaw_cos >> 16;
 
-        int x1 = j3 - max_horizon << 9;
+        int x1 = j3 - maxHorizon << 9;
         if (x1 / angle >= Canvas2D.center_x) {
             return;
         }
 
-        int x2 = j3 + max_horizon << 9;
+        int x2 = j3 + maxHorizon << 9;
         if (x2 / angle <= -Canvas2D.center_x) {
             return;
         }
 
         int i4 = z * pitch_cos - j2 * pitch_sin >> 16;
-        int j4 = max_horizon * pitch_sin >> 16;
+        int j4 = maxHorizon * pitch_sin >> 16;
 
         int y2 = i4 + j4 << 9;
         if (y2 / angle <= -Canvas2D.center_y) {

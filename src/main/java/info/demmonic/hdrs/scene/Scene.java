@@ -63,32 +63,32 @@ public class Scene {
         this.blendedDirection = new int[landscapeSizeY];
     }
 
-    public static void addLoc(Landscape l, int x, int y, int plane, int loc_index, int locType, int loc_rotation, int vertex_plane, CollisionMap cm, short[][][] height_map) {
-        int heightSouthWest = height_map[vertex_plane][x][y];
-        int heightSouthEast = height_map[vertex_plane][x + 1][y];
-        int heightNorthEast = height_map[vertex_plane][x + 1][y + 1];
-        int heightNorthWest = height_map[vertex_plane][x][y + 1];
+    public static void addLoc(Landscape l, int x, int y, int plane, int locIndex, int locType, int locRotation, int vertexPlane, CollisionMap cm, short[][][] heightMap) {
+        int heightSouthWest = heightMap[vertexPlane][x][y];
+        int heightSouthEast = heightMap[vertexPlane][x + 1][y];
+        int heightNorthEast = heightMap[vertexPlane][x + 1][y + 1];
+        int heightNorthWest = heightMap[vertexPlane][x][y + 1];
         int averageHeight = (heightSouthWest + heightSouthEast + heightNorthEast + heightNorthWest) >> 2;
 
-        LocConfig c = LocConfig.get(loc_index);
-        int uid = 0x40000000 | (loc_index << 14) | (y << 7) | x;
+        LocConfig c = LocConfig.get(locIndex);
+        int uid = 0x40000000 | (locIndex << 14) | (y << 7) | x;
 
         if (!c.isStatic) {
             uid += Integer.MIN_VALUE;
         }
 
-        byte locIndex = (byte) ((loc_rotation << 6) + locType);
+        byte arrangement = (byte) ((locRotation << 6) + locType);
 
         if (locType == 22) {
             Renderable r;
 
             if (c.seqIndex == -1 && c.overrideIndex == null) {
-                r = c.getModel(22, loc_rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                r = c.getModel(22, locRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
             } else {
-                r = new Loc(loc_index, loc_rotation, 22, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                r = new Loc(locIndex, locRotation, 22, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addGroundDecoration(x, y, averageHeight, plane, r, uid, locIndex);
+            l.addGroundDecoration(x, y, averageHeight, plane, r, uid, arrangement);
 
             if (c.hasCollisions && c.isStatic) {
                 cm.setSolid(x, y);
@@ -97,9 +97,9 @@ public class Scene {
             Renderable r;
 
             if (c.seqIndex == -1 && c.overrideIndex == null) {
-                r = c.getModel(10, loc_rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                r = c.getModel(10, locRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
             } else {
-                r = new Loc(loc_index, loc_rotation, 10, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                r = new Loc(locIndex, locRotation, 10, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
             if (r != null) {
@@ -109,132 +109,132 @@ public class Scene {
                     rotation += 512;
                 }
 
-                int size_y;
-                int size_x;
+                int sizeY;
+                int sizeX;
 
-                if (loc_rotation == 1 || loc_rotation == 3) {
-                    size_y = c.sizeY;
-                    size_x = c.sizeX;
+                if (locRotation == 1 || locRotation == 3) {
+                    sizeY = c.sizeY;
+                    sizeX = c.sizeX;
                 } else {
-                    size_y = c.sizeX;
-                    size_x = c.sizeY;
+                    sizeY = c.sizeX;
+                    sizeX = c.sizeY;
                 }
 
-                l.add(r, x, y, plane, size_x, size_y, averageHeight, locIndex, rotation, uid);
+                l.add(r, x, y, plane, sizeX, sizeY, averageHeight, arrangement, rotation, uid);
             }
 
             if (c.hasCollisions) {
-                cm.addLoc(x, y, c.sizeX, c.sizeY, loc_rotation, c.blocksProjectiles);
+                cm.addLoc(x, y, c.sizeX, c.sizeY, locRotation, c.blocksProjectiles);
             }
         } else if (locType >= 12) {
             Renderable r;
 
             if (c.seqIndex == -1 && c.overrideIndex == null) {
-                r = c.getModel(locType, loc_rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                r = c.getModel(locType, locRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
             } else {
-                r = new Loc(loc_index, loc_rotation, locType, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                r = new Loc(locIndex, locRotation, locType, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.add(r, x, y, plane, 1, 1, averageHeight, locIndex, 0, uid);
+            l.add(r, x, y, plane, 1, 1, averageHeight, arrangement, 0, uid);
 
             if (c.hasCollisions) {
-                cm.addLoc(x, y, c.sizeX, c.sizeY, loc_rotation, c.blocksProjectiles);
+                cm.addLoc(x, y, c.sizeX, c.sizeY, locRotation, c.blocksProjectiles);
             }
         } else if (locType == 0) {
             Renderable r;
 
             if (c.seqIndex == -1 && c.overrideIndex == null) {
-                r = c.getModel(0, loc_rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                r = c.getModel(0, locRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
             } else {
-                r = new Loc(loc_index, loc_rotation, 0, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                r = new Loc(locIndex, locRotation, 0, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addWall(r, null, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[loc_rotation], 0, locIndex, true, uid);
+            l.addWall(r, null, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[locRotation], 0, arrangement, true, uid);
 
             if (c.hasCollisions) {
-                cm.addWall(x, y, locType, loc_rotation, c.blocksProjectiles);
+                cm.addWall(x, y, locType, locRotation, c.blocksProjectiles);
             }
         } else if (locType == 1) {
             Renderable r;
 
             if (c.seqIndex == -1 && c.overrideIndex == null) {
-                r = c.getModel(1, loc_rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                r = c.getModel(1, locRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
             } else {
-                r = new Loc(loc_index, loc_rotation, 1, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                r = new Loc(locIndex, locRotation, 1, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[loc_rotation], 0, locIndex, true, uid);
+            l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[locRotation], 0, arrangement, true, uid);
 
             if (c.hasCollisions) {
-                cm.addWall(x, y, locType, loc_rotation, c.blocksProjectiles);
+                cm.addWall(x, y, locType, locRotation, c.blocksProjectiles);
             }
         } else if (locType == 2) {
-            int nextRotation = loc_rotation + 1 & 0x3;
+            int nextRotation = locRotation + 1 & 0x3;
             Renderable r1;
             Renderable r2;
 
             if (c.seqIndex == -1 && c.overrideIndex == null) {
-                r1 = c.getModel(2, 4 + loc_rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                r1 = c.getModel(2, 4 + locRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 r2 = c.getModel(2, nextRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
             } else {
-                r1 = new Loc(loc_index, 4 + loc_rotation, 2, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
-                r2 = new Loc(loc_index, nextRotation, 2, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                r1 = new Loc(locIndex, 4 + locRotation, 2, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                r2 = new Loc(locIndex, nextRotation, 2, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addWall(r1, r2, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[loc_rotation], WALL_ROOT_DRAW_FLAGS[nextRotation], locIndex, true, uid);
+            l.addWall(r1, r2, x, y, averageHeight, plane, WALL_ROOT_DRAW_FLAGS[locRotation], WALL_ROOT_DRAW_FLAGS[nextRotation], arrangement, true, uid);
 
             if (c.hasCollisions) {
-                cm.addWall(x, y, locType, loc_rotation, c.blocksProjectiles);
+                cm.addWall(x, y, locType, locRotation, c.blocksProjectiles);
             }
         } else if (locType == 3) {
             Renderable r;
 
             if (c.seqIndex == -1 && c.overrideIndex == null) {
-                r = c.getModel(3, loc_rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                r = c.getModel(3, locRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
             } else {
-                r = new Loc(loc_index, loc_rotation, 3, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                r = new Loc(locIndex, locRotation, 3, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[loc_rotation], 0, locIndex, true, uid);
+            l.addWall(r, null, x, y, averageHeight, plane, WALL_EXT_DRAW_FLAGS[locRotation], 0, arrangement, true, uid);
 
             if (c.hasCollisions) {
-                cm.addWall(x, y, locType, loc_rotation, c.blocksProjectiles);
+                cm.addWall(x, y, locType, locRotation, c.blocksProjectiles);
             }
         } else if (locType == 9) {
             Renderable node;
 
             if (c.seqIndex == -1 && c.overrideIndex == null) {
-                node = c.getModel(locType, loc_rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                node = c.getModel(locType, locRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
             } else {
-                node = new Loc(loc_index, loc_rotation, locType, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                node = new Loc(locIndex, locRotation, locType, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
             }
 
-            l.add(node, x, y, plane, 1, 1, averageHeight, locIndex, 0, uid);
+            l.add(node, x, y, plane, 1, 1, averageHeight, arrangement, 0, uid);
 
             if (c.hasCollisions) {
-                cm.addLoc(x, y, c.sizeX, c.sizeY, loc_rotation, c.blocksProjectiles);
+                cm.addLoc(x, y, c.sizeX, c.sizeY, locRotation, c.blocksProjectiles);
             }
         } else {
             if (c.adjustToTerrain) {
-                if (loc_rotation == 1) {
-                    int v_sw2 = heightNorthWest;
+                if (locRotation == 1) {
+                    int heightSouthWest2 = heightNorthWest;
                     heightNorthWest = heightNorthEast;
                     heightNorthEast = heightSouthEast;
                     heightSouthEast = heightSouthWest;
-                    heightSouthWest = v_sw2;
-                } else if (loc_rotation == 2) {
-                    int v_sw2 = heightNorthWest;
+                    heightSouthWest = heightSouthWest2;
+                } else if (locRotation == 2) {
+                    int heightSouthWest2 = heightNorthWest;
                     heightNorthWest = heightSouthEast;
-                    heightSouthEast = v_sw2;
-                    v_sw2 = heightNorthEast;
+                    heightSouthEast = heightSouthWest2;
+                    heightSouthWest2 = heightNorthEast;
                     heightNorthEast = heightSouthWest;
-                    heightSouthWest = v_sw2;
-                } else if (loc_rotation == 3) {
-                    int v_ne2 = heightNorthWest;
+                    heightSouthWest = heightSouthWest2;
+                } else if (locRotation == 3) {
+                    int heightNorthEast2 = heightNorthWest;
                     heightNorthWest = heightSouthWest;
                     heightSouthWest = heightSouthEast;
                     heightSouthEast = heightNorthEast;
-                    heightNorthEast = v_ne2;
+                    heightNorthEast = heightNorthEast2;
                 }
             }
             if (locType == 4) {
@@ -243,16 +243,16 @@ public class Scene {
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
                     node = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    node = new Loc(loc_index, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                    node = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, loc_rotation * 512, locIndex, WALL_ROOT_DRAW_FLAGS[loc_rotation], uid);
+                l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, locRotation * 512, arrangement, WALL_ROOT_DRAW_FLAGS[locRotation], uid);
             } else if (locType == 5) {
                 int width = 16;
-                int wall_uid = l.getWallUid(plane, x, y);
+                int wallUid = l.getWallUid(plane, x, y);
 
-                if (wall_uid > 0) {
-                    width = LocConfig.get(wall_uid >> 14 & 0x7fff).wallWidth;
+                if (wallUid > 0) {
+                    width = LocConfig.get(wallUid >> 14 & 0x7fff).wallWidth;
                 }
 
                 Renderable node;
@@ -260,40 +260,40 @@ public class Scene {
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
                     node = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    node = new Loc(loc_index, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                    node = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                l.addWallDecoration(node, x, y, plane, ROT_X_DELTA[loc_rotation] * width, ROT_Y_DELTA[loc_rotation] * width, averageHeight, loc_rotation * 512, locIndex, WALL_ROOT_DRAW_FLAGS[loc_rotation], uid);
+                l.addWallDecoration(node, x, y, plane, ROT_X_DELTA[locRotation] * width, ROT_Y_DELTA[locRotation] * width, averageHeight, locRotation * 512, arrangement, WALL_ROOT_DRAW_FLAGS[locRotation], uid);
             } else if (locType == 6) {
                 Renderable node;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
                     node = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    node = new Loc(loc_index, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                    node = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, loc_rotation, locIndex, 256, uid);
+                l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, locRotation, arrangement, 256, uid);
             } else if (locType == 7) {
                 Renderable node;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
                     node = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    node = new Loc(loc_index, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                    node = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, loc_rotation, locIndex, 512, uid);
+                l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, locRotation, arrangement, 512, uid);
             } else if (locType == 8) {
                 Renderable node;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
                     node = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    node = new Loc(loc_index, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                    node = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, loc_rotation, locIndex, 768, uid);
+                l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, locRotation, arrangement, 768, uid);
             }
         }
     }
@@ -317,7 +317,7 @@ public class Scene {
     public static boolean locsFullyLoaded(int mapX, int mapY, byte[] landscapePayload) {
         boolean valid = true;
         Buffer s = new Buffer(landscapePayload);
-        int loc_index = -1;
+        int locIndex = -1;
 
         for (; ; ) {
             int i = s.writeUnsignedSmart();
@@ -326,12 +326,12 @@ public class Scene {
                 break;
             }
 
-            loc_index += i;
+            locIndex += i;
             int xy = 0;
-            boolean verify_next = false;
+            boolean verifyNext = false;
 
             for (; ; ) {
-                if (verify_next) {
+                if (verifyNext) {
                     int lsb = s.writeUnsignedSmart();
 
                     if (lsb == 0) {
@@ -347,18 +347,18 @@ public class Scene {
                     }
 
                     xy += msb - 1;
-                    int loc_y = xy & 0x3f;
-                    int loc_x = xy >> 6 & 0x3f;
-                    int loc_type = s.readUnsignedByte() >> 2;
-                    int x = loc_x + mapX;
-                    int y = loc_y + mapY;
+                    int locY = xy & 0x3f;
+                    int locX = xy >> 6 & 0x3f;
+                    int locType = s.readUnsignedByte() >> 2;
+                    int x = locX + mapX;
+                    int y = locY + mapY;
 
                     if (x > 0 && y > 0 && x < 103 && y < 103) {
-                        LocConfig config = LocConfig.get(loc_index);
+                        LocConfig config = LocConfig.get(locIndex);
 
-                        if (loc_type != 22 || !Game.lowDetail || config.isStatic || config.isDecoration) {
+                        if (locType != 22 || !Game.lowDetail || config.isStatic || config.isDecoration) {
                             valid &= config.hasValidModel();
-                            verify_next = true;
+                            verifyNext = true;
                         }
                     }
                 }
@@ -390,20 +390,20 @@ public class Scene {
         }
     }
 
-    public void addLoc(Landscape landscape, CollisionMap collision, int loc_index, int type, int x, int y, int plane, int rotation) {
+    public void addLoc(Landscape landscape, CollisionMap collision, int locIndex, int type, int x, int y, int plane, int rotation) {
         if (!Game.lowDetail || (renderFlags[0][x][y] & 0x2) != 0 || ((renderFlags[plane][x][y] & 0x10) == 0 && setVisibilityPlane(plane, x, y) == planeAtBuild)) {
             if (plane < minPlane) {
                 minPlane = plane;
             }
 
-            int v_sw = heightMap[plane][x][y];
-            int v_se = heightMap[plane][x + 1][y];
-            int v_ne = heightMap[plane][x + 1][y + 1];
-            int v_nw = heightMap[plane][x][y + 1];
-            int v_avg = (v_sw + v_se + v_ne + v_nw) >> 2;
+            int heightSouthWest = heightMap[plane][x][y];
+            int heightSouthEast = heightMap[plane][x + 1][y];
+            int heightNorthEast = heightMap[plane][x + 1][y + 1];
+            int heightNorthWest = heightMap[plane][x][y + 1];
+            int heightAverage = (heightSouthWest + heightSouthEast + heightNorthEast + heightNorthWest) >> 2;
 
-            LocConfig c = LocConfig.get(loc_index);
-            int uid = 0x40000000 | (loc_index << 14) | (y << 7) | x;
+            LocConfig c = LocConfig.get(locIndex);
+            int uid = 0x40000000 | (locIndex << 14) | (y << 7) | x;
 
             if (!c.isStatic) {
                 uid += Integer.MIN_VALUE;
@@ -416,12 +416,12 @@ public class Scene {
                     Renderable r;
 
                     if (c.seqIndex == -1 && c.overrideIndex == null) {
-                        r = c.getModel(22, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                        r = c.getModel(22, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                     } else {
-                        r = new Loc(loc_index, rotation, 22, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                        r = new Loc(locIndex, rotation, 22, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                     }
 
-                    landscape.addGroundDecoration(x, y, v_avg, plane, r, uid, arrangement);
+                    landscape.addGroundDecoration(x, y, heightAverage, plane, r, uid, arrangement);
 
                     if (c.hasCollisions && c.isStatic && collision != null) {
                         collision.setSolid(x, y);
@@ -432,48 +432,48 @@ public class Scene {
                 Renderable r;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
-                    r = c.getModel(10, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                    r = c.getModel(10, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    r = new Loc(loc_index, rotation, 10, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                    r = new Loc(locIndex, rotation, 10, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
                 if (r != null) {
                     int angle = 0;
-                    int size_y;
-                    int size_x;
+                    int sizeY;
+                    int sizeX;
 
                     if (type == 11) {
                         angle += 256;
                     }
 
                     if (rotation == 1 || rotation == 3) {
-                        size_y = c.sizeY;
-                        size_x = c.sizeX;
+                        sizeY = c.sizeY;
+                        sizeX = c.sizeX;
                     } else {
-                        size_y = c.sizeX;
-                        size_x = c.sizeY;
+                        sizeY = c.sizeX;
+                        sizeX = c.sizeY;
                     }
 
-                    if (landscape.add(r, x, y, plane, size_x, size_y, v_avg, arrangement, angle, uid) && c.castsShadow) {
+                    if (landscape.add(r, x, y, plane, sizeX, sizeY, heightAverage, arrangement, angle, uid) && c.castsShadow) {
                         Model mesh;
 
                         if (r instanceof Model) {
                             mesh = (Model) r;
                         } else {
-                            mesh = c.getModel(10, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                            mesh = c.getModel(10, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                         }
 
                         if (mesh != null) {
-                            for (int x_off = 0; x_off <= size_y; x_off++) {
-                                for (int y_off = 0; y_off <= size_x; y_off++) {
-                                    int i = mesh.max_horizon / 4;
+                            for (int xOff = 0; xOff <= sizeY; xOff++) {
+                                for (int yOff = 0; yOff <= sizeX; yOff++) {
+                                    int i = mesh.maxHorizon / 4;
 
                                     if (i > 30) {
                                         i = 30;
                                     }
 
-                                    if (i > (shadowMap[plane][x + x_off][y + y_off])) {
-                                        shadowMap[plane][x + x_off][y + y_off] = (byte) i;
+                                    if (i > (shadowMap[plane][x + xOff][y + yOff])) {
+                                        shadowMap[plane][x + xOff][y + yOff] = (byte) i;
                                     }
                                 }
                             }
@@ -490,12 +490,12 @@ public class Scene {
                 Renderable r;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
-                    r = c.getModel(type, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                    r = c.getModel(type, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    r = new Loc(loc_index, rotation, type, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                    r = new Loc(locIndex, rotation, type, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.add(r, x, y, plane, 1, 1, v_avg, arrangement, 0, uid);
+                landscape.add(r, x, y, plane, 1, 1, heightAverage, arrangement, 0, uid);
 
                 if (type >= 12 && type <= 17 && type != 13 && plane > 0) {
                     tileCullingBitset[plane][x][y] |= 0x924;
@@ -509,12 +509,12 @@ public class Scene {
                 Renderable r;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
-                    r = c.getModel(0, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                    r = c.getModel(0, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    r = new Loc(loc_index, rotation, 0, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                    r = new Loc(locIndex, rotation, 0, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.addWall(r, null, x, y, v_avg, plane, WALL_ROOT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
+                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_ROOT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
 
                 if (rotation == 0) {
                     if (c.castsShadow) {
@@ -566,12 +566,12 @@ public class Scene {
                 Renderable r;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
-                    r = c.getModel(1, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                    r = c.getModel(1, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    r = new Loc(loc_index, rotation, 1, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                    r = new Loc(locIndex, rotation, 1, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.addWall(r, null, x, y, v_avg, plane, WALL_EXT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
+                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_EXT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
 
                 if (c.castsShadow) {
                     if (rotation == 0) {
@@ -589,19 +589,19 @@ public class Scene {
                     collision.addWall(x, y, type, rotation, c.blocksProjectiles);
                 }
             } else if (type == 2) {
-                int next_rotation = rotation + 1 & 0x3;
+                int nextRotation = rotation + 1 & 0x3;
                 Renderable r1;
                 Renderable r2;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
-                    r1 = c.getModel(2, 4 + rotation, v_sw, v_se, v_ne, v_nw, -1);
-                    r2 = c.getModel(2, next_rotation, v_sw, v_se, v_ne, v_nw, -1);
+                    r1 = c.getModel(2, 4 + rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
+                    r2 = c.getModel(2, nextRotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    r1 = new Loc(loc_index, 4 + rotation, 2, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
-                    r2 = new Loc(loc_index, next_rotation, 2, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                    r1 = new Loc(locIndex, 4 + rotation, 2, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
+                    r2 = new Loc(locIndex, nextRotation, 2, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.addWall(r1, r2, x, y, v_avg, plane, WALL_ROOT_DRAW_FLAGS[rotation], WALL_ROOT_DRAW_FLAGS[next_rotation], arrangement, true, uid);
+                landscape.addWall(r1, r2, x, y, heightAverage, plane, WALL_ROOT_DRAW_FLAGS[rotation], WALL_ROOT_DRAW_FLAGS[nextRotation], arrangement, true, uid);
 
                 if (c.isSolid) {
                     if (rotation == 0) {
@@ -630,12 +630,12 @@ public class Scene {
                 Renderable r;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
-                    r = c.getModel(3, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                    r = c.getModel(3, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    r = new Loc(loc_index, rotation, 3, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                    r = new Loc(locIndex, rotation, 3, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.addWall(r, null, x, y, v_avg, plane, WALL_EXT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
+                landscape.addWall(r, null, x, y, heightAverage, plane, WALL_EXT_DRAW_FLAGS[rotation], 0, arrangement, true, uid);
 
                 if (c.castsShadow) {
                     if (rotation == 0) {
@@ -657,12 +657,12 @@ public class Scene {
                 Renderable r;
 
                 if (c.seqIndex == -1 && c.overrideIndex == null) {
-                    r = c.getModel(type, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                    r = c.getModel(type, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                 } else {
-                    r = new Loc(loc_index, rotation, type, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                    r = new Loc(locIndex, rotation, type, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                 }
 
-                landscape.add(r, x, y, plane, 1, 1, v_avg, arrangement, 0, uid);
+                landscape.add(r, x, y, plane, 1, 1, heightAverage, arrangement, 0, uid);
 
                 if (c.hasCollisions && collision != null) {
                     collision.addLoc(x, y, c.sizeX, c.sizeY, rotation, c.blocksProjectiles);
@@ -670,24 +670,24 @@ public class Scene {
             } else {
                 if (c.adjustToTerrain) {
                     if (rotation == 1) {
-                        int new_v_sw = v_nw;
-                        v_nw = v_ne;
-                        v_ne = v_se;
-                        v_se = v_sw;
-                        v_sw = new_v_sw;
+                        int heightSouthWest2 = heightNorthWest;
+                        heightNorthWest = heightNorthEast;
+                        heightNorthEast = heightSouthEast;
+                        heightSouthEast = heightSouthWest;
+                        heightSouthWest = heightSouthWest2;
                     } else if (rotation == 2) {
-                        int new_v_sw = v_nw;
-                        v_nw = v_se;
-                        v_se = new_v_sw;
-                        new_v_sw = v_ne;
-                        v_ne = v_sw;
-                        v_sw = new_v_sw;
+                        int heightSouthWest2 = heightNorthWest;
+                        heightNorthWest = heightSouthEast;
+                        heightSouthEast = heightSouthWest2;
+                        heightSouthWest2 = heightNorthEast;
+                        heightNorthEast = heightSouthWest;
+                        heightSouthWest = heightSouthWest2;
                     } else if (rotation == 3) {
-                        int new_v_sw = v_nw;
-                        v_nw = v_sw;
-                        v_sw = v_se;
-                        v_se = v_ne;
-                        v_ne = new_v_sw;
+                        int heightNorthEast2 = heightNorthWest;
+                        heightNorthWest = heightSouthWest;
+                        heightSouthWest = heightSouthEast;
+                        heightSouthEast = heightNorthEast;
+                        heightNorthEast = heightNorthEast2;
                     }
                 }
 
@@ -695,59 +695,59 @@ public class Scene {
                     Renderable r;
 
                     if (c.seqIndex == -1 && c.overrideIndex == null) {
-                        r = c.getModel(4, 0, v_sw, v_se, v_ne, v_nw, -1);
+                        r = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                     } else {
-                        r = new Loc(loc_index, 0, 4, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                        r = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                     }
 
-                    landscape.addWallDecoration(r, x, y, plane, 0, 0, v_avg, rotation * 512, arrangement, WALL_ROOT_DRAW_FLAGS[rotation], uid);
+                    landscape.addWallDecoration(r, x, y, plane, 0, 0, heightAverage, rotation * 512, arrangement, WALL_ROOT_DRAW_FLAGS[rotation], uid);
                 } else if (type == 5) {
                     int width = 16;
-                    int wall_uid = landscape.getWallUid(plane, x, y);
+                    int wallUid = landscape.getWallUid(plane, x, y);
 
-                    if (wall_uid > 0) {
-                        width = LocConfig.get(wall_uid >> 14 & 0x7fff).wallWidth;
+                    if (wallUid > 0) {
+                        width = LocConfig.get(wallUid >> 14 & 0x7fff).wallWidth;
                     }
 
                     Renderable r;
 
                     if (c.seqIndex == -1 && c.overrideIndex == null) {
-                        r = c.getModel(4, 0, v_sw, v_se, v_ne, v_nw, -1);
+                        r = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                     } else {
-                        r = new Loc(loc_index, 0, 4, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                        r = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                     }
 
-                    landscape.addWallDecoration(r, x, y, plane, ROT_X_DELTA[rotation] * width, ROT_Y_DELTA[rotation] * width, v_avg, rotation * 512, arrangement, WALL_ROOT_DRAW_FLAGS[rotation], uid);
+                    landscape.addWallDecoration(r, x, y, plane, ROT_X_DELTA[rotation] * width, ROT_Y_DELTA[rotation] * width, heightAverage, rotation * 512, arrangement, WALL_ROOT_DRAW_FLAGS[rotation], uid);
                 } else if (type == 6) {
                     Renderable node;
 
                     if (c.seqIndex == -1 && c.overrideIndex == null) {
-                        node = c.getModel(4, 0, v_sw, v_se, v_ne, v_nw, -1);
+                        node = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                     } else {
-                        node = new Loc(loc_index, 0, 4, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                        node = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                     }
 
-                    landscape.addWallDecoration(node, x, y, plane, 0, 0, v_avg, rotation, arrangement, 0x100, uid);
+                    landscape.addWallDecoration(node, x, y, plane, 0, 0, heightAverage, rotation, arrangement, 0x100, uid);
                 } else if (type == 7) {
                     Renderable node;
 
                     if (c.seqIndex == -1 && c.overrideIndex == null) {
-                        node = c.getModel(4, 0, v_sw, v_se, v_ne, v_nw, -1);
+                        node = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                     } else {
-                        node = new Loc(loc_index, 0, 4, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                        node = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                     }
 
-                    landscape.addWallDecoration(node, x, y, plane, 0, 0, v_avg, rotation, arrangement, 0x200, uid);
+                    landscape.addWallDecoration(node, x, y, plane, 0, 0, heightAverage, rotation, arrangement, 0x200, uid);
                 } else if (type == 8) {
                     Renderable node;
 
                     if (c.seqIndex == -1 && c.overrideIndex == null) {
-                        node = c.getModel(4, 0, v_sw, v_se, v_ne, v_nw, -1);
+                        node = c.getModel(4, 0, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
                     } else {
-                        node = new Loc(loc_index, 0, 4, v_se, v_ne, v_sw, v_nw, c.seqIndex, true);
+                        node = new Loc(locIndex, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, c.seqIndex, true);
                     }
 
-                    landscape.addWallDecoration(node, x, y, plane, 0, 0, v_avg, rotation, arrangement, 0x300, uid);
+                    landscape.addWallDecoration(node, x, y, plane, 0, 0, heightAverage, rotation, arrangement, 0x300, uid);
                 }
             }
         }
@@ -758,14 +758,14 @@ public class Scene {
             for (int x = 0; x < 104; x++) {
                 for (int z = 0; z < 104; z++) {
                     if ((renderFlags[plane][x][z] & 0x1) == 1) {
-                        int plane_ = plane;
+                        int actualPlane = plane;
 
                         if ((renderFlags[1][x][z] & 0x2) == 2) {
-                            plane_--;
+                            actualPlane--;
                         }
 
-                        if (plane_ >= 0) {
-                            cm[plane_].setSolid(x, z);
+                        if (actualPlane >= 0) {
+                            cm[actualPlane].setSolid(x, z);
                         }
                     }
                 }
@@ -794,25 +794,25 @@ public class Scene {
 
         for (int plane = 0; plane < 4; plane++) {
             byte[][] shadowIntensity = shadowMap[plane];
-            int initial_light_intensity = 96;
-            int specular_factor = 768;
-            int light_x = -50;
-            int light_z = -10;
-            int light_y = -50;
-            int light_length = (int) Math.sqrt((double) (light_x * light_x + light_z * light_z + light_y * light_y));
-            int specular_distribution = specular_factor * light_length >> 8;
+            int initialLightIntensity = 96;
+            int specularFactor = 768;
+            int lightX = -50;
+            int lightZ = -10;
+            int lightY = -50;
+            int lightLength = (int) Math.sqrt((double) (lightX * lightX + lightZ * lightZ + lightY * lightY));
+            int specularDistribution = specularFactor * lightLength >> 8;
 
             for (int y = 1; y < landscapeSizeY - 1; y++) {
                 for (int x = 1; x < landscapeSizeX - 1; x++) {
-                    int x_height_diff = (heightMap[plane][x + 1][y] - heightMap[plane][x - 1][y]);
-                    int y_height_diff = (heightMap[plane][x][y + 1] - heightMap[plane][x][y - 1]);
-                    int normal_length = (int) Math.sqrt((double) (x_height_diff * x_height_diff + 65536 + y_height_diff * y_height_diff));
-                    int normalized_x = (x_height_diff << 8) / normal_length;
-                    int normalized_z = 65536 / normal_length;
-                    int normalized_y = (y_height_diff << 8) / normal_length;
-                    int intensity = initial_light_intensity + (light_x * normalized_x + light_z * normalized_z + light_y * normalized_y) / specular_distribution;
-                    int weighted_shadow_intensity = ((shadowIntensity[x - 1][y] >> 2) + (shadowIntensity[x + 1][y] >> 3) + (shadowIntensity[x][y - 1] >> 2) + (shadowIntensity[x][y + 1] >> 3) + (shadowIntensity[x][y] >> 1));
-                    lightMap[x][y] = intensity - weighted_shadow_intensity;
+                    int xHeightDiff = (heightMap[plane][x + 1][y] - heightMap[plane][x - 1][y]);
+                    int yHeightDiff = (heightMap[plane][x][y + 1] - heightMap[plane][x][y - 1]);
+                    int normalLength = (int) Math.sqrt((double) (xHeightDiff * xHeightDiff + 65536 + yHeightDiff * yHeightDiff));
+                    int normalizedX = (xHeightDiff << 8) / normalLength;
+                    int normalizedZ = 65536 / normalLength;
+                    int normalizedY = (yHeightDiff << 8) / normalLength;
+                    int intensity = initialLightIntensity + (lightX * normalizedX + lightZ * normalizedZ + lightY * normalizedY) / specularDistribution;
+                    int weightedShadowIntensity = ((shadowIntensity[x - 1][y] >> 2) + (shadowIntensity[x + 1][y] >> 3) + (shadowIntensity[x][y - 1] >> 2) + (shadowIntensity[x][y + 1] >> 3) + (shadowIntensity[x][y] >> 1));
+                    lightMap[x][y] = intensity - weightedShadowIntensity;
                 }
             }
 
@@ -826,11 +826,11 @@ public class Scene {
 
             for (int x = -5; x < landscapeSizeX + 5; x++) {
                 for (int y = 0; y < landscapeSizeY; y++) {
-                    int x_positive_offset = x + 5;
-                    if (x_positive_offset >= 0 && x_positive_offset < landscapeSizeX) {
-                        int flo_index = underlayFloIndex[plane][x_positive_offset][y] & 0xFF;
-                        if (flo_index > 0) {
-                            Floor floor = Floor.instance[flo_index - 1];
+                    int xPositiveOffset = x + 5;
+                    if (xPositiveOffset >= 0 && xPositiveOffset < landscapeSizeX) {
+                        int floIndex = underlayFloIndex[plane][xPositiveOffset][y] & 0xFF;
+                        if (floIndex > 0) {
+                            Floor floor = Floor.instance[floIndex - 1];
                             blendedHue[y] += floor.hue;
                             blendedSatuartion[y] += floor.saturation;
                             blendedLightness[y] += floor.lightness;
@@ -839,11 +839,11 @@ public class Scene {
                         }
                     }
 
-                    int x_negative_offset = x - 5;
-                    if (x_negative_offset >= 0 && x_negative_offset < landscapeSizeX) {
-                        int flo_index = underlayFloIndex[plane][x_negative_offset][y] & 0xFF;
-                        if (flo_index > 0) {
-                            Floor f = Floor.instance[flo_index - 1];
+                    int xNegativeOffset = x - 5;
+                    if (xNegativeOffset >= 0 && xNegativeOffset < landscapeSizeX) {
+                        int floIndex = underlayFloIndex[plane][xNegativeOffset][y] & 0xFF;
+                        if (floIndex > 0) {
+                            Floor f = Floor.instance[floIndex - 1];
                             blendedHue[y] -= f.hue;
                             blendedSatuartion[y] -= f.saturation;
                             blendedLightness[y] -= f.lightness;
@@ -854,29 +854,29 @@ public class Scene {
                 }
 
                 if (x >= 1 && x < landscapeSizeX - 1) {
-                    int blended_hue = 0;
-                    int blended_saturation = 0;
-                    int blended_brightness = 0;
-                    int blended_hue_divisor = 0;
-                    int blended_direction_tracker = 0;
+                    int blendedHue = 0;
+                    int blendedSaturation = 0;
+                    int blendedBrightness = 0;
+                    int blendedHueDivisor = 0;
+                    int blendedDirectionTracker = 0;
 
                     for (int y = -5; y < landscapeSizeY + 5; y++) {
-                        int y_positive_offset = y + 5;
-                        if (y_positive_offset >= 0 && y_positive_offset < landscapeSizeY) {
-                            blended_hue += this.blendedHue[y_positive_offset];
-                            blended_saturation += this.blendedSatuartion[y_positive_offset];
-                            blended_brightness += blendedLightness[y_positive_offset];
-                            blended_hue_divisor += this.blendedHueDivisor[y_positive_offset];
-                            blended_direction_tracker += blendedDirection[y_positive_offset];
+                        int yPositiveOffset = y + 5;
+                        if (yPositiveOffset >= 0 && yPositiveOffset < landscapeSizeY) {
+                            blendedHue += this.blendedHue[yPositiveOffset];
+                            blendedSaturation += this.blendedSatuartion[yPositiveOffset];
+                            blendedBrightness += blendedLightness[yPositiveOffset];
+                            blendedHueDivisor += this.blendedHueDivisor[yPositiveOffset];
+                            blendedDirectionTracker += blendedDirection[yPositiveOffset];
                         }
 
-                        int y_negative_offset = y - 5;
-                        if (y_negative_offset >= 0 && y_negative_offset < landscapeSizeY) {
-                            blended_hue -= this.blendedHue[y_negative_offset];
-                            blended_saturation -= this.blendedSatuartion[y_negative_offset];
-                            blended_brightness -= blendedLightness[y_negative_offset];
-                            blended_hue_divisor -= this.blendedHueDivisor[y_negative_offset];
-                            blended_direction_tracker -= blendedDirection[y_negative_offset];
+                        int yNegativeOffset = y - 5;
+                        if (yNegativeOffset >= 0 && yNegativeOffset < landscapeSizeY) {
+                            blendedHue -= this.blendedHue[yNegativeOffset];
+                            blendedSaturation -= this.blendedSatuartion[yNegativeOffset];
+                            blendedBrightness -= blendedLightness[yNegativeOffset];
+                            blendedHueDivisor -= this.blendedHueDivisor[yNegativeOffset];
+                            blendedDirectionTracker -= blendedDirection[yNegativeOffset];
                         }
 
                         if (y >= 1 && y < landscapeSizeY - 1 && (!Game.lowDetail || (renderFlags[0][x][y] & 0x2) != 0 || ((renderFlags[plane][x][y] & 0x10) == 0 && (setVisibilityPlane(plane, x, y) == planeAtBuild)))) {
@@ -884,25 +884,25 @@ public class Scene {
                                 minPlane = plane;
                             }
 
-                            int underlay_id = underlayFloIndex[plane][x][y] & 0xFF;
-                            int overlay_id = overlayFloIndex[plane][x][y] & 0xFF;
+                            int underlayId = underlayFloIndex[plane][x][y] & 0xFF;
+                            int overlayId = overlayFloIndex[plane][x][y] & 0xFF;
 
-                            if (underlay_id > 0 || overlay_id > 0) {
-                                short v_sw = heightMap[plane][x][y];
-                                short v_se = heightMap[plane][x + 1][y];
-                                short v_ne = heightMap[plane][x + 1][y + 1];
-                                short v_nw = heightMap[plane][x][y + 1];
-                                int l_sw = lightMap[x][y];
-                                int l_se = lightMap[x + 1][y];
-                                int l_ne = lightMap[x + 1][y + 1];
-                                int l_nw = lightMap[x][y + 1];
+                            if (underlayId > 0 || overlayId > 0) {
+                                short heightSouthWest = heightMap[plane][x][y];
+                                short heightSouthEast = heightMap[plane][x + 1][y];
+                                short heightNorthEast = heightMap[plane][x + 1][y + 1];
+                                short heightNorthWest = heightMap[plane][x][y + 1];
+                                int lightSouthWest = lightMap[x][y];
+                                int lightSouthEast = lightMap[x + 1][y];
+                                int lightNorthEast = lightMap[x + 1][y + 1];
+                                int lightNorthWest = lightMap[x][y + 1];
                                 int hsl = -1;
-                                int hsl_randomized = -1;
+                                int hslRandomized = -1;
 
-                                if (underlay_id > 0) {
-                                    int hue = blended_hue * 256 / blended_hue_divisor;
-                                    int saturation = blended_saturation / blended_direction_tracker;
-                                    int brightness = blended_brightness / blended_direction_tracker;
+                                if (underlayId > 0) {
+                                    int hue = blendedHue * 256 / blendedHueDivisor;
+                                    int saturation = blendedSaturation / blendedDirectionTracker;
+                                    int brightness = blendedBrightness / blendedDirectionTracker;
                                     hsl = ColorUtils.trimHsl(hue, saturation, brightness);
                                     hue = hue + hueRandomizer & 0xFF;
                                     brightness += lightnessRandomizer;
@@ -913,54 +913,54 @@ public class Scene {
                                         brightness = 255;
                                     }
 
-                                    hsl_randomized = ColorUtils.trimHsl(hue, saturation, brightness);
+                                    hslRandomized = ColorUtils.trimHsl(hue, saturation, brightness);
                                 }
 
                                 if (plane > 0) {
-                                    boolean hide_underlay = true;
+                                    boolean hideUnderlay = true;
 
-                                    if (underlay_id == 0 && overlayShape[plane][x][y] != 0) {
-                                        hide_underlay = false;
+                                    if (underlayId == 0 && overlayShape[plane][x][y] != 0) {
+                                        hideUnderlay = false;
                                     }
 
-                                    if (overlay_id > 0 && !Floor.instance[overlay_id - 1].showUnderlay) {
-                                        hide_underlay = false;
+                                    if (overlayId > 0 && !Floor.instance[overlayId - 1].showUnderlay) {
+                                        hideUnderlay = false;
                                     }
 
-                                    if (hide_underlay && v_sw == v_se && v_sw == v_ne && v_sw == v_nw) {
+                                    if (hideUnderlay && heightSouthWest == heightSouthEast && heightSouthWest == heightNorthEast && heightSouthWest == heightNorthWest) {
                                         tileCullingBitset[plane][x][y] |= 0x924;
                                     }
                                 }
 
-                                int rgb_randomized = 0;
+                                int rgbRandomized = 0;
 
                                 if (hsl != -1) {
-                                    rgb_randomized = Canvas3D.palette[ColorUtils.setHslLightnessWithTransparency(hsl_randomized, 96)];
+                                    rgbRandomized = Canvas3D.palette[ColorUtils.setHslLightnessWithTransparency(hslRandomized, 96)];
                                 }
 
-                                if (overlay_id == 0) {
-                                    l.addTile(plane, x, y, 0, 0, (byte) -1, v_sw, v_se, v_ne, v_nw, ColorUtils.setHslLightnessWithTransparency(hsl, l_sw), ColorUtils.setHslLightnessWithTransparency(hsl, l_se), ColorUtils.setHslLightnessWithTransparency(hsl, l_ne), ColorUtils.setHslLightnessWithTransparency(hsl, l_nw), 0, 0, 0, 0, rgb_randomized, 0);
+                                if (overlayId == 0) {
+                                    l.addTile(plane, x, y, 0, 0, (byte) -1, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, ColorUtils.setHslLightnessWithTransparency(hsl, lightSouthWest), ColorUtils.setHslLightnessWithTransparency(hsl, lightSouthEast), ColorUtils.setHslLightnessWithTransparency(hsl, lightNorthEast), ColorUtils.setHslLightnessWithTransparency(hsl, lightNorthWest), 0, 0, 0, 0, rgbRandomized, 0);
                                 } else {
                                     int shape = overlayShape[plane][x][y] + 1;
                                     byte rotation = overlayRotation[plane][x][y];
-                                    Floor f = Floor.instance[overlay_id - 1];
+                                    Floor f = Floor.instance[overlayId - 1];
                                     byte texture = f.textureIndex;
-                                    int hsl_bitset;
-                                    int rgb_bitset;
+                                    int hslBitset;
+                                    int rgbBitset;
 
                                     if (texture >= 0) {
-                                        hsl_bitset = Canvas3D.getAverageTextureRgb(texture);
-                                        rgb_bitset = -1;
+                                        hslBitset = Canvas3D.getAverageTextureRgb(texture);
+                                        rgbBitset = -1;
                                     } else if (f.color2 == 0xFF00FF) {
-                                        hsl_bitset = 0;
-                                        rgb_bitset = -2;
+                                        hslBitset = 0;
+                                        rgbBitset = -2;
                                         texture = -1;
                                     } else {
-                                        rgb_bitset = ColorUtils.trimHsl(f.hue2, f.saturation, f.lightness);
-                                        hsl_bitset = Canvas3D.palette[ColorUtils.getRgb(f.color, 96)];
+                                        rgbBitset = ColorUtils.trimHsl(f.hue2, f.saturation, f.lightness);
+                                        hslBitset = Canvas3D.palette[ColorUtils.getRgb(f.color, 96)];
                                     }
 
-                                    l.addTile(plane, x, y, shape, rotation, texture, v_sw, v_se, v_ne, v_nw, ColorUtils.setHslLightnessWithTransparency(hsl, l_sw), ColorUtils.setHslLightnessWithTransparency(hsl, l_se), ColorUtils.setHslLightnessWithTransparency(hsl, l_ne), ColorUtils.setHslLightnessWithTransparency(hsl, l_nw), ColorUtils.getRgb(rgb_bitset, l_sw), ColorUtils.getRgb(rgb_bitset, l_se), ColorUtils.getRgb(rgb_bitset, l_ne), ColorUtils.getRgb(rgb_bitset, l_nw), rgb_randomized, hsl_bitset);
+                                    l.addTile(plane, x, y, shape, rotation, texture, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, ColorUtils.setHslLightnessWithTransparency(hsl, lightSouthWest), ColorUtils.setHslLightnessWithTransparency(hsl, lightSouthEast), ColorUtils.setHslLightnessWithTransparency(hsl, lightNorthEast), ColorUtils.setHslLightnessWithTransparency(hsl, lightNorthWest), ColorUtils.getRgb(rgbBitset, lightSouthWest), ColorUtils.getRgb(rgbBitset, lightSouthEast), ColorUtils.getRgb(rgbBitset, lightNorthEast), ColorUtils.getRgb(rgbBitset, lightNorthWest), rgbRandomized, hslBitset);
                                 }
                             }
                         }
@@ -985,166 +985,166 @@ public class Scene {
             }
         }
 
-        int render_rule1 = 1;
-        int render_rule2 = 2;
-        int render_rule3 = 4;
+        int renderRule1 = 1;
+        int renderRule2 = 2;
+        int renderRule3 = 4;
 
         for (int k = 0; k < 4; k++) {
             if (k > 0) {
-                render_rule1 <<= 3;
-                render_rule2 <<= 3;
-                render_rule3 <<= 3;
+                renderRule1 <<= 3;
+                renderRule2 <<= 3;
+                renderRule3 <<= 3;
             }
 
             for (int plane = 0; plane <= k; plane++) {
                 for (int y = 0; y <= landscapeSizeY; y++) {
                     for (int x = 0; x <= landscapeSizeX; x++) {
-                        if ((tileCullingBitset[plane][x][y] & render_rule1) != 0) {
-                            int min_y = y;
-                            int max_y = y;
-                            int min_plane = plane;
-                            int max_plane = plane;
+                        if ((tileCullingBitset[plane][x][y] & renderRule1) != 0) {
+                            int minY = y;
+                            int maxY = y;
+                            int minPlane = plane;
+                            int maxPlane = plane;
 
-                            for (; min_y > 0; min_y--) {
-                                if (((tileCullingBitset[plane][x][min_y - 1]) & render_rule1) == 0) {
+                            for (; minY > 0; minY--) {
+                                if (((tileCullingBitset[plane][x][minY - 1]) & renderRule1) == 0) {
                                     break;
                                 }
                             }
 
-                            for (; max_y < landscapeSizeY; max_y++) {
-                                if (((tileCullingBitset[plane][x][max_y + 1]) & render_rule1) == 0) {
+                            for (; maxY < landscapeSizeY; maxY++) {
+                                if (((tileCullingBitset[plane][x][maxY + 1]) & renderRule1) == 0) {
                                     break;
                                 }
                             }
 
-                            find_min_plane:
-                            for (; min_plane > 0; min_plane--) {
-                                for (int occluded_y = min_y; occluded_y <= max_y; occluded_y++) {
-                                    if (((tileCullingBitset[min_plane - 1][x][occluded_y]) & render_rule1) == 0) {
-                                        break find_min_plane;
+                            findMinPlane:
+                            for (; minPlane > 0; minPlane--) {
+                                for (int occludedY = minY; occludedY <= maxY; occludedY++) {
+                                    if (((tileCullingBitset[minPlane - 1][x][occludedY]) & renderRule1) == 0) {
+                                        break findMinPlane;
                                     }
                                 }
                             }
 
-                            find_max_plane:
-                            for (; max_plane < k; max_plane++) {
-                                for (int occluded_y = min_y; occluded_y <= max_y; occluded_y++) {
-                                    if (((tileCullingBitset[max_plane + 1][x][occluded_y]) & render_rule1) == 0) {
-                                        break find_max_plane;
+                            findMaxPlane:
+                            for (; maxPlane < k; maxPlane++) {
+                                for (int occludedY = minY; occludedY <= maxY; occludedY++) {
+                                    if (((tileCullingBitset[maxPlane + 1][x][occludedY]) & renderRule1) == 0) {
+                                        break findMaxPlane;
                                     }
                                 }
                             }
 
-                            int surface = (max_plane + 1 - min_plane) * (max_y - min_y + 1);
+                            int surface = (maxPlane + 1 - minPlane) * (maxY - minY + 1);
 
                             if (surface >= 8) {
                                 int i = 240;
-                                int max_v_z = (heightMap[max_plane][x][min_y] - i);
-                                int min_v_z = heightMap[min_plane][x][min_y];
-                                Landscape.createCullingBox(k, x * 128, x * 128, min_y * 128, max_y * 128 + 128, min_v_z, max_v_z, 1);
+                                int maxVZ = (heightMap[maxPlane][x][minY] - i);
+                                int minVZ = heightMap[minPlane][x][minY];
+                                Landscape.createCullingBox(k, x * 128, x * 128, minY * 128, maxY * 128 + 128, minVZ, maxVZ, 1);
 
-                                for (int occluded_plane = min_plane; occluded_plane <= max_plane; occluded_plane++) {
-                                    for (int occluded_y = min_y; occluded_y <= max_y; occluded_y++) {
-                                        tileCullingBitset[occluded_plane][x][occluded_y] &= ~render_rule1;
+                                for (int occludedPlane = minPlane; occludedPlane <= maxPlane; occludedPlane++) {
+                                    for (int occludedY = minY; occludedY <= maxY; occludedY++) {
+                                        tileCullingBitset[occludedPlane][x][occludedY] &= ~renderRule1;
                                     }
                                 }
                             }
                         }
 
-                        if ((tileCullingBitset[plane][x][y] & render_rule2) != 0) {
-                            int min_x = x;
-                            int max_x = x;
-                            int min_plane = plane;
-                            int max_plane = plane;
+                        if ((tileCullingBitset[plane][x][y] & renderRule2) != 0) {
+                            int minX = x;
+                            int maxX = x;
+                            int minPlane = plane;
+                            int maxPlane = plane;
 
-                            for (; min_x > 0; min_x--) {
-                                if (((tileCullingBitset[plane][min_x - 1][y]) & render_rule2) == 0) {
+                            for (; minX > 0; minX--) {
+                                if (((tileCullingBitset[plane][minX - 1][y]) & renderRule2) == 0) {
                                     break;
                                 }
                             }
 
-                            for (; max_x < landscapeSizeX; max_x++) {
-                                if (((tileCullingBitset[plane][max_x + 1][y]) & render_rule2) == 0) {
+                            for (; maxX < landscapeSizeX; maxX++) {
+                                if (((tileCullingBitset[plane][maxX + 1][y]) & renderRule2) == 0) {
                                     break;
                                 }
                             }
 
-                            find_lowest_plane:
-                            for (; min_plane > 0; min_plane--) {
-                                for (int occluded_x = min_x; occluded_x <= max_x; occluded_x++) {
-                                    if (((tileCullingBitset[min_plane - 1][occluded_x][y]) & render_rule2) == 0) {
-                                        break find_lowest_plane;
+                            findLowestPlane:
+                            for (; minPlane > 0; minPlane--) {
+                                for (int occludedX = minX; occludedX <= maxX; occludedX++) {
+                                    if (((tileCullingBitset[minPlane - 1][occludedX][y]) & renderRule2) == 0) {
+                                        break findLowestPlane;
                                     }
                                 }
                             }
 
-                            find_highest_plane:
-                            for (; max_plane < k; max_plane++) {
-                                for (int occluded_x = min_x; occluded_x <= max_x; occluded_x++) {
-                                    if (((tileCullingBitset[max_plane + 1][occluded_x][y]) & render_rule2) == 0) {
-                                        break find_highest_plane;
+                            findHighestPlane:
+                            for (; maxPlane < k; maxPlane++) {
+                                for (int occludedX = minX; occludedX <= maxX; occludedX++) {
+                                    if (((tileCullingBitset[maxPlane + 1][occludedX][y]) & renderRule2) == 0) {
+                                        break findHighestPlane;
                                     }
                                 }
                             }
 
-                            int surface = (max_plane + 1 - min_plane) * (max_x - min_x + 1);
+                            int surface = (maxPlane + 1 - minPlane) * (maxX - minX + 1);
                             if (surface >= 8) {
                                 int i = 240;
-                                int max_v_z = (heightMap[max_plane][min_x][y] - i);
-                                int min_v_z = heightMap[min_plane][min_x][y];
-                                Landscape.createCullingBox(k, min_x * 128, max_x * 128 + 128, y * 128, y * 128, min_v_z, max_v_z, 2);
+                                int maxVZ = (heightMap[maxPlane][minX][y] - i);
+                                int minVZ = heightMap[minPlane][minX][y];
+                                Landscape.createCullingBox(k, minX * 128, maxX * 128 + 128, y * 128, y * 128, minVZ, maxVZ, 2);
 
-                                for (int j = min_plane; j <= max_plane; j++) {
-                                    for (int occluded_x = min_x; occluded_x <= max_x; occluded_x++) {
-                                        tileCullingBitset[j][occluded_x][y] &= ~render_rule2;
+                                for (int j = minPlane; j <= maxPlane; j++) {
+                                    for (int occludedX = minX; occludedX <= maxX; occludedX++) {
+                                        tileCullingBitset[j][occludedX][y] &= ~renderRule2;
                                     }
                                 }
                             }
                         }
 
-                        if ((tileCullingBitset[plane][x][y] & render_rule3) != 0) {
-                            int lowest_occlusion_x = x;
-                            int highest_occlusion_x = x;
-                            int lowest_occlusion_y = y;
-                            int highest_occlussion_y = y;
+                        if ((tileCullingBitset[plane][x][y] & renderRule3) != 0) {
+                            int lowestOcclusionX = x;
+                            int highestOcclusionX = x;
+                            int lowestOcclusionY = y;
+                            int highestOcclussionY = y;
 
-                            for (; lowest_occlusion_y > 0; lowest_occlusion_y--) {
-                                if (((tileCullingBitset[plane][x][lowest_occlusion_y - 1]) & render_rule3) == 0) {
+                            for (; lowestOcclusionY > 0; lowestOcclusionY--) {
+                                if (((tileCullingBitset[plane][x][lowestOcclusionY - 1]) & renderRule3) == 0) {
                                     break;
                                 }
                             }
 
-                            for (; highest_occlussion_y < landscapeSizeY; highest_occlussion_y++) {
-                                if (((tileCullingBitset[plane][x][highest_occlussion_y + 1]) & render_rule3) == 0) {
+                            for (; highestOcclussionY < landscapeSizeY; highestOcclussionY++) {
+                                if (((tileCullingBitset[plane][x][highestOcclussionY + 1]) & renderRule3) == 0) {
                                     break;
                                 }
                             }
 
-                            find_lowest_occlussion_x:
-                            for (; lowest_occlusion_x > 0; lowest_occlusion_x--) {
-                                for (int occluded_y = lowest_occlusion_y; occluded_y <= highest_occlussion_y; occluded_y++) {
-                                    if (((tileCullingBitset[plane][lowest_occlusion_x - 1][occluded_y]) & render_rule3) == 0) {
-                                        break find_lowest_occlussion_x;
+                            findLowestOcclussionX:
+                            for (; lowestOcclusionX > 0; lowestOcclusionX--) {
+                                for (int occludedY = lowestOcclusionY; occludedY <= highestOcclussionY; occludedY++) {
+                                    if (((tileCullingBitset[plane][lowestOcclusionX - 1][occludedY]) & renderRule3) == 0) {
+                                        break findLowestOcclussionX;
                                     }
                                 }
                             }
 
-                            find_highest_occlussion_x:
-                            for (; highest_occlusion_x < landscapeSizeX; highest_occlusion_x++) {
-                                for (int occluded_y = lowest_occlusion_y; occluded_y <= highest_occlussion_y; occluded_y++) {
-                                    if (((tileCullingBitset[plane][highest_occlusion_x + 1][occluded_y]) & render_rule3) == 0) {
-                                        break find_highest_occlussion_x;
+                            findHighestOcclussionX:
+                            for (; highestOcclusionX < landscapeSizeX; highestOcclusionX++) {
+                                for (int occludedY = lowestOcclusionY; occludedY <= highestOcclussionY; occludedY++) {
+                                    if (((tileCullingBitset[plane][highestOcclusionX + 1][occludedY]) & renderRule3) == 0) {
+                                        break findHighestOcclussionX;
                                     }
                                 }
                             }
 
-                            if ((highest_occlusion_x - lowest_occlusion_x + 1) * (highest_occlussion_y - lowest_occlusion_y + 1) >= 4) {
-                                int lowest_occlussion_vertex_height = heightMap[plane][lowest_occlusion_x][lowest_occlusion_y];
-                                Landscape.createCullingBox(k, lowest_occlusion_x * 128, highest_occlusion_x * 128 + 128, lowest_occlusion_y * 128, highest_occlussion_y * 128 + 128, lowest_occlussion_vertex_height, lowest_occlussion_vertex_height, 4);
+                            if ((highestOcclusionX - lowestOcclusionX + 1) * (highestOcclussionY - lowestOcclusionY + 1) >= 4) {
+                                int lowestOcclussionVertexHeight = heightMap[plane][lowestOcclusionX][lowestOcclusionY];
+                                Landscape.createCullingBox(k, lowestOcclusionX * 128, highestOcclusionX * 128 + 128, lowestOcclusionY * 128, highestOcclussionY * 128 + 128, lowestOcclussionVertexHeight, lowestOcclussionVertexHeight, 4);
 
-                                for (int occluded_x = lowest_occlusion_x; occluded_x <= highest_occlusion_x; occluded_x++) {
-                                    for (int occluded_y = lowest_occlusion_y; occluded_y <= highest_occlussion_y; occluded_y++) {
-                                        tileCullingBitset[plane][occluded_x][occluded_y] &= ~render_rule3;
+                                for (int occludedX = lowestOcclusionX; occludedX <= highestOcclusionX; occludedX++) {
+                                    for (int occludedY = lowestOcclusionY; occludedY <= highestOcclussionY; occludedY++) {
+                                        tileCullingBitset[plane][occludedX][occludedY] &= ~renderRule3;
                                     }
                                 }
                             }
@@ -1155,25 +1155,25 @@ public class Scene {
         }
     }
 
-    public void fitEdges(int chunk_x, int chunk_y, int size_x, int size_y) {
-        for (int y = chunk_y; y <= chunk_y + size_y; y++) {
-            for (int x = chunk_x; x <= chunk_x + size_x; x++) {
+    public void fitEdges(int chunkX, int chunkY, int sizeX, int sizeY) {
+        for (int y = chunkY; y <= chunkY + sizeY; y++) {
+            for (int x = chunkX; x <= chunkX + sizeX; x++) {
                 if (x >= 0 && x < landscapeSizeX && y >= 0 && y < landscapeSizeY) {
                     shadowMap[0][x][y] = (byte) 127;
 
-                    if (x == chunk_x && x > 0) {
+                    if (x == chunkX && x > 0) {
                         heightMap[0][x][y] = heightMap[0][x - 1][y];
                     }
 
-                    if (x == chunk_x + size_x && x < landscapeSizeX - 1) {
+                    if (x == chunkX + sizeX && x < landscapeSizeX - 1) {
                         heightMap[0][x][y] = heightMap[0][x + 1][y];
                     }
 
-                    if (y == chunk_y && y > 0) {
+                    if (y == chunkY && y > 0) {
                         heightMap[0][x][y] = heightMap[0][x][y - 1];
                     }
 
-                    if (y == chunk_y + size_y && y < landscapeSizeY - 1) {
+                    if (y == chunkY + sizeY && y < landscapeSizeY - 1) {
                         heightMap[0][x][y] = heightMap[0][x][y + 1];
                     }
                 }
@@ -1181,22 +1181,22 @@ public class Scene {
         }
     }
 
-    public void loadChunk(CollisionMap[] collision, int map_x, int map_y, int chunk_x, int chunk_y, int chunk_plane, byte[] chunk_payload, int chunk_rotation, int plane) {
+    public void loadChunk(CollisionMap[] collision, int mapX, int mapY, int chunkX, int chunkY, int chunkPlane, byte[] chunkPayload, int chunkRotation, int plane) {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                if (map_x + x > 0 && map_x + x < 103 && map_y + y > 0 && map_y + y < 103) {
-                    collision[plane].flags[map_x + x][(map_y + y)] &= ~0x1000000;
+                if (mapX + x > 0 && mapX + x < 103 && mapY + y > 0 && mapY + y < 103) {
+                    collision[plane].flags[mapX + x][(mapY + y)] &= ~0x1000000;
                 }
             }
         }
 
-        Buffer s = new Buffer(chunk_payload);
+        Buffer s = new Buffer(chunkPayload);
 
         for (int z = 0; z < 4; z++) {
             for (int x = 0; x < 64; x++) {
                 for (int y = 0; y < 64; y++) {
-                    if (z == chunk_plane && x >= chunk_x && x < chunk_x + 8 && y >= chunk_y && y < chunk_y + 8) {
-                        loadLand(s, map_x + ChunkUtils.rotateLandX(x, y, chunk_rotation), map_y + ChunkUtils.rotateLandY(x, y, chunk_rotation), 0, 0, plane, chunk_rotation);
+                    if (z == chunkPlane && x >= chunkX && x < chunkX + 8 && y >= chunkY && y < chunkY + 8) {
+                        loadLand(s, mapX + ChunkUtils.rotateLandX(x, y, chunkRotation), mapY + ChunkUtils.rotateLandY(x, y, chunkRotation), 0, 0, plane, chunkRotation);
                     } else {
                         loadLand(s, -1, -1, 0, 0, 0, 0);
                     }
@@ -1205,7 +1205,7 @@ public class Scene {
         }
     }
 
-    public void loadLand(Buffer s, int x, int y, int tile_x, int tile_y, int plane, int chunk_type) {
+    public void loadLand(Buffer s, int x, int y, int tileX, int tileY, int plane, int chunkType) {
         if (x >= 0 && x < 104 && y >= 0 && y < 104) {
             renderFlags[plane][x][y] = (byte) 0;
 
@@ -1214,7 +1214,7 @@ public class Scene {
 
                 if (opcode == 0) {
                     if (plane == 0) {
-                        heightMap[0][x][y] = (short) (-MathUtils.getNoiseHeight(932731 + x + tile_x, 556238 + y + tile_y) * 8);
+                        heightMap[0][x][y] = (short) (-MathUtils.getNoiseHeight(932731 + x + tileX, 556238 + y + tileY) * 8);
                     } else {
                         heightMap[plane][x][y] = (short) (heightMap[plane - 1][x][y] - 240);
                         break;
@@ -1241,7 +1241,7 @@ public class Scene {
                 if (opcode <= 49) {
                     overlayFloIndex[plane][x][y] = s.readByte();
                     overlayShape[plane][x][y] = (byte) ((opcode - 2) / 4);
-                    overlayRotation[plane][x][y] = (byte) (opcode - 2 + chunk_type & 0x3);
+                    overlayRotation[plane][x][y] = (byte) (opcode - 2 + chunkType & 0x3);
                 } else if (opcode <= 81) {
                     renderFlags[plane][x][y] = (byte) (opcode - 49);
                 } else {
@@ -1268,12 +1268,12 @@ public class Scene {
         }
     }
 
-    public void loadLand(CollisionMap[] collision, byte[] payload, int chunk_x, int chunk_y, int tile_x, int tile_y) {
+    public void loadLand(CollisionMap[] collision, byte[] payload, int chunkX, int chunkY, int tileX, int tileY) {
         for (int plane = 0; plane < 4; plane++) {
             for (int x = 0; x < 64; x++) {
                 for (int y = 0; y < 64; y++) {
-                    if (chunk_x + x > 0 && chunk_x + x < 103 && chunk_y + y > 0 && chunk_y + y < 103) {
-                        collision[plane].flags[chunk_x + x][chunk_y + y] &= ~0x1000000;
+                    if (chunkX + x > 0 && chunkX + x < 103 && chunkY + y > 0 && chunkY + y < 103) {
+                        collision[plane].flags[chunkX + x][chunkY + y] &= ~0x1000000;
                     }
                 }
             }
@@ -1284,13 +1284,13 @@ public class Scene {
         for (int plane = 0; plane < 4; plane++) {
             for (int x = 0; x < 64; x++) {
                 for (int y = 0; y < 64; y++) {
-                    loadLand(s, x + chunk_x, y + chunk_y, tile_x, tile_y, plane, 0);
+                    loadLand(s, x + chunkX, y + chunkY, tileX, tileY, plane, 0);
                 }
             }
         }
     }
 
-    public void loadLocs(CollisionMap[] collision_maps, Landscape landscape, int map_x, int map_y, int chunk_x, int chunk_y, int chunk_plane, int map_plane, byte[] payload, int chunk_rotation) {
+    public void loadLocs(CollisionMap[] collisionMaps, Landscape landscape, int mapX, int mapY, int chunkX, int chunkY, int chunkPlane, int mapPlane, byte[] payload, int chunkRotation) {
         Buffer s = new Buffer(payload);
         int index = -1;
         for (; ; ) {
@@ -1318,35 +1318,35 @@ public class Scene {
                 int locType = locArrangement >> 2;
                 int locRotation = locArrangement & 0x3;
 
-                if (locPlane == chunk_plane && locX >= chunk_x && locX < chunk_x + 8 && locY >= chunk_y && locY < chunk_y + 8) {
+                if (locPlane == chunkPlane && locX >= chunkX && locX < chunkX + 8 && locY >= chunkY && locY < chunkY + 8) {
                     LocConfig config = LocConfig.get(index);
 
-                    int local_x = map_x + ChunkUtils.rotateLocX(locX, locY, config.sizeX, config.sizeY, chunk_rotation);
-                    int local_y = map_y + ChunkUtils.rotateLocY(locX, locY, config.sizeX, config.sizeY, chunk_rotation);
+                    int localX = mapX + ChunkUtils.rotateLocX(locX, locY, config.sizeX, config.sizeY, chunkRotation);
+                    int localY = mapY + ChunkUtils.rotateLocY(locX, locY, config.sizeX, config.sizeY, chunkRotation);
 
-                    if (local_x > 0 && local_y > 0 && local_x < 103 && local_y < 103) {
+                    if (localX > 0 && localY > 0 && localX < 103 && localY < 103) {
                         int plane = locPlane;
 
-                        if ((renderFlags[1][local_x][local_y] & 0x2) == 2) {
+                        if ((renderFlags[1][localX][localY] & 0x2) == 2) {
                             plane--;
                         }
 
-                        CollisionMap collision_map = null;
+                        CollisionMap collisionMap = null;
 
                         if (plane >= 0) {
-                            collision_map = collision_maps[plane];
+                            collisionMap = collisionMaps[plane];
                         }
 
-                        addLoc(landscape, collision_map, index, locType, local_x, local_y, map_plane, locRotation + chunk_rotation & 0x3);
+                        addLoc(landscape, collisionMap, index, locType, localX, localY, mapPlane, locRotation + chunkRotation & 0x3);
                     }
                 }
             }
         }
     }
 
-    public void loadLocs(int region_x, CollisionMap[] collision_maps, int region_y, Landscape landscape, byte[] payload) {
+    public void loadLocs(int regionX, CollisionMap[] collisionMaps, int regionY, Landscape landscape, byte[] payload) {
         Buffer s = new Buffer(payload);
-        int loc_index = -1;
+        int locIndex = -1;
 
         for (; ; ) {
             int xtra = s.writeUnsignedSmart();
@@ -1355,40 +1355,40 @@ public class Scene {
                 break;
             }
 
-            loc_index += xtra;
-            int region_coord = 0;
+            locIndex += xtra;
+            int regionCoord = 0;
 
             for (; ; ) {
-                int coord_bits = s.writeUnsignedSmart();
+                int coordBits = s.writeUnsignedSmart();
 
-                if (coord_bits == 0) {
+                if (coordBits == 0) {
                     break;
                 }
 
-                region_coord += coord_bits - 1;
-                int base_y = region_coord & 0x3f;
-                int base_x = region_coord >> 6 & 0x3f;
-                int loc_plane = region_coord >> 12;
-                int loc_arrangement = s.readUnsignedByte();
-                int loc_type = loc_arrangement >> 2;
-                int loc_rotation = loc_arrangement & 0x3;
-                int loc_x = base_x + region_x;
-                int loc_y = base_y + region_y;
+                regionCoord += coordBits - 1;
+                int baseY = regionCoord & 0x3f;
+                int baseX = regionCoord >> 6 & 0x3f;
+                int locPlane = regionCoord >> 12;
+                int locArrangement = s.readUnsignedByte();
+                int locType = locArrangement >> 2;
+                int locRotation = locArrangement & 0x3;
+                int locX = baseX + regionX;
+                int locY = baseY + regionY;
 
-                if (loc_x > 0 && loc_y > 0 && loc_x < 103 && loc_y < 103) {
-                    int plane = loc_plane;
+                if (locX > 0 && locY > 0 && locX < 103 && locY < 103) {
+                    int plane = locPlane;
 
-                    if ((renderFlags[1][loc_x][loc_y] & 0x2) == 2) {
+                    if ((renderFlags[1][locX][locY] & 0x2) == 2) {
                         plane--;
                     }
 
                     CollisionMap collision = null;
 
                     if (plane >= 0) {
-                        collision = collision_maps[plane];
+                        collision = collisionMaps[plane];
                     }
 
-                    addLoc(landscape, collision, loc_index, loc_type, loc_x, loc_y, loc_plane, loc_rotation);
+                    addLoc(landscape, collision, locIndex, locType, locX, locY, locPlane, locRotation);
                 }
             }
         }
