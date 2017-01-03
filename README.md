@@ -1,17 +1,11 @@
-# 317HD
-A 317 client with the rendering engine ported to libgdx
+<p align="center">
+  <img src="http://i.imgur.com/btON5Ep.png" alt="logo"/>
+</p>
+<p align="center">
+  <img src="https://travis-ci.org/demmonic/317HD.svg?branch=master" alt="logo"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="logo"/>
+</p>
 
-[![Build Status](https://travis-ci.org/demmonic/317HD.svg?branch=master)](https://travis-ci.org/demmonic/317HD)
-
-# Goal
-The goal of the client is to have a 317 client, where the engine has been replaced with libgdx. On top of this, I plan to make general
-improvements to the client overall, such as better usage of OOP.
-
-# What's with these naming conventions, are you stupid?
-It's not my fault. The most complete refactor of a 317 client was poorly done. I'm not wasting my time refactoring one from scratch.
-
-# Contributing
-* Refactor any namings you come across that use invalid naming conventions (optional)
-* If you refactor anything, please keep the refactoring in their own commits, so I can distinguish between refactoring and actual changes
-* If you're refactoring, I need proof that your builds work with your pull request, so please use Travis CI or something similar
-* Do not attempt to do anything crazy such as refactoring the whole project with a 3rd party tool
+<p align="center">
+  A 317 client with the rendering engine ported to libgdx
+</p>
