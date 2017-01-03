@@ -13,4 +13,5 @@ It's not my fault. The most complete refactor of a 317 client was poorly done. I
 # Contributing
 * Refactor any namings you come across that use invalid naming conventions (optional)
 * If you refactor anything, please keep the refactoring in their own commits, so I can distinguish between refactoring and actual changes
+* If you're refactoring, I need proof that your builds work with your pull request, so please use Travis CI or something similar
 * Do not attempt to do anything crazy such as refactoring the whole project with a 3rd party tool
