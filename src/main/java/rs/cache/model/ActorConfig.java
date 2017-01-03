@@ -247,14 +247,14 @@ public class ActorConfig {
         return m;
     }
 
-    public Model get_model(int vertices[], int frame1, int frame2) {
+    public Model getModel(int vertices[], int frame1, int frame2) {
         if (override_index != null) {
             ActorConfig config = get_overriding_config();
 
             if (config == null) {
                 return null;
             } else {
-                return config.get_model(vertices, frame1, frame2);
+                return config.getModel(vertices, frame1, frame2);
             }
         }
 
@@ -287,8 +287,8 @@ public class ActorConfig {
                 model.set_colors(old_colors, new_colors);
             }
 
-            model.apply_vertex_weights();
-            model.apply_lighting(64 + brightness, 850 + specular, -30, -50, -30, true);
+            model.applyVertexWeights();
+            model.applyLighting(64 + brightness, 850 + specular, -30, -50, -30, true);
             model_cache.insert(model, index);
         }
 
@@ -298,7 +298,7 @@ public class ActorConfig {
         if (frame1 != -1 && frame2 != -1) {
             m.apply_sequence_frames(vertices, frame1, frame2);
         } else if (frame1 != -1) {
-            m.apply_sequence_frame(frame1);
+            m.applySequenceFrame(frame1);
         }
 
         if (scale_x != 128 || scale_y != 128) {
@@ -306,8 +306,8 @@ public class ActorConfig {
         }
 
         m.method466();
-        m.triangle_groups = null;
-        m.vertex_weights = null;
+        m.triangleGroups = null;
+        m.vertexWeights = null;
 
         if (has_options == 1) {
             m.is_clickable = true;

@@ -716,7 +716,7 @@ public class Canvas3D extends Canvas2D {
         }
     }
 
-    public static void draw_shaded_triangle(int x1, int y1, int x2, int y2, int x3, int y3, int hsl1, int hsl2, int hsl3) {
+    public static void drawShadedTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int hsl1, int hsl2, int hsl3) {
         // Triangle Slopes
         int s1 = 0, s2 = 0, s3 = 0;
         // Color Slopes
@@ -1536,7 +1536,7 @@ public class Canvas3D extends Canvas2D {
 
     }
 
-    public static void draw_textured_triangle(int x1, int y1, int x2, int y2, int x3, int y3, int hsl1, int hsl2, int hsl3, int sx1, int sy1, int sz1, int sx2, int sy2, int sz2, int sx3, int sy3, int sz3, int texture) {
+    public static void drawTexturedTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int hsl1, int hsl2, int hsl3, int sx1, int sy1, int sz1, int sx2, int sy2, int sz2, int sx3, int sy3, int sz3, int texture) {
         int[] texels = get_texture_pixels(texture);
         opaque = !textureTranslucent[texture];
         sx2 = sx1 - sx2;

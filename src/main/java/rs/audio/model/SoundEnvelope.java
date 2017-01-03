@@ -7,7 +7,7 @@ public class SoundEnvelope {
     public boolean aBoolean531;
     public boolean aBoolean533;
     public boolean aBoolean534;
-    public int segment_count;
+    public int segmentCount;
     public int anInt538;
     public int anInt539;
     public int form;
@@ -16,8 +16,8 @@ public class SoundEnvelope {
     public int step;
     public int amplitude;
     public int tick;
-    public int segment_duration[];
-    public int segment_peak[];
+    public int segmentDuration[];
+    public int segmentPeak[];
 
     public SoundEnvelope() {
         aBoolean531 = false;
@@ -33,13 +33,13 @@ public class SoundEnvelope {
     }
 
     public void decode_segments(Buffer b) {
-        segment_count = b.readUnsignedByte();
-        segment_duration = new int[segment_count];
-        segment_peak = new int[segment_count];
+        segmentCount = b.readUnsignedByte();
+        segmentDuration = new int[segmentCount];
+        segmentPeak = new int[segmentCount];
 
-        for (int i = 0; i < segment_count; i++) {
-            segment_duration[i] = b.readUnsignedShort();
-            segment_peak[i] = b.readUnsignedShort();
+        for (int i = 0; i < segmentCount; i++) {
+            segmentDuration[i] = b.readUnsignedShort();
+            segmentPeak[i] = b.readUnsignedShort();
         }
     }
 
@@ -53,16 +53,16 @@ public class SoundEnvelope {
 
     public int evaluate(int length) {
         if (tick >= checkpoint) {
-            amplitude = segment_peak[segment_ptr++] << 15;
+            amplitude = segmentPeak[segment_ptr++] << 15;
 
-            if (segment_ptr >= segment_count) {
-                segment_ptr = segment_count - 1;
+            if (segment_ptr >= segmentCount) {
+                segment_ptr = segmentCount - 1;
             }
 
-            checkpoint = (int) (((double) segment_duration[segment_ptr] / 65536D) * (double) length);
+            checkpoint = (int) (((double) segmentDuration[segment_ptr] / 65536D) * (double) length);
 
             if (checkpoint > tick) {
-                step = ((segment_peak[segment_ptr] << 15) - amplitude) / (checkpoint - tick);
+                step = ((segmentPeak[segment_ptr] << 15) - amplitude) / (checkpoint - tick);
             }
         }
 

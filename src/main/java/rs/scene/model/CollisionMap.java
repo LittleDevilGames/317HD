@@ -162,7 +162,7 @@ public class CollisionMap {
         }
     }
 
-    public boolean at_decoration(int x, int y, int dest_x, int dest_y, int type, int rotation) {
+    public boolean atDecoration(int x, int y, int dest_x, int dest_y, int type, int rotation) {
         if (x == dest_x && y == dest_y) {
             return true;
         }
@@ -217,7 +217,7 @@ public class CollisionMap {
         return false;
     }
 
-    public boolean at_object(int x, int y, int dest_x, int dest_y, int size_x, int size_y, int face) {
+    public boolean atObject(int x, int y, int dest_x, int dest_y, int size_x, int size_y, int face) {
         int max_x = (dest_x + size_x) - 1;
         int max_y = (dest_y + size_y) - 1;
 
@@ -240,7 +240,7 @@ public class CollisionMap {
         return y == max_y + 1 && x >= dest_x && x <= max_x && (flags[x][y] & 0x20) == 0 && (face & 0x1) == 0;
     }
 
-    public boolean at_wall(int x, int y, int dest_x, int dest_y, int type, int rotation) {
+    public boolean atWall(int x, int y, int dest_x, int dest_y, int type, int rotation) {
         if (x == dest_x && y == dest_y) {
             return true;
         }
@@ -382,7 +382,7 @@ public class CollisionMap {
         this.flags[x][y] &= 0xFFFFFF - flags;
     }
 
-    public void remove_loc(int x, int y, int size_x, int size_y, int rotation, boolean blocks_projectiles) {
+    public void removeLoc(int x, int y, int size_x, int size_y, int rotation, boolean blocks_projectiles) {
         int flags = 256;
 
         if (blocks_projectiles) {
@@ -527,7 +527,8 @@ public class CollisionMap {
         }
     }
 
-    public void set_solid(int x, int y) {
+    public void setSolid(int x, int y) {
         flags[x][y] |= 0x200000;
     }
+
 }

@@ -55,12 +55,12 @@ public class Player extends Entity {
             int frame = -1;
 
             if (super.seq_index >= 0 && super.seq_delay_cycle == 0) {
-                frame = Sequence.instance[super.seq_index].frame_primary[super.seq_frame];
+                frame = Sequence.instance[super.seq_index].framePrimary[super.seq_frame];
             } else if (super.move_seq_index >= 0) {
-                frame = Sequence.instance[super.move_seq_index].frame_primary[super.move_seq_frame];
+                frame = Sequence.instance[super.move_seq_index].framePrimary[super.move_seq_frame];
             }
 
-            return actor_override.get_model(null, frame, -1);
+            return actor_override.getModel(null, frame, -1);
         }
 
         long model_uid = this.model_uid;
@@ -71,10 +71,10 @@ public class Player extends Entity {
 
         if (super.seq_index >= 0 && super.seq_delay_cycle == 0) {
             Sequence a = Sequence.instance[super.seq_index];
-            frame1 = a.frame_primary[super.seq_frame];
+            frame1 = a.framePrimary[super.seq_frame];
 
             if (super.move_seq_index >= 0 && super.move_seq_index != super.stand_animation) {
-                frame2 = Sequence.instance[super.move_seq_index].frame_primary[super.move_seq_frame];
+                frame2 = Sequence.instance[super.move_seq_index].framePrimary[super.move_seq_frame];
             }
 
             if (a.override_shield_index >= 0) {
@@ -87,7 +87,7 @@ public class Player extends Entity {
                 model_uid += weapon_override - equipment_indices[3] << 48;
             }
         } else if (super.move_seq_index >= 0) {
-            frame1 = Sequence.instance[super.move_seq_index].frame_primary[super.move_seq_frame];
+            frame1 = Sequence.instance[super.move_seq_index].framePrimary[super.move_seq_frame];
         }
 
         Model model = (Model) model_cache.get(model_uid);
@@ -106,7 +106,7 @@ public class Player extends Entity {
                     equip = shield_override;
                 }
 
-                if (equip >= 256 && equip < 512 && !IdentityKit.instance[equip - 256].is_model_valid()) {
+                if (equip >= 256 && equip < 512 && !IdentityKit.instance[equip - 256].isModelValid()) {
                     use_cached = true;
                 }
 
@@ -142,7 +142,7 @@ public class Player extends Entity {
                 }
 
                 if (index >= 256 && index < 512) {
-                    Model id_model = IdentityKit.instance[index - 256].get_mesh();
+                    Model id_model = IdentityKit.instance[index - 256].getMesh();
                     if (id_model != null) {
                         equip_models[count++] = id_model;
                     }
@@ -159,15 +159,15 @@ public class Player extends Entity {
             model = new Model(count, equip_models);
             for (int i = 0; i < 5; i++) {
                 if (colors[i] != 0) {
-                    model.set_color(CharacterDesign.DESIGN_COLOR[i][0], CharacterDesign.DESIGN_COLOR[i][colors[i]]);
+                    model.setColor(CharacterDesign.DESIGN_COLOR[i][0], CharacterDesign.DESIGN_COLOR[i][colors[i]]);
                     if (i == 1) {
-                        model.set_color(CharacterDesign.TORSO_COLORS[0], CharacterDesign.TORSO_COLORS[colors[i]]);
+                        model.setColor(CharacterDesign.TORSO_COLORS[0], CharacterDesign.TORSO_COLORS[colors[i]]);
                     }
                 }
             }
 
-            model.apply_vertex_weights();
-            model.apply_lighting(64, 850, -30, -50, -30, true);
+            model.applyVertexWeights();
+            model.applyLighting(64, 850, -30, -50, -30, true);
             model_cache.insert(model, model_uid);
             uid = model_uid;
         }
@@ -183,12 +183,12 @@ public class Player extends Entity {
         if (frame1 != -1 && frame2 != -1) {
             m.apply_sequence_frames(Sequence.instance[super.seq_index].vertices, frame1, frame2);
         } else if (frame1 != -1) {
-            m.apply_sequence_frame(frame1);
+            m.applySequenceFrame(frame1);
         }
 
         m.method466();
-        m.triangle_groups = null;
-        m.vertex_weights = null;
+        m.triangleGroups = null;
+        m.vertexWeights = null;
         return m;
     }
 
@@ -206,7 +206,7 @@ public class Player extends Entity {
         for (int i = 0; i < 12; i++) {
             int index = equipment_indices[i];
 
-            if (index >= 256 && index < 512 && !IdentityKit.instance[index - 256].is_dialog_model_valid()) {
+            if (index >= 256 && index < 512 && !IdentityKit.instance[index - 256].isDialogModelValid()) {
                 flag = true;
             }
 
@@ -245,9 +245,9 @@ public class Player extends Entity {
         Model m = new Model(count, models);
         for (int i = 0; i < 5; i++) {
             if (colors[i] != 0) {
-                m.set_color(CharacterDesign.DESIGN_COLOR[i][0], CharacterDesign.DESIGN_COLOR[i][colors[i]]);
+                m.setColor(CharacterDesign.DESIGN_COLOR[i][0], CharacterDesign.DESIGN_COLOR[i][colors[i]]);
                 if (i == 1) {
-                    m.set_color(CharacterDesign.TORSO_COLORS[0], CharacterDesign.TORSO_COLORS[colors[i]]);
+                    m.setColor(CharacterDesign.TORSO_COLORS[0], CharacterDesign.TORSO_COLORS[colors[i]]);
                 }
             }
         }
@@ -255,7 +255,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public Model get_model() {
+    public Model getModel() {
         if (!visible) {
             return null;
         }
@@ -274,23 +274,23 @@ public class Player extends Entity {
             return built;
         }
 
-        if (super.spotanim_index != -1 && super.spotanim_frame != -1) {
-            SpotAnimConfig effect = SpotAnimConfig.instance[super.spotanim_index];
-            Model sa_model = effect.get_model();
+        if (super.spotanimIndex != -1 && super.spotanimFrame != -1) {
+            SpotAnimConfig effect = SpotAnimConfig.instance[super.spotanimIndex];
+            Model sa_model = effect.getModel();
 
             if (sa_model != null) {
-                Model m = new Model(true, super.spotanim_frame == -1, false, sa_model);
+                Model m = new Model(true, super.spotanimFrame == -1, false, sa_model);
                 m.translate(0, -super.graphic_offset_y, 0);
-                m.apply_vertex_weights();
-                m.apply_sequence_frame(effect.seq.frame_primary[super.spotanim_frame]);
-                m.triangle_groups = null;
-                m.vertex_weights = null;
+                m.applyVertexWeights();
+                m.applySequenceFrame(effect.seq.framePrimary[super.spotanimFrame]);
+                m.triangleGroups = null;
+                m.vertexWeights = null;
 
                 if (effect.scale != 128 || effect.height != 128) {
                     m.scale(effect.scale, effect.height, effect.scale);
                 }
 
-                m.apply_lighting(64 + effect.brightness, 850 + effect.specular, -30, -50, -30, true);
+                m.applyLighting(64 + effect.brightness, 850 + effect.specular, -30, -50, -30, true);
                 built = new Model(2, true, new Model[]{built, m});
             }
         }
@@ -336,7 +336,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public boolean is_visible() {
+    public boolean isVisible() {
         return visible;
     }
 

@@ -13,11 +13,11 @@ public class StaticLoc {
     public int x;
     public int y;
     public int z;
-    public int local_x1;
-    public int local_y1;
+    public int localX1;
+    public int localY1;
     public int uid;
-    public int local_x0;
-    public int local_y0;
+    public int localX0;
+    public int localY0;
 
     public StaticLoc() {
     }

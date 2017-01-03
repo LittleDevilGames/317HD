@@ -42,13 +42,13 @@ public class Loc extends Renderable {
         }
 
         LocConfig config = LocConfig.get(this.index);
-        this.varbit_index = config.varbit_index;
-        this.setting_index = config.setting_index;
+        this.varbit_index = config.varbitIndex;
+        this.setting_index = config.settingIndex;
         this.override_index = config.overrideIndex;
     }
 
     @Override
-    public Model get_model() {
+    public Model getModel() {
         int frame = -1;
 
         if (seq != null) {
@@ -80,7 +80,7 @@ public class Loc extends Renderable {
             cycle = Game.loopCycle - c_d;
 
             if (seq != null) {
-                frame = seq.frame_primary[seq_cycle];
+                frame = seq.framePrimary[seq_cycle];
             }
         }
 

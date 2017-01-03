@@ -10,7 +10,7 @@ public class Sequence {
     public boolean can_rotate;
     public short frame_count;
     public int[] frame_length;
-    public int[] frame_primary;
+    public int[] framePrimary;
     public int[] frame_secondary;
     public short override_shield_index;
     public short override_weapon_index;
@@ -42,12 +42,12 @@ public class Sequence {
 
             if (i == 1) {
                 frame_count = (short) s.readUnsignedByte();
-                frame_primary = new int[frame_count];
+                framePrimary = new int[frame_count];
                 frame_secondary = new int[frame_count];
                 frame_length = new int[frame_count];
 
                 for (int j = 0; j < frame_count; j++) {
-                    frame_primary[j] = s.readUnsignedShort();
+                    framePrimary[j] = s.readUnsignedShort();
                     frame_secondary[j] = s.readUnsignedShort();
 
                     if (frame_secondary[j] == 65535) {
@@ -88,8 +88,8 @@ public class Sequence {
 
         if (frame_count == 0) {
             frame_count = 1;
-            frame_primary = new int[1];
-            frame_primary[0] = -1;
+            framePrimary = new int[1];
+            framePrimary[0] = -1;
             frame_secondary = new int[1];
             frame_secondary[0] = -1;
             frame_length = new int[1];
@@ -128,7 +128,7 @@ public class Sequence {
         int i = this.frame_length[frame];
 
         if (i == 0) {
-            SequenceFrame f = SequenceFrame.get(this.frame_primary[frame]);
+            SequenceFrame f = SequenceFrame.get(this.framePrimary[frame]);
             if (f != null) {
                 i = this.frame_length[frame] = f.length;
             }

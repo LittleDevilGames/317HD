@@ -79,7 +79,7 @@ public abstract class GameShell extends Applet implements Runnable {
             }
         });
 
-        Jaggrab.set_shell(this);
+        Jaggrab.setShell(this);
 
         this.drawProgress(JString.LOADING, 0); //$NON-NLS-1$
         this.startup();

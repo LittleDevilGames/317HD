@@ -102,7 +102,7 @@ public class SpotAnimConfig {
         height = 128;
     }
 
-    public Model get_model() {
+    public Model getModel() {
         Model m = (Model) model_cache.get(uid);
 
         if (m != null) {

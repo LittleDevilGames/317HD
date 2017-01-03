@@ -14,12 +14,12 @@ public class Archive {
     public boolean extracted;
 
     public Archive(Buffer buffer) {
-        int unpacked_size = buffer.readMedium();
-        int packed_size = buffer.readMedium();
+        int unpackedSize = buffer.readMedium();
+        int packedSize = buffer.readMedium();
 
-        if (packed_size != unpacked_size) {
-            byte[] unpacked = new byte[unpacked_size];
-            BZip2.decompress(unpacked, unpacked_size, buffer.payload, packed_size, 6);
+        if (packedSize != unpackedSize) {
+            byte[] unpacked = new byte[unpackedSize];
+            BZip2.decompress(unpacked, unpackedSize, buffer.payload, packedSize, 6);
             buffer = new Buffer(unpacked);
             this.extracted = true;
         }
@@ -40,7 +40,7 @@ public class Archive {
         this.buffer = buffer;
     }
 
-    public static int get_hash(String s) {
+    public static int getHash(String s) {
         int hash = 0;
         s = s.toUpperCase();
         for (int j = 0; j < s.length(); j++) {
@@ -54,7 +54,7 @@ public class Archive {
     }
 
     public byte[] get(String s, byte[] dst) {
-        int hash = Archive.get_hash(s);
+        int hash = Archive.getHash(s);
 
         if (!this.entries.containsKey(hash)) {
             return null;
@@ -83,13 +83,11 @@ public class Archive {
 
         @Override
         public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("[Entry: hash:");
-            sb.append(hash).append(", unpacked:");
-            sb.append(unpacked_size).append(", packed:");
-            sb.append(packed_size).append(", pos:");
-            sb.append(position).append(']');
-            return sb.toString();
+            return "[Entry: hash:" +
+                    hash + ", unpacked:" +
+                    unpacked_size + ", packed:" +
+                    packed_size + ", pos:" +
+                    position + ']';
         }
     }
 }

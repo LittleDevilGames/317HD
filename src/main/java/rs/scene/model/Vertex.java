@@ -7,6 +7,4 @@ public class Vertex {
     public int y;
     public int z;
 
-    public Vertex() {
-    }
 }

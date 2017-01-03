@@ -10,13 +10,13 @@ public class Floor {
     public int color;
     public int color2;
     public int hue;
-    public int hue_divisor;
+    public int hueDivisor;
     public int hue2;
     public int lightness;
     public String name;
     public int saturation;
-    public boolean show_underlay;
-    public byte texture_index;
+    public boolean showUnderlay;
+    public byte textureIndex;
 
     public Floor(Buffer buffer) {
         this.defaults();
@@ -27,12 +27,12 @@ public class Floor {
                 return;
             }
             if (opcode == 1) {
-                set_color(this.color2 = buffer.readMedium());
+                setColor(this.color2 = buffer.readMedium());
             } else if (opcode == 2) {
-                this.texture_index = buffer.readByte();
+                this.textureIndex = buffer.readByte();
             } else if (opcode == 3) {
             } else if (opcode == 5) {
-                this.show_underlay = false;
+                this.showUnderlay = false;
             } else if (opcode == 6) {
                 this.name = buffer.readString();
             } else if (opcode == 7) {
@@ -40,12 +40,12 @@ public class Floor {
                 int saturation = this.saturation;
                 int lightness = this.lightness;
                 int hue = this.hue;
-                set_color(buffer.readMedium());
+                setColor(buffer.readMedium());
                 this.hue2 = hue2;
                 this.saturation = saturation;
                 this.lightness = lightness;
                 this.hue = hue;
-                this.hue_divisor = hue;
+                this.hueDivisor = hue;
             } else {
                 System.out.println("Error unrecognised config code: " + opcode);
             }
@@ -64,11 +64,11 @@ public class Floor {
     }
 
     public void defaults() {
-        texture_index = -1;
-        show_underlay = true;
+        textureIndex = -1;
+        showUnderlay = true;
     }
 
-    public int trim_hsl(int hue, int saturation, int lightness) {
+    public int trimHsl(int hue, int saturation, int lightness) {
         if (lightness > 179) {
             saturation /= 2;
         }
@@ -84,7 +84,7 @@ public class Floor {
         return (hue / 4 << 10) + (saturation / 32 << 7) + lightness / 2;
     }
 
-    public void set_color(int rgb) {
+    public void setColor(int rgb) {
         double red = (double) (rgb >> 16 & 0xff) / 256D;
         double green = (double) (rgb >> 8 & 0xff) / 256D;
         double blue = (double) (rgb & 0xff) / 256D;
@@ -146,16 +146,16 @@ public class Floor {
         }
 
         if (d7 > 0.5D) {
-            this.hue_divisor = (int) ((1.0D - d7) * d6 * 512D);
+            this.hueDivisor = (int) ((1.0D - d7) * d6 * 512D);
         } else {
-            this.hue_divisor = (int) (d7 * d6 * 512D);
+            this.hueDivisor = (int) (d7 * d6 * 512D);
         }
 
-        if (this.hue_divisor < 1) {
-            this.hue_divisor = 1;
+        if (this.hueDivisor < 1) {
+            this.hueDivisor = 1;
         }
 
-        this.hue = (int) (d5 * (double) this.hue_divisor);
+        this.hue = (int) (d5 * (double) this.hueDivisor);
 
         int hue = (this.hue2 + (int) (Math.random() * 16D)) - 8;
 
@@ -181,6 +181,6 @@ public class Floor {
             lightness = 255;
         }
 
-        this.color = trim_hsl(hue, saturation, lightness);
+        this.color = trimHsl(hue, saturation, lightness);
     }
 }

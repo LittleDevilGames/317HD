@@ -2,25 +2,25 @@ package rs.bzip2;
 
 public class BZip2 {
 
-    public static BZip2Context aClass32_305 = new BZip2Context();
+    public static BZip2Context context = new BZip2Context();
 
     public static int decompress(byte dst[], int dst_off, byte src[], int src_len, int src_off) {
-        synchronized (aClass32_305) {
-            aClass32_305.aByteArray563 = src;
-            aClass32_305.anInt564 = src_off;
-            aClass32_305.aByteArray568 = dst;
-            aClass32_305.anInt569 = 0;
-            aClass32_305.anInt565 = src_len;
-            aClass32_305.anInt570 = dst_off;
-            aClass32_305.anInt577 = 0;
-            aClass32_305.anInt576 = 0;
-            aClass32_305.anInt566 = 0;
-            aClass32_305.anInt567 = 0;
-            aClass32_305.anInt571 = 0;
-            aClass32_305.anInt572 = 0;
-            aClass32_305.anInt579 = 0;
-            method227(aClass32_305);
-            dst_off -= aClass32_305.anInt570;
+        synchronized (context) {
+            context.aByteArray563 = src;
+            context.anInt564 = src_off;
+            context.aByteArray568 = dst;
+            context.anInt569 = 0;
+            context.anInt565 = src_len;
+            context.anInt570 = dst_off;
+            context.anInt577 = 0;
+            context.anInt576 = 0;
+            context.anInt566 = 0;
+            context.anInt567 = 0;
+            context.anInt571 = 0;
+            context.anInt572 = 0;
+            context.anInt579 = 0;
+            method227(context);
+            dst_off -= context.anInt570;
             BZip2Context.anIntArray587 = null;
             return dst_off;
         }

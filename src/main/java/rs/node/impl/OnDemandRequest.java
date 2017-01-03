@@ -16,6 +16,6 @@ public class OnDemandRequest extends CacheLink {
 
     @Override
     public String toString() {
-        return new StringBuilder("[Request: Archive ").append(archive).append(", File").append(file).append("])").toString();
+        return "[Request: Archive " + archive + ", File" + file + "])";
     }
 }

@@ -71,7 +71,7 @@ public class Scene {
         LocConfig c = LocConfig.get(loc_index);
         int uid = 0x40000000 | (loc_index << 14) | (y << 7) | x;
 
-        if (!c.is_static) {
+        if (!c.isStatic) {
             uid += Integer.MIN_VALUE;
         }
 
@@ -88,8 +88,8 @@ public class Scene {
 
             l.addGroundDecoration(x, y, averageHeight, plane, r, uid, locIndex);
 
-            if (c.hasCollisions && c.is_static) {
-                cm.set_solid(x, y);
+            if (c.hasCollisions && c.isStatic) {
+                cm.setSolid(x, y);
             }
         } else if (locType == 10 || locType == 11) {
             Renderable r;
@@ -111,18 +111,18 @@ public class Scene {
                 int size_x;
 
                 if (loc_rotation == 1 || loc_rotation == 3) {
-                    size_y = c.size_y;
-                    size_x = c.size_x;
+                    size_y = c.sizeY;
+                    size_x = c.sizeX;
                 } else {
-                    size_y = c.size_x;
-                    size_x = c.size_y;
+                    size_y = c.sizeX;
+                    size_x = c.sizeY;
                 }
 
                 l.add(r, x, y, plane, size_x, size_y, averageHeight, locIndex, rotation, uid);
             }
 
             if (c.hasCollisions) {
-                cm.addLoc(x, y, c.size_x, c.size_y, loc_rotation, c.blocksProjectiles);
+                cm.addLoc(x, y, c.sizeX, c.sizeY, loc_rotation, c.blocksProjectiles);
             }
         } else if (locType >= 12) {
             Renderable r;
@@ -136,7 +136,7 @@ public class Scene {
             l.add(r, x, y, plane, 1, 1, averageHeight, locIndex, 0, uid);
 
             if (c.hasCollisions) {
-                cm.addLoc(x, y, c.size_x, c.size_y, loc_rotation, c.blocksProjectiles);
+                cm.addLoc(x, y, c.sizeX, c.sizeY, loc_rotation, c.blocksProjectiles);
             }
         } else if (locType == 0) {
             Renderable r;
@@ -210,7 +210,7 @@ public class Scene {
             l.add(node, x, y, plane, 1, 1, averageHeight, locIndex, 0, uid);
 
             if (c.hasCollisions) {
-                cm.addLoc(x, y, c.size_x, c.size_y, loc_rotation, c.blocksProjectiles);
+                cm.addLoc(x, y, c.sizeX, c.sizeY, loc_rotation, c.blocksProjectiles);
             }
         } else {
             if (c.adjustToTerrain) {
@@ -247,10 +247,10 @@ public class Scene {
                 l.addWallDecoration(node, x, y, plane, 0, 0, averageHeight, loc_rotation * 512, locIndex, WALL_ROOT_DRAW_FLAGS[loc_rotation], uid);
             } else if (locType == 5) {
                 int width = 16;
-                int wall_uid = l.get_wall_uid(plane, x, y);
+                int wall_uid = l.getWallUid(plane, x, y);
 
                 if (wall_uid > 0) {
-                    width = LocConfig.get(wall_uid >> 14 & 0x7fff).wall_width;
+                    width = LocConfig.get(wall_uid >> 14 & 0x7fff).wallWidth;
                 }
 
                 Renderable node;
@@ -398,8 +398,8 @@ public class Scene {
                     if (x > 0 && y > 0 && x < 103 && y < 103) {
                         LocConfig config = LocConfig.get(loc_index);
 
-                        if (loc_type != 22 || !Game.lowDetail || config.is_static || config.is_decoration) {
-                            valid &= config.has_valid_model();
+                        if (loc_type != 22 || !Game.lowDetail || config.isStatic || config.isDecoration) {
+                            valid &= config.hasValidModel();
                             verify_next = true;
                         }
                     }
@@ -479,14 +479,14 @@ public class Scene {
             LocConfig c = LocConfig.get(loc_index);
             int uid = 0x40000000 | (loc_index << 14) | (y << 7) | x;
 
-            if (!c.is_static) {
+            if (!c.isStatic) {
                 uid += Integer.MIN_VALUE;
             }
 
             byte arrangement = (byte) ((rotation << 6) + type);
 
             if (type == 22) {
-                if (!Game.lowDetail || c.is_static || c.is_decoration) {
+                if (!Game.lowDetail || c.isStatic || c.isDecoration) {
                     Renderable r;
 
                     if (c.seqIndex == -1 && c.overrideIndex == null) {
@@ -497,8 +497,8 @@ public class Scene {
 
                     landscape.addGroundDecoration(x, y, v_avg, plane, r, uid, arrangement);
 
-                    if (c.hasCollisions && c.is_static && collision != null) {
-                        collision.set_solid(x, y);
+                    if (c.hasCollisions && c.isStatic && collision != null) {
+                        collision.setSolid(x, y);
                     }
 
                 }
@@ -521,11 +521,11 @@ public class Scene {
                     }
 
                     if (rotation == 1 || rotation == 3) {
-                        size_y = c.size_y;
-                        size_x = c.size_x;
+                        size_y = c.sizeY;
+                        size_x = c.sizeX;
                     } else {
-                        size_y = c.size_x;
-                        size_x = c.size_y;
+                        size_y = c.sizeX;
+                        size_x = c.sizeY;
                     }
 
                     if (landscape.add(r, x, y, plane, size_x, size_y, v_avg, arrangement, angle, uid) && c.castsShadow) {
@@ -557,7 +557,7 @@ public class Scene {
                 }
 
                 if (c.hasCollisions && collision != null) {
-                    collision.addLoc(x, y, c.size_x, c.size_y, rotation, c.blocksProjectiles);
+                    collision.addLoc(x, y, c.sizeX, c.sizeY, rotation, c.blocksProjectiles);
                 }
 
             } else if (type >= 12) {
@@ -576,7 +576,7 @@ public class Scene {
                 }
 
                 if (c.hasCollisions && collision != null) {
-                    collision.addLoc(x, y, c.size_x, c.size_y, rotation, c.blocksProjectiles);
+                    collision.addLoc(x, y, c.sizeX, c.sizeY, rotation, c.blocksProjectiles);
                 }
 
             } else if (type == 0) {
@@ -596,7 +596,7 @@ public class Scene {
                         shadowMap[plane][x][y + 1] = WALL_SHADOW_INTENSITY;
                     }
 
-                    if (c.is_solid) {
+                    if (c.isSolid) {
                         tileCullingBitset[plane][x][y] |= 0x249;
                     }
                 } else if (rotation == 1) {
@@ -605,7 +605,7 @@ public class Scene {
                         shadowMap[plane][x + 1][y + 1] = WALL_SHADOW_INTENSITY;
                     }
 
-                    if (c.is_solid) {
+                    if (c.isSolid) {
                         tileCullingBitset[plane][x][y + 1] |= 0x492;
                     }
                 } else if (rotation == 2) {
@@ -614,7 +614,7 @@ public class Scene {
                         shadowMap[plane][x + 1][y + 1] = WALL_SHADOW_INTENSITY;
                     }
 
-                    if (c.is_solid) {
+                    if (c.isSolid) {
                         tileCullingBitset[plane][x + 1][y] |= 0x249;
                     }
                 } else if (rotation == 3) {
@@ -623,7 +623,7 @@ public class Scene {
                         shadowMap[plane][x + 1][y] = WALL_SHADOW_INTENSITY;
                     }
 
-                    if (c.is_solid) {
+                    if (c.isSolid) {
                         tileCullingBitset[plane][x][y] |= 0x492;
                     }
                 }
@@ -632,8 +632,8 @@ public class Scene {
                     collision.addWall(x, y, type, rotation, c.blocksProjectiles);
                 }
 
-                if (c.wall_width != 16) {
-                    landscape.set_wall_deco_margin(x, y, plane, c.wall_width);
+                if (c.wallWidth != 16) {
+                    landscape.setWallDecoMargin(x, y, plane, c.wallWidth);
                 }
 
             } else if (type == 1) {
@@ -677,7 +677,7 @@ public class Scene {
 
                 landscape.addWall(r1, r2, x, y, v_avg, plane, WALL_ROOT_DRAW_FLAGS[rotation], WALL_ROOT_DRAW_FLAGS[next_rotation], arrangement, true, uid);
 
-                if (c.is_solid) {
+                if (c.isSolid) {
                     if (rotation == 0) {
                         tileCullingBitset[plane][x][y] |= 0x249;
                         tileCullingBitset[plane][x][y + 1] |= 0x492;
@@ -697,8 +697,8 @@ public class Scene {
                     collision.addWall(x, y, type, rotation, c.blocksProjectiles);
                 }
 
-                if (c.wall_width != 16) {
-                    landscape.set_wall_deco_margin(x, y, plane, c.wall_width);
+                if (c.wallWidth != 16) {
+                    landscape.setWallDecoMargin(x, y, plane, c.wallWidth);
                 }
             } else if (type == 3) {
                 Renderable r;
@@ -739,7 +739,7 @@ public class Scene {
                 landscape.add(r, x, y, plane, 1, 1, v_avg, arrangement, 0, uid);
 
                 if (c.hasCollisions && collision != null) {
-                    collision.addLoc(x, y, c.size_x, c.size_y, rotation, c.blocksProjectiles);
+                    collision.addLoc(x, y, c.sizeX, c.sizeY, rotation, c.blocksProjectiles);
                 }
             } else {
                 if (c.adjustToTerrain) {
@@ -777,10 +777,10 @@ public class Scene {
                     landscape.addWallDecoration(r, x, y, plane, 0, 0, v_avg, rotation * 512, arrangement, WALL_ROOT_DRAW_FLAGS[rotation], uid);
                 } else if (type == 5) {
                     int width = 16;
-                    int wall_uid = landscape.get_wall_uid(plane, x, y);
+                    int wall_uid = landscape.getWallUid(plane, x, y);
 
                     if (wall_uid > 0) {
-                        width = LocConfig.get(wall_uid >> 14 & 0x7fff).wall_width;
+                        width = LocConfig.get(wall_uid >> 14 & 0x7fff).wallWidth;
                     }
 
                     Renderable r;
@@ -839,7 +839,7 @@ public class Scene {
                         }
 
                         if (plane_ >= 0) {
-                            cm[plane_].set_solid(x, z);
+                            cm[plane_].setSolid(x, z);
                         }
                     }
                 }
@@ -908,7 +908,7 @@ public class Scene {
                             blendedHue[y] += floor.hue;
                             blendedSatuartion[y] += floor.saturation;
                             blendedLightness[y] += floor.lightness;
-                            blendedHueDivisor[y] += floor.hue_divisor;
+                            blendedHueDivisor[y] += floor.hueDivisor;
                             blendedDirection[y]++;
                         }
                     }
@@ -921,7 +921,7 @@ public class Scene {
                             blendedHue[y] -= f.hue;
                             blendedSatuartion[y] -= f.saturation;
                             blendedLightness[y] -= f.lightness;
-                            blendedHueDivisor[y] -= f.hue_divisor;
+                            blendedHueDivisor[y] -= f.hueDivisor;
                             blendedDirection[y]--;
                         }
                     }
@@ -997,7 +997,7 @@ public class Scene {
                                         hide_underlay = false;
                                     }
 
-                                    if (overlay_id > 0 && !Floor.instance[overlay_id - 1].show_underlay) {
+                                    if (overlay_id > 0 && !Floor.instance[overlay_id - 1].showUnderlay) {
                                         hide_underlay = false;
                                     }
 
@@ -1013,12 +1013,12 @@ public class Scene {
                                 }
 
                                 if (overlay_id == 0) {
-                                    l.add_tile(plane, x, y, 0, 0, (byte) -1, v_sw, v_se, v_ne, v_nw, setHslLightness(hsl, l_sw), setHslLightness(hsl, l_se), setHslLightness(hsl, l_ne), setHslLightness(hsl, l_nw), 0, 0, 0, 0, rgb_randomized, 0);
+                                    l.addTile(plane, x, y, 0, 0, (byte) -1, v_sw, v_se, v_ne, v_nw, setHslLightness(hsl, l_sw), setHslLightness(hsl, l_se), setHslLightness(hsl, l_ne), setHslLightness(hsl, l_nw), 0, 0, 0, 0, rgb_randomized, 0);
                                 } else {
                                     int shape = overlayShape[plane][x][y] + 1;
                                     byte rotation = overlayRotation[plane][x][y];
                                     Floor f = Floor.instance[overlay_id - 1];
-                                    byte texture = f.texture_index;
+                                    byte texture = f.textureIndex;
                                     int hsl_bitset;
                                     int rgb_bitset;
 
@@ -1034,7 +1034,7 @@ public class Scene {
                                         hsl_bitset = Canvas3D.palette[getRgb(f.color, 96)];
                                     }
 
-                                    l.add_tile(plane, x, y, shape, rotation, texture, v_sw, v_se, v_ne, v_nw, setHslLightness(hsl, l_sw), setHslLightness(hsl, l_se), setHslLightness(hsl, l_ne), setHslLightness(hsl, l_nw), getRgb(rgb_bitset, l_sw), getRgb(rgb_bitset, l_se), getRgb(rgb_bitset, l_ne), getRgb(rgb_bitset, l_nw), rgb_randomized, hsl_bitset);
+                                    l.addTile(plane, x, y, shape, rotation, texture, v_sw, v_se, v_ne, v_nw, setHslLightness(hsl, l_sw), setHslLightness(hsl, l_se), setHslLightness(hsl, l_ne), setHslLightness(hsl, l_nw), getRgb(rgb_bitset, l_sw), getRgb(rgb_bitset, l_se), getRgb(rgb_bitset, l_ne), getRgb(rgb_bitset, l_nw), rgb_randomized, hsl_bitset);
                                 }
                             }
                         }
@@ -1044,17 +1044,17 @@ public class Scene {
 
             for (int y = 1; y < landscapeSizeY - 1; y++) {
                 for (int x = 1; x < landscapeSizeX - 1; x++) {
-                    l.set_visible_planes(plane, x, y, setVisibilityPlane(plane, x, y));
+                    l.setVisiblePlanes(plane, x, y, setVisibilityPlane(plane, x, y));
                 }
             }
         }
 
-        l.apply_untextured_objects(-50, -10, -50, 64, 768);
+        l.applyUntexturedObjects(-50, -10, -50, 64, 768);
 
         for (int x = 0; x < landscapeSizeX; x++) {
             for (int y = 0; y < landscapeSizeY; y++) {
                 if ((renderFlags[1][x][y] & 0x2) == 2) {
-                    l.add_bridge(x, y);
+                    l.addBridge(x, y);
                 }
             }
         }
@@ -1115,7 +1115,7 @@ public class Scene {
                                 int i = 240;
                                 int max_v_z = (heightMap[max_plane][x][min_y] - i);
                                 int min_v_z = heightMap[min_plane][x][min_y];
-                                Landscape.create_culling_box(k, x * 128, x * 128, min_y * 128, max_y * 128 + 128, min_v_z, max_v_z, 1);
+                                Landscape.createCullingBox(k, x * 128, x * 128, min_y * 128, max_y * 128 + 128, min_v_z, max_v_z, 1);
 
                                 for (int occluded_plane = min_plane; occluded_plane <= max_plane; occluded_plane++) {
                                     for (int occluded_y = min_y; occluded_y <= max_y; occluded_y++) {
@@ -1166,7 +1166,7 @@ public class Scene {
                                 int i = 240;
                                 int max_v_z = (heightMap[max_plane][min_x][y] - i);
                                 int min_v_z = heightMap[min_plane][min_x][y];
-                                Landscape.create_culling_box(k, min_x * 128, max_x * 128 + 128, y * 128, y * 128, min_v_z, max_v_z, 2);
+                                Landscape.createCullingBox(k, min_x * 128, max_x * 128 + 128, y * 128, y * 128, min_v_z, max_v_z, 2);
 
                                 for (int j = min_plane; j <= max_plane; j++) {
                                     for (int occluded_x = min_x; occluded_x <= max_x; occluded_x++) {
@@ -1214,7 +1214,7 @@ public class Scene {
 
                             if ((highest_occlusion_x - lowest_occlusion_x + 1) * (highest_occlussion_y - lowest_occlusion_y + 1) >= 4) {
                                 int lowest_occlussion_vertex_height = heightMap[plane][lowest_occlusion_x][lowest_occlusion_y];
-                                Landscape.create_culling_box(k, lowest_occlusion_x * 128, highest_occlusion_x * 128 + 128, lowest_occlusion_y * 128, highest_occlussion_y * 128 + 128, lowest_occlussion_vertex_height, lowest_occlussion_vertex_height, 4);
+                                Landscape.createCullingBox(k, lowest_occlusion_x * 128, highest_occlusion_x * 128 + 128, lowest_occlusion_y * 128, highest_occlussion_y * 128 + 128, lowest_occlussion_vertex_height, lowest_occlussion_vertex_height, 4);
 
                                 for (int occluded_x = lowest_occlusion_x; occluded_x <= highest_occlusion_x; occluded_x++) {
                                     for (int occluded_y = lowest_occlusion_y; occluded_y <= highest_occlussion_y; occluded_y++) {
@@ -1421,8 +1421,8 @@ public class Scene {
                 if (locPlane == chunk_plane && locX >= chunk_x && locX < chunk_x + 8 && locY >= chunk_y && locY < chunk_y + 8) {
                     LocConfig config = LocConfig.get(index);
 
-                    int local_x = map_x + ChunkUtils.rotateLocX(locX, locY, config.size_x, config.size_y, chunk_rotation);
-                    int local_y = map_y + ChunkUtils.rotateLocY(locX, locY, config.size_x, config.size_y, chunk_rotation);
+                    int local_x = map_x + ChunkUtils.rotateLocX(locX, locY, config.sizeX, config.sizeY, chunk_rotation);
+                    int local_y = map_y + ChunkUtils.rotateLocY(locX, locY, config.sizeX, config.sizeY, chunk_rotation);
 
                     if (local_x > 0 && local_y > 0 && local_x < 103 && local_y < 103) {
                         int plane = locPlane;

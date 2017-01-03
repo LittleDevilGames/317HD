@@ -74,7 +74,7 @@ public class Model extends Renderable {
     public int triangle_alpha[];
     public int triangle_color[];
     public int triangle_count;
-    public int triangle_groups[][];
+    public int triangleGroups[][];
     public int triangle_info[];
     public int triangle_priority[];
     public int triangle_tskin[];
@@ -85,7 +85,7 @@ public class Model extends Renderable {
     public int unknown3;
     public short vertex_count;
     public int vertex_skin_types[];
-    public int vertex_weights[][];
+    public int vertexWeights[][];
     public short[] vertex_x;
     public short[] vertex_y;
     public short[] vertex_z;
@@ -867,7 +867,7 @@ public class Model extends Renderable {
         return (hsl & 0xff80) + lightness;
     }
 
-    public void apply_lighting(int light_brightness, int specular_distribution, int light_x, int light_y, int light_z) {
+    public void applyLighting(int light_brightness, int specular_distribution, int light_x, int light_y, int light_z) {
         for (int i = 0; i < triangle_count; i++) {
             int x = triangle_viewspace_a[i];
             int y = triangle_viewspace_b[i];
@@ -921,7 +921,7 @@ public class Model extends Renderable {
         this.triangle_color = null;
     }
 
-    public void apply_lighting(int light_brightness, int specular_factor, int light_x, int light_y, int light_z, boolean smooth_shading) {
+    public void applyLighting(int light_brightness, int specular_factor, int light_x, int light_y, int light_z, boolean smooth_shading) {
         int light_length = (int) Math.sqrt(light_x * light_x + light_y * light_y + light_z * light_z);
         int specular_distribution = specular_factor * light_length >> 8;
 
@@ -993,7 +993,7 @@ public class Model extends Renderable {
         }
 
         if (smooth_shading) {
-            apply_lighting(light_brightness, specular_distribution, light_x, light_y, light_z);
+            applyLighting(light_brightness, specular_distribution, light_x, light_y, light_z);
         } else {
             vertices = new Vertex[vertex_count];
 
@@ -1016,8 +1016,8 @@ public class Model extends Renderable {
         }
     }
 
-    public void apply_sequence_frame(int seq_index) {
-        if (vertex_weights == null) {
+    public void applySequenceFrame(int seq_index) {
+        if (vertexWeights == null) {
             return;
         }
 
@@ -1036,9 +1036,9 @@ public class Model extends Renderable {
         anInt1682 = 0;
         anInt1683 = 0;
 
-        for (int frame = 0; frame < s.frame_count; frame++) {
+        for (int frame = 0; frame < s.frameCount; frame++) {
             int v_index = s.vertices[frame];
-            this.transform(skin.opcodes[v_index], skin.vertices[v_index], s.vertex_x[frame], s.vertex_y[frame], s.vertex_z[frame]);
+            this.transform(skin.opcodes[v_index], skin.vertices[v_index], s.vertexX[frame], s.vertexY[frame], s.vertexZ[frame]);
         }
     }
 
@@ -1048,7 +1048,7 @@ public class Model extends Renderable {
         }
 
         if (vertices == null || frame2 == -1) {
-            apply_sequence_frame(frame1);
+            applySequenceFrame(frame1);
             return;
         }
 
@@ -1061,7 +1061,7 @@ public class Model extends Renderable {
         SequenceFrame af2 = SequenceFrame.get(frame2);
 
         if (af2 == null) {
-            apply_sequence_frame(frame1);
+            applySequenceFrame(frame1);
             return;
         }
 
@@ -1074,13 +1074,13 @@ public class Model extends Renderable {
         int position = 0;
         int vertex = vertices[position++];
 
-        for (int frame = 0; frame < af1.frame_count; frame++) {
+        for (int frame = 0; frame < af1.frameCount; frame++) {
             int v;
             for (v = af1.vertices[frame]; v > vertex; vertex = vertices[position++]) {
                 ;
             }
             if (v != vertex || slist.opcodes[v] == 0) {
-                this.transform(slist.opcodes[v], slist.vertices[v], af1.vertex_x[frame], af1.vertex_y[frame], af1.vertex_z[frame]);
+                this.transform(slist.opcodes[v], slist.vertices[v], af1.vertexX[frame], af1.vertexY[frame], af1.vertexZ[frame]);
             }
         }
 
@@ -1091,18 +1091,18 @@ public class Model extends Renderable {
         position = 0;
         vertex = vertices[position++];
 
-        for (int frame = 0; frame < af2.frame_count; frame++) {
+        for (int frame = 0; frame < af2.frameCount; frame++) {
             int v;
             for (v = af2.vertices[frame]; v > vertex; vertex = vertices[position++]) {
             }
             if (v == vertex || slist.opcodes[v] == 0) {
-                this.transform(slist.opcodes[v], slist.vertices[v], af2.vertex_x[frame], af2.vertex_y[frame], af2.vertex_z[frame]);
+                this.transform(slist.opcodes[v], slist.vertices[v], af2.vertexX[frame], af2.vertexY[frame], af2.vertexZ[frame]);
             }
         }
 
     }
 
-    public void apply_vertex_weights() {
+    public void applyVertexWeights() {
         if (vertex_skin_types != null) {
             int weight_counts[] = new int[256];
             int top_label = 0;
@@ -1116,16 +1116,16 @@ public class Model extends Renderable {
                 }
             }
 
-            vertex_weights = new int[top_label + 1][];
+            vertexWeights = new int[top_label + 1][];
 
             for (int i = 0; i <= top_label; i++) {
-                vertex_weights[i] = new int[weight_counts[i]];
+                vertexWeights[i] = new int[weight_counts[i]];
                 weight_counts[i] = 0;
             }
 
             for (int i = 0; i < vertex_count; i++) {
                 int label = vertex_skin_types[i];
-                vertex_weights[label][weight_counts[label]++] = i;
+                vertexWeights[label][weight_counts[label]++] = i;
             }
 
             vertex_skin_types = null;
@@ -1145,16 +1145,16 @@ public class Model extends Renderable {
                 }
             }
 
-            triangle_groups = new int[top_skin + 1][];
+            triangleGroups = new int[top_skin + 1][];
 
             for (int i = 0; i <= top_skin; i++) {
-                triangle_groups[i] = new int[skin_counts[i]];
+                triangleGroups[i] = new int[skin_counts[i]];
                 skin_counts[i] = 0;
             }
 
             for (int i = 0; i < triangle_count; i++) {
                 int group = triangle_tskin[i];
-                triangle_groups[group][skin_counts[group]++] = i;
+                triangleGroups[group][skin_counts[group]++] = i;
             }
 
             triangle_tskin = null;
@@ -1253,7 +1253,7 @@ public class Model extends Renderable {
 
         switch (type) {
             case 0: { // Shaded
-                Canvas3D.draw_shaded_triangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl2[i], tri_hsl3[i]);
+                Canvas3D.drawShadedTriangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl2[i], tri_hsl3[i]);
                 return;
             }
             case 1: { // Flat
@@ -1265,7 +1265,7 @@ public class Model extends Renderable {
                 int x = texture_map_x[j];
                 int y = texture_map_y[j];
                 int z = texture_map_z[j];
-                Canvas3D.draw_textured_triangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl2[i], tri_hsl3[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                Canvas3D.drawTexturedTriangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl2[i], tri_hsl3[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
                 return;
             }
             case 3: { // Flat Texture
@@ -1273,7 +1273,7 @@ public class Model extends Renderable {
                 int x = texture_map_x[j];
                 int y = texture_map_y[j];
                 int z = texture_map_z[j];
-                Canvas3D.draw_textured_triangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                Canvas3D.drawTexturedTriangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
                 return;
             }
         }
@@ -1706,7 +1706,7 @@ public class Model extends Renderable {
                 }
 
                 if (type == 0) {
-                    Canvas3D.draw_shaded_triangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2]);
+                    Canvas3D.drawShadedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2]);
                 } else if (type == 1) {
                     Canvas3D.draw_flat_triangle(x0, y0, x1, y1, x2, y2, palette[tri_hsl1[i]]);
                 } else if (type == 2) {
@@ -1714,13 +1714,13 @@ public class Model extends Renderable {
                     int x = texture_map_x[k];
                     int y = texture_map_y[k];
                     int z = texture_map_z[k];
-                    Canvas3D.draw_textured_triangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
                 } else if (type == 3) {
                     int k = triangle_info[i] >> 2;
                     int x = texture_map_x[k];
                     int y = texture_map_y[k];
                     int z = texture_map_z[k];
-                    Canvas3D.draw_textured_triangle(x0, y0, x1, y1, x2, y2, tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
                 }
             } else if (j == 4) {
                 if (x0 < 0 || x1 < 0 || x2 < 0 || x0 > Canvas2D.bound || x1 > Canvas2D.bound || x2 > Canvas2D.bound || tmp_screen_x[3] < 0 || tmp_screen_x[3] > Canvas2D.bound) {
@@ -1736,8 +1736,8 @@ public class Model extends Renderable {
                 }
 
                 if (type == 0) {
-                    Canvas3D.draw_shaded_triangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2]);
-                    Canvas3D.draw_shaded_triangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tmp_hsl[0], tmp_hsl[2], tmp_hsl[3]);
+                    Canvas3D.drawShadedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2]);
+                    Canvas3D.drawShadedTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tmp_hsl[0], tmp_hsl[2], tmp_hsl[3]);
                 } else if (type == 1) {
                     int rgb = palette[tri_hsl1[i]];
                     Canvas3D.draw_flat_triangle(x0, y0, x1, y1, x2, y2, rgb);
@@ -1747,15 +1747,15 @@ public class Model extends Renderable {
                     int x = texture_map_x[k];
                     int y = texture_map_y[k];
                     int z = texture_map_z[k];
-                    Canvas3D.draw_textured_triangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
-                    Canvas3D.draw_textured_triangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tmp_hsl[0], tmp_hsl[2], tmp_hsl[3], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    Canvas3D.drawTexturedTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tmp_hsl[0], tmp_hsl[2], tmp_hsl[3], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
                 } else if (type == 3) {
                     int k = triangle_info[i] >> 2;
                     int x = texture_map_x[k];
                     int y = texture_map_y[k];
                     int z = texture_map_z[k];
-                    Canvas3D.draw_textured_triangle(x0, y0, x1, y1, x2, y2, tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
-                    Canvas3D.draw_textured_triangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    Canvas3D.drawTexturedTriangle(x0, y0, x1, y1, x2, y2, tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
+                    Canvas3D.drawTexturedTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tri_hsl1[i], tri_hsl1[i], tri_hsl1[i], tmp_textured_x[x], tmp_textured_y[x], tmp_textured_z[x], tmp_textured_x[y], tmp_textured_y[y], tmp_textured_z[y], tmp_textured_x[z], tmp_textured_y[z], tmp_textured_z[z], triangle_color[i]);
                 }
             }
         }
@@ -1942,8 +1942,8 @@ public class Model extends Renderable {
         triangle_color = m.triangle_color;
         triangle_priority = m.triangle_priority;
         anInt1641 = m.anInt1641;
-        triangle_groups = m.triangle_groups;
-        vertex_weights = m.vertex_weights;
+        triangleGroups = m.triangleGroups;
+        vertexWeights = m.vertexWeights;
         triangle_viewspace_a = m.triangle_viewspace_a;
         triangle_viewspace_b = m.triangle_viewspace_b;
         triangle_viewspace_c = m.triangle_viewspace_c;
@@ -1984,7 +1984,7 @@ public class Model extends Renderable {
 
     }
 
-    public void set_color(int from, int to) {
+    public void setColor(int from, int to) {
         for (int i = 0; i < this.triangle_count; i++) {
             if (this.triangle_color[i] == from) {
                 this.triangle_color[i] = to;
@@ -1997,7 +1997,7 @@ public class Model extends Renderable {
             return;
         }
         for (int i = 0; i < from.length; i++) {
-            this.set_color(from[i], to[i]);
+            this.setColor(from[i], to[i]);
         }
     }
 
@@ -2022,8 +2022,8 @@ public class Model extends Renderable {
 
             for (int i = 0; i < vertex_count; i++) {
                 int j = vertices[i];
-                if (j < vertex_weights.length) {
-                    int v_weights[] = vertex_weights[j];
+                if (j < vertexWeights.length) {
+                    int v_weights[] = vertexWeights[j];
                     for (int v_weight = 0; v_weight < v_weights.length; v_weight++) {
                         int weight_vertex = v_weights[v_weight];
                         anInt1681 += vertex_x[weight_vertex];
@@ -2051,8 +2051,8 @@ public class Model extends Renderable {
         if (opcode == 1) {
             for (int i = 0; i < vertex_count; i++) {
                 int j = vertices[i];
-                if (j < vertex_weights.length) {
-                    int vertice_indices[] = vertex_weights[j];
+                if (j < vertexWeights.length) {
+                    int vertice_indices[] = vertexWeights[j];
                     for (int k = 0; k < vertice_indices.length; k++) {
                         int v_index = vertice_indices[k];
                         vertex_x[v_index] += x;
@@ -2068,8 +2068,8 @@ public class Model extends Renderable {
         if (opcode == 2) {
             for (int i = 0; i < vertex_count; i++) {
                 int j = vertices[i];
-                if (j < vertex_weights.length) {
-                    int vertice_indices[] = vertex_weights[j];
+                if (j < vertexWeights.length) {
+                    int vertice_indices[] = vertexWeights[j];
                     for (int k = 0; k < vertice_indices.length; k++) {
                         int v_index = vertice_indices[k];
                         vertex_x[v_index] -= anInt1681;
@@ -2117,8 +2117,8 @@ public class Model extends Renderable {
         if (opcode == 3) {
             for (int i = 0; i < vertex_count; i++) {
                 int j = vertices[i];
-                if (j < vertex_weights.length) {
-                    int vertex_index[] = vertex_weights[j];
+                if (j < vertexWeights.length) {
+                    int vertex_index[] = vertexWeights[j];
                     for (int k = 0; k < vertex_index.length; k++) {
                         int v = vertex_index[k];
                         vertex_x[v] -= anInt1681;
@@ -2139,12 +2139,12 @@ public class Model extends Renderable {
         }
 
         // Set Alpha
-        if (opcode == 5 && triangle_groups != null && triangle_alpha != null) {
+        if (opcode == 5 && triangleGroups != null && triangle_alpha != null) {
             for (int i = 0; i < vertex_count; i++) {
                 int group = vertices[i];
 
-                if (group < triangle_groups.length) {
-                    int tri_indices[] = triangle_groups[group];
+                if (group < triangleGroups.length) {
+                    int tri_indices[] = triangleGroups[group];
 
                     for (int k = 0; k < tri_indices.length; k++) {
                         int tri_index = tri_indices[k];

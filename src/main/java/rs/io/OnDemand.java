@@ -156,7 +156,7 @@ public class OnDemand implements Runnable {
                         current.payload = null;
                         if (current.immediate) {
                             synchronized (completed) {
-                                completed.push_back(current);
+                                completed.pushBack(current);
                             }
                         } else {
                             current.detach();
@@ -206,7 +206,7 @@ public class OnDemand implements Runnable {
 
                     if (current.immediate) {
                         synchronized (completed) {
-                            completed.push_back(current);
+                            completed.pushBack(current);
                         }
                     } else {
                         current.detach();
@@ -268,11 +268,11 @@ public class OnDemand implements Runnable {
 
             synchronized (wanted) {
                 if (data == null) {
-                    to_request.push_back(r);
+                    to_request.pushBack(r);
                 } else {
                     r.payload = data;
                     synchronized (completed) {
-                        completed.push_back(r);
+                        completed.pushBack(r);
                     }
                 }
                 r = (OnDemandRequest) wanted.pop();
@@ -355,7 +355,7 @@ public class OnDemand implements Runnable {
             while (r != null) {
                 if (file_priorities[r.archive][r.file] != 0) {
                     file_priorities[r.archive][r.file] = 0;
-                    sent_requests.push_back(r);
+                    sent_requests.pushBack(r);
                     send_request(r);
                     retreiving = true;
 
@@ -385,7 +385,7 @@ public class OnDemand implements Runnable {
                         r1.archive = archive;
                         r1.file = i;
                         r1.immediate = false;
-                        sent_requests.push_back(r1);
+                        sent_requests.pushBack(r1);
                         send_request(r1);
                         retreiving = true;
 
@@ -432,7 +432,7 @@ public class OnDemand implements Runnable {
             }
 
             file_priorities[request.archive][request.file] = 0;
-            sent_requests.push_back(request);
+            sent_requests.pushBack(request);
             immediate_requests_sent++;
             send_request(request);
             retreiving = true;
@@ -457,7 +457,7 @@ public class OnDemand implements Runnable {
         request.file = file;
         request.immediate = false;
         synchronized (passive_requests) {
-            passive_requests.push_back(request);
+            passive_requests.pushBack(request);
         }
     }
 
@@ -608,7 +608,7 @@ public class OnDemand implements Runnable {
             r.immediate = true;
 
             synchronized (wanted) {
-                wanted.push_back(r);
+                wanted.pushBack(r);
             }
 
             immediate.push(r);

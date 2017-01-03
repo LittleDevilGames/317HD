@@ -4,15 +4,15 @@ public class CacheLink extends Link {
 
     public static final CacheLink EMPTY = new CacheLink();
 
-    public CacheLink next_cache;
-    public CacheLink previous_cache;
+    public CacheLink nextCache;
+    public CacheLink previousCache;
 
     public void uncache() {
-        if (this.previous_cache != null) {
-            this.previous_cache.next_cache = this.next_cache;
-            this.next_cache.previous_cache = this.previous_cache;
-            this.next_cache = null;
-            this.previous_cache = null;
+        if (this.previousCache != null) {
+            this.previousCache.nextCache = this.nextCache;
+            this.nextCache.previousCache = this.previousCache;
+            this.nextCache = null;
+            this.previousCache = null;
         }
     }
 

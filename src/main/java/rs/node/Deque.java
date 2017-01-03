@@ -7,13 +7,13 @@ public class Deque {
 
     public Deque() {
         this.first = new CacheLink();
-        this.first.next_cache = this.first;
-        this.first.previous_cache = this.first;
+        this.first.nextCache = this.first;
+        this.first.previousCache = this.first;
     }
 
     public int count() {
         int i = 0;
-        for (CacheLink n = first.next_cache; n != first; n = n.next_cache) {
+        for (CacheLink n = first.nextCache; n != first; n = n.nextCache) {
             i++;
         }
         return i;
@@ -25,12 +25,12 @@ public class Deque {
             current = null;
             return null;
         }
-        current = c.next_cache;
+        current = c.nextCache;
         return c;
     }
 
     public CacheLink pop() {
-        CacheLink c = first.next_cache;
+        CacheLink c = first.nextCache;
         if (c == first) {
             return null;
         }
@@ -40,19 +40,19 @@ public class Deque {
 
     public void push(CacheLink c) {
         c.uncache();
-        c.previous_cache = this.first.previous_cache;
-        c.next_cache = this.first;
-        c.previous_cache.next_cache = c;
-        c.next_cache.previous_cache = c;
+        c.previousCache = this.first.previousCache;
+        c.nextCache = this.first;
+        c.previousCache.nextCache = c;
+        c.nextCache.previousCache = c;
     }
 
     public CacheLink top() {
-        CacheLink c = first.next_cache;
+        CacheLink c = first.nextCache;
         if (c == first) {
             current = null;
             return null;
         }
-        current = c.next_cache;
+        current = c.nextCache;
         return c;
     }
 }

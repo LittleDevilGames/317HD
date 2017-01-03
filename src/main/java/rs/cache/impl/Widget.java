@@ -150,10 +150,6 @@ public class Widget {
                     s.compare_value = compare_value[i];
                 }
 
-                if (Game.debug) {
-                    s.export(Signlink.getFile("cs1/" + w.index + "/" + s.index + ".cs1"));
-                }
-
                 w.script[i] = s;
             }
         }
@@ -471,7 +467,7 @@ public class Widget {
                                         s.drawMasked(draw_x, draw_y);
                                     }
 
-                                    if (s.crop_width == 33 || this.item_count[slot] != 1) {
+                                    if (s.cropWidth == 33 || this.item_count[slot] != 1) {
                                         int count = this.item_count[slot];
                                         String s1 = null;
 
@@ -661,7 +657,7 @@ public class Widget {
                     m = this.get_mesh(-1, -1, enabled);
                 } else {
                     Sequence s = Sequence.instance[anim_index];
-                    m = this.get_mesh(s.frame_primary[this.sequence_frame], s.frame_secondary[this.sequence_frame], enabled);
+                    m = this.get_mesh(s.framePrimary[this.sequence_frame], s.frame_secondary[this.sequence_frame], enabled);
                 }
 
                 if (m != null) {
@@ -813,18 +809,18 @@ public class Widget {
         m = new Model(true, (frame1 == -1) & (frame2 == -1), false, m);
 
         if (frame1 != -1 || frame2 != -1) {
-            m.apply_vertex_weights();
+            m.applyVertexWeights();
         }
 
         if (frame1 != -1) {
-            m.apply_sequence_frame(frame1);
+            m.applySequenceFrame(frame1);
         }
 
         if (frame2 != -1) {
-            m.apply_sequence_frame(frame2);
+            m.applySequenceFrame(frame2);
         }
 
-        m.apply_lighting(64, 768, -50, -10, -50, true);
+        m.applyLighting(64, 768, -50, -10, -50, true);
         return m;
     }
 

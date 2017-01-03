@@ -12,15 +12,15 @@ import java.util.Arrays;
 public class Flames {
 
     public static int cycle;
-    public static int[] disolve_mask, last_disolve_mask;
+    public static int[] disolveMask, lastDisolveMask;
     public static int[] pixels;
     public static ImageProducer[] producer;
-    public static Bitmap[] bitmap_rune;
+    public static Bitmap[] bitmapRune;
     public static Sprite[] image;
-    public static int[] palette, palette_red, palette_green, palette_blue;
-    public static int[] intensity_map;
-    public static int[] distortion_map = new int[256];
-    public static int cycle_green, cycle_blue, rune_cycle;
+    public static int[] palette, paletteRed, paletteGreen, paletteBlue;
+    public static int[] intensityMap;
+    public static int[] distortionMap = new int[256];
+    public static int cycleGreen, cycleBlue, runeCycle;
 
     public static void nullify() {
         Game.processFlames = false;
@@ -35,18 +35,18 @@ public class Flames {
             }
         }
 
-        TitleScreen.bitmap_box = null;
-        TitleScreen.bitmap_button = null;
+        TitleScreen.bitmapBox = null;
+        TitleScreen.bitmapButton = null;
 
-        bitmap_rune = null;
+        bitmapRune = null;
         palette = null;
-        palette_red = null;
-        palette_green = null;
-        palette_blue = null;
-        disolve_mask = null;
-        last_disolve_mask = null;
+        paletteRed = null;
+        paletteGreen = null;
+        paletteBlue = null;
+        disolveMask = null;
+        lastDisolveMask = null;
         pixels = null;
-        intensity_map = null;
+        intensityMap = null;
         image = null;
     }
 
@@ -59,7 +59,7 @@ public class Flames {
     }
 
     public static void create_images() {
-        bitmap_rune = new Bitmap[12];
+        bitmapRune = new Bitmap[12];
 
         image = new Sprite[2];
 
@@ -77,12 +77,12 @@ public class Flames {
         }
 
         if (i == 0) {
-            for (int j = 0; j < bitmap_rune.length; j++) {
-                bitmap_rune[j] = new Bitmap(Game.archive, "runes", j);
+            for (int j = 0; j < bitmapRune.length; j++) {
+                bitmapRune[j] = new Bitmap(Game.archive, "runes", j);
             }
         } else {
-            for (int j = 0; j < bitmap_rune.length; j++) {
-                bitmap_rune[j] = new Bitmap(Game.archive, "runes", 12 + (j & 3));
+            for (int j = 0; j < bitmapRune.length; j++) {
+                bitmapRune[j] = new Bitmap(Game.archive, "runes", 12 + (j & 3));
             }
         }
 
@@ -90,75 +90,75 @@ public class Flames {
     }
 
     public static void create_palettes() {
-        palette_red = new int[256];
+        paletteRed = new int[256];
 
         for (int i = 0; i < 64; i++) {
-            palette_red[i] = i * 0x040000;
+            paletteRed[i] = i * 0x040000;
         }
         for (int i = 0; i < 64; i++) {
-            palette_red[i + 64] = 0xff0000 + (0x0400 * i);
+            paletteRed[i + 64] = 0xff0000 + (0x0400 * i);
         }
         for (int i = 0; i < 64; i++) {
-            palette_red[i + 128] = 0xffff00 + (0x4 * i);
+            paletteRed[i + 128] = 0xffff00 + (0x4 * i);
         }
         for (int i = 0; i < 64; i++) {
-            palette_red[i + 192] = 0xffffff;
-        }
-
-        palette_green = new int[256];
-        for (int i = 0; i < 64; i++) {
-            palette_green[i] = i * 1024;
-        }
-        for (int i = 0; i < 64; i++) {
-            palette_green[i + 64] = 65280 + 4 * i;
-        }
-        for (int i = 0; i < 64; i++) {
-            palette_green[i + 128] = 65535 + 0x40000 * i;
-        }
-        for (int i = 0; i < 64; i++) {
-            palette_green[i + 192] = 0xffffff;
+            paletteRed[i + 192] = 0xffffff;
         }
 
-        palette_blue = new int[256];
+        paletteGreen = new int[256];
         for (int i = 0; i < 64; i++) {
-            palette_blue[i] = i * 4;
+            paletteGreen[i] = i * 1024;
         }
         for (int i = 0; i < 64; i++) {
-            palette_blue[i + 64] = 255 + 0x40000 * i;
+            paletteGreen[i + 64] = 65280 + 4 * i;
         }
         for (int i = 0; i < 64; i++) {
-            palette_blue[i + 128] = 0xff00ff + 1024 * i;
+            paletteGreen[i + 128] = 65535 + 0x40000 * i;
         }
         for (int i = 0; i < 64; i++) {
-            palette_blue[i + 192] = 0xffffff;
+            paletteGreen[i + 192] = 0xffffff;
+        }
+
+        paletteBlue = new int[256];
+        for (int i = 0; i < 64; i++) {
+            paletteBlue[i] = i * 4;
+        }
+        for (int i = 0; i < 64; i++) {
+            paletteBlue[i + 64] = 255 + 0x40000 * i;
+        }
+        for (int i = 0; i < 64; i++) {
+            paletteBlue[i + 128] = 0xff00ff + 1024 * i;
+        }
+        for (int i = 0; i < 64; i++) {
+            paletteBlue[i + 192] = 0xffffff;
         }
 
         palette = new int[256];
         pixels = new int[128 * 256];
-        disolve_mask = new int[pixels.length];
-        last_disolve_mask = new int[pixels.length];
+        disolveMask = new int[pixels.length];
+        lastDisolveMask = new int[pixels.length];
         draw_rune(null);
-        intensity_map = new int[pixels.length];
+        intensityMap = new int[pixels.length];
     }
 
     public static void draw_rune(Bitmap bitmap) {
-        Arrays.fill(disolve_mask, 0);
+        Arrays.fill(disolveMask, 0);
 
         for (int i = 0; i < 5000; i++) {
-            disolve_mask[(int) ((Math.random() * 128D) * 256D)] = (int) (Math.random() * 256D);
+            disolveMask[(int) ((Math.random() * 128D) * 256D)] = (int) (Math.random() * 256D);
         }
 
         for (int i = 0; i < 20; i++) {
             for (int y = 1; y < 256 - 1; y++) {
                 for (int x = 1; x < 127; x++) {
                     int j = x + (y << 7);
-                    last_disolve_mask[j] = (disolve_mask[j - 1] + disolve_mask[j + 1] + disolve_mask[j - 128] + disolve_mask[j + 128]) >> 2;
+                    lastDisolveMask[j] = (disolveMask[j - 1] + disolveMask[j + 1] + disolveMask[j - 128] + disolveMask[j + 128]) >> 2;
                 }
             }
 
-            int[] mask = disolve_mask;
-            disolve_mask = last_disolve_mask;
-            last_disolve_mask = mask;
+            int[] mask = disolveMask;
+            disolveMask = lastDisolveMask;
+            lastDisolveMask = mask;
         }
 
         if (bitmap != null) {
@@ -166,7 +166,7 @@ public class Flames {
             for (int y = 0; y < bitmap.height; y++) {
                 for (int x = 0; x < bitmap.width; x++) {
                     if (bitmap.pixels[i++] != 0) {
-                        disolve_mask[(x + 16 + bitmap.offsetX) + ((y + 16 + bitmap.offsetY) << 7)] = 0;
+                        disolveMask[(x + 16 + bitmap.offsetX) + ((y + 16 + bitmap.offsetY) << 7)] = 0;
                     }
                 }
             }
@@ -197,21 +197,21 @@ public class Flames {
         for (int y = 1; y < height - 1; y++) {
             for (int x = 1; x < 127; x++) {
                 int i = x + (y << 7);
-                intensity_map[i] = (pixels[i - 1] + pixels[i + 1] + pixels[i - 128] + pixels[i + 128]) / 4;
+                intensityMap[i] = (pixels[i - 1] + pixels[i + 1] + pixels[i - 128] + pixels[i + 128]) / 4;
             }
 
         }
 
-        rune_cycle += 128;
-        if (rune_cycle > disolve_mask.length) {
-            rune_cycle -= disolve_mask.length;
-            draw_rune(bitmap_rune[(int) (Math.random() * 12D)]);
+        runeCycle += 128;
+        if (runeCycle > disolveMask.length) {
+            runeCycle -= disolveMask.length;
+            draw_rune(bitmapRune[(int) (Math.random() * 12D)]);
         }
 
         for (int y = 1; y < height - 1; y++) {
             for (int x = 1; x < 127; x++) {
                 int i = x + (y << 7);
-                int j = intensity_map[i + 128] - disolve_mask[i + rune_cycle & disolve_mask.length - 1] / 5;
+                int j = intensityMap[i + 128] - disolveMask[i + runeCycle & disolveMask.length - 1] / 5;
 
                 if (j < 0) {
                     j = 0;
@@ -223,53 +223,53 @@ public class Flames {
         }
 
         for (int y = 0; y < height - 1; y++) {
-            distortion_map[y] = distortion_map[y + 1];
+            distortionMap[y] = distortionMap[y + 1];
         }
 
-        distortion_map[height - 1] = (int) (Math.sin((double) Game.loopCycle / 14D) * 16D + Math.sin((double) Game.loopCycle / 15D) * 14D + Math.sin((double) Game.loopCycle / 16D) * 12D);
+        distortionMap[height - 1] = (int) (Math.sin((double) Game.loopCycle / 14D) * 16D + Math.sin((double) Game.loopCycle / 15D) * 14D + Math.sin((double) Game.loopCycle / 16D) * 12D);
 
-        if (cycle_green > 0) {
-            cycle_green -= 4;
+        if (cycleGreen > 0) {
+            cycleGreen -= 4;
         }
 
-        if (cycle_blue > 0) {
-            cycle_blue -= 4;
+        if (cycleBlue > 0) {
+            cycleBlue -= 4;
         }
 
-        if (cycle_green == 0 && cycle_blue == 0) {
+        if (cycleGreen == 0 && cycleBlue == 0) {
             int l3 = (int) (Math.random() * 2000D);
             if (l3 == 0) {
-                cycle_green = 1024;
+                cycleGreen = 1024;
             }
             if (l3 == 1) {
-                cycle_blue = 1024;
+                cycleBlue = 1024;
             }
         }
     }
 
     public static void handle_palette() {
-        if (cycle_green > 0) {
+        if (cycleGreen > 0) {
             for (int i = 0; i < 256; i++) {
-                if (cycle_green > 768) {
-                    palette[i] = RSColor.mix(palette_red[i], palette_green[i], 1024 - cycle_green);
-                } else if (cycle_green > 256) {
-                    palette[i] = palette_green[i];
+                if (cycleGreen > 768) {
+                    palette[i] = RSColor.mix(paletteRed[i], paletteGreen[i], 1024 - cycleGreen);
+                } else if (cycleGreen > 256) {
+                    palette[i] = paletteGreen[i];
                 } else {
-                    palette[i] = RSColor.mix(palette_green[i], palette_red[i], 256 - cycle_green);
+                    palette[i] = RSColor.mix(paletteGreen[i], paletteRed[i], 256 - cycleGreen);
                 }
             }
-        } else if (cycle_blue > 0) {
+        } else if (cycleBlue > 0) {
             for (int i = 0; i < 256; i++) {
-                if (cycle_blue > 768) {
-                    palette[i] = RSColor.mix(palette_red[i], palette_blue[i], 1024 - cycle_blue);
-                } else if (cycle_blue > 256) {
-                    palette[i] = palette_blue[i];
+                if (cycleBlue > 768) {
+                    palette[i] = RSColor.mix(paletteRed[i], paletteBlue[i], 1024 - cycleBlue);
+                } else if (cycleBlue > 256) {
+                    palette[i] = paletteBlue[i];
                 } else {
-                    palette[i] = RSColor.mix(palette_blue[i], palette_red[i], 256 - cycle_blue);
+                    palette[i] = RSColor.mix(paletteBlue[i], paletteRed[i], 256 - cycleBlue);
                 }
             }
         } else {
-            System.arraycopy(palette_red, 0, palette, 0, palette.length);
+            System.arraycopy(paletteRed, 0, palette, 0, palette.length);
         }
 
         System.arraycopy(image[0].pixels, 0, producer[0].pixels, 0, producer[0].pixels.length);
@@ -278,7 +278,7 @@ public class Flames {
         int src_off = 0;
         int dst_off = 1152;
         for (int y = 1; y < height - 1; y++) {
-            int l1 = (distortion_map[y] * (height - y)) / height;
+            int l1 = (distortionMap[y] * (height - y)) / height;
             int i = 24 + l1;
 
             if (i < 0) {
@@ -311,7 +311,7 @@ public class Flames {
         src_off = 0;
         dst_off = 1176;
         for (int y = 1; y < height - 1; y++) {
-            int i3 = (distortion_map[y] * (height - y)) / height;
+            int i3 = (distortionMap[y] * (height - y)) / height;
             int i = 103 - i3;
             dst_off += i3;
             for (int j = 0; j < i; j++) {

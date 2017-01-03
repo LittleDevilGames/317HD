@@ -26,7 +26,7 @@ public class Jaggrab {
         return new DataInputStream(socket.getInputStream());
     }
 
-    public static void set_shell(GameShell shell) {
+    public static void setShell(GameShell shell) {
         Jaggrab.shell = shell;
     }
 

@@ -8,10 +8,10 @@ public class ItemPile {
     public Renderable middle;
     public Renderable bottom;
     public int uid;
-    public int x;
-    public int y;
-    public int z;
-    public int off_z;
+    public int sceneX;
+    public int sceneY;
+    public int sceneZ;
+    public int offZ;
 
     public ItemPile() {
     }

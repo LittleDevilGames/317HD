@@ -99,11 +99,11 @@ public class OverlayTile {
     };
     /* @formatter:on */
 
-    public static int tmp_screen_x[] = new int[6];
-    public static int tmp_screen_y[] = new int[6];
-    public static int tmp_triangle_x[] = new int[6];
-    public static int tmp_triangle_y[] = new int[6];
-    public static int tmp_triangle_z[] = new int[6];
+    public static int tmpScreenX[] = new int[6];
+    public static int tmpScreenY[] = new int[6];
+    public static int tmpTriangleX[] = new int[6];
+    public static int tmpTriangleY[] = new int[6];
+    public static int tmpTriangleZ[] = new int[6];
 
     public int hsl;
     public boolean ignore_uv;
@@ -117,9 +117,9 @@ public class OverlayTile {
     public int[] vertex_color_a;
     public int[] vertex_color_b;
     public int[] vertex_color_c;
-    public short[] vertex_x;
-    public short[] vertex_y;
-    public short[] vertex_z;
+    public short[] vertexX;
+    public short[] vertexY;
+    public short[] vertexZ;
 
     public OverlayTile(int local_x, int local_y, short v_sw, short v_se, short v_ne, short v_nw, int rgb_sw, int rgb_se, int rgb_ne, int rgb_nw, int rgb_bitset, int hsl_sw, int hsl_se, int hsl_ne, int hsl_nw, int hsl_bitset, byte texture_index, int rotation, int shape) {
         this.ignore_uv = true;
@@ -295,9 +295,9 @@ public class OverlayTile {
 
         byte[] path = CLIPPING_PATH[shape];
         int vertex_count = path.length / 4;
-        this.vertex_x = new short[vertex_count];
-        this.vertex_y = new short[vertex_count];
-        this.vertex_z = new short[vertex_count];
+        this.vertexX = new short[vertex_count];
+        this.vertexY = new short[vertex_count];
+        this.vertexZ = new short[vertex_count];
         this.vertex_color_a = new int[vertex_count];
         this.vertex_color_b = new int[vertex_count];
         this.vertex_color_c = new int[vertex_count];
@@ -326,9 +326,9 @@ public class OverlayTile {
                 z = (short) (z - rotation & 3);
             }
 
-            this.vertex_x[j] = x;
-            this.vertex_y[j] = y;
-            this.vertex_z[j] = z;
+            this.vertexX[j] = x;
+            this.vertexY[j] = y;
+            this.vertexZ[j] = z;
 
             if (type == 0) {
                 this.vertex_color_a[j] = hsl_array[x];

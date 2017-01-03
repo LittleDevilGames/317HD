@@ -101,7 +101,7 @@ public class ObjConfig {
     public static Sprite get_sprite(int index, int count, int outline_color) {
         if (outline_color == 0) {
             Sprite s = (Sprite) sprite_cache.get(index);
-            if (s != null && s.crop_height != count && s.crop_height != -1) {
+            if (s != null && s.cropHeight != count && s.cropHeight != -1) {
                 s.detach();
                 s = null;
             }
@@ -224,13 +224,13 @@ public class ObjConfig {
         }
 
         if (c.note_template_index != -1) {
-            int w = s1.crop_width;
-            int h = s1.crop_height;
-            s1.crop_width = 32;
-            s1.crop_height = 32;
+            int w = s1.cropWidth;
+            int h = s1.cropHeight;
+            s1.cropWidth = 32;
+            s1.cropHeight = 32;
             s1.drawMasked(0, 0);
-            s1.crop_width = w;
-            s1.crop_height = h;
+            s1.cropWidth = w;
+            s1.cropHeight = h;
         }
 
         if (outline_color == 0) {
@@ -245,12 +245,12 @@ public class ObjConfig {
         Canvas3D.texturize = true;
 
         if (c.stackable) {
-            s.crop_width = 33;
+            s.cropWidth = 33;
         } else {
-            s.crop_width = 32;
+            s.cropWidth = 32;
         }
 
-        s.crop_height = count;
+        s.cropHeight = count;
         return s;
     }
 
@@ -382,7 +382,7 @@ public class ObjConfig {
             mesh.set_colors(old_color, new_color);
         }
 
-        mesh.apply_lighting(64 + brightness, 768 + specular, -50, -10, -50, true);
+        mesh.applyLighting(64 + brightness, 768 + specular, -50, -10, -50, true);
         mesh.is_clickable = true;
         model_cache.insert(mesh, index);
 

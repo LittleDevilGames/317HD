@@ -27,21 +27,21 @@ public class SpotAnim extends Renderable {
     }
 
     @Override
-    public Model get_model() {
-        Model effect_model = this.config.get_model();
+    public Model getModel() {
+        Model effect_model = this.config.getModel();
 
         if (effect_model == null) {
             return null;
         }
 
-        int frame = this.config.seq.frame_primary[this.seq_frame];
+        int frame = this.config.seq.framePrimary[this.seq_frame];
         Model m = new Model(true, frame == -1, false, effect_model);
 
         if (!this.seq_finished) {
-            m.apply_vertex_weights();
-            m.apply_sequence_frame(frame);
-            m.triangle_groups = null;
-            m.vertex_weights = null;
+            m.applyVertexWeights();
+            m.applySequenceFrame(frame);
+            m.triangleGroups = null;
+            m.vertexWeights = null;
         }
 
         if (this.config.scale != 128 || this.config.height != 128) {
@@ -54,7 +54,7 @@ public class SpotAnim extends Renderable {
             }
         }
 
-        m.apply_lighting(64 + this.config.brightness, 850 + this.config.specular, -30, -50, -30, true);
+        m.applyLighting(64 + this.config.brightness, 850 + this.config.specular, -30, -50, -30, true);
         return m;
     }
 

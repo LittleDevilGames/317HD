@@ -15,7 +15,7 @@ public class Tile extends Link {
     public int flags;
     public GroundDecoration ground_decoration;
     public ItemPile item_pile;
-    public int loc_count;
+    public int locCount;
     public int loc_flag[];
     public StaticLoc locs[];
     public OverlayTile overlay;

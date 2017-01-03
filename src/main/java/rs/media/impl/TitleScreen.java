@@ -12,27 +12,27 @@ public class TitleScreen {
 
     public static final String[] LOGIN_MESSAGE = new String[]{BLANK, BLANK};
     public static final String VALID_INPUT_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"\243$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
-    public static Bitmap bitmap_box, bitmap_button;
-    public static ImageProducer producer_box;
-    public static ImageProducer[] producer_background;
+    public static Bitmap bitmapBox, bitmapButton;
+    public static ImageProducer producerBox;
+    public static ImageProducer[] producerBackground;
     public static State state = State.WELCOME;
     public static int field = 0;
 
     public static void nullify() {
         Flames.producer = null;
-        producer_background = null;
-        producer_box = null;
+        producerBackground = null;
+        producerBox = null;
     }
 
     public static void clear_producers() {
         Flames.nullify();
-        producer_background = null;
+        producerBackground = null;
         Flames.producer = null;
-        producer_box = null;
+        producerBox = null;
     }
 
     public static void create_producers() {
-        if (producer_background != null && producer_background[0] != null) {
+        if (producerBackground != null && producerBackground[0] != null) {
             return;
         }
 
@@ -40,32 +40,32 @@ public class TitleScreen {
 
         Flames.create_producers();
 
-        producer_background = new ImageProducer[6];
+        producerBackground = new ImageProducer[6];
 
-        producer_background[0] = new ImageProducer(509, 171);
+        producerBackground[0] = new ImageProducer(509, 171);
         Canvas2D.clear();
-        producer_background[1] = new ImageProducer(360, 132);
+        producerBackground[1] = new ImageProducer(360, 132);
         Canvas2D.clear();
-        producer_background[2] = new ImageProducer(202, 238);
+        producerBackground[2] = new ImageProducer(202, 238);
         Canvas2D.clear();
-        producer_background[3] = new ImageProducer(203, 238);
+        producerBackground[3] = new ImageProducer(203, 238);
         Canvas2D.clear();
-        producer_background[4] = new ImageProducer(74, 94);
+        producerBackground[4] = new ImageProducer(74, 94);
         Canvas2D.clear();
-        producer_background[5] = new ImageProducer(75, 94);
+        producerBackground[5] = new ImageProducer(75, 94);
         Canvas2D.clear();
-        producer_box = new ImageProducer(360, 200);
+        producerBox = new ImageProducer(360, 200);
         Canvas2D.clear();
 
         if (Game.archive != null) {
-            create_background();
-            create_images();
+            createBackground();
+            createImages();
         }
 
         Game.redraw = true;
     }
 
-    public static void create_background() {
+    public static void createBackground() {
         Sprite s = new Sprite(Game.archive.get("title.dat"), Game.instance);
 
         Flames.producer[0].prepare();
@@ -74,25 +74,25 @@ public class TitleScreen {
         Flames.producer[1].prepare();
         s.draw(-637, 0);
 
-        producer_background[0].prepare();
+        producerBackground[0].prepare();
         s.draw(-128, 0);
 
-        producer_background[1].prepare();
+        producerBackground[1].prepare();
         s.draw(-202, -371);
 
-        producer_box.prepare();
+        producerBox.prepare();
         s.draw(-202, -171);
 
-        producer_background[2].prepare();
+        producerBackground[2].prepare();
         s.draw(0, -265);
 
-        producer_background[3].prepare();
+        producerBackground[3].prepare();
         s.draw(-562, -265);
 
-        producer_background[4].prepare();
+        producerBackground[4].prepare();
         s.draw(-128, -171);
 
-        producer_background[5].prepare();
+        producerBackground[5].prepare();
         s.draw(-562, -171);
 
         // Mirror it horizontally
@@ -112,38 +112,38 @@ public class TitleScreen {
         Flames.producer[1].prepare();
         s.draw(-255, 0);
 
-        producer_background[0].prepare();
+        producerBackground[0].prepare();
         s.draw(254, 0);
 
-        producer_background[1].prepare();
+        producerBackground[1].prepare();
         s.draw(180, -371);
 
-        producer_box.prepare();
+        producerBox.prepare();
         s.draw(180, -171);
 
-        producer_background[2].prepare();
+        producerBackground[2].prepare();
         s.draw(382, -265);
 
-        producer_background[3].prepare();
+        producerBackground[3].prepare();
         s.draw(-180, -265);
 
-        producer_background[4].prepare();
+        producerBackground[4].prepare();
         s.draw(254, -171);
 
-        producer_background[5].prepare();
+        producerBackground[5].prepare();
         s.draw(-180, -171);
 
         s = new Sprite(Game.archive, "logo", 0);
-        producer_background[0].prepare();
+        producerBackground[0].prepare();
         s.drawMasked(382 - s.width / 2 - 128, 18);
         s = null;
 
         System.gc();
     }
 
-    public static void create_images() {
-        bitmap_box = new Bitmap(Game.archive, "titlebox", 0);
-        bitmap_button = new Bitmap(Game.archive, "titlebutton", 0);
+    public static void createImages() {
+        bitmapBox = new Bitmap(Game.archive, "titlebox", 0);
+        bitmapButton = new Bitmap(Game.archive, "titlebutton", 0);
 
         Flames.create_images();
 
@@ -158,8 +158,8 @@ public class TitleScreen {
 
     public static void draw(boolean show_buttons) {
         create_producers();
-        producer_box.prepare();
-        bitmap_box.draw(0, 0);
+        producerBox.prepare();
+        bitmapBox.draw(0, 0);
 
         char start_x = '\u0168';
         char start_y = '\310';
@@ -176,11 +176,11 @@ public class TitleScreen {
                 y += 30;
 
                 y = start_y / 2 + 20;
-                bitmap_button.draw(x - 73, y - 20);
+                bitmapButton.draw(x - 73, y - 20);
                 BitmapFont.BOLD.draw("New User", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
 
                 x = start_x / 2 + 80;
-                bitmap_button.draw(x - 73, y - 20);
+                bitmapButton.draw(x - 73, y - 20);
                 BitmapFont.BOLD.draw("Existing User", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
                 break;
             }
@@ -205,10 +205,10 @@ public class TitleScreen {
                 if (!show_buttons) {
                     int x = start_x / 2 - 80;
                     y = start_y / 2 + 50;
-                    bitmap_button.draw(x - 73, y - 20);
+                    bitmapButton.draw(x - 73, y - 20);
                     BitmapFont.BOLD.draw("Login", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
                     x = start_x / 2 + 80;
-                    bitmap_button.draw(x - 73, y - 20);
+                    bitmapButton.draw(x - 73, y - 20);
                     BitmapFont.BOLD.draw("Cancel", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
                 }
                 break;
@@ -227,7 +227,7 @@ public class TitleScreen {
                 int x = start_x / 2;
                 y = start_y / 2 + 50;
 
-                bitmap_button.draw(x - 73, y - 20);
+                bitmapButton.draw(x - 73, y - 20);
                 BitmapFont.BOLD.draw("Cancel", x, y + 5, 0xffffff, BitmapFont.SHADOW_CENTER);
                 break;
             }
@@ -236,16 +236,16 @@ public class TitleScreen {
             }
         }
 
-        producer_box.draw(202, 171);
+        producerBox.draw(202, 171);
 
         if (Game.redraw) {
             Game.redraw = false;
-            producer_background[0].draw(128, 0);
-            producer_background[1].draw(202, 371);
-            producer_background[2].draw(0, 265);
-            producer_background[3].draw(562, 265);
-            producer_background[4].draw(128, 171);
-            producer_background[5].draw(562, 171);
+            producerBackground[0].draw(128, 0);
+            producerBackground[1].draw(202, 371);
+            producerBackground[2].draw(0, 265);
+            producerBackground[3].draw(562, 265);
+            producerBackground[4].draw(128, 171);
+            producerBackground[5].draw(562, 171);
         }
     }
 
@@ -359,7 +359,7 @@ public class TitleScreen {
         LOGIN_MESSAGE[1] = b;
     }
 
-    public static enum State {
-        ABOUT, LOGIN, WELCOME;
+    public enum State {
+        ABOUT, LOGIN, WELCOME
     }
 }

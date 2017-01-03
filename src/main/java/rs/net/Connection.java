@@ -54,21 +54,21 @@ public class Connection implements Runnable {
         buffer = null;
     }
 
-    public int get_available() throws IOException {
+    public int getAvailable() throws IOException {
         if (closed) {
             return 0;
         }
         return in.available();
     }
 
-    public int get_byte() throws IOException {
+    public int getByte() throws IOException {
         if (closed) {
             return 0;
         }
         return in.read();
     }
 
-    public int get_bytes(byte dest[], int off, int len) throws IOException {
+    public int getBytes(byte dest[], int off, int len) throws IOException {
         if (closed) {
             return -1;
         }
@@ -88,21 +88,21 @@ public class Connection implements Runnable {
         return read;
     }
 
-    public void print_debug() {
+    public void printDebug() {
         System.out.println("dummy:" + closed);
         System.out.println("tcycl:" + cycle);
         System.out.println("tnum:" + position);
         System.out.println("writer:" + writing);
         System.out.println("ioerror:" + error);
         try {
-            System.out.println("available:" + get_available());
+            System.out.println("available:" + getAvailable());
             return;
         } catch (IOException _ex) {
             return;
         }
     }
 
-    public void put_bytes(byte[] src, int off, int len) throws IOException {
+    public void putBytes(byte[] src, int off, int len) throws IOException {
         if (closed) {
             return;
         }

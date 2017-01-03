@@ -5,11 +5,6 @@ import rs.cache.model.ObjConfig;
 import rs.io.Buffer;
 import rs.model.Skill;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class Script {
 
     public static final int OPTYPE_ADD = 0;
@@ -196,123 +191,6 @@ public class Script {
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
-        }
-    }
-
-    public void export(File f) {
-        f.getParentFile().mkdirs();
-
-        BufferedWriter out = null;
-
-        try {
-            out = new BufferedWriter(new FileWriter(f));
-
-            if (this.compare_type != -1) {
-                out.write("ENABLED: VALUE ");
-                out.write(TRIGGER_TYPE[this.compare_type]);
-                out.write(" ");
-                out.write(String.valueOf(this.compare_value));
-                out.newLine();
-            }
-
-            int[] code = this.intcode;
-
-            for (int i = 0; i < this.intcode.length; i++) {
-                switch (code[i]) {
-                    case 0:
-                        out.write("RETURN VALUE");
-                        break;
-                    case 1:
-                        out.write("REGISTER = SKILL_LEVEL[" + code[++i] + "]\n");
-                        break;
-                    case 2:
-                        out.write("REGISTER = REAL_SKILL_LEVEL[" + code[++i] + "]\n");
-                        break;
-                    case 3:
-                        out.write("REGISTER = SKILL_EXPERIENCE[" + code[++i] + "]\n");
-                        break;
-                    case 4:
-                        int widget = code[++i];
-                        int item = code[++i];
-                        out.write("REGISTER += ITEM_COUNT[" + item + "] OF WIDGET[" + widget + "]\n");
-                        break;
-                    case 5:
-                        out.write("REGISTER = GAME_SETTING[" + code[++i] + "]\n");
-                        break;
-                    case 6:
-                        out.write("REGISTER = XP_TABLE[" + code[++i] + "]\n");
-                        break;
-                    case 7:
-                        out.write("REGISTER = (GAME_SETTING[" + code[++i] + "] * 100) / 46875\n");
-                        break;
-                    case 8:
-                        out.write("REGISTER = LOCAL_PLAYER.COMBAT_LEVEL\n");
-                        break;
-                    case 9:
-                        out.write("REGISTER = TOTAL_LEVEL\n");
-                        break;
-                    case 10:
-                        widget = code[++i];
-                        item = code[++i];
-                        out.write("REGISTER = 999999999 IF WIDGET[" + widget + "] HAS ITEM[" + item + "]\n");
-                        break;
-                    case 11:
-                        out.write("REGISTER = ENERGY_LEFT\n");
-                        break;
-                    case 12:
-                        out.write("REGISTER = CARRIED_WEIGHT\n");
-                        break;
-                    case 13:
-                        int setting = code[++i];
-                        int shift = code[++i];
-                        out.write("REGISTER = GAME_SETTING[" + setting + "] BIT " + shift + " == 0 ? 0 : 1\n");
-                        break;
-                    case 14:
-                        int varbit = code[++i];
-                        VarBit v = VarBit.instance[varbit];
-                        out.write("V = VARBIT[" + varbit + "]\n");
-                        out.write("REGISTER = GAME_SETTINGS[");
-                        out.write(String.valueOf(v.setting));
-                        out.write("].BITS[");
-                        out.write(String.valueOf(v.offset));
-                        out.write("->");
-                        out.write(String.valueOf(v.shift - v.offset));
-                        out.write("]\n");
-                        break;
-                    case 15:
-                        out.write("OP_TYPE = -\n");
-                        break;
-                    case 16:
-                        out.write("OP_TYPE = /\n");
-                        break;
-                    case 17:
-                        out.write("OP_TYPE = *\n");
-                        break;
-                    case 18:
-                        out.write("REGISTER = LOCAL_PLAYER.TILE_X\n");
-                        break;
-                    case 19:
-                        out.write("REGISTER = LOCAL_PLAYER.TILE_Y\n");
-                        break;
-                    case 20:
-                        out.write("REGISTER = " + code[++i] + "\n");
-                        break;
-                    default: {
-                        out.write("UNKNOWN CODE: " + code[i] + "\n");
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 

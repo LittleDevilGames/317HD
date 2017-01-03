@@ -71,7 +71,7 @@ public class Chain {
         n.next.previous = n;
     }
 
-    public void push_back(Link n) {
+    public void pushBack(Link n) {
         n.detach();
         n.previous = first.previous;
         n.next = first;

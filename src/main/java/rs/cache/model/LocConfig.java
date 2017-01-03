@@ -24,37 +24,37 @@ public class LocConfig {
     public byte brightness;
     public boolean castsShadow;
     public String description;
-    public int face_flags;
+    public int faceFlags;
     public boolean flatShading;
     public boolean ghost;
     public boolean hasCollisions;
     public short icon;
     public int index;
-    public boolean is_decoration;
-    public boolean is_solid;
-    public boolean is_static;
-    public short[] model_index;
+    public boolean isDecoration;
+    public boolean isSolid;
+    public boolean isStatic;
+    public short[] modelIndex;
     public byte[] model_type;
     public String name;
-    public int[] new_color;
-    public short offset_x;
-    public short offset_y;
-    public short offset_z;
-    public int[] old_color;
+    public int[] newColor;
+    public short offsetX;
+    public short offsetY;
+    public short offsetZ;
+    public int[] oldColor;
     public short[] overrideIndex;
-    public int raises_item_piles;
-    public boolean rotate_ccw;
-    public short scale_x;
-    public short scale_y;
-    public short scale_z;
-    public int scene_image_index;
+    public int raisesItemPiles;
+    public boolean rotateCcw;
+    public short scaleX;
+    public short scaleY;
+    public short scaleZ;
+    public int sceneImageIndex;
     public short seqIndex;
-    public short setting_index;
-    public byte size_x;
-    public byte size_y;
+    public short settingIndex;
+    public byte sizeX;
+    public byte sizeY;
     public byte specular;
-    public short varbit_index;
-    public byte wall_width;
+    public short varbitIndex;
+    public byte wallWidth;
 
     public LocConfig() {
         index = -1;
@@ -76,7 +76,7 @@ public class LocConfig {
         LocConfig config = cache[cachePosition];
         buffer.position = pointer[i];
         config.index = i;
-        config.set_defaults();
+        config.setDefaults();
         config.load(buffer);
         return config;
     }
@@ -108,7 +108,7 @@ public class LocConfig {
         }
     }
 
-    public Model get_assembled_model(int type, int frame, int rotation) {
+    public Model getAssembledModel(int type, int frame, int rotation) {
         Model m = null;
         long uid;
 
@@ -125,15 +125,15 @@ public class LocConfig {
                 return m;
             }
 
-            if (model_index == null) {
+            if (modelIndex == null) {
                 return null;
             }
 
-            boolean rotate = rotate_ccw ^ (rotation > 3);
-            int count = model_index.length;
+            boolean rotate = rotateCcw ^ (rotation > 3);
+            int count = modelIndex.length;
 
             for (int i = 0; i < count; i++) {
-                int index = model_index[i];
+                int index = modelIndex[i];
 
                 if (rotate) {
                     index += 0x10000;
@@ -186,8 +186,8 @@ public class LocConfig {
                 return cached_mesh;
             }
 
-            int mesh_index = model_index[model_list_index];
-            boolean rotate = rotate_ccw ^ (rotation > 3);
+            int mesh_index = modelIndex[model_list_index];
+            boolean rotate = rotateCcw ^ (rotation > 3);
 
             if (rotate) {
                 mesh_index += 0x10000;
@@ -212,46 +212,46 @@ public class LocConfig {
 
         boolean rescale, translate;
 
-        if (scale_x != 128 || scale_y != 128 || scale_z != 128) {
+        if (scaleX != 128 || scaleY != 128 || scaleZ != 128) {
             rescale = true;
         } else {
             rescale = false;
         }
 
-        if (offset_x != 0 || offset_y != 0 || offset_z != 0) {
+        if (offsetX != 0 || offsetY != 0 || offsetZ != 0) {
             translate = true;
         } else {
             translate = false;
         }
 
-        Model model = new Model(old_color == null, frame == -1, rotation == 0 && frame == -1 && !rescale && !translate, m);
+        Model model = new Model(oldColor == null, frame == -1, rotation == 0 && frame == -1 && !rescale && !translate, m);
 
         if (frame != -1) {
-            model.apply_vertex_weights();
-            model.apply_sequence_frame(frame);
-            model.triangle_groups = null;
-            model.vertex_weights = null;
+            model.applyVertexWeights();
+            model.applySequenceFrame(frame);
+            model.triangleGroups = null;
+            model.vertexWeights = null;
         }
 
         while (rotation-- > 0) {
             model.rotate_cw();
         }
 
-        if (old_color != null) {
-            model.set_colors(old_color, new_color);
+        if (oldColor != null) {
+            model.set_colors(oldColor, newColor);
         }
 
         if (rescale) {
-            model.scale(scale_x, scale_y, scale_z);
+            model.scale(scaleX, scaleY, scaleZ);
         }
 
         if (translate) {
-            model.translate(offset_x, offset_y, offset_z);
+            model.translate(offsetX, offsetY, offsetZ);
         }
 
-        model.apply_lighting(64 + brightness, 768 + specular * 5, -50, -10, -50, !flatShading);
+        model.applyLighting(64 + brightness, 768 + specular * 5, -50, -10, -50, !flatShading);
 
-        if (raises_item_piles == 1) {
+        if (raisesItemPiles == 1) {
             model.pile_height = model.height;
         }
 
@@ -261,7 +261,7 @@ public class LocConfig {
     }
 
     public Model getModel(int type, int rotation, int v_sw, int v_se, int v_ne, int v_nw, int frame) {
-        Model m = get_assembled_model(type, frame, rotation);
+        Model m = getAssembledModel(type, frame, rotation);
 
         if (m == null) {
             return null;
@@ -288,18 +288,18 @@ public class LocConfig {
         return m;
     }
 
-    public LocConfig get_overriding_config() {
+    public LocConfig getOverridingConfig() {
         int i = -1;
 
-        if (varbit_index != -1) {
-            VarBit varbit = VarBit.instance[varbit_index];
+        if (varbitIndex != -1) {
+            VarBit varbit = VarBit.instance[varbitIndex];
             int j = varbit.setting;
             int k = varbit.offset;
             int l = varbit.shift;
             int i1 = Game.LSB_BIT_MASK[l - k];
             i = Game.settings[j] >> k & i1;
-        } else if (setting_index != -1) {
-            i = Game.settings[setting_index];
+        } else if (settingIndex != -1) {
+            i = Game.settings[settingIndex];
         }
 
         if (i < 0 || i >= overrideIndex.length || overrideIndex[i] == -1) {
@@ -309,14 +309,14 @@ public class LocConfig {
         return get(overrideIndex[i]);
     }
 
-    public boolean has_valid_model() {
-        if (model_index == null) {
+    public boolean hasValidModel() {
+        if (modelIndex == null) {
             return true;
         }
         boolean flag1 = true;
 
-        for (int i = 0; i < model_index.length; i++) {
-            flag1 &= Model.isValid(model_index[i] & 0xffff);
+        for (int i = 0; i < modelIndex.length; i++) {
+            flag1 &= Model.isValid(modelIndex[i] & 0xffff);
         }
 
         return flag1;
@@ -324,7 +324,7 @@ public class LocConfig {
 
     public boolean isValidModel(int type) {
         if (model_type == null) {
-            if (model_index == null) {
+            if (modelIndex == null) {
                 return true;
             }
 
@@ -334,8 +334,8 @@ public class LocConfig {
 
             boolean valid = true;
 
-            for (int i = 0; i < model_index.length; i++) {
-                valid &= Model.isValid(model_index[i] & 0xffff);
+            for (int i = 0; i < modelIndex.length; i++) {
+                valid &= Model.isValid(modelIndex[i] & 0xffff);
             }
 
             return valid;
@@ -343,7 +343,7 @@ public class LocConfig {
 
         for (int i = 0; i < model_type.length; i++) {
             if (model_type[i] == type) {
-                return Model.isValid(model_index[i] & 0xffff);
+                return Model.isValid(modelIndex[i] & 0xffff);
             }
         }
 
@@ -364,11 +364,11 @@ public class LocConfig {
                 if (opcode == 1) {
                     int count = b.readUnsignedByte();
                     if (count > 0) {
-                        if (model_index == null || Game.lowDetail) {
-                            model_index = new short[count];
+                        if (modelIndex == null || Game.lowDetail) {
+                            modelIndex = new short[count];
                             model_type = new byte[count];
                             for (int j = 0; j < count; j++) {
-                                model_index[j] = (short) b.readUnsignedShort();
+                                modelIndex[j] = (short) b.readUnsignedShort();
                                 model_type[j] = b.readByte();
                             }
                         } else {
@@ -382,20 +382,20 @@ public class LocConfig {
                 } else if (opcode == 5) {
                     int count = b.readUnsignedByte();
                     if (count > 0) {
-                        if (model_index == null || Game.lowDetail) {
+                        if (modelIndex == null || Game.lowDetail) {
                             model_type = null;
-                            model_index = new short[count];
+                            modelIndex = new short[count];
                             for (int j = 0; j < count; j++) {
-                                model_index[j] = (short) b.readUnsignedShort();
+                                modelIndex[j] = (short) b.readUnsignedShort();
                             }
                         } else {
                             b.position += count * 2;
                         }
                     }
                 } else if (opcode == 14) {
-                    size_x = (byte) b.readUnsignedByte();
+                    sizeX = (byte) b.readUnsignedByte();
                 } else if (opcode == 15) {
-                    size_y = (byte) b.readUnsignedByte();
+                    sizeY = (byte) b.readUnsignedByte();
                 } else if (opcode == 17) {
                     hasCollisions = false;
                 } else if (opcode == 18) {
@@ -403,18 +403,18 @@ public class LocConfig {
                 } else if (opcode == 19) {
                     i = b.readUnsignedByte();
                     if (i == 1) {
-                        is_static = true;
+                        isStatic = true;
                     }
                 } else if (opcode == 21) {
                     adjustToTerrain = true;
                 } else if (opcode == 22) {
                     flatShading = true;
                 } else if (opcode == 23) {
-                    is_solid = true;
+                    isSolid = true;
                 } else if (opcode == 24) {
                     seqIndex = (short) b.readUnsignedShort();
                 } else if (opcode == 28) {
-                    wall_width = b.readByte();
+                    wallWidth = b.readByte();
                 } else if (opcode == 29) {
                     brightness = b.readByte();
                 } else if (opcode == 39) {
@@ -431,50 +431,50 @@ public class LocConfig {
                     }
                 } else if (opcode == 40) {
                     int j = b.readUnsignedByte();
-                    old_color = new int[j];
-                    new_color = new int[j];
+                    oldColor = new int[j];
+                    newColor = new int[j];
 
                     for (int k = 0; k < j; k++) {
-                        old_color[k] = b.readUnsignedShort();
-                        new_color[k] = b.readUnsignedShort();
+                        oldColor[k] = b.readUnsignedShort();
+                        newColor[k] = b.readUnsignedShort();
                     }
                 } else if (opcode == 60) {
                     icon = (short) b.readUnsignedShort();
                 } else if (opcode == 62) {
-                    rotate_ccw = true;
+                    rotateCcw = true;
                 } else if (opcode == 64) {
                     castsShadow = false;
                 } else if (opcode == 65) {
-                    scale_x = (short) b.readUnsignedShort();
+                    scaleX = (short) b.readUnsignedShort();
                 } else if (opcode == 66) {
-                    scale_y = (short) b.readUnsignedShort();
+                    scaleY = (short) b.readUnsignedShort();
                 } else if (opcode == 67) {
-                    scale_z = (short) b.readUnsignedShort();
+                    scaleZ = (short) b.readUnsignedShort();
                 } else if (opcode == 68) {
-                    scene_image_index = b.readUnsignedShort();
+                    sceneImageIndex = b.readUnsignedShort();
                 } else if (opcode == 69) {
-                    face_flags = b.readUnsignedByte();
+                    faceFlags = b.readUnsignedByte();
                 } else if (opcode == 70) {
-                    offset_x = (short) b.readUnsignedShort();
+                    offsetX = (short) b.readUnsignedShort();
                 } else if (opcode == 71) {
-                    offset_y = (short) b.readUnsignedShort();
+                    offsetY = (short) b.readUnsignedShort();
                 } else if (opcode == 72) {
-                    offset_z = (short) b.readUnsignedShort();
+                    offsetZ = (short) b.readUnsignedShort();
                 } else if (opcode == 73) {
-                    is_decoration = true;
+                    isDecoration = true;
                 } else if (opcode == 74) {
                     ghost = true;
                 } else {
                     if (opcode != 75) {
                         continue;
                     }
-                    raises_item_piles = b.readUnsignedByte();
+                    raisesItemPiles = b.readUnsignedByte();
                 }
                 continue LOAD;
             } while (opcode != 77);
 
-            varbit_index = (short) b.readUnsignedShort();
-            setting_index = (short) b.readUnsignedShort();
+            varbitIndex = (short) b.readUnsignedShort();
+            settingIndex = (short) b.readUnsignedShort();
             overrideIndex = new short[b.readUnsignedByte() + 1];
 
             for (int j = 0; j <= overrideIndex.length - 1; j++) {
@@ -483,14 +483,14 @@ public class LocConfig {
         } while (true);
 
         if (i == -1) {
-            is_static = false;
+            isStatic = false;
 
-            if (model_index != null && (model_type == null || model_type[0] == 10)) {
-                is_static = true;
+            if (modelIndex != null && (model_type == null || model_type[0] == 10)) {
+                isStatic = true;
             }
 
             if (action != null) {
-                is_static = true;
+                isStatic = true;
             }
         }
 
@@ -499,57 +499,57 @@ public class LocConfig {
             blocksProjectiles = false;
         }
 
-        if (raises_item_piles == -1) {
-            raises_item_piles = hasCollisions ? 1 : 0;
+        if (raisesItemPiles == -1) {
+            raisesItemPiles = hasCollisions ? 1 : 0;
         }
     }
 
     public void requestModels(OnDemand ondemand) {
-        if (model_index == null) {
+        if (modelIndex == null) {
             return;
         }
 
-        for (int i = 0; i < model_index.length; i++) {
-            ondemand.request(model_index[i] & 0xffff, 0);
+        for (int i = 0; i < modelIndex.length; i++) {
+            ondemand.request(modelIndex[i] & 0xffff, 0);
         }
     }
 
-    public void set_defaults() {
-        model_index = null;
+    public void setDefaults() {
+        modelIndex = null;
         model_type = null;
         name = null;
         description = null;
-        old_color = null;
-        new_color = null;
-        size_x = 1;
-        size_y = 1;
+        oldColor = null;
+        newColor = null;
+        sizeX = 1;
+        sizeY = 1;
         hasCollisions = true;
         blocksProjectiles = true;
-        is_static = false;
+        isStatic = false;
         adjustToTerrain = false;
         flatShading = false;
-        is_solid = false;
+        isSolid = false;
         seqIndex = -1;
-        wall_width = 16;
+        wallWidth = 16;
         brightness = 0;
         specular = 0;
         action = null;
         icon = -1;
-        scene_image_index = -1;
-        rotate_ccw = false;
+        sceneImageIndex = -1;
+        rotateCcw = false;
         castsShadow = true;
-        scale_x = 128;
-        scale_y = 128;
-        scale_z = 128;
-        face_flags = 0;
-        offset_x = 0;
-        offset_y = 0;
-        offset_z = 0;
-        is_decoration = false;
+        scaleX = 128;
+        scaleY = 128;
+        scaleZ = 128;
+        faceFlags = 0;
+        offsetX = 0;
+        offsetY = 0;
+        offsetZ = 0;
+        isDecoration = false;
         ghost = false;
-        raises_item_piles = -1;
-        varbit_index = -1;
-        setting_index = -1;
+        raisesItemPiles = -1;
+        varbitIndex = -1;
+        settingIndex = -1;
         overrideIndex = null;
     }
 

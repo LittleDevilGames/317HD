@@ -3,10 +3,8 @@ package rs.media;
 import rs.Game;
 import rs.cache.Archive;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.*;
-import java.io.File;
 import java.util.Hashtable;
 
 public class ImageProducer {
@@ -46,14 +44,6 @@ public class ImageProducer {
 
     public void draw(int x, int y) {
         Game.instance.graphics.drawImage(this.image, x, y, this.component);
-    }
-
-    public void export(File f) {
-        try {
-            ImageIO.write(this.image, "png", f);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void prepare() {

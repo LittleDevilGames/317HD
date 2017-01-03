@@ -127,7 +127,7 @@ public class CharacterDesign {
             if (update) {
                 for (int i = 0; i < 7; i++) {
                     int index = selected_identity_kits[i];
-                    if (index >= 0 && !IdentityKit.instance[index].is_model_valid()) {
+                    if (index >= 0 && !IdentityKit.instance[index].isModelValid()) {
                         return true;
                     }
                 }
@@ -138,23 +138,23 @@ public class CharacterDesign {
                 for (int i = 0; i < 7; i++) {
                     int identity_kit = selected_identity_kits[i];
                     if (identity_kit >= 0) {
-                        meshes[count++] = IdentityKit.instance[identity_kit].get_mesh();
+                        meshes[count++] = IdentityKit.instance[identity_kit].getMesh();
                     }
                 }
 
                 Model mesh = new Model(count, meshes);
                 for (int i = 0; i < 5; i++) {
                     if (selected_colors[i] != 0) {
-                        mesh.set_color(DESIGN_COLOR[i][0], DESIGN_COLOR[i][selected_colors[i]]);
+                        mesh.setColor(DESIGN_COLOR[i][0], DESIGN_COLOR[i][selected_colors[i]]);
                         if (i == 1) {
-                            mesh.set_color(TORSO_COLORS[0], TORSO_COLORS[selected_colors[i]]);
+                            mesh.setColor(TORSO_COLORS[0], TORSO_COLORS[selected_colors[i]]);
                         }
                     }
                 }
 
-                mesh.apply_vertex_weights();
-                mesh.apply_sequence_frame(Sequence.instance[Game.self.stand_animation].frame_primary[0]);
-                mesh.apply_lighting(64, 850, -30, -50, -30, true);
+                mesh.applyVertexWeights();
+                mesh.applySequenceFrame(Sequence.instance[Game.self.stand_animation].framePrimary[0]);
+                mesh.applyLighting(64, 850, -30, -50, -30, true);
                 widget.model_type_disabled = 5;
                 widget.model_index_disabled = 0;
                 Widget.set_mesh(5, 0, mesh);

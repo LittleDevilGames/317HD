@@ -80,7 +80,7 @@ public class Menu {
         } else if (Game.selectedWidget && count < 2) {
             s = Game.selectedTooltip + "...";
         } else {
-            s = Menu.get_last_caption();
+            s = Menu.getLastCaption();
         }
 
         if (count > 2) {
@@ -90,31 +90,31 @@ public class Menu {
         BitmapFont.BOLD.drawString(true, 4, 0xffffff, s, 15, 210);
     }
 
-    public static int get_action(int i) {
+    public static int getAction(int i) {
         return options[i].action;
     }
 
-    public static String get_caption(int i) {
+    public static String getCaption(int i) {
         return options[i].caption;
     }
 
-    public static int get_last_action() {
+    public static int getLastAction() {
         return options[count - 1].action;
     }
 
-    public static String get_last_caption() {
+    public static String getLastCaption() {
         return options[count - 1].caption;
     }
 
-    public static Option get_last_option() {
+    public static Option getLastOption() {
         return options[count - 1];
     }
 
-    public static int get_last_param(int i) {
+    public static int getLastParam(int i) {
         return options[count - 1].getParameter(i);
     }
 
-    public static int get_param(int i, int j) {
+    public static int getParam(int i, int j) {
         return options[i].getParameter(j);
     }
 
@@ -207,7 +207,7 @@ public class Menu {
         while (!unsorted) {
             unsorted = true;
             for (int i = 0; i < Menu.count - 1; i++) {
-                if (Menu.get_action(i) < 1000 && Menu.get_action(i + 1) > 1000) {
+                if (Menu.getAction(i) < 1000 && Menu.getAction(i + 1) > 1000) {
                     Menu.swap(i, i + 1);
                     unsorted = false;
                 }

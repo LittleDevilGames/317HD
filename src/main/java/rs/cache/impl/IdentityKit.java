@@ -9,10 +9,10 @@ public class IdentityKit {
     public static int count;
     public static IdentityKit[] instance;
     public int anInt657;
-    public short[] dialog_model_index = {-1, -1, -1, -1, -1};
-    public short[] model_index;
-    public int new_color[];
-    public int old_color[];
+    public short[] dialogModelIndex = {-1, -1, -1, -1, -1};
+    public short[] modelIndex;
+    public int newColor[];
+    public int oldColor[];
     public boolean unselectable;
 
     public IdentityKit() {
@@ -29,18 +29,18 @@ public class IdentityKit {
             if (opcode == 1) {
                 this.anInt657 = b.readUnsignedByte();
             } else if (opcode == 2) {
-                this.model_index = new short[b.readUnsignedByte()];
-                for (int k = 0; k < this.model_index.length; k++) {
-                    this.model_index[k] = (short) b.readUnsignedShort();
+                this.modelIndex = new short[b.readUnsignedByte()];
+                for (int k = 0; k < this.modelIndex.length; k++) {
+                    this.modelIndex[k] = (short) b.readUnsignedShort();
                 }
             } else if (opcode == 3) {
                 this.unselectable = true;
             } else if (opcode >= 40 && opcode < 50) {
-                this.old_color[opcode - 40] = b.readUnsignedShort();
+                this.oldColor[opcode - 40] = b.readUnsignedShort();
             } else if (opcode >= 50 && opcode < 60) {
-                this.new_color[opcode - 50] = b.readUnsignedShort();
+                this.newColor[opcode - 50] = b.readUnsignedShort();
             } else if (opcode >= 60 && opcode < 70) {
-                this.dialog_model_index[opcode - 60] = (short) b.readUnsignedShort();
+                this.dialogModelIndex[opcode - 60] = (short) b.readUnsignedShort();
             } else {
                 System.out.println("Error unrecognised config code: " + opcode);
             }
@@ -59,8 +59,8 @@ public class IdentityKit {
 
     public void defaults() {
         anInt657 = -1;
-        old_color = new int[6];
-        new_color = new int[6];
+        oldColor = new int[6];
+        newColor = new int[6];
         unselectable = false;
     }
 
@@ -68,7 +68,7 @@ public class IdentityKit {
         Model models[] = new Model[5];
 
         int count = 0;
-        for (int i : this.dialog_model_index) {
+        for (int i : this.dialogModelIndex) {
             if (i != -1) {
                 models[count++] = Model.get(i);
             }
@@ -76,24 +76,24 @@ public class IdentityKit {
 
         Model m = new Model(count, models);
         for (int i = 0; i < 6; i++) {
-            if (old_color[i] == 0) {
+            if (oldColor[i] == 0) {
                 break;
             }
-            m.set_color(old_color[i], new_color[i]);
+            m.setColor(oldColor[i], newColor[i]);
         }
 
         return m;
     }
 
-    public Model get_mesh() {
-        if (model_index == null) {
+    public Model getMesh() {
+        if (modelIndex == null) {
             return null;
         }
 
-        Model models[] = new Model[model_index.length];
+        Model models[] = new Model[modelIndex.length];
 
-        for (int i = 0; i < model_index.length; i++) {
-            models[i] = Model.get(model_index[i]);
+        for (int i = 0; i < modelIndex.length; i++) {
+            models[i] = Model.get(modelIndex[i]);
         }
 
         Model m;
@@ -105,30 +105,30 @@ public class IdentityKit {
         }
 
         for (int i = 0; i < 6; i++) {
-            if (old_color[i] == 0) {
+            if (oldColor[i] == 0) {
                 break;
             }
-            m.set_color(old_color[i], new_color[i]);
+            m.setColor(oldColor[i], newColor[i]);
         }
 
         return m;
     }
 
-    public boolean is_dialog_model_valid() {
+    public boolean isDialogModelValid() {
         boolean valid = true;
         for (int i = 0; i < 5; i++) {
-            if (dialog_model_index[i] != -1 && !Model.isValid(dialog_model_index[i])) {
+            if (dialogModelIndex[i] != -1 && !Model.isValid(dialogModelIndex[i])) {
                 valid = false;
             }
         }
         return valid;
     }
 
-    public boolean is_model_valid() {
-        if (model_index == null) {
+    public boolean isModelValid() {
+        if (modelIndex == null) {
             return true;
         }
-        for (int i : this.model_index) {
+        for (int i : this.modelIndex) {
             if (!Model.isValid(i)) {
                 return false;
             }

@@ -3,21 +3,17 @@ package rs.media;
 import rs.cache.Archive;
 import rs.io.Buffer;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.awt.image.PixelGrabber;
-import java.io.File;
 
 public class Sprite extends Canvas2D {
 
-    public int crop_height;
-    public int crop_width;
+    public int cropHeight;
+    public int cropWidth;
     public int width;
     public int height;
-    public int offset_x;
-    public int offset_y;
+    public int offsetX;
+    public int offsetY;
     public int[] pixels;
 
     /**
@@ -32,8 +28,8 @@ public class Sprite extends Canvas2D {
         Buffer idx = new Buffer(archive.get("index.dat", null));
         idx.position = data.readUnsignedShort();
 
-        this.crop_width = idx.readUnsignedShort();
-        this.crop_height = idx.readUnsignedShort();
+        this.cropWidth = idx.readUnsignedShort();
+        this.cropHeight = idx.readUnsignedShort();
 
         int palette[] = new int[idx.readUnsignedByte()];
 
@@ -51,8 +47,8 @@ public class Sprite extends Canvas2D {
             idx.position++;
         }
 
-        this.offset_x = idx.readUnsignedByte();
-        this.offset_y = idx.readUnsignedByte();
+        this.offsetX = idx.readUnsignedByte();
+        this.offsetY = idx.readUnsignedByte();
         this.width = idx.readUnsignedShort();
         this.height = idx.readUnsignedShort();
         int type = idx.readUnsignedByte();
@@ -80,10 +76,10 @@ public class Sprite extends Canvas2D {
             t.waitForAll();
             this.width = i.getWidth(c);
             this.height = i.getHeight(c);
-            this.crop_width = width;
-            this.crop_height = height;
-            this.offset_x = 0;
-            this.offset_y = 0;
+            this.cropWidth = width;
+            this.cropHeight = height;
+            this.offsetX = 0;
+            this.offsetY = 0;
             this.pixels = new int[width * height];
             PixelGrabber g = new PixelGrabber(i, 0, 0, width, height, pixels, 0, width);
             g.grabPixels();
@@ -101,31 +97,31 @@ public class Sprite extends Canvas2D {
      */
     public Sprite(int w, int h) {
         this.pixels = new int[w * h];
-        this.crop_width = w;
-        this.crop_height = h;
-        this.width = this.crop_width;
-        this.height = this.crop_height;
-        this.offset_x = 0;
-        this.offset_y = 0;
+        this.cropWidth = w;
+        this.cropHeight = h;
+        this.width = this.cropWidth;
+        this.height = this.cropHeight;
+        this.offsetX = 0;
+        this.offsetY = 0;
     }
 
     /**
      * Crops this image.
      */
     public void crop() {
-        int pixels[] = new int[this.crop_width * this.crop_height];
+        int pixels[] = new int[this.cropWidth * this.cropHeight];
 
         for (int y = 0; y < this.height; y++) {
             for (int x = 0; x < this.width; x++) {
-                pixels[(y + this.offset_y) * this.crop_width + (x + this.offset_x)] = this.pixels[x + (y * this.width)];
+                pixels[(y + this.offsetY) * this.cropWidth + (x + this.offsetX)] = this.pixels[x + (y * this.width)];
             }
         }
 
         this.pixels = pixels;
-        this.width = this.crop_width;
-        this.height = this.crop_height;
-        this.offset_x = 0;
-        this.offset_y = 0;
+        this.width = this.cropWidth;
+        this.height = this.cropHeight;
+        this.offsetX = 0;
+        this.offsetY = 0;
     }
 
     /**
@@ -136,8 +132,8 @@ public class Sprite extends Canvas2D {
      * @param y      the y position.
      */
     public void drawTo(Bitmap bitmap, int x, int y) {
-        x += this.offset_x;
-        y += this.offset_y;
+        x += this.offsetX;
+        y += this.offsetY;
 
         int dst_off = x + y * Canvas2D.width;
         int src_off = 0;
@@ -145,8 +141,8 @@ public class Sprite extends Canvas2D {
         int height = this.height;
         int width = this.width;
 
-        int dst_step = Canvas2D.width - width;
-        int src_step = 0;
+        int dstStep = Canvas2D.width - width;
+        int srcStep = 0;
 
         if (y < Canvas2D.left_y) {
             int i = Canvas2D.left_y - y;
@@ -166,22 +162,22 @@ public class Sprite extends Canvas2D {
             x = Canvas2D.left_x;
             src_off += i;
             dst_off += i;
-            src_step += i;
-            dst_step += i;
+            srcStep += i;
+            dstStep += i;
         }
 
         if (x + width > Canvas2D.right_x) {
             int i = (x + width) - Canvas2D.right_x;
             width -= i;
-            src_step += i;
-            dst_step += i;
+            srcStep += i;
+            dstStep += i;
         }
 
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        Canvas2D.draw(pixels, bitmap.pixels, src_off, dst_off, width, height, dst_step, src_step);
+        Canvas2D.draw(pixels, bitmap.pixels, src_off, dst_off, width, height, dstStep, srcStep);
     }
 
     /**
@@ -191,24 +187,24 @@ public class Sprite extends Canvas2D {
      * @param y the y.
      */
     public void draw(int x, int y) {
-        x += this.offset_x;
-        y += this.offset_y;
+        x += this.offsetX;
+        y += this.offsetY;
 
         int height = this.height;
         int width = this.width;
 
-        int dst_off = x + y * Canvas2D.width;
-        int dst_step = Canvas2D.width - width;
+        int dstOff = x + y * Canvas2D.width;
+        int dstStep = Canvas2D.width - width;
 
-        int src_off = 0;
+        int srcOff = 0;
         int src_step = 0;
 
         if (y < Canvas2D.left_y) {
             int yOffset = Canvas2D.left_y - y;
             height -= yOffset;
             y = Canvas2D.left_y;
-            src_off += yOffset * width;
-            dst_off += yOffset * Canvas2D.width;
+            srcOff += yOffset * width;
+            dstOff += yOffset * Canvas2D.width;
         }
 
         if (y + height > Canvas2D.right_y) {
@@ -219,24 +215,24 @@ public class Sprite extends Canvas2D {
             int xOffset = Canvas2D.left_x - x;
             width -= xOffset;
             x = Canvas2D.left_x;
-            src_off += xOffset;
-            dst_off += xOffset;
+            srcOff += xOffset;
+            dstOff += xOffset;
             src_step += xOffset;
-            dst_step += xOffset;
+            dstStep += xOffset;
         }
 
         if (x + width > Canvas2D.right_x) {
             int widthOffset = (x + width) - Canvas2D.right_x;
             width -= widthOffset;
             src_step += widthOffset;
-            dst_step += widthOffset;
+            dstStep += widthOffset;
         }
 
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        Canvas2D.draw(pixels, src_off, dst_off, width, height, dst_step, src_step, DrawType.RGB);
+        Canvas2D.draw(pixels, srcOff, dstOff, width, height, dstStep, src_step, DrawType.RGB);
     }
 
     /**
@@ -247,24 +243,24 @@ public class Sprite extends Canvas2D {
      * @param alpha the transparency level.
      */
     public void draw(int x, int y, int alpha) {
-        x += this.offset_x;
-        y += this.offset_y;
+        x += this.offsetX;
+        y += this.offsetY;
 
-        int dst_off = x + y * Canvas2D.width;
-        int src_off = 0;
+        int dstOff = x + y * Canvas2D.width;
+        int srcOff = 0;
 
         int height = this.height;
         int width = this.width;
 
-        int dst_step = Canvas2D.width - width;
-        int src_step = 0;
+        int dstStep = Canvas2D.width - width;
+        int srcStep = 0;
 
         if (y < Canvas2D.left_y) {
             int i = Canvas2D.left_y - y;
             height -= i;
             y = Canvas2D.left_y;
-            src_off += i * width;
-            dst_off += i * Canvas2D.width;
+            srcOff += i * width;
+            dstOff += i * Canvas2D.width;
         }
 
         if (y + height > Canvas2D.right_y) {
@@ -275,17 +271,17 @@ public class Sprite extends Canvas2D {
             int i = Canvas2D.left_x - x;
             width -= i;
             x = Canvas2D.left_x;
-            src_off += i;
-            dst_off += i;
-            src_step += i;
-            dst_step += i;
+            srcOff += i;
+            dstOff += i;
+            srcStep += i;
+            dstStep += i;
         }
 
         if (x + width > Canvas2D.right_x) {
             int i = (x + width) - Canvas2D.right_x;
             width -= i;
-            src_step += i;
-            dst_step += i;
+            srcStep += i;
+            dstStep += i;
         }
 
         if (width <= 0 || height <= 0) {
@@ -293,13 +289,13 @@ public class Sprite extends Canvas2D {
         }
 
         Canvas2D.alpha = alpha;
-        Canvas2D.draw(this.pixels, src_off, dst_off, width, height, dst_step, src_step, DrawType.TRANSLUCENT_IGNORE_BLACK);
+        Canvas2D.draw(this.pixels, srcOff, dstOff, width, height, dstStep, srcStep, DrawType.TRANSLUCENT_IGNORE_BLACK);
     }
 
-    public void drawRotated(int x, int y, int pivot_x, int pivot_y, int width, int height, int zoom, double angle) {
+    public void drawRotated(int x, int y, int pivotX, int pivotY, int width, int height, int zoom, double angle) {
         try {
-            int center_y = -width / 2;
-            int center_x = -height / 2;
+            int centerY = -width / 2;
+            int centerX = -height / 2;
 
             int sin = (int) (Math.sin(angle) * 65536D);
             int cos = (int) (Math.cos(angle) * 65536D);
@@ -307,18 +303,18 @@ public class Sprite extends Canvas2D {
             sin = sin * zoom >> 8;
             cos = cos * zoom >> 8;
 
-            int src_off_x = (pivot_x << 16) + (center_x * sin + center_y * cos);
-            int src_off_y = (pivot_y << 16) + (center_x * cos - center_y * sin);
+            int srcOffX = (pivotX << 16) + (centerX * sin + centerY * cos);
+            int srcOffY = (pivotY << 16) + (centerX * cos - centerY * sin);
 
             int dst_off = x + y * Canvas2D.width;
 
             for (y = 0; y < height; y++) {
                 int i = dst_off;
-                int off_x = src_off_x;
-                int off_y = src_off_y;
+                int offX = srcOffX;
+                int offY = srcOffY;
 
                 for (x = -width; x < 0; x++) {
-                    int color = this.pixels[(off_x >> 16) + (off_y >> 16) * this.width];
+                    int color = this.pixels[(offX >> 16) + (offY >> 16) * this.width];
 
                     if (color != 0) {
                         Canvas2D.pixels[i++] = color;
@@ -326,12 +322,12 @@ public class Sprite extends Canvas2D {
                         i++;
                     }
 
-                    off_x += cos;
-                    off_y -= sin;
+                    offX += cos;
+                    offY -= sin;
                 }
 
-                src_off_x += sin;
-                src_off_y += cos;
+                srcOffX += sin;
+                srcOffY += cos;
                 dst_off += Canvas2D.width;
             }
 
@@ -343,34 +339,34 @@ public class Sprite extends Canvas2D {
 
     public void draw(int x, int y, int width, int height, int radians, int zoom, int pivot_x, int pivot_y, int ai[], int ai1[]) {
         try {
-            int center_x = -width / 2;
-            int center_y = -height / 2;
+            int centerX = -width / 2;
+            int centerY = -height / 2;
 
             int sin = (int) (Math.sin((double) radians / 326.11000000000001D) * 65536D);
             int cos = (int) (Math.cos((double) radians / 326.11000000000001D) * 65536D);
             sin = sin * zoom >> 8;
             cos = cos * zoom >> 8;
 
-            int src_off_x = (pivot_x << 16) + (center_y * sin + center_x * cos);
-            int src_off_y = (pivot_y << 16) + (center_y * cos - center_x * sin);
+            int srcOffX = (pivot_x << 16) + (centerY * sin + centerX * cos);
+            int srcOffY = (pivot_y << 16) + (centerY * cos - centerX * sin);
 
-            int dst_off = x + y * Canvas2D.width;
+            int dstOff = x + y * Canvas2D.width;
 
             for (y = 0; y < height; y++) {
                 int i4 = ai1[y];
-                int dst_offset = dst_off + i4;
-                int offset_x = src_off_x + cos * i4;
-                int offset_y = src_off_y - sin * i4;
+                int dst_offset = dstOff + i4;
+                int offsetX = srcOffX + cos * i4;
+                int offsetY = srcOffY - sin * i4;
 
                 for (x = -ai[y]; x < 0; x++) {
-                    Canvas2D.pixels[dst_offset++] = this.pixels[(offset_x >> 16) + (offset_y >> 16) * this.width];
-                    offset_x += cos;
-                    offset_y -= sin;
+                    Canvas2D.pixels[dst_offset++] = this.pixels[(offsetX >> 16) + (offsetY >> 16) * this.width];
+                    offsetX += cos;
+                    offsetY -= sin;
                 }
 
-                src_off_x += sin;
-                src_off_y += cos;
-                dst_off += Canvas2D.width;
+                srcOffX += sin;
+                srcOffY += cos;
+                dstOff += Canvas2D.width;
             }
         } catch (Exception _ex) {
         }
@@ -383,21 +379,21 @@ public class Sprite extends Canvas2D {
      * @param y the y.
      */
     public void drawMasked(int x, int y) {
-        x += this.offset_x;
-        y += this.offset_y;
-        int dst_off = x + y * Canvas2D.width;
-        int src_off = 0;
+        x += this.offsetX;
+        y += this.offsetY;
+        int dstOff = x + y * Canvas2D.width;
+        int srcOff = 0;
         int height = this.height;
         int width = this.width;
-        int dst_step = Canvas2D.width - width;
-        int src_step = 0;
+        int dstStep = Canvas2D.width - width;
+        int srcStep = 0;
 
         if (y < Canvas2D.left_y) {
             int yOffset = Canvas2D.left_y - y;
             height -= yOffset;
             y = Canvas2D.left_y;
-            src_off += yOffset * width;
-            dst_off += yOffset * Canvas2D.width;
+            srcOff += yOffset * width;
+            dstOff += yOffset * Canvas2D.width;
         }
 
         if (y + height > Canvas2D.right_y) {
@@ -408,35 +404,24 @@ public class Sprite extends Canvas2D {
             int xOffset = Canvas2D.left_x - x;
             width -= xOffset;
             x = Canvas2D.left_x;
-            src_off += xOffset;
-            dst_off += xOffset;
-            src_step += xOffset;
-            dst_step += xOffset;
+            srcOff += xOffset;
+            dstOff += xOffset;
+            srcStep += xOffset;
+            dstStep += xOffset;
         }
 
         if (x + width > Canvas2D.right_x) {
             int xOffset = (x + width) - Canvas2D.right_x;
             width -= xOffset;
-            src_step += xOffset;
-            dst_step += xOffset;
+            srcStep += xOffset;
+            dstStep += xOffset;
         }
 
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        Canvas2D.draw(this.pixels, src_off, dst_off, width, height, dst_step, src_step, DrawType.IGNORE_BLACK);
-    }
-
-    public void export(File f) {
-        try {
-            BufferedImage i = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
-            int[] pixels = ((DataBufferInt) i.getRaster().getDataBuffer()).getData();
-            System.arraycopy(this.pixels, 0, pixels, 0, this.pixels.length);
-            ImageIO.write(i, "png", f);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Canvas2D.draw(this.pixels, srcOff, dstOff, width, height, dstStep, srcStep, DrawType.IGNORE_BLACK);
     }
 
     public void prepare() {

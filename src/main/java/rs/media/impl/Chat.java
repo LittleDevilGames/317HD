@@ -574,7 +574,7 @@ public class Chat extends Widget {
                                 int y = Game.self.get_local_y();
                                 int plane = Game.plane;
 
-                                Game.landscape.set_tile_underlay_color(x, y, plane, 0, 7, 126, 126, 126, 126);
+                                Game.landscape.setTileUnderlayColor(x, y, plane, 0, 7, 126, 126, 126, 126);
                                 Game.generate_minimap(plane);
                                 break;
                             }

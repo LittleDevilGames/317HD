@@ -12,7 +12,7 @@ public class Item extends Renderable {
     }
 
     @Override
-    public Model get_model() {
+    public Model getModel() {
         return ObjConfig.get(index).get_model(stack_index);
     }
 }

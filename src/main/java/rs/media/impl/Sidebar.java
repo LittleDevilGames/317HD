@@ -17,25 +17,25 @@ public class Sidebar {
     public static final Tab[] TAB = new Tab[14];
     public static Bitmap backhmid1, backbase2, invback;
     public static boolean draw;
-    public static boolean draw_tabs;
-    public static Tab flashing_tab;
-    public static int[] pixels_3d;
+    public static boolean drawTabs;
+    public static Tab flashingTab;
+    public static int[] pixels3D;
     public static ImageProducer producer;
-    public static ImageProducer producer_lower_tab;
-    public static ImageProducer producer_upper_tab;
-    public static Tab selected_tab;
-    public static int widget_index;
+    public static ImageProducer producerLowerTab;
+    public static ImageProducer producerUpperTab;
+    public static Tab selectedTab;
+    public static int widgetIndex;
 
-    public static void clear_producers() {
+    public static void clearProducers() {
         producer = null;
-        producer_upper_tab = null;
-        producer_lower_tab = null;
+        producerUpperTab = null;
+        producerLowerTab = null;
     }
 
-    public static void create_producers() {
+    public static void createProducers() {
         producer = new ImageProducer(190, 261);
-        producer_lower_tab = new ImageProducer(269, 37);
-        producer_upper_tab = new ImageProducer(249, 45);
+        producerLowerTab = new ImageProducer(269, 37);
+        producerUpperTab = new ImageProducer(249, 45);
     }
 
     public static void draw() {
@@ -45,13 +45,13 @@ public class Sidebar {
         draw = false;
 
         producer.prepare();
-        Canvas3D.pixels = pixels_3d;
+        Canvas3D.pixels = pixels3D;
         invback.draw(0, 0);
 
-        if (widget_index != -1) {
-            Widget.draw(widget_index, 0, 0, 0);
-        } else if (selected_tab.widget != -1) {
-            Widget.draw(selected_tab.widget, 0, 0, 0);
+        if (widgetIndex != -1) {
+            Widget.draw(widgetIndex, 0, 0, 0);
+        } else if (selectedTab.widget != -1) {
+            Widget.draw(selectedTab.widget, 0, 0, 0);
         }
 
         if (Menu.visible && Menu.area == Area.TAB) {
@@ -63,77 +63,77 @@ public class Sidebar {
         Canvas3D.pixels = Game.viewport_pixels;
     }
 
-    public static void draw_tabs() {
-        if (flashing_tab != null) {
-            draw_tabs = true;
+    public static void drawTabs() {
+        if (flashingTab != null) {
+            drawTabs = true;
         }
 
-        if (draw_tabs) {
-            draw_tabs = false;
+        if (drawTabs) {
+            drawTabs = false;
 
-            if (flashing_tab != null && flashing_tab == selected_tab) {
-                flashing_tab = null;
+            if (flashingTab != null && flashingTab == selectedTab) {
+                flashingTab = null;
                 Game.out.writeOpcode(120);
-                Game.out.writeByte(selected_tab.index);
+                Game.out.writeByte(selectedTab.index);
             }
 
-            producer_upper_tab.prepare();
+            producerUpperTab.prepare();
             {
                 backhmid1.draw(0, 0);
 
-                if (widget_index == -1) {
+                if (widgetIndex == -1) {
                     for (int i = 0; i < 7; i++) {
                         Tab tab = TAB[i];
 
-                        if (tab == selected_tab) {
-                            tab.draw_redstone();
+                        if (tab == selectedTab) {
+                            tab.drawRedstone();
                         }
 
                         if (tab.widget == -1) {
                             continue;
                         }
 
-                        if (flashing_tab == tab) {
+                        if (flashingTab == tab) {
                             if (Game.loopCycle % 20 < 10) {
-                                tab.draw_icon();
+                                tab.drawIcon();
                             }
                             continue;
                         }
 
-                        tab.draw_icon();
+                        tab.drawIcon();
                     }
                 }
             }
-            producer_upper_tab.draw(516, 160);
+            producerUpperTab.draw(516, 160);
 
-            producer_lower_tab.prepare();
+            producerLowerTab.prepare();
             {
                 backbase2.draw(0, 0);
 
-                if (widget_index == -1) {
+                if (widgetIndex == -1) {
                     for (int i = 7; i < 14; i++) {
                         Tab tab = TAB[i];
 
-                        if (tab == selected_tab) {
-                            tab.draw_redstone();
+                        if (tab == selectedTab) {
+                            tab.drawRedstone();
                         }
 
                         if (tab.widget == -1) {
                             continue;
                         }
 
-                        if (flashing_tab == tab) {
+                        if (flashingTab == tab) {
                             if (Game.loopCycle % 20 < 10) {
-                                tab.draw_icon();
+                                tab.drawIcon();
                             }
                             continue;
                         }
 
-                        tab.draw_icon();
+                        tab.drawIcon();
                     }
                 }
             }
-            producer_lower_tab.draw(496, 466);
+            producerLowerTab.draw(496, 466);
             Game.producerScene.prepare();
         }
     }
@@ -184,7 +184,7 @@ public class Sidebar {
         TAB[i] = new Tab(i++, REDSTONE[9], ICON[11], 201, 0, 201, 2); // Player Options
         TAB[i] = new Tab(i++, REDSTONE[8], ICON[12], 229, 0, 226, 2); // Music
 
-        open_tab(3);
+        openTab(3);
 
     }
 
@@ -195,19 +195,19 @@ public class Sidebar {
         for (int i = 0; i < REDSTONE.length; i++) {
             REDSTONE[i] = null;
         }
-        selected_tab = null;
-        flashing_tab = null;
+        selectedTab = null;
+        flashingTab = null;
         invback = null;
         backbase2 = null;
         backhmid1 = null;
     }
 
-    public static void open_tab(int i) {
-        selected_tab = get_tab(i);
+    public static void openTab(int i) {
+        selectedTab = get_tab(i);
     }
 
-    public static void set_flashing(int i) {
-        flashing_tab = get_tab(i);
+    public static void setFlashing(int i) {
+        flashingTab = get_tab(i);
     }
 
     public static class Tab {
@@ -229,11 +229,11 @@ public class Sidebar {
             this.icon_y = icon_y;
         }
 
-        public void draw_icon() {
+        public void drawIcon() {
             icon.draw(icon_x, icon_y);
         }
 
-        public void draw_redstone() {
+        public void drawRedstone() {
             redstone.draw(x, y);
         }
 

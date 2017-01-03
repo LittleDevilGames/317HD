@@ -13,6 +13,4 @@ public class WallDecoration {
     public int y;
     public int z;
 
-    public WallDecoration() {
-    }
 }

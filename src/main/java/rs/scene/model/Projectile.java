@@ -48,8 +48,8 @@ public class Projectile extends Renderable {
     }
 
     @Override
-    public Model get_model() {
-        Model model = config.get_model();
+    public Model getModel() {
+        Model model = config.getModel();
 
         if (model == null) {
             return null;
@@ -58,16 +58,16 @@ public class Projectile extends Renderable {
         int frame = -1;
 
         if (config.seq != null) {
-            frame = config.seq.frame_primary[seq_frame];
+            frame = config.seq.framePrimary[seq_frame];
         }
 
         Model m = new Model(true, frame == -1, false, model);
 
         if (frame != -1) {
-            m.apply_vertex_weights();
-            m.apply_sequence_frame(frame);
-            m.triangle_groups = null;
-            m.vertex_weights = null;
+            m.applyVertexWeights();
+            m.applySequenceFrame(frame);
+            m.triangleGroups = null;
+            m.vertexWeights = null;
         }
 
         if (config.scale != 128 || config.height != 128) {
@@ -75,7 +75,7 @@ public class Projectile extends Renderable {
         }
 
         m.set_pitch(pitch);
-        m.apply_lighting(64 + config.brightness, 850 + config.specular, -30, -50, -30, true);
+        m.applyLighting(64 + config.brightness, 850 + config.specular, -30, -50, -30, true);
         return m;
     }
 

@@ -5,7 +5,7 @@ public class Camera {
     public static final int MAX_PITCH = 383;
     public static final int MIN_PITCH = 128;
 
-    public static int pitch_modifier, yaw_modifier;
+    public static int pitchModifier, yawModifier;
     public static int x, y, z, pitch, yaw;
 
     public static void set(int x, int y, int z, int zoom, int pitch, int yaw) {

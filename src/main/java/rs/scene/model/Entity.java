@@ -23,8 +23,8 @@ public class Entity extends Renderable {
     public int face_y;
     public int spotanim_cycle;
     public int spotanim_cycle_end;
-    public int spotanim_frame;
-    public int spotanim_index;
+    public int spotanimFrame;
+    public int spotanimIndex;
     public int graphic_offset_y;
     public int height;
     public int hit_cycle[];
@@ -78,7 +78,7 @@ public class Entity extends Renderable {
         this.hit_type = new int[4];
         this.hit_cycle = new int[4];
         this.move_seq_index = -1;
-        this.spotanim_index = -1;
+        this.spotanimIndex = -1;
         this.seq_index = -1;
         this.combat_cycle = -1000;
         this.spoken_life = 100;
@@ -118,7 +118,7 @@ public class Entity extends Renderable {
         }
     }
 
-    public boolean is_visible() {
+    public boolean isVisible() {
         return false;
     }
 
