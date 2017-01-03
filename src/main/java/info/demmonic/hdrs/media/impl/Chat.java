@@ -495,7 +495,7 @@ public class Chat extends Widget {
 
                                     if (c != null) {
                                         System.out.println(c.index + ": " + c.name + " materials:");
-                                        System.out.println("Old: " + Arrays.toString(c.old_color));
+                                        System.out.println("Old: " + Arrays.toString(c.oldColor));
                                         System.out.println("New: " + Arrays.toString(c.newColor));
                                     }
                                 } catch (Exception e) {

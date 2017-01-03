@@ -13,6 +13,6 @@ public class Item extends Renderable {
 
     @Override
     public Model getModel() {
-        return ObjConfig.get(index).get_model(stackIndex);
+        return ObjConfig.get(index).getModel(stackIndex);
     }
 }

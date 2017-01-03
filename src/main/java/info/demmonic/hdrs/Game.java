@@ -7531,7 +7531,7 @@ public class Game extends GameShell {
 
         for (Item i = (Item) c.top(); i != null; i = (Item) c.next()) {
             ObjConfig oc = ObjConfig.get(i.index);
-            int a = oc.pile_priority;
+            int a = oc.pilePriority;
 
             if (oc.stackable) {
                 a *= i.stackIndex + 1;

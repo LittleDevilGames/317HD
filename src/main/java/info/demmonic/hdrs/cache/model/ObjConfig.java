@@ -47,16 +47,16 @@ public class ObjConfig {
     public short modelIndex;
     public String name;
     public int newColor[];
-    public short note_item_index;
-    public short note_template_index;
-    public int old_color[];
-    public int pile_priority;
-    public short scale_x;
-    public short scale_y;
-    public short scale_z;
+    public short noteItemIndex;
+    public short noteTemplateIndex;
+    public int oldColor[];
+    public int pilePriority;
+    public short scaleX;
+    public short scaleY;
+    public short scaleZ;
     public short specular;
-    public int stack_amount[];
-    public short[] stack_index;
+    public int stackAmount[];
+    public short[] stackIndex;
     public boolean stackable;
     public byte team;
 
@@ -83,8 +83,8 @@ public class ObjConfig {
         config.defaults();
         config.load(ObjConfig.buffer);
 
-        if (config.note_template_index != -1) {
-            config.to_note();
+        if (config.noteTemplateIndex != -1) {
+            config.toNote();
         }
 
         if (!Game.isMembers && config.isMembers) {
@@ -98,8 +98,8 @@ public class ObjConfig {
         return config;
     }
 
-    public static Sprite getSprite(int index, int count, int outline_color) {
-        if (outline_color == 0) {
+    public static Sprite getSprite(int index, int count, int outlineColor) {
+        if (outlineColor == 0) {
             Sprite s = (Sprite) spriteCache.get(index);
             if (s != null && s.cropHeight != count && s.cropHeight != -1) {
                 s.detach();
@@ -116,15 +116,15 @@ public class ObjConfig {
             return null;
         }
 
-        if (c.stack_index == null) {
+        if (c.stackIndex == null) {
             count = -1;
         }
 
         if (count > 1) {
             int i = -1;
             for (int j = 0; j < 10; j++) {
-                if (count >= c.stack_amount[j] && c.stack_amount[j] != 0) {
-                    i = c.stack_index[j];
+                if (count >= c.stackAmount[j] && c.stackAmount[j] != 0) {
+                    i = c.stackIndex[j];
                 }
             }
             if (i != -1) {
@@ -132,7 +132,7 @@ public class ObjConfig {
             }
         }
 
-        Model m = c.get_model(1);
+        Model m = c.getModel(1);
 
         if (m == null) {
             return null;
@@ -140,8 +140,8 @@ public class ObjConfig {
 
         Sprite s1 = null;
 
-        if (c.note_template_index != -1) {
-            s1 = getSprite(c.note_item_index, 10, -1);
+        if (c.noteTemplateIndex != -1) {
+            s1 = getSprite(c.noteItemIndex, 10, -1);
 
             if (s1 == null) {
                 return null;
@@ -150,16 +150,16 @@ public class ObjConfig {
 
         Sprite s = new Sprite(32, 32);
 
-        int _center_x = Canvas3D.centerX;
-        int _center_y = Canvas3D.centerY;
-        int _pixels3d[] = Canvas3D.pixels;
-        int _pixels2d[] = Canvas2D.pixels;
-        int _width = Canvas2D.width;
-        int _height = Canvas2D.height;
-        int _x1 = Canvas2D.leftX;
-        int _x2 = Canvas2D.rightX;
-        int _y1 = Canvas2D.leftY;
-        int _y2 = Canvas2D.rightY;
+        int centerX = Canvas3D.centerX;
+        int centerY = Canvas3D.centerY;
+        int pixels3D[] = Canvas3D.pixels;
+        int pixels2D[] = Canvas2D.pixels;
+        int width = Canvas2D.width;
+        int height = Canvas2D.height;
+        int x1 = Canvas2D.leftX;
+        int x2 = Canvas2D.rightX;
+        int y1 = Canvas2D.leftY;
+        int y2 = Canvas2D.rightY;
 
         Canvas3D.texturize = false;
         Canvas2D.prepare(32, 32, s.pixels);
@@ -168,11 +168,11 @@ public class ObjConfig {
 
         int dist = c.iconDist;
 
-        if (outline_color == -1) {
+        if (outlineColor == -1) {
             dist = (int) ((double) dist * 1.50D);
         }
 
-        if (outline_color > 0) {
+        if (outlineColor > 0) {
             dist = (int) ((double) dist * 1.04D);
         }
 
@@ -197,23 +197,23 @@ public class ObjConfig {
             }
         }
 
-        if (outline_color > 0) {
+        if (outlineColor > 0) {
             for (int x = 31; x >= 0; x--) {
                 for (int y = 31; y >= 0; y--) {
                     if (s.pixels[x + y * 32] == 0) {
                         if (x > 0 && s.pixels[(x - 1) + y * 32] == 1) {
-                            s.pixels[x + y * 32] = outline_color;
+                            s.pixels[x + y * 32] = outlineColor;
                         } else if (y > 0 && s.pixels[x + (y - 1) * 32] == 1) {
-                            s.pixels[x + y * 32] = outline_color;
+                            s.pixels[x + y * 32] = outlineColor;
                         } else if (x < 31 && s.pixels[x + 1 + y * 32] == 1) {
-                            s.pixels[x + y * 32] = outline_color;
+                            s.pixels[x + y * 32] = outlineColor;
                         } else if (y < 31 && s.pixels[x + (y + 1) * 32] == 1) {
-                            s.pixels[x + y * 32] = outline_color;
+                            s.pixels[x + y * 32] = outlineColor;
                         }
                     }
                 }
             }
-        } else if (outline_color == 0) {
+        } else if (outlineColor == 0) {
             for (int x = 31; x >= 0; x--) {
                 for (int y = 31; y >= 0; y--) {
                     if (s.pixels[x + y * 32] == 0 && x > 0 && y > 0 && s.pixels[(x - 1) + (y - 1) * 32] > 0) {
@@ -223,7 +223,7 @@ public class ObjConfig {
             }
         }
 
-        if (c.note_template_index != -1) {
+        if (c.noteTemplateIndex != -1) {
             int w = s1.cropWidth;
             int h = s1.cropHeight;
             s1.cropWidth = 32;
@@ -233,15 +233,15 @@ public class ObjConfig {
             s1.cropHeight = h;
         }
 
-        if (outline_color == 0) {
+        if (outlineColor == 0) {
             spriteCache.insert(s, index);
         }
 
-        Canvas2D.prepare(_width, _height, _pixels2d);
-        Canvas2D.setBounds(_x1, _y1, _x2, _y2);
-        Canvas3D.centerX = _center_x;
-        Canvas3D.centerY = _center_y;
-        Canvas3D.pixels = _pixels3d;
+        Canvas2D.prepare(width, height, pixels2D);
+        Canvas2D.setBounds(x1, y1, x2, y2);
+        Canvas3D.centerX = centerX;
+        Canvas3D.centerY = centerY;
+        Canvas3D.pixels = pixels3D;
         Canvas3D.texturize = true;
 
         if (c.stackable) {
@@ -287,7 +287,7 @@ public class ObjConfig {
         modelIndex = 0;
         name = null;
         description = null;
-        old_color = null;
+        oldColor = null;
         newColor = null;
         iconDist = 2000;
         iconPitch = 0;
@@ -296,7 +296,7 @@ public class ObjConfig {
         iconX = 0;
         iconY = 0;
         stackable = false;
-        pile_priority = 1;
+        pilePriority = 1;
         isMembers = false;
         groundAction = null;
         action = null;
@@ -312,13 +312,13 @@ public class ObjConfig {
         maleDialogModel2 = -1;
         femaleDialogModel1 = -1;
         femaleDialogModel2 = -1;
-        stack_index = null;
-        stack_amount = null;
-        note_item_index = -1;
-        note_template_index = -1;
-        scale_x = 128;
-        scale_y = 128;
-        scale_z = 128;
+        stackIndex = null;
+        stackAmount = null;
+        noteItemIndex = -1;
+        noteTemplateIndex = -1;
+        scaleX = 128;
+        scaleY = 128;
+        scaleZ = 128;
         brightness = 0;
         specular = 0;
         team = 0;
@@ -343,22 +343,22 @@ public class ObjConfig {
             mesh = new Model(2, new Model[]{mesh, Model.get(b)});
         }
 
-        if (old_color != null) {
-            mesh.setColors(old_color, newColor);
+        if (oldColor != null) {
+            mesh.setColors(oldColor, newColor);
         }
         return mesh;
     }
 
-    public Model get_model(int count) {
-        if (stack_index != null && count > 1) {
+    public Model getModel(int count) {
+        if (stackIndex != null && count > 1) {
             int index = -1;
             for (int i = 0; i < 10; i++) {
-                if (count >= stack_amount[i] && stack_amount[i] != 0) {
-                    index = stack_index[i];
+                if (count >= stackAmount[i] && stackAmount[i] != 0) {
+                    index = stackIndex[i];
                 }
             }
             if (index != -1) {
-                return ObjConfig.get(index).get_model(1);
+                return ObjConfig.get(index).getModel(1);
             }
         }
 
@@ -374,12 +374,12 @@ public class ObjConfig {
             return null;
         }
 
-        if (scale_x != 128 || scale_y != 128 || scale_z != 128) {
-            mesh.scale(scale_x, scale_y, scale_z);
+        if (scaleX != 128 || scaleY != 128 || scaleZ != 128) {
+            mesh.scale(scaleX, scaleY, scaleZ);
         }
 
-        if (old_color != null) {
-            mesh.setColors(old_color, newColor);
+        if (oldColor != null) {
+            mesh.setColors(oldColor, newColor);
         }
 
         mesh.applyLighting(64 + brightness, 768 + specular, -50, -10, -50, true);
@@ -395,11 +395,11 @@ public class ObjConfig {
     }
 
     public Model getWidgetMesh(int count) {
-        if (stack_index != null && count > 1) {
+        if (stackIndex != null && count > 1) {
             int stack = -1;
             for (int i = 0; i < 10; i++) {
-                if (count >= stack_amount[i] && stack_amount[i] != 0) {
-                    stack = stack_index[i];
+                if (count >= stackAmount[i] && stackAmount[i] != 0) {
+                    stack = stackIndex[i];
                 }
             }
 
@@ -414,8 +414,8 @@ public class ObjConfig {
             return null;
         }
 
-        if (old_color != null) {
-            mesh.setColors(old_color, newColor);
+        if (oldColor != null) {
+            mesh.setColors(oldColor, newColor);
         }
 
         return mesh;
@@ -454,8 +454,8 @@ public class ObjConfig {
             mesh.translate(0, femaleOffY, 0);
         }
 
-        if (old_color != null) {
-            mesh.setColors(old_color, newColor);
+        if (oldColor != null) {
+            mesh.setColors(oldColor, newColor);
         }
         return mesh;
     }
@@ -554,7 +554,7 @@ public class ObjConfig {
             } else if (i == 11) {
                 stackable = true;
             } else if (i == 12) {
-                pile_priority = b.readInt();
+                pilePriority = b.readInt();
             } else if (i == 16) {
                 isMembers = true;
             } else if (i == 23) {
@@ -587,10 +587,10 @@ public class ObjConfig {
                 }
             } else if (i == 40) {
                 int j = b.readUnsignedByte();
-                old_color = new int[j];
+                oldColor = new int[j];
                 newColor = new int[j];
                 for (int k = 0; k < j; k++) {
-                    old_color[k] = b.readUnsignedShort();
+                    oldColor[k] = b.readUnsignedShort();
                     newColor[k] = b.readUnsignedShort();
                 }
 
@@ -609,22 +609,22 @@ public class ObjConfig {
             } else if (i == 95) {
                 iconRoll = (short) b.readUnsignedShort();
             } else if (i == 97) {
-                note_item_index = (short) b.readUnsignedShort();
+                noteItemIndex = (short) b.readUnsignedShort();
             } else if (i == 98) {
-                note_template_index = (short) b.readUnsignedShort();
+                noteTemplateIndex = (short) b.readUnsignedShort();
             } else if (i >= 100 && i < 110) {
-                if (stack_index == null) {
-                    stack_index = new short[10];
-                    stack_amount = new int[10];
+                if (stackIndex == null) {
+                    stackIndex = new short[10];
+                    stackAmount = new int[10];
                 }
-                stack_index[i - 100] = (short) b.readUnsignedShort();
-                stack_amount[i - 100] = b.readUnsignedShort();
+                stackIndex[i - 100] = (short) b.readUnsignedShort();
+                stackAmount[i - 100] = b.readUnsignedShort();
             } else if (i == 110) {
-                scale_x = (short) b.readUnsignedShort();
+                scaleX = (short) b.readUnsignedShort();
             } else if (i == 111) {
-                scale_y = (short) b.readUnsignedShort();
+                scaleY = (short) b.readUnsignedShort();
             } else if (i == 112) {
-                scale_z = (short) b.readUnsignedShort();
+                scaleZ = (short) b.readUnsignedShort();
             } else if (i == 113) {
                 brightness = b.readByte();
             } else if (i == 114) {
@@ -635,8 +635,8 @@ public class ObjConfig {
         } while (true);
     }
 
-    public void to_note() {
-        ObjConfig a = get(note_template_index);
+    public void toNote() {
+        ObjConfig a = get(noteTemplateIndex);
         modelIndex = a.modelIndex;
         iconDist = a.iconDist;
         iconPitch = a.iconPitch;
@@ -644,13 +644,13 @@ public class ObjConfig {
         iconRoll = a.iconRoll;
         iconX = a.iconX;
         iconY = a.iconY;
-        old_color = a.old_color;
+        oldColor = a.oldColor;
         newColor = a.newColor;
 
-        ObjConfig b = get(note_item_index);
+        ObjConfig b = get(noteItemIndex);
         name = b.name;
         isMembers = b.isMembers;
-        pile_priority = b.pile_priority;
+        pilePriority = b.pilePriority;
 
         StringBuilder s = new StringBuilder().append("Swap this note at any bank for a");
 
