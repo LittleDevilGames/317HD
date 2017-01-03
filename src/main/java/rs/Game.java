@@ -246,7 +246,7 @@ public class Game extends GameShell {
     public static int playerCount;
     public static int playerIndices[];
     public static Player players[];
-    public static int port_offset;
+    public static int portOffset;
     public static volatile boolean processFlames;
     public static ImageProducer producerBackhmid2;
     public static ImageProducer producerBackleft1;
@@ -580,7 +580,7 @@ public class Game extends GameShell {
             dialogueOptionActive = false;
             Sidebar.drawTabs = true;
         }
-        if (Chat.get_overlay() != -1) {
+        if (Chat.getOverlay() != -1) {
             Chat.setOverlay(-1);
             dialogueOptionActive = false;
         }
@@ -593,7 +593,7 @@ public class Game extends GameShell {
         }
 
         // Lets the garbage collector get the login screen producers.
-        TitleScreen.clear_producers();
+        TitleScreen.clearProducers();
 
         // Set the wrest up.
         Chat.producer = new ImageProducer(479, 96);
@@ -633,7 +633,7 @@ public class Game extends GameShell {
 
         if (!Menu.visible) {
             Menu.handle();
-            Menu.draw_tooltip();
+            Menu.drawTooltip();
         } else if (Menu.area == Area.VIEWPORT) {
             Menu.draw();
         }
@@ -747,7 +747,7 @@ public class Game extends GameShell {
                 Flames.cycle++;
                 Flames.handle();
                 Flames.handle();
-                Flames.handle_palette();
+                Flames.handlePalette();
                 if (++i > 10) {
                     long current_time = System.currentTimeMillis();
                     int difference = (int) (current_time - lastTime) / 10 - delay;
@@ -1189,16 +1189,16 @@ public class Game extends GameShell {
 
     public static void drawProjectiles() {
         for (Projectile p = (Projectile) projectiles.top(); p != null; p = (Projectile) projectiles.next()) {
-            if (p.plane != plane || loopCycle > p.cycle_end) {
+            if (p.plane != plane || loopCycle > p.cycleEnd) {
                 p.detach();
                 return;
             }
 
-            if (loopCycle >= p.cycle_start) {
+            if (loopCycle >= p.cycleStart) {
                 if (p.targetIndex > 0) {
                     Actor a = actors[p.targetIndex - 1];
                     if (a != null && a.sceneX >= 0 && a.sceneX < 13312 && a.sceneY >= 0 && a.sceneY < 13312) {
-                        p.update(loopCycle, a.sceneX, a.sceneY, getLandZ(a.sceneX, a.sceneY, p.plane) - p.offset_z);
+                        p.update(loopCycle, a.sceneX, a.sceneY, getLandZ(a.sceneX, a.sceneY, p.plane) - p.offsetZ);
                     }
                 }
 
@@ -1213,12 +1213,12 @@ public class Game extends GameShell {
                     }
 
                     if (pl != null && pl.sceneX >= 0 && pl.sceneX < 13312 && pl.sceneY >= 0 && pl.sceneY < 13312) {
-                        p.update(loopCycle, pl.sceneX, pl.sceneY, getLandZ(pl.sceneX, pl.sceneY, p.plane) - p.offset_z);
+                        p.update(loopCycle, pl.sceneX, pl.sceneY, getLandZ(pl.sceneX, pl.sceneY, p.plane) - p.offsetZ);
                     }
                 }
 
                 p.update(animCycle);
-                landscape.add(p, (int) p.scene_x, (int) p.scene_y, (int) p.scene_z, plane, p.rotation, 60, false, -1);
+                landscape.add(p, (int) p.sceneX, (int) p.sceneY, (int) p.sceneZ, plane, p.rotation, 60, false, -1);
 
             }
         }
@@ -1595,12 +1595,12 @@ public class Game extends GameShell {
     public static void drawSpotanims() {
         SpotAnim a = (SpotAnim) spotanims.top();
         for (; a != null; a = (SpotAnim) spotanims.next()) {
-            if (a.plane != plane || a.seq_finished) {
+            if (a.plane != plane || a.seqFinished) {
                 a.detach();
-            } else if (loopCycle >= a.cycle_end) {
+            } else if (loopCycle >= a.cycleEnd) {
                 a.update(animCycle);
 
-                if (a.seq_finished) {
+                if (a.seqFinished) {
                     a.detach();
                 } else {
                     landscape.add(a, a.x, a.y, a.z, a.plane, 0, 60, false, -1);
@@ -3482,7 +3482,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3578,7 +3578,7 @@ public class Game extends GameShell {
 
             if (Widget.instance[param2].parent == widgetOverlay) {
                 clickArea = 1;
-            } else if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            } else if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3623,7 +3623,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3642,7 +3642,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3702,7 +3702,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3721,7 +3721,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3770,7 +3770,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3815,7 +3815,7 @@ public class Game extends GameShell {
 
             if (Widget.instance[param2].parent == widgetOverlay) {
                 clickArea = 1;
-            } else if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            } else if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -3832,7 +3832,7 @@ public class Game extends GameShell {
 
             if (Widget.instance[param2].parent == widgetOverlay) {
                 clickArea = 1;
-            } else if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            } else if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -4042,7 +4042,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -4062,7 +4062,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -4142,7 +4142,7 @@ public class Game extends GameShell {
                 clickArea = 1;
             }
 
-            if (Widget.instance[param2].parent == Chat.get_overlay()) {
+            if (Widget.instance[param2].parent == Chat.getOverlay()) {
                 clickArea = 3;
             }
         }
@@ -4333,14 +4333,14 @@ public class Game extends GameShell {
         tmpHoveredWidget = 0;
 
         if (Mouse.within(Area.CHAT)) {
-            if (Chat.get_overlay() != -1) {
-                handleWidgetMouse(Widget.instance[Chat.get_overlay()], 17, 357, Mouse.lastX, Mouse.lastY, 0);
+            if (Chat.getOverlay() != -1) {
+                handleWidgetMouse(Widget.instance[Chat.getOverlay()], 17, 357, Mouse.lastX, Mouse.lastY, 0);
             } else if (Mouse.lastY < 434 && Mouse.lastX < 426) {
-                Chat.handle_mouse(Mouse.lastX - 17, Mouse.lastY - 357);
+                Chat.handleMouse(Mouse.lastX - 17, Mouse.lastY - 357);
             }
         }
 
-        if (Chat.get_overlay() != -1 && tmpHoveredWidget != hoveredChatWidget) {
+        if (Chat.getOverlay() != -1 && tmpHoveredWidget != hoveredChatWidget) {
             Chat.redraw = true;
             hoveredChatWidget = tmpHoveredWidget;
         }
@@ -5721,10 +5721,10 @@ public class Game extends GameShell {
                 if (r.archive == 0) {
                     Model.load(r.payload, r.file);
 
-                    if ((ondemand.mesh_flags(r.file) & 0x62) != 0) {
+                    if ((ondemand.modelFlags(r.file) & 0x62) != 0) {
                         Sidebar.draw = true;
 
-                        if (Chat.get_overlay() != -1) {
+                        if (Chat.getOverlay() != -1) {
                             Chat.redraw = true;
                         }
                     }
@@ -6157,7 +6157,7 @@ public class Game extends GameShell {
         if (sceneState == 1) {
             int state = getSceneLoadState((byte) -95);
             if (state != 0 && System.currentTimeMillis() - sceneLoadStart > 0x360_000L) {
-                Signlink.error(username + " glcfb " + serverSeed + "," + state + "," + lowDetail + "," + cache[0] + "," + ondemand.immediate_request_count() + "," + plane + "," + loadedRegionX + "," + loadedRegionY);
+                Signlink.error(username + " glcfb " + serverSeed + "," + state + "," + lowDetail + "," + cache[0] + "," + ondemand.immediateRequestCount() + "," + plane + "," + loadedRegionX + "," + loadedRegionY);
                 sceneLoadStart = System.currentTimeMillis();
             }
         }
@@ -6582,7 +6582,7 @@ public class Game extends GameShell {
                                 dragArea = 1;
                             }
 
-                            if (Widget.instance[index].parent == Chat.get_overlay()) {
+                            if (Widget.instance[index].parent == Chat.getOverlay()) {
                                 dragArea = 3;
                             }
                             return;
@@ -6893,7 +6893,7 @@ public class Game extends GameShell {
                     }
                     case "-offset": {
                         try {
-                            Game.port_offset = Integer.parseInt(args[++i]);
+                            Game.portOffset = Integer.parseInt(args[++i]);
                         } catch (Exception e) {
                             /* empty */
                         }
@@ -6962,7 +6962,7 @@ public class Game extends GameShell {
                 TitleScreen.draw(true);
             }
 
-            Game.connection = new Connection(instance, instance.getSocket(43594 + port_offset));
+            Game.connection = new Connection(instance, instance.getSocket(43594 + portOffset));
 
             long name_long = JString.toLong(username);
             int name_hash = (int) (name_long >> 16 & 0x1FL);
@@ -7413,9 +7413,9 @@ public class Game extends GameShell {
         LocConfig.staticModelCache.clear();
 
         if (lowDetail && Signlink.cacheFile != null) {
-            int meshCount = ondemand.get_file_count(0);
+            int meshCount = ondemand.getFileCount(0);
             for (int meshIndex = 0; meshIndex < meshCount; meshIndex++) {
-                int flags = ondemand.mesh_flags(meshIndex);
+                int flags = ondemand.modelFlags(meshIndex);
                 if ((flags & 0x79) == 0) {
                     Model.nullify(meshIndex);
                 }
@@ -8656,7 +8656,7 @@ public class Game extends GameShell {
         progressPercent = percent;
         progressCaption = caption;
 
-        TitleScreen.create_producers();
+        TitleScreen.createProducers();
 
         if (archive == null) {
             super.drawProgress(caption, percent);
@@ -8709,7 +8709,7 @@ public class Game extends GameShell {
     public URL getCodeBase() {
         try {
             if (instance.frame != null) {
-                return new URL("http://" + JString.SERVER + ':' + (80 + port_offset));
+                return new URL("http://" + JString.SERVER + ':' + (80 + portOffset));
             }
         } catch (Exception _ex) {
         }
@@ -8727,7 +8727,7 @@ public class Game extends GameShell {
 
     public void init() {
         nodeIndex = Integer.parseInt(getParameter("nodeid"));
-        port_offset = Integer.parseInt(getParameter("portoff"));
+        portOffset = Integer.parseInt(getParameter("portoff"));
 
         String s = getParameter("lowmem");
 
@@ -8982,17 +8982,17 @@ public class Game extends GameShell {
             drawProgress(JString.CONNECTING_TO_UPDATE_SERVER, 60);
 
             ondemand = new OnDemand();
-            ondemand.setup(archive_version, this);
+            ondemand.setup(archive_version);
 
-            SequenceFrame.init(ondemand.seq_frame_count());
-            Model.init(ondemand.get_file_count(0), ondemand);
+            SequenceFrame.init(ondemand.sequenceFrameCount());
+            Model.init(ondemand.getFileCount(0), ondemand);
 
             music = new MusicPlayer();
 
             if (!lowDetail) {
                 ondemand.sendRequest(2, 484);
 
-                while (ondemand.immediate_request_count() > 0) {
+                while (ondemand.immediateRequestCount() > 0) {
                     handleOndemand();
 
                     try {
@@ -9010,14 +9010,14 @@ public class Game extends GameShell {
 
             drawProgress(JString.REQUESTING_ANIMATIONS, 65);
             {
-                count = ondemand.get_file_count(1);
+                count = ondemand.getFileCount(1);
 
                 for (int i = 0; i < count; i++) {
                     ondemand.sendRequest(1, i);
                 }
 
-                while (ondemand.immediate_request_count() > 0) {
-                    int remaining = count - ondemand.immediate_request_count();
+                while (ondemand.immediateRequestCount() > 0) {
+                    int remaining = count - ondemand.immediateRequestCount();
 
                     if (remaining > 0) {
                         drawProgress("Loading animations - " + ((remaining * 100) / count) + "%", 65);
@@ -9038,19 +9038,19 @@ public class Game extends GameShell {
 
             drawProgress(JString.REQUESTING_MODELS, 70);
             {
-                count = ondemand.get_file_count(0);
+                count = ondemand.getFileCount(0);
 
                 for (int i = 0; i < count; i++) {
-                    int flags = ondemand.mesh_flags(i);
+                    int flags = ondemand.modelFlags(i);
                     if ((flags & 1) != 0) {
                         ondemand.sendRequest(0, i);
                     }
                 }
 
-                count = ondemand.immediate_request_count();
+                count = ondemand.immediateRequestCount();
 
-                while (ondemand.immediate_request_count() > 0) {
-                    int remaining = count - ondemand.immediate_request_count();
+                while (ondemand.immediateRequestCount() > 0) {
+                    int remaining = count - ondemand.immediateRequestCount();
 
                     if (remaining > 0) {
                         drawProgress("Loading models - " + (remaining * 100) / count + "%", 70);
@@ -9080,10 +9080,10 @@ public class Game extends GameShell {
                     ondemand.sendRequest(3, ondemand.getMapUid(48, 47, 1));
                     ondemand.sendRequest(3, ondemand.getMapUid(48, 148, 0));
                     ondemand.sendRequest(3, ondemand.getMapUid(48, 148, 1));
-                    count = ondemand.immediate_request_count();
+                    count = ondemand.immediateRequestCount();
 
-                    while (ondemand.immediate_request_count() > 0) {
-                        int remaining = count - ondemand.immediate_request_count();
+                    while (ondemand.immediateRequestCount() > 0) {
+                        int remaining = count - ondemand.immediateRequestCount();
 
                         if (remaining > 0) {
                             drawProgress("Loading maps - " + (remaining * 100) / count + "%", 75);
@@ -9098,10 +9098,10 @@ public class Game extends GameShell {
                     }
                 }
 
-                count = ondemand.get_file_count(0);
+                count = ondemand.getFileCount(0);
 
                 for (int i = 0; i < count; i++) {
-                    int flags = ondemand.mesh_flags(i);
+                    int flags = ondemand.modelFlags(i);
                     byte priority = 0;
 
                     if ((flags & 8) != 0) {
@@ -9129,11 +9129,11 @@ public class Game extends GameShell {
                     }
                 }
 
-                ondemand.request_regions(isMembers);
+                ondemand.requestRegions(isMembers);
 
                 if (!lowDetail) {
-                    for (int i = 1; i < ondemand.get_file_count(2); i++) {
-                        if (ondemand.has_midi(i)) {
+                    for (int i = 1; i < ondemand.getFileCount(2); i++) {
+                        if (ondemand.hasMidi(i)) {
                             ondemand.verify((byte) 1, 2, i);
                         }
                     }

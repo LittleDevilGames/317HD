@@ -13,22 +13,22 @@ public class Tile extends Link {
     public int anInt1328;
     public Tile bridge;
     public int flags;
-    public GroundDecoration ground_decoration;
-    public ItemPile item_pile;
+    public GroundDecoration groundDecoration;
+    public ItemPile itemPile;
     public int locCount;
-    public int loc_flag[];
+    public int locFlag[];
     public StaticLoc locs[];
     public OverlayTile overlay;
     public int plane;
-    public int top_plane;
+    public int topPlane;
     public UnderlayTile underlay;
     public WallLoc wall;
-    public WallDecoration wall_decoration;
+    public WallDecoration wallDecoration;
     public byte x, y, z;
 
     public Tile(int plane, int x, int y) {
         this.locs = new StaticLoc[5];
-        this.loc_flag = new int[5];
+        this.locFlag = new int[5];
         this.plane = this.z = (byte) plane;
         this.x = (byte) x;
         this.y = (byte) y;

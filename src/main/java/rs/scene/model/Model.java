@@ -699,7 +699,7 @@ public class Model extends Renderable {
         Header h = header[i];
 
         if (h == null) {
-            ondemand.request_model(i);
+            ondemand.requestModel(i);
             return null;
         }
 
@@ -718,7 +718,7 @@ public class Model extends Renderable {
         Header h = header[i];
 
         if (h == null) {
-            ondemand.request_model(i);
+            ondemand.requestModel(i);
             return false;
         }
 
@@ -1257,7 +1257,7 @@ public class Model extends Renderable {
                 return;
             }
             case 1: { // Flat
-                Canvas3D.draw_flat_triangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], palette[tri_hsl1[i]]);
+                Canvas3D.drawFlatTriangle(triangle_x[x_i], triangle_y[x_i], triangle_x[y_i], triangle_y[y_i], triangle_x[z_i], triangle_y[z_i], palette[tri_hsl1[i]]);
                 return;
             }
             case 2: { // Shaded Texture
@@ -1708,7 +1708,7 @@ public class Model extends Renderable {
                 if (type == 0) {
                     Canvas3D.drawShadedTriangle(x0, y0, x1, y1, x2, y2, tmp_hsl[0], tmp_hsl[1], tmp_hsl[2]);
                 } else if (type == 1) {
-                    Canvas3D.draw_flat_triangle(x0, y0, x1, y1, x2, y2, palette[tri_hsl1[i]]);
+                    Canvas3D.drawFlatTriangle(x0, y0, x1, y1, x2, y2, palette[tri_hsl1[i]]);
                 } else if (type == 2) {
                     int k = triangle_info[i] >> 2;
                     int x = texture_map_x[k];
@@ -1740,8 +1740,8 @@ public class Model extends Renderable {
                     Canvas3D.drawShadedTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], tmp_hsl[0], tmp_hsl[2], tmp_hsl[3]);
                 } else if (type == 1) {
                     int rgb = palette[tri_hsl1[i]];
-                    Canvas3D.draw_flat_triangle(x0, y0, x1, y1, x2, y2, rgb);
-                    Canvas3D.draw_flat_triangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], rgb);
+                    Canvas3D.drawFlatTriangle(x0, y0, x1, y1, x2, y2, rgb);
+                    Canvas3D.drawFlatTriangle(x0, y0, x2, y2, tmp_screen_x[3], tmp_screen_y[3], rgb);
                 } else if (type == 2) {
                     int k = triangle_info[i] >> 2;
                     int x = texture_map_x[k];

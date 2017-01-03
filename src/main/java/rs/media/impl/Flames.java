@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Flames {
 
     public static int cycle;
-    public static int[] disolveMask, lastDisolveMask;
+    public static int[] dissolveMask, lastDissolveMask;
     public static int[] pixels;
     public static ImageProducer[] producer;
     public static Bitmap[] bitmapRune;
@@ -43,14 +43,14 @@ public class Flames {
         paletteRed = null;
         paletteGreen = null;
         paletteBlue = null;
-        disolveMask = null;
-        lastDisolveMask = null;
+        dissolveMask = null;
+        lastDissolveMask = null;
         pixels = null;
         intensityMap = null;
         image = null;
     }
 
-    public static void create_producers() {
+    public static void createProducers() {
         producer = new ImageProducer[2];
         producer[0] = new ImageProducer(128, 265);
         Canvas2D.clear();
@@ -58,7 +58,7 @@ public class Flames {
         Canvas2D.clear();
     }
 
-    public static void create_images() {
+    public static void createImages() {
         bitmapRune = new Bitmap[12];
 
         image = new Sprite[2];
@@ -86,10 +86,10 @@ public class Flames {
             }
         }
 
-        create_palettes();
+        createPalettes();
     }
 
-    public static void create_palettes() {
+    public static void createPalettes() {
         paletteRed = new int[256];
 
         for (int i = 0; i < 64; i++) {
@@ -135,30 +135,30 @@ public class Flames {
 
         palette = new int[256];
         pixels = new int[128 * 256];
-        disolveMask = new int[pixels.length];
-        lastDisolveMask = new int[pixels.length];
-        draw_rune(null);
+        dissolveMask = new int[pixels.length];
+        lastDissolveMask = new int[pixels.length];
+        drawRune(null);
         intensityMap = new int[pixels.length];
     }
 
-    public static void draw_rune(Bitmap bitmap) {
-        Arrays.fill(disolveMask, 0);
+    public static void drawRune(Bitmap bitmap) {
+        Arrays.fill(dissolveMask, 0);
 
         for (int i = 0; i < 5000; i++) {
-            disolveMask[(int) ((Math.random() * 128D) * 256D)] = (int) (Math.random() * 256D);
+            dissolveMask[(int) ((Math.random() * 128D) * 256D)] = (int) (Math.random() * 256D);
         }
 
         for (int i = 0; i < 20; i++) {
             for (int y = 1; y < 256 - 1; y++) {
                 for (int x = 1; x < 127; x++) {
                     int j = x + (y << 7);
-                    lastDisolveMask[j] = (disolveMask[j - 1] + disolveMask[j + 1] + disolveMask[j - 128] + disolveMask[j + 128]) >> 2;
+                    lastDissolveMask[j] = (dissolveMask[j - 1] + dissolveMask[j + 1] + dissolveMask[j - 128] + dissolveMask[j + 128]) >> 2;
                 }
             }
 
-            int[] mask = disolveMask;
-            disolveMask = lastDisolveMask;
-            lastDisolveMask = mask;
+            int[] mask = dissolveMask;
+            dissolveMask = lastDissolveMask;
+            lastDissolveMask = mask;
         }
 
         if (bitmap != null) {
@@ -166,7 +166,7 @@ public class Flames {
             for (int y = 0; y < bitmap.height; y++) {
                 for (int x = 0; x < bitmap.width; x++) {
                     if (bitmap.pixels[i++] != 0) {
-                        disolveMask[(x + 16 + bitmap.offsetX) + ((y + 16 + bitmap.offsetY) << 7)] = 0;
+                        dissolveMask[(x + 16 + bitmap.offsetX) + ((y + 16 + bitmap.offsetY) << 7)] = 0;
                     }
                 }
             }
@@ -203,15 +203,15 @@ public class Flames {
         }
 
         runeCycle += 128;
-        if (runeCycle > disolveMask.length) {
-            runeCycle -= disolveMask.length;
-            draw_rune(bitmapRune[(int) (Math.random() * 12D)]);
+        if (runeCycle > dissolveMask.length) {
+            runeCycle -= dissolveMask.length;
+            drawRune(bitmapRune[(int) (Math.random() * 12D)]);
         }
 
         for (int y = 1; y < height - 1; y++) {
             for (int x = 1; x < 127; x++) {
                 int i = x + (y << 7);
-                int j = intensityMap[i + 128] - disolveMask[i + runeCycle & disolveMask.length - 1] / 5;
+                int j = intensityMap[i + 128] - dissolveMask[i + runeCycle & dissolveMask.length - 1] / 5;
 
                 if (j < 0) {
                     j = 0;
@@ -247,7 +247,7 @@ public class Flames {
         }
     }
 
-    public static void handle_palette() {
+    public static void handlePalette() {
         if (cycleGreen > 0) {
             for (int i = 0; i < 256; i++) {
                 if (cycleGreen > 768) {

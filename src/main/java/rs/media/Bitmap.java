@@ -114,30 +114,30 @@ public class Bitmap extends Canvas2D {
         int dst_step = Canvas2D.width - width;
         int src_step = 0;
 
-        if (y < Canvas2D.left_y) {
-            int y_diff = Canvas2D.left_y - y;
+        if (y < Canvas2D.leftY) {
+            int y_diff = Canvas2D.leftY - y;
             height -= y_diff;
-            y = Canvas2D.left_y;
+            y = Canvas2D.leftY;
             src_off += y_diff * width;
             dst_off += y_diff * Canvas2D.width;
         }
 
-        if (y + height > Canvas2D.right_y) {
-            height -= (y + height) - Canvas2D.right_y;
+        if (y + height > Canvas2D.rightY) {
+            height -= (y + height) - Canvas2D.rightY;
         }
 
-        if (x < Canvas2D.left_x) {
-            int x_diff = Canvas2D.left_x - x;
+        if (x < Canvas2D.leftX) {
+            int x_diff = Canvas2D.leftX - x;
             width -= x_diff;
-            x = Canvas2D.left_x;
+            x = Canvas2D.leftX;
             src_off += x_diff;
             dst_off += x_diff;
             src_step += x_diff;
             dst_step += x_diff;
         }
 
-        if (x + width > Canvas2D.right_x) {
-            int x_diff = (x + width) - Canvas2D.right_x;
+        if (x + width > Canvas2D.rightX) {
+            int x_diff = (x + width) - Canvas2D.rightX;
             width -= x_diff;
             src_step += x_diff;
             dst_step += x_diff;

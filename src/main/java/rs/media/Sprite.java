@@ -144,30 +144,30 @@ public class Sprite extends Canvas2D {
         int dstStep = Canvas2D.width - width;
         int srcStep = 0;
 
-        if (y < Canvas2D.left_y) {
-            int i = Canvas2D.left_y - y;
+        if (y < Canvas2D.leftY) {
+            int i = Canvas2D.leftY - y;
             height -= i;
-            y = Canvas2D.left_y;
+            y = Canvas2D.leftY;
             src_off += i * width;
             dst_off += i * Canvas2D.width;
         }
 
-        if (y + height > Canvas2D.right_y) {
-            height -= (y + height) - Canvas2D.right_y;
+        if (y + height > Canvas2D.rightY) {
+            height -= (y + height) - Canvas2D.rightY;
         }
 
-        if (x < Canvas2D.left_x) {
-            int i = Canvas2D.left_x - x;
+        if (x < Canvas2D.leftX) {
+            int i = Canvas2D.leftX - x;
             width -= i;
-            x = Canvas2D.left_x;
+            x = Canvas2D.leftX;
             src_off += i;
             dst_off += i;
             srcStep += i;
             dstStep += i;
         }
 
-        if (x + width > Canvas2D.right_x) {
-            int i = (x + width) - Canvas2D.right_x;
+        if (x + width > Canvas2D.rightX) {
+            int i = (x + width) - Canvas2D.rightX;
             width -= i;
             srcStep += i;
             dstStep += i;
@@ -199,30 +199,30 @@ public class Sprite extends Canvas2D {
         int srcOff = 0;
         int src_step = 0;
 
-        if (y < Canvas2D.left_y) {
-            int yOffset = Canvas2D.left_y - y;
+        if (y < Canvas2D.leftY) {
+            int yOffset = Canvas2D.leftY - y;
             height -= yOffset;
-            y = Canvas2D.left_y;
+            y = Canvas2D.leftY;
             srcOff += yOffset * width;
             dstOff += yOffset * Canvas2D.width;
         }
 
-        if (y + height > Canvas2D.right_y) {
-            height -= (y + height) - Canvas2D.right_y;
+        if (y + height > Canvas2D.rightY) {
+            height -= (y + height) - Canvas2D.rightY;
         }
 
-        if (x < Canvas2D.left_x) {
-            int xOffset = Canvas2D.left_x - x;
+        if (x < Canvas2D.leftX) {
+            int xOffset = Canvas2D.leftX - x;
             width -= xOffset;
-            x = Canvas2D.left_x;
+            x = Canvas2D.leftX;
             srcOff += xOffset;
             dstOff += xOffset;
             src_step += xOffset;
             dstStep += xOffset;
         }
 
-        if (x + width > Canvas2D.right_x) {
-            int widthOffset = (x + width) - Canvas2D.right_x;
+        if (x + width > Canvas2D.rightX) {
+            int widthOffset = (x + width) - Canvas2D.rightX;
             width -= widthOffset;
             src_step += widthOffset;
             dstStep += widthOffset;
@@ -255,30 +255,30 @@ public class Sprite extends Canvas2D {
         int dstStep = Canvas2D.width - width;
         int srcStep = 0;
 
-        if (y < Canvas2D.left_y) {
-            int i = Canvas2D.left_y - y;
+        if (y < Canvas2D.leftY) {
+            int i = Canvas2D.leftY - y;
             height -= i;
-            y = Canvas2D.left_y;
+            y = Canvas2D.leftY;
             srcOff += i * width;
             dstOff += i * Canvas2D.width;
         }
 
-        if (y + height > Canvas2D.right_y) {
-            height -= (y + height) - Canvas2D.right_y;
+        if (y + height > Canvas2D.rightY) {
+            height -= (y + height) - Canvas2D.rightY;
         }
 
-        if (x < Canvas2D.left_x) {
-            int i = Canvas2D.left_x - x;
+        if (x < Canvas2D.leftX) {
+            int i = Canvas2D.leftX - x;
             width -= i;
-            x = Canvas2D.left_x;
+            x = Canvas2D.leftX;
             srcOff += i;
             dstOff += i;
             srcStep += i;
             dstStep += i;
         }
 
-        if (x + width > Canvas2D.right_x) {
-            int i = (x + width) - Canvas2D.right_x;
+        if (x + width > Canvas2D.rightX) {
+            int i = (x + width) - Canvas2D.rightX;
             width -= i;
             srcStep += i;
             dstStep += i;
@@ -388,30 +388,30 @@ public class Sprite extends Canvas2D {
         int dstStep = Canvas2D.width - width;
         int srcStep = 0;
 
-        if (y < Canvas2D.left_y) {
-            int yOffset = Canvas2D.left_y - y;
+        if (y < Canvas2D.leftY) {
+            int yOffset = Canvas2D.leftY - y;
             height -= yOffset;
-            y = Canvas2D.left_y;
+            y = Canvas2D.leftY;
             srcOff += yOffset * width;
             dstOff += yOffset * Canvas2D.width;
         }
 
-        if (y + height > Canvas2D.right_y) {
-            height -= (y + height) - Canvas2D.right_y;
+        if (y + height > Canvas2D.rightY) {
+            height -= (y + height) - Canvas2D.rightY;
         }
 
-        if (x < Canvas2D.left_x) {
-            int xOffset = Canvas2D.left_x - x;
+        if (x < Canvas2D.leftX) {
+            int xOffset = Canvas2D.leftX - x;
             width -= xOffset;
-            x = Canvas2D.left_x;
+            x = Canvas2D.leftX;
             srcOff += xOffset;
             dstOff += xOffset;
             srcStep += xOffset;
             dstStep += xOffset;
         }
 
-        if (x + width > Canvas2D.right_x) {
-            int xOffset = (x + width) - Canvas2D.right_x;
+        if (x + width > Canvas2D.rightX) {
+            int xOffset = (x + width) - Canvas2D.rightX;
             width -= xOffset;
             srcStep += xOffset;
             dstStep += xOffset;

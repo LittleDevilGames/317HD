@@ -48,25 +48,25 @@ public class Menu {
 
         BitmapFont.BOLD.draw(JString.CHOOSE_OPTION, x + 3, y + 14, COLOR_FOREGROUND);
 
-        int cur_x = Mouse.lastX - area.x;
-        int cur_y = Mouse.lastY - area.y;
+        int currentX = Mouse.lastX - area.x;
+        int curretY = Mouse.lastY - area.y;
 
         for (int i = 0; i < count; i++) {
-            int option_y = y + 31 + (count - 1 - i) * 15;
+            int optionY = y + 31 + (count - 1 - i) * 15;
             int color = RSColor.WHITE;
 
-            if (cur_x > x && cur_x < x + width && cur_y > option_y - 13 && cur_y < option_y + 3) {
+            if (currentX > x && currentX < x + width && curretY > optionY - 13 && curretY < optionY + 3) {
                 color = 0xFFFF00;
             }
 
-            BitmapFont.BOLD.draw(options[i].caption, x + 3, option_y, color, BitmapFont.SHADOW | BitmapFont.ALLOW_TAGS);
+            BitmapFont.BOLD.draw(options[i].caption, x + 3, optionY, color, BitmapFont.SHADOW | BitmapFont.ALLOW_TAGS);
         }
     }
 
     /**
      * Draws the text located at the top left.
      */
-    public static void draw_tooltip() {
+    public static void drawTooltip() {
         int count = Menu.count;
 
         if (count < 2 && !Game.selectedItem && !Game.selectedWidget) {
