@@ -5,9 +5,6 @@ import info.demmonic.hdrs.Game;
 public class RSColor {
 
     public static final int BLACK = 0;
-    public static final int BLUE = 0xFF;
-    public static final int GREEN = 0xFF00;
-    public static final int RED = 0xFF0000;
     public static final int SCROLLBAR_BACKGROUND = 0x23201B;
 
     public static final int SCROLLBAR_FOREGROUND = 0x4D4233;
