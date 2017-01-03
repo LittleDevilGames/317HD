@@ -45,7 +45,6 @@ public class Chat extends Widget {
     public static Bitmap background;
     public static Buffer buffer = Buffer.create(1);
     public static State state;
-    public static ImageProducer producer;
     public static boolean redraw = false;
     private static Chat instance = new Chat();
     private static Line[] lines = new Line[100];
@@ -161,8 +160,6 @@ public class Chat extends Widget {
             Menu.draw();
         }
 
-        producer.draw(17, 357);
-        Game.producerScene.prepare();
         Canvas3D.pixels = Game.viewportPixels;
     }
 
@@ -758,7 +755,6 @@ public class Chat extends Widget {
 
     protected static void prepare() {
         Canvas3D.pixels = Game.chatPixels3D;
-        producer.prepare();
         background.draw(0, 0);
     }
 
@@ -1144,7 +1140,6 @@ public class Chat extends Widget {
 
         public static Bitmap background;
         public static int privateArea;
-        public static ImageProducer producer;
         public static boolean redraw;
         public static boolean showEffects = true;
         public static int[] values = new int[3];
@@ -1165,7 +1160,6 @@ public class Chat extends Widget {
                 return;
             }
 
-            producer.prepare();
             background.draw(0, 0);
 
             BitmapFont.NORMAL.draw(JString.PUBLIC_CHAT, 55, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
@@ -1176,9 +1170,6 @@ public class Chat extends Widget {
             BitmapFont.NORMAL.draw(Chat.SETTINGS_PUBLIC[values[0]], 55, 41, Chat.SETTING_COLOR[values[0]], BitmapFont.SHADOW_CENTER);
             BitmapFont.NORMAL.draw(Chat.SETTINGS_PRIVATE[values[1]], 184, 41, Chat.SETTING_COLOR[values[1]], BitmapFont.SHADOW_CENTER);
             BitmapFont.NORMAL.draw(Chat.SETTINGS_TRADE[values[2]], 324, 41, Chat.SETTING_COLOR[values[2]], BitmapFont.SHADOW_CENTER);
-
-            producer.draw(0, 453);
-            Game.producerScene.prepare();
 
             redraw = false;
         }

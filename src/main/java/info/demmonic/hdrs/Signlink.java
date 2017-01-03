@@ -38,14 +38,7 @@ public class Signlink implements Runnable {
     }
 
     public static String getCachePath() {
-        String s = System.getProperty("rt317.cache");
-        if (s != null) {
-            if (s.charAt(s.length() - 1) != '/') {
-                s = s + '/';
-            }
-            return s;
-        }
-        return System.getProperty("user.home") + System.getProperty("file.separator") + ".rs317/";
+        return ("./cache/");
     }
 
     public static synchronized void getDns(String s) {

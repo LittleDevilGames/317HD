@@ -3,8 +3,10 @@ package info.demmonic.hdrs.media;
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.io.Buffer;
 
-import java.awt.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
+import java.io.ByteArrayInputStream;
 
 public class Sprite extends Canvas2D {
 
@@ -61,14 +63,11 @@ public class Sprite extends Canvas2D {
         }
     }
 
-    public Sprite(byte[] data, Component c) {
+    public Sprite(byte[] data) {
         try {
-            Image i = Toolkit.getDefaultToolkit().createImage(data);
-            MediaTracker t = new MediaTracker(c);
-            t.addImage(i, 0);
-            t.waitForAll();
-            this.width = i.getWidth(c);
-            this.height = i.getHeight(c);
+            BufferedImage i = ImageIO.read(new ByteArrayInputStream(data));
+            this.width = i.getWidth();
+            this.height = i.getHeight();
             this.cropWidth = width;
             this.cropHeight = height;
             this.offsetX = 0;

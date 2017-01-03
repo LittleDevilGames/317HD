@@ -1,8 +1,11 @@
 package info.demmonic.hdrs.cache;
 
-import info.demmonic.hdrs.bzip2.BZip2;
 import info.demmonic.hdrs.io.Buffer;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,15 +16,41 @@ public class Archive {
     public Map<Integer, Entry> entries = new HashMap<>();
     public boolean extracted;
 
+    private byte[] reconstructBzip2Header(byte[] ba) {
+        byte[] tmp = new byte[ba.length + 4];
+        tmp[0] = 'B';
+        tmp[1] = 'Z';
+        tmp[2] = 'h';
+        tmp[3] = '1';
+        System.arraycopy(ba, 0, tmp, 4, ba.length);
+        return tmp;
+    }
+
+    private byte[] bzip2Decompress(byte[] ba) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        BZip2CompressorInputStream ins = new BZip2CompressorInputStream(new ByteArrayInputStream(reconstructBzip2Header(ba)));
+        byte[] buf = new byte[4096];
+        int read = ins.read(buf);
+        while (read != -1) {
+            out.write(buf, 0, read);
+            read = ins.read(buf);
+        }
+        return out.toByteArray();
+    }
+
     public Archive(Buffer buffer) {
         int unpackedSize = buffer.readMedium();
         int packedSize = buffer.readMedium();
 
         if (packedSize != unpackedSize) {
-            byte[] unpacked = new byte[unpackedSize];
-            BZip2.decompress(unpacked, unpackedSize, buffer.payload, packedSize, 6);
-            buffer = new Buffer(unpacked);
-            this.extracted = true;
+            try {
+                byte[] truncated = new byte[buffer.payload.length - 6];
+                System.arraycopy(buffer.payload, 6, truncated, 0, truncated.length);
+                buffer = new Buffer(bzip2Decompress(truncated));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            extracted = true;
         }
 
         int count = buffer.readUnsignedShort();
@@ -67,7 +96,13 @@ public class Archive {
         }
 
         if (!this.extracted) {
-            BZip2.decompress(dst, e.unpackedSize, this.buffer.payload, e.packedSize, e.position);
+            try {
+                byte[] compressed = new byte[e.packedSize];
+                System.arraycopy(buffer.payload, e.position, compressed, 0, e.packedSize);
+                dst = bzip2Decompress(compressed);
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
         } else {
             System.arraycopy(this.buffer.payload, e.position, dst, 0, e.unpackedSize);
         }

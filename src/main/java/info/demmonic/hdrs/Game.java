@@ -19,7 +19,6 @@ import info.demmonic.hdrs.io.IsaacCipher;
 import info.demmonic.hdrs.io.OnDemand;
 import info.demmonic.hdrs.media.*;
 import info.demmonic.hdrs.media.impl.*;
-import info.demmonic.hdrs.media.impl.Menu;
 import info.demmonic.hdrs.media.impl.widget.CharacterDesign;
 import info.demmonic.hdrs.model.Action;
 import info.demmonic.hdrs.model.Packet;
@@ -34,20 +33,18 @@ import info.demmonic.hdrs.util.BitUtils;
 import info.demmonic.hdrs.util.JString;
 import info.demmonic.hdrs.util.RSColor;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 
 public class Game extends GameShell {
 
-    public static final boolean VERIFY_CACHE = true;
+    public static final boolean VERIFY_CACHE = false;
     public static final int LOC_CLASS_TYPE[] = {0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3};
     public static final int MAX_PLAYER_COUNT = 2048;
     public static final int MAX_PLAYER_INDEX = 2047;
@@ -247,17 +244,6 @@ public class Game extends GameShell {
     public static Player players[];
     public static int portOffset;
     public static volatile boolean processFlames;
-    public static ImageProducer producerBackhmid2;
-    public static ImageProducer producerBackleft1;
-    public static ImageProducer producerBackleft2;
-    public static ImageProducer producerBackright1;
-    public static ImageProducer producerBackright2;
-    public static ImageProducer producerBacktop1;
-    public static ImageProducer producerBackvmid1;
-    public static ImageProducer producerBackvmid2;
-    public static ImageProducer producerBackvmid3;
-    public static ImageProducer producerMinimap;
-    public static ImageProducer producerScene;
     public static String progressCaption;
     public static int progressPercent;
     public static Chain projectiles;
@@ -551,14 +537,6 @@ public class Game extends GameShell {
         SpotAnimConfig.model_cache.clear();
     }
 
-    public static void clearIngameProducers() {
-        Chat.producer = null;
-        Chat.Settings.producer = null;
-        Game.producerMinimap = null;
-        Game.producerScene = null;
-        Sidebar.clearProducers();
-    }
-
     public static void closeMusicPlayer() {
         method891(false);
 
@@ -584,25 +562,6 @@ public class Game extends GameShell {
             dialogueOptionActive = false;
         }
         widgetOverlay = -1;
-    }
-
-    public static void createIngameProducers() {
-        if (Chat.producer != null) {
-            return;
-        }
-
-        TitleScreen.clearProducers();
-
-        Chat.producer = new ImageProducer(479, 96);
-        Game.producerMinimap = new ImageProducer(172, 156);
-        Canvas2D.clear();
-        Game.bitmap1.draw(0, 0);
-        Game.producerScene = new ImageProducer(512, 334);
-        Canvas2D.clear();
-        Chat.Settings.producer = new ImageProducer(496, 50);
-        Sidebar.createProducers();
-
-        Game.redraw = true;
     }
 
     public static void draw2DOverlay() {
@@ -713,27 +672,6 @@ public class Game extends GameShell {
         }
     }
 
-    public static void drawErrorScreen() {
-        Graphics g = Game.instance.graphics;
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 765, 503);
-        processFlames = false;
-        g.setFont(new Font("Helvetica", Font.BOLD, 14));
-        g.setColor(Color.YELLOW);
-
-        int x = 30;
-        int y = 35;
-
-        g.drawString(errorException.getClass().getSimpleName() + ": " + errorException.getMessage(), x, y);
-        x += 20;
-        y += 20;
-
-        for (StackTraceElement s : errorException.getStackTrace()) {
-            g.drawString(s.toString(), x, y);
-            y += 16;
-        }
-    }
-
     public static void drawFlames() {
         flameThread = true;
         try {
@@ -768,23 +706,10 @@ public class Game extends GameShell {
     public static void drawGame() {
         if (redraw) {
             redraw = false;
-            producerBackleft1.draw(0, 4);
-            producerBackleft2.draw(0, 357);
-            producerBackright1.draw(722, 4);
-            producerBackright2.draw(743, 205);
-            producerBacktop1.draw(0, 0);
-            producerBackvmid1.draw(516, 4);
-            producerBackvmid2.draw(516, 205);
-            producerBackvmid3.draw(496, 357);
-            producerBackhmid2.draw(0, 338);
             Sidebar.draw = true;
             Chat.redraw = true;
             Chat.Settings.redraw = true;
             Sidebar.drawTabs = true;
-            if (sceneState != 2) {
-                producerScene.draw(4, 4);
-                producerMinimap.draw(550, 4);
-            }
         }
 
         if (sceneState == 2) {
@@ -815,7 +740,6 @@ public class Game extends GameShell {
 
         if (sceneState == 2) {
             drawMinimap();
-            producerMinimap.draw(550, 4);
         }
 
         Sidebar.drawTabs();
@@ -836,8 +760,6 @@ public class Game extends GameShell {
     }
 
     public static void drawMinimap() {
-        producerMinimap.prepare();
-
         if (minimapState == 2) {
             byte mask[] = bitmap1.pixels;
             for (int i = 0; i < mask.length; i++) {
@@ -846,7 +768,6 @@ public class Game extends GameShell {
                 }
             }
             imageCompass.draw(0, 0, 33, 33, chaseCamYaw, 256, 25, 25, anIntArray1057, anIntArray968);
-            producerScene.prepare();
             return;
         }
 
@@ -961,7 +882,6 @@ public class Game extends GameShell {
         }
 
         imageMapDots[2].drawMasked(96, 77);
-        producerScene.prepare();
     }
 
     public static void drawMinimapMark(Sprite s, int mapX, int mapY) {
@@ -1301,7 +1221,6 @@ public class Game extends GameShell {
         scrollTextures(cycle_3d);
         draw2DOverlay();
 
-        producerScene.draw(4, 4);
         Camera.x = camX;
         Camera.z = camZ;
         Camera.y = camY;
@@ -1793,7 +1712,6 @@ public class Game extends GameShell {
 
         }
 
-        producerScene.prepare();
         locIconCount = 0;
 
         for (int x = 0; x < 104; x++) {
@@ -1840,129 +1758,10 @@ public class Game extends GameShell {
                 data = cache[0].get(archiveIndex);
             }
         } catch (Exception _ex) {
+            _ex.printStackTrace();
         }
 
-        if (VERIFY_CACHE) {
-            if (data != null) {
-                crc32.reset();
-                crc32.update(data);
-                int crc = (int) crc32.getValue();
-                if (crc != archiveCrc) {
-                    data = null;
-                }
-            }
-        }
-
-        if (data != null) {
-            return new Archive(new Buffer(data));
-        }
-
-        while (data == null) {
-            String error = JString.UNKNOWN_ERROR;
-            instance.drawProgress(JString.REQUESTING_ + caption, percent);
-
-            try {
-                DataInputStream in = Jaggrab.request(archiveName + archiveCrc);
-
-                byte indexData[] = new byte[6];
-                in.readFully(indexData, 0, 6);
-
-                Buffer idx = new Buffer(indexData);
-                idx.position = 3;
-
-                int size = idx.readMedium() + 6;
-                int read = 6;
-
-                data = new byte[size];
-                System.arraycopy(indexData, 0, data, 0, 6);
-
-                while (read < size) {
-                    int remaining = size - read;
-
-                    if (remaining > 1000) {
-                        remaining = 1000;
-                    }
-
-                    int bytes_read = in.read(data, read, remaining);
-
-                    if (bytes_read < 0) {
-                        error = "Length error: " + read + "/" + size;
-                        throw new IOException("EOF");
-                    }
-
-                    read += bytes_read;
-                    instance.drawProgress("Loading " + caption + " - " + (read * 100) / size + "%", percent);
-                }
-                in.close();
-
-                try {
-                    if (cache[0] != null) {
-                        cache[0].put(data, archiveIndex);
-                    }
-                } catch (Exception _ex) {
-                    cache[0] = null;
-                }
-
-                if (VERIFY_CACHE) {
-                    if (data != null) {
-                        crc32.reset();
-                        crc32.update(data);
-
-                        int readCRC = (int) crc32.getValue();
-                        if (readCRC != archiveCrc) {
-                            data = null;
-                            error = "Checksum error: " + readCRC;
-                        }
-                    }
-                }
-            } catch (IOException ioe) {
-                if (error.equals(JString.UNKNOWN_ERROR)) {
-                    error = JString.CONNECTION_ERROR;
-                }
-
-                data = null;
-            } catch (NullPointerException _ex) {
-                error = JString.NULL_ERROR;
-                data = null;
-
-                if (!Signlink.error) {
-                    return null;
-                }
-            } catch (ArrayIndexOutOfBoundsException _ex) {
-                error = JString.BOUNDS_ERROR;
-                data = null;
-
-                if (!Signlink.error) {
-                    return null;
-                }
-            } catch (Exception _ex) {
-                error = JString.UNEXPECTED_ERROR;
-                data = null;
-
-                if (!Signlink.error) {
-                    return null;
-                }
-            }
-
-            if (Game.stopping) {
-                return null;
-            }
-
-            if (data == null) {
-                for (int i = 5; i > 0; i--) {
-                    try {
-                        instance.drawProgress(error + " - Retrying in " + i, 20);
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
-                    }
-                }
-            }
-        }
         return new Archive(new Buffer(data));
-    }
-
-    public static Component getSingletonComponent() {
-        return instance.getComponent();
     }
 
     public static int getLandZ(int x, int y, int plane) {
@@ -2880,10 +2679,8 @@ public class Game extends GameShell {
             return;
         }
 
-        producerScene.prepare();
         BitmapFont.NORMAL.draw(JString.CONNECTION_LOST, 256, 143, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
         BitmapFont.NORMAL.draw(JString.ATTEMPTING_TO_REESTABLISH, 256, 158, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
-        producerScene.draw(4, 4);
         minimapState = 0;
         mapMarkerX = 0;
         loggedIn = false;
@@ -4684,9 +4481,7 @@ public class Game extends GameShell {
 
                 sceneState = 1;
                 sceneLoadStart = System.currentTimeMillis();
-                producerScene.prepare();
                 BitmapFont.NORMAL.draw("Loading - please wait.", 256, 150, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
-                producerScene.draw(4, 4);
 
                 if (Game.ptype == 73) {
                     int count = 0;
@@ -6140,9 +5935,7 @@ public class Game extends GameShell {
 
     public static void handleScene() {
         if (lowDetail && sceneState == 2 && Scene.planeAtBuild != plane) {
-            producerScene.prepare();
             BitmapFont.NORMAL.draw("Loading - please wait.", 256, 150, 0xFFFFFF, BitmapFont.SHADOW_CENTER);
-            producerScene.draw(4, 4);
             sceneState = 1;
             sceneLoadStart = System.currentTimeMillis();
         }
@@ -6861,58 +6654,6 @@ public class Game extends GameShell {
         return true;
     }
 
-    public static void main(String[] args) {
-        try {
-            System.out.println("RS2 user client - release #317");
-            for (int i = 0; i < args.length; i++) {
-                String s = args[i].toLowerCase();
-
-                switch (s) {
-                    case "-cache": {
-                        System.setProperty("rt317.cache", args[++i]);
-                        break;
-                    }
-                    case "-debug": {
-                        Game.debug = true;
-                        break;
-                    }
-                    case "-node": {
-                        try {
-                            Game.nodeIndex = Integer.parseInt(args[++i]);
-                        } catch (Exception e) {
-                            /* empty */
-                        }
-                        break;
-                    }
-                    case "-offset": {
-                        try {
-                            Game.portOffset = Integer.parseInt(args[++i]);
-                        } catch (Exception e) {
-                            /* empty */
-                        }
-                        break;
-                    }
-                    case "-highmem": {
-                        Game.lowDetail = false;
-                        break;
-                    }
-                    case "-members": {
-                        Game.isMembers = true;
-                        break;
-                    }
-                    case "-alwaysontop": {
-                        System.setProperty("rt317.alwaysontop", "1");
-                        break;
-                    }
-                }
-            }
-            Signlink.start(InetAddress.getLocalHost());
-            new Game().init(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void method891(boolean bool) {
         music.method853(0, null, bool);
     }
@@ -7111,7 +6852,6 @@ public class Game extends GameShell {
                     Game.playerActionPriority[i] = false;
                 }
 
-                createIngameProducers();
                 return;
             }
 
@@ -7384,7 +7124,6 @@ public class Game extends GameShell {
 
             out.writeOpcode(0);
             scene.createLandMesh(collisionMaps, landscape);
-            producerScene.prepare();
             out.writeOpcode(0);
 
             if (lowDetail) {
@@ -8629,7 +8368,6 @@ public class Game extends GameShell {
     @Override
     public void draw() {
         if (errorLoading) {
-            drawErrorScreen();
             return;
         }
 
@@ -8645,92 +8383,8 @@ public class Game extends GameShell {
     }
 
     @Override
-    public void drawProgress(String caption, int percent) {
-        progressPercent = percent;
-        progressCaption = caption;
-
-        TitleScreen.createProducers();
-
-        if (archive == null) {
-            super.drawProgress(caption, percent);
-            return;
-        }
-
-        TitleScreen.producerBox.prepare();
-        {
-            int x = TitleScreen.producerBox.width / 2;
-            int y = TitleScreen.producerBox.height / 2;
-
-            y -= 48;
-
-            BitmapFont.BOLD.draw(JString.LOADING_PLEASE_WAIT, x, y, RSColor.WHITE, BitmapFont.SHADOW_CENTER);
-
-            y += 10;
-
-            Canvas2D.drawRect(x - 152, y, 304, 34, 0x8C1111);
-            Canvas2D.fillRect(x - 151, y + 1, 302, 32, 0);
-            Canvas2D.fillRect(x - 150, y + 2, (int) (300 * (percent / 100D)), 30, 0x8C1111);
-
-            y += 17;
-
-            BitmapFont.BOLD.draw(caption, x, y + 5, RSColor.WHITE, BitmapFont.SHADOW_CENTER);
-        }
-        TitleScreen.producerBox.draw(202, 171);
-
-        if (redraw) {
-            redraw = false;
-            if (!processFlames) {
-                Flames.producer[0].draw(0, 0);
-                Flames.producer[1].draw(637, 0);
-            }
-
-            ImageProducer[] background = TitleScreen.producerBackground;
-            background[0].draw(128, 0);
-            background[1].draw(202, 371);
-            background[2].draw(0, 265);
-            background[3].draw(562, 265);
-            background[4].draw(128, 171);
-            background[5].draw(562, 171);
-        }
-    }
-
-    @Override
     public Socket getSocket(int port) throws IOException {
-        return new Socket(InetAddress.getByName(getCodeBase().getHost()), port);
-    }
-
-    public URL getCodeBase() {
-        try {
-            if (instance.frame != null) {
-                return new URL("http://" + JString.SERVER + ':' + (80 + portOffset));
-            }
-        } catch (Exception _ex) {
-        }
-        return instance.getCodeBase();
-    }
-
-    @Override
-    public Component getComponent() {
-        if (instance.frame != null) {
-            return instance.frame.canvas;
-        }
-
-        return this;
-    }
-
-    public void init() {
-        nodeIndex = Integer.parseInt(getParameter("nodeid"));
-        portOffset = Integer.parseInt(getParameter("portoff"));
-
-        String s = getParameter("lowmem");
-
-        lowDetail = s != null && s.equals("1");
-
-        s = getParameter("free");
-
-        isMembers = !(s != null && s.equals("1"));
-
-        this.init(false);
+        return new Socket(InetAddress.getByName("127.0.0.1"), port);
     }
 
     @Override
@@ -8762,8 +8416,6 @@ public class Game extends GameShell {
         String error = JString.UNKNOWN_ERROR;
 
         while (archiveCrc[8] == 0) {
-            drawProgress(JString.CONNECTING_TO_SERVER, 20);
-
             try {
                 DataInputStream in = Jaggrab.request("crc" + (int) (Math.random() * 99999999D) + "-" + 317);
                 Buffer b = new Buffer(new byte[40]);
@@ -8798,23 +8450,12 @@ public class Game extends GameShell {
             if (archiveCrc[8] == 0) {
                 for (int i = 5; i > 0; i--) {
                     try {
-                        drawProgress(error + " - Retrying in " + i, 20);
                         Thread.sleep(1000);
                     } catch (Exception e) {
                     }
                 }
             }
         }
-    }
-
-    @Override
-    public void run() {
-        if (drawFlames) {
-            drawFlames();
-            return;
-        }
-
-        super.run();
     }
 
     @Override
@@ -8856,19 +8497,6 @@ public class Game extends GameShell {
         pathQueueX = null;
         pathQueueY = null;
         tmpTexels = null;
-        producerMinimap = null;
-        producerScene = null;
-        Chat.producer = null;
-        Chat.Settings.producer = null;
-        producerBackleft1 = null;
-        producerBackleft2 = null;
-        producerBackright1 = null;
-        producerBackright2 = null;
-        producerBacktop1 = null;
-        producerBackvmid1 = null;
-        producerBackvmid2 = null;
-        producerBackvmid3 = null;
-        producerBackhmid2 = null;
         bitmap1 = null;
         bitmap = null;
         Sidebar.nullify();
@@ -8903,7 +8531,6 @@ public class Game extends GameShell {
         friendLong = null;
         friendNode = null;
 
-        TitleScreen.nullify();
         Flames.nullify();
         Menu.nullify();
         LocConfig.nullify();
@@ -8930,8 +8557,6 @@ public class Game extends GameShell {
 
     @Override
     public void startup() {
-        this.drawProgress(JString.STARTING_UP, 20);
-
         if (Signlink.cacheFile != null) {
             for (int i = 0; i < 5; i++) {
                 Game.cache[i] = new Cache(i + 1, Signlink.cacheFile, Signlink.cacheIndex[i]);
@@ -8970,12 +8595,10 @@ public class Game extends GameShell {
 
             imageMinimap = new Sprite(512, 512);
 
-            Archive archive_version = getArchive("update list", 5, "versionlist", archiveCrc[5], 60);
-
-            drawProgress(JString.CONNECTING_TO_UPDATE_SERVER, 60);
+            Archive archiveVersion = getArchive("update list", 5, "versionlist", archiveCrc[5], 60);
 
             ondemand = new OnDemand();
-            ondemand.setup(archive_version);
+            ondemand.setup(archiveVersion);
 
             SequenceFrame.init(ondemand.sequenceFrameCount());
             Model.init(ondemand.getFileCount(0), ondemand);
@@ -9001,7 +8624,6 @@ public class Game extends GameShell {
 
             int count = 0;
 
-            drawProgress(JString.REQUESTING_ANIMATIONS, 65);
             {
                 count = ondemand.getFileCount(1);
 
@@ -9013,7 +8635,7 @@ public class Game extends GameShell {
                     int remaining = count - ondemand.immediateRequestCount();
 
                     if (remaining > 0) {
-                        drawProgress("Loading animations - " + ((remaining * 100) / count) + "%", 65);
+
                     }
 
                     handleOndemand();
@@ -9029,7 +8651,6 @@ public class Game extends GameShell {
                 }
             }
 
-            drawProgress(JString.REQUESTING_MODELS, 70);
             {
                 count = ondemand.getFileCount(0);
 
@@ -9046,7 +8667,7 @@ public class Game extends GameShell {
                     int remaining = count - ondemand.immediateRequestCount();
 
                     if (remaining > 0) {
-                        drawProgress("Loading models - " + (remaining * 100) / count + "%", 70);
+
                     }
 
                     handleOndemand();
@@ -9058,7 +8679,6 @@ public class Game extends GameShell {
                 }
             }
 
-            drawProgress(JString.REQUESTING_MAPS, 75);
             {
                 if (cache[0] != null) {
                     ondemand.sendRequest(3, ondemand.getMapUid(47, 48, 0));
@@ -9079,7 +8699,7 @@ public class Game extends GameShell {
                         int remaining = count - ondemand.immediateRequestCount();
 
                         if (remaining > 0) {
-                            drawProgress("Loading maps - " + (remaining * 100) / count + "%", 75);
+
                         }
 
                         handleOndemand();
@@ -9133,7 +8753,6 @@ public class Game extends GameShell {
                 }
             }
 
-            drawProgress(JString.UNPACKING_MEDIA, 80);
             {
                 Chat.background = new Bitmap(archiveMedia, "chatback", 0);
                 Chat.Settings.background = new Bitmap(archiveMedia, "backbase1", 0);
@@ -9201,16 +8820,6 @@ public class Game extends GameShell {
                 bitmap3 = new Bitmap(archiveMedia, JString.SCROLLBAR, 0);
                 bitmap2 = new Bitmap(archiveMedia, JString.SCROLLBAR, 1);
 
-                producerBackleft1 = ImageProducer.derive(archiveMedia, "backleft1");
-                producerBackleft2 = ImageProducer.derive(archiveMedia, "backleft2");
-                producerBackright1 = ImageProducer.derive(archiveMedia, "backright1");
-                producerBackright2 = ImageProducer.derive(archiveMedia, "backright2");
-                producerBacktop1 = ImageProducer.derive(archiveMedia, "backtop1");
-                producerBackvmid1 = ImageProducer.derive(archiveMedia, "backvmid1");
-                producerBackvmid2 = ImageProducer.derive(archiveMedia, "backvmid2");
-                producerBackvmid3 = ImageProducer.derive(archiveMedia, "backvmid3");
-                producerBackhmid2 = ImageProducer.derive(archiveMedia, "backhmid2");
-
                 int redOffset = (int) (Math.random() * 11D) - 5;
                 int greenOffset = (int) (Math.random() * 11D) - 5;
                 int blueOffset = (int) (Math.random() * 11D) - 5;
@@ -9226,14 +8835,12 @@ public class Game extends GameShell {
                 }
             }
 
-            drawProgress(JString.UNPACKING_TEXTURES, 83);
             {
                 Canvas3D.unpack_textures(archiveTexture);
                 Canvas3D.createPalette(0.8D);
                 Canvas3D.setupTexelPools();
             }
 
-            drawProgress(JString.UNPACKING_CONFIG, 86);
             {
                 Sequence.unpack(archiveConfig);
                 LocConfig.unpack(archiveConfig);
@@ -9246,19 +8853,16 @@ public class Game extends GameShell {
                 VarBit.unpack(archiveConfig);
             }
 
-            drawProgress(JString.UNPACKING_SOUNDS, 90);
             {
                 if (!lowDetail) {
                     WaveSound.unpack(new Buffer(archiveSound.get("sounds.dat")));
                 }
             }
 
-            drawProgress(JString.UNPACKING_WIDGETS, 95);
             {
                 Widget.unpack(archiveWidget, new BitmapFont[]{BitmapFont.SMALL, BitmapFont.NORMAL, BitmapFont.BOLD, BitmapFont.FANCY}, archiveMedia);
             }
 
-            drawProgress(JString.PREPARING_GAME_ENGINE, 100);
             {
 
                 for (int y = 0; y < 33; y++) {

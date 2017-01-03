@@ -11,86 +11,28 @@ public class TitleScreen {
     public static final String[] LOGIN_MESSAGE = new String[]{JString.BLANK, JString.BLANK};
     public static final String VALID_INPUT_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"\243$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
     public static Bitmap bitmapBox, bitmapButton;
-    public static ImageProducer producerBox;
-    public static ImageProducer[] producerBackground;
     public static State state = State.WELCOME;
     public static int field = 0;
 
-    public static void nullify() {
-        Flames.producer = null;
-        producerBackground = null;
-        producerBox = null;
-    }
-
-    public static void clearProducers() {
-        Flames.nullify();
-        producerBackground = null;
-        Flames.producer = null;
-        producerBox = null;
-    }
-
-    public static void createProducers() {
-        if (producerBackground != null && producerBackground[0] != null) {
-            return;
-        }
-
-        Game.clearIngameProducers();
-
-        Flames.createProducers();
-
-        producerBackground = new ImageProducer[6];
-
-        producerBackground[0] = new ImageProducer(509, 171);
-        Canvas2D.clear();
-        producerBackground[1] = new ImageProducer(360, 132);
-        Canvas2D.clear();
-        producerBackground[2] = new ImageProducer(202, 238);
-        Canvas2D.clear();
-        producerBackground[3] = new ImageProducer(203, 238);
-        Canvas2D.clear();
-        producerBackground[4] = new ImageProducer(74, 94);
-        Canvas2D.clear();
-        producerBackground[5] = new ImageProducer(75, 94);
-        Canvas2D.clear();
-        producerBox = new ImageProducer(360, 200);
-        Canvas2D.clear();
-
-        if (Game.archive != null) {
-            createBackground();
-            createImages();
-        }
-
-        Game.redraw = true;
-    }
-
     public static void createBackground() {
-        Sprite s = new Sprite(Game.archive.get("title.dat"), Game.instance);
+        Sprite s = new Sprite(Game.archive.get("title.dat"));
 
-        Flames.producer[0].prepare();
         s.draw(0, 0);
 
-        Flames.producer[1].prepare();
         s.draw(-637, 0);
 
-        producerBackground[0].prepare();
         s.draw(-128, 0);
 
-        producerBackground[1].prepare();
         s.draw(-202, -371);
 
-        producerBox.prepare();
         s.draw(-202, -171);
 
-        producerBackground[2].prepare();
         s.draw(0, -265);
 
-        producerBackground[3].prepare();
         s.draw(-562, -265);
 
-        producerBackground[4].prepare();
         s.draw(-128, -171);
 
-        producerBackground[5].prepare();
         s.draw(-562, -171);
 
         int[] pixels = new int[s.width];
@@ -103,35 +45,25 @@ public class TitleScreen {
             }
         }
 
-        Flames.producer[0].prepare();
         s.draw(382, 0);
 
-        Flames.producer[1].prepare();
         s.draw(-255, 0);
 
-        producerBackground[0].prepare();
         s.draw(254, 0);
 
-        producerBackground[1].prepare();
         s.draw(180, -371);
 
-        producerBox.prepare();
         s.draw(180, -171);
 
-        producerBackground[2].prepare();
         s.draw(382, -265);
 
-        producerBackground[3].prepare();
         s.draw(-180, -265);
 
-        producerBackground[4].prepare();
         s.draw(254, -171);
 
-        producerBackground[5].prepare();
         s.draw(-180, -171);
 
         s = new Sprite(Game.archive, "logo", 0);
-        producerBackground[0].prepare();
         s.drawMasked(382 - s.width / 2 - 128, 18);
         s = null;
 
@@ -144,18 +76,13 @@ public class TitleScreen {
 
         Flames.createImages();
 
-        Game.instance.drawProgress("Connecting to fileserver", 10);
-
         if (!Game.processFlames) {
             Game.drawFlames = true;
             Game.processFlames = true;
-            Game.instance.startThread(Game.instance, 2);
         }
     }
 
     public static void draw(boolean show_buttons) {
-        createProducers();
-        producerBox.prepare();
         bitmapBox.draw(0, 0);
 
         char startX = '\u0168';
@@ -233,16 +160,8 @@ public class TitleScreen {
             }
         }
 
-        producerBox.draw(202, 171);
-
         if (Game.redraw) {
             Game.redraw = false;
-            producerBackground[0].draw(128, 0);
-            producerBackground[1].draw(202, 371);
-            producerBackground[2].draw(0, 265);
-            producerBackground[3].draw(562, 265);
-            producerBackground[4].draw(128, 171);
-            producerBackground[5].draw(562, 171);
         }
     }
 

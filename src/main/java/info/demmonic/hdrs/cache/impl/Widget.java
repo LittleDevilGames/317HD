@@ -222,6 +222,11 @@ public class Widget {
                 }
             }
 
+            if (w.type == 1) {
+                b.readUnsignedShort();
+                b.readUnsignedByte();
+            }
+
             if (w.type == 2) {
                 w.itemIndex = new short[w.width * w.height];
                 w.itemCount = new int[w.width * w.height];
@@ -358,6 +363,9 @@ public class Widget {
                 w.optionPrefix = b.readString();
                 w.optionSuffix = b.readString();
                 w.optionAction = b.readUnsignedShort();
+            }
+            if (w.type == 8) {
+                w.messageDisabled = b.readString();
             }
 
             if (w.optionType == 1 || w.optionType == 4 || w.optionType == 5 || w.optionType == 6) {

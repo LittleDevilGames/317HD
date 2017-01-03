@@ -2,8 +2,6 @@ package info.demmonic.hdrs.media.impl;
 
 import info.demmonic.hdrs.Game;
 import info.demmonic.hdrs.media.Bitmap;
-import info.demmonic.hdrs.media.Canvas2D;
-import info.demmonic.hdrs.media.ImageProducer;
 import info.demmonic.hdrs.media.Sprite;
 import info.demmonic.hdrs.util.RSColor;
 
@@ -14,7 +12,6 @@ public class Flames {
     public static int cycle;
     public static int[] dissolveMask, lastDissolveMask;
     public static int[] pixels;
-    public static ImageProducer[] producer;
     public static Bitmap[] bitmapRune;
     public static Sprite[] image;
     public static int[] palette, paletteRed, paletteGreen, paletteBlue;
@@ -50,40 +47,13 @@ public class Flames {
         image = null;
     }
 
-    public static void createProducers() {
-        producer = new ImageProducer[2];
-        producer[0] = new ImageProducer(128, 265);
-        Canvas2D.clear();
-        producer[1] = new ImageProducer(128, 265);
-        Canvas2D.clear();
-    }
-
     public static void createImages() {
         bitmapRune = new Bitmap[12];
 
         image = new Sprite[2];
 
-        for (int i = 0; i < image.length; i++) {
-            image[i] = new Sprite(128, 265);
-            System.arraycopy(producer[i].pixels, 0, image[i].pixels, 0, 128 * 265);
-        }
-
-        int i = 0;
-
-        try {
-            i = Integer.parseInt(Game.instance.getParameter("fl_icon"));
-        } catch (Exception e) {
-
-        }
-
-        if (i == 0) {
-            for (int j = 0; j < bitmapRune.length; j++) {
-                bitmapRune[j] = new Bitmap(Game.archive, "runes", j);
-            }
-        } else {
-            for (int j = 0; j < bitmapRune.length; j++) {
-                bitmapRune[j] = new Bitmap(Game.archive, "runes", 12 + (j & 3));
-            }
+        for (int j = 0; j < bitmapRune.length; j++) {
+            bitmapRune[j] = new Bitmap(Game.archive, "runes", 12 + (j & 3));
         }
 
         createPalettes();
@@ -272,8 +242,6 @@ public class Flames {
             System.arraycopy(paletteRed, 0, palette, 0, palette.length);
         }
 
-        System.arraycopy(image[0].pixels, 0, producer[0].pixels, 0, producer[0].pixels.length);
-
         int height = 256;
         int src_off = 0;
         int dst_off = 1152;
@@ -294,8 +262,6 @@ public class Flames {
                     int old = rgb;
                     int alpha = 256 - rgb;
                     rgb = palette[rgb];
-                    int src = producer[0].pixels[dst_off];
-                    producer[0].pixels[dst_off++] = ((rgb & 0xff00ff) * old + (src & 0xff00ff) * alpha & 0xff00ff00) + ((rgb & 0xff00) * old + (src & 0xff00) * alpha & 0xff0000) >> 8;
                 } else {
                     dst_off++;
                 }
@@ -303,10 +269,6 @@ public class Flames {
 
             dst_off += i;
         }
-
-        producer[0].draw(0, 0);
-
-        System.arraycopy(image[1].pixels, 0, producer[1].pixels, 0, producer[1].pixels.length);
 
         src_off = 0;
         dst_off = 1176;
@@ -320,8 +282,6 @@ public class Flames {
                     int old = rgb;
                     int alpha = 256 - rgb;
                     rgb = palette[rgb];
-                    int src = producer[1].pixels[dst_off];
-                    producer[1].pixels[dst_off++] = ((rgb & 0xff00ff) * old + (src & 0xff00ff) * alpha & 0xff00ff00) + ((rgb & 0xff00) * old + (src & 0xff00) * alpha & 0xff0000) >> 8;
                 } else {
                     dst_off++;
                 }
@@ -330,7 +290,5 @@ public class Flames {
             src_off += 128 - i;
             dst_off += 128 - i - i3;
         }
-
-        producer[1].draw(637, 0);
     }
 }

@@ -6,7 +6,6 @@ import info.demmonic.hdrs.cache.impl.Widget;
 import info.demmonic.hdrs.input.model.Area;
 import info.demmonic.hdrs.media.Bitmap;
 import info.demmonic.hdrs.media.Canvas3D;
-import info.demmonic.hdrs.media.ImageProducer;
 import info.demmonic.hdrs.util.JString;
 
 public class Sidebar {
@@ -19,23 +18,8 @@ public class Sidebar {
     public static boolean drawTabs;
     public static Tab flashingTab;
     public static int[] pixels3D;
-    public static ImageProducer producer;
-    public static ImageProducer producerLowerTab;
-    public static ImageProducer producerUpperTab;
     public static Tab selectedTab;
     public static int widgetIndex;
-
-    public static void clearProducers() {
-        producer = null;
-        producerUpperTab = null;
-        producerLowerTab = null;
-    }
-
-    public static void createProducers() {
-        producer = new ImageProducer(190, 261);
-        producerLowerTab = new ImageProducer(269, 37);
-        producerUpperTab = new ImageProducer(249, 45);
-    }
 
     public static void draw() {
         if (!draw) {
@@ -43,7 +27,6 @@ public class Sidebar {
         }
         draw = false;
 
-        producer.prepare();
         Canvas3D.pixels = pixels3D;
         invback.draw(0, 0);
 
@@ -57,8 +40,6 @@ public class Sidebar {
             Menu.draw();
         }
 
-        producer.draw(553, 205);
-        Game.producerScene.prepare();
         Canvas3D.pixels = Game.viewportPixels;
     }
 
@@ -76,7 +57,6 @@ public class Sidebar {
                 Game.out.writeByte(selectedTab.index);
             }
 
-            producerUpperTab.prepare();
             {
                 backhmid1.draw(0, 0);
 
@@ -103,9 +83,7 @@ public class Sidebar {
                     }
                 }
             }
-            producerUpperTab.draw(516, 160);
 
-            producerLowerTab.prepare();
             {
                 backbase2.draw(0, 0);
 
@@ -132,8 +110,7 @@ public class Sidebar {
                     }
                 }
             }
-            producerLowerTab.draw(496, 466);
-            Game.producerScene.prepare();
+
         }
     }
 

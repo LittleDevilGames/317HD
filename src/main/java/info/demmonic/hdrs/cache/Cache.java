@@ -40,12 +40,12 @@ public class Cache {
 
             // If this file doesn't exist.
             if (size <= 0) {
-                return null;
+                //return null;
             }
 
             // If the sector doesn't exist.
             if (sector <= 0 || sector > max_sector) {
-                return null;
+                //return null;
             }
 
             byte[] payload = new byte[size];
@@ -73,19 +73,19 @@ public class Cache {
 
                 // Make sure all the information for this sector matches up to the file we're retrieving.
                 if (file_index != file) {
-                    return null;
+                    //return null;
                 }
 
                 if (file_part != part) {
-                    return null;
+                    //return null;
                 }
 
                 if (sector_cache != this.index) {
-                    return null;
+                    //return null;
                 }
 
                 if (next_sector < 0 || next_sector > max_sector) {
-                    return null;
+                    //return null;
                 }
 
                 // Transfer the data from this sector to our payload.
@@ -103,6 +103,7 @@ public class Cache {
 
             return payload;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
