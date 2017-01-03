@@ -17,11 +17,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class is kind of an organized mess. One day I'll just rewrite the whole thing again.
- *
- * @author Dane
- */
 public class Chat extends Widget {
 
     public static final byte INPUT_CHAT = 0;
@@ -64,11 +59,6 @@ public class Chat extends Widget {
         reset();
     }
 
-    /**
-     * Removes the last character of the specified input if the length > 0.
-     *
-     * @param type the input type.
-     */
     public static void backspace(byte type) {
         StringBuilder b = input.get(type);
         if (b.length() > 0) {
@@ -84,11 +74,6 @@ public class Chat extends Widget {
         Chat.redraw = true;
     }
 
-    /**
-     * Clears the specified input type.
-     *
-     * @param type the type.
-     */
     public static void clear(byte type) {
         StringBuilder sb = input.get(type);
 
@@ -97,32 +82,20 @@ public class Chat extends Widget {
         }
     }
 
-    /**
-     * Clears the chat input.
-     */
     public static void clearInput() {
         Chat.setInput(Chat.INPUT_CHAT, JString.BLANK);
     }
 
-    /**
-     * Sets the overlay to -1 and redraws.
-     */
     public static void clearOverlay() {
         Chat.setOverlay(-1);
         Chat.redraw = true;
     }
 
-    /**
-     * Sets the underlay to -1 and redraws.
-     */
     public static void clearUnderlay() {
         Chat.setUnderlay(-1);
         Chat.redraw = true;
     }
 
-    /**
-     * Draws the specified chat type.
-     */
     public static void draw() {
         if (!redraw) {
             return;
@@ -183,9 +156,6 @@ public class Chat extends Widget {
         finish();
     }
 
-    /**
-     * Post-draw method.
-     */
     protected static void finish() {
         if (Menu.visible && Menu.area == Area.CHAT) {
             Menu.draw();
@@ -200,65 +170,31 @@ public class Chat extends Widget {
         return Chat.instance;
     }
 
-    /**
-     * Returns the dialogue input as a String.
-     *
-     * @return the dialogue input.
-     */
     public static String getDialogueInput() {
         return input.get(INPUT_DIALOGUE).toString();
     }
 
-    /**
-     * Returns the StringBuilder of the provided input type.
-     *
-     * @param type
-     */
     public static StringBuilder getInput(byte type) {
         return input.get(type);
     }
 
-    /**
-     * Gets the message for the provided type.
-     *
-     * @param type the type.
-     * @return the message.
-     */
     public static String getMessage(byte type) {
         return message.get(type);
     }
 
-    /**
-     * Gets the overlay widget's index.
-     *
-     * @return the widget index.
-     */
     public static int getOverlay() {
         return widget.get(TYPE_OVERLAY);
     }
 
-    /**
-     * Sets the overlay interface. (Used for dialogue)
-     *
-     * @param index the widget index.
-     */
     public static void setOverlay(int index) {
         widget.put(TYPE_OVERLAY, index);
         Chat.redraw = true;
     }
 
-    /**
-     * Gets the status of the input.
-     */
     public static State getState() {
         return state;
     }
 
-    /**
-     * Sets the status of the input.
-     *
-     * @param state
-     */
     public static void setState(State state) {
         Chat.state = state;
 
@@ -267,40 +203,19 @@ public class Chat extends Widget {
         }
     }
 
-    /**
-     * Gets the underlay widget's index.
-     *
-     * @return the widget index.
-     */
     public static int getUnderlay() {
         return widget.get(TYPE_UNDERLAY);
     }
 
-    /**
-     * Sets the underlay interface. (Used for level-up messages so they don't go away in-case of an overlay dialogue.)
-     *
-     * @param index the widget index.
-     */
     public static void setUnderlay(int index) {
         widget.put(TYPE_UNDERLAY, index);
         Chat.redraw = true;
     }
 
-    /**
-     * Returns the current index of the widget type.
-     *
-     * @param type the type.
-     * @return the widget index.
-     */
     public static int getWidget(byte type) {
         return widget.get(type);
     }
 
-    /**
-     * Returns the chat input as a String.
-     *
-     * @return the chat input.
-     */
     public static String getInput() {
         return input.get(INPUT_CHAT).toString();
     }
@@ -353,7 +268,7 @@ public class Chat extends Widget {
                             try {
                                 i = Integer.parseInt(input);
                             } catch (Exception e) {
-                                // do nuffen heuhuruehu
+
                             }
                             Game.out.writeOpcode(208);
                             Game.out.writeInt(i);
@@ -389,9 +304,6 @@ public class Chat extends Widget {
 
             Chat.redraw = true;
         } else {
-            /*
-             * Typing in the actual chatbox.
-			 */
             switch (key) {
                 case KeyEvent.VK_ENTER: {
                     String message = Chat.getInput(Chat.INPUT_CHAT).toString();
@@ -442,7 +354,7 @@ public class Chat extends Widget {
                                         try {
                                             o = f.get(w);
                                         } catch (Exception e) {
-                                            /* ignore */
+
                                         }
 
                                         if (o != null) {
@@ -510,7 +422,7 @@ public class Chat extends Widget {
                                             }
                                         }
                                     } catch (Exception e) {
-										/* ignore */
+
                                     }
                                 }
                                 break;
@@ -844,41 +756,20 @@ public class Chat extends Widget {
         }
     }
 
-    /**
-     * Pre-draw method.
-     */
     protected static void prepare() {
         Canvas3D.pixels = Game.chatPixels3D;
         producer.prepare();
         background.draw(0, 0);
     }
 
-    /**
-     * Puts a new line in the chat box with no prefix, and the type of 0.
-     *
-     * @param message the message.
-     */
     public static void put(String message) {
         Chat.put(null, message, TYPE_NORMAL);
     }
 
-    /**
-     * Puts a new line in the chatbox with no prefix.
-     *
-     * @param message the message.
-     * @param type    the type.
-     */
     public static void put(String message, int type) {
         Chat.put(null, message, type);
     }
 
-    /**
-     * Puts a new line in the chat box with the provided properties.
-     *
-     * @param prefix  the prefix.
-     * @param message the message.
-     * @param type    the type.
-     */
     public static void put(String prefix, String message, int type) {
         for (int i = lines.length - 1; i > 0; i--) {
             lines[i].set(lines[i - 1]);
@@ -886,9 +777,6 @@ public class Chat extends Widget {
         lines[0].set(prefix, message, type);
     }
 
-    /**
-     * Creates the inputs if they don't exist and creates/resets all of the chat lines.
-     */
     public static void reset() {
         Chat.setOverlay(-1);
         Chat.setUnderlay(-1);
@@ -907,11 +795,6 @@ public class Chat extends Widget {
         }
     }
 
-    /**
-     * Opens an input that has a premade message.
-     *
-     * @param state the input.
-     */
     public static void set(State state) {
         set(state, null);
     }
@@ -923,32 +806,17 @@ public class Chat extends Widget {
         Chat.redraw = true;
     }
 
-    /**
-     * Removes all the characters in the specified type and appends the provided string.
-     *
-     * @param type the input type.
-     * @param s    the string.
-     */
     public static void setInput(byte type, String s) {
         StringBuilder b = input.get(type);
         b.delete(0, b.length());
         b.append(s);
     }
 
-    /**
-     * Sets the message for the provided type.
-     *
-     * @param type    the type.
-     * @param message the message.
-     */
     public static void setMessage(byte type, String message) {
         Chat.message.put(type, message);
         Chat.redraw = true;
     }
 
-    /**
-     * Processes all general chat related things.
-     */
     public static void update() {
         Chat.Scrollbar.update();
 
@@ -1225,14 +1093,6 @@ public class Chat extends Widget {
         public static final int HEIGHT = 77;
         public static final int MIN_HEIGHT = 78;
 
-        /**
-         * Draws the scroll bar with the height depending on the amount of lines.
-         *
-         * @param x      the x.
-         * @param y      the y.
-         * @param height the height.
-         * @param count  the line count.
-         */
         public static void draw(int x, int y, int height, int count) {
 
             Chat chat = Chat.get();
@@ -1246,9 +1106,6 @@ public class Chat extends Widget {
             Game.drawScrollbar(x, y, height, chat.scrollHeight, chat.scrollHeight - chat.scrollAmount - height);
         }
 
-        /**
-         * Updates the scroll bar if there is no overlay widget active.
-         */
         public static void update() {
             // If the chat box has a widget active then we won't be processing
             // the
@@ -1359,9 +1216,6 @@ public class Chat extends Widget {
             }
         }
 
-        /**
-         * Sends a packet to the server telling it what the chat settings are.
-         */
         public static void send_to_server() {
             Game.out.writeOpcode(95);
             for (int i : Settings.values) {

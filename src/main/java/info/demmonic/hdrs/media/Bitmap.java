@@ -21,18 +21,10 @@ public class Bitmap extends Canvas2D {
         this(archive, image_archive, 0);
     }
 
-    /**
-     * Creates a new Bitmap. (A Bitmap is a space saving image which uses a palette of 256 colors and a color depth of 24.)
-     *
-     * @param archive       the archive to load from.
-     * @param image_archive the image archive within the archive.
-     * @param file_index    the image index within the image archive.
-     */
     public Bitmap(Archive archive, String image_archive, int file_index) {
         Buffer data = new Buffer(archive.get(image_archive + ".dat", null));
         Buffer idx = new Buffer(archive.get("index.dat", null));
 
-        // The index of this bitmap's header is stored in the first 2 bytes of the data file.
         idx.position = data.readUnsignedShort();
 
         this.cropWidth = idx.readUnsignedShort();
@@ -71,9 +63,6 @@ public class Bitmap extends Canvas2D {
         }
     }
 
-    /**
-     * Crops the image to the specified width and height.
-     */
     public void crop() {
         if (this.width == this.cropWidth && this.height == this.cropHeight) {
             return;
@@ -95,12 +84,6 @@ public class Bitmap extends Canvas2D {
         this.offsetY = 0;
     }
 
-    /**
-     * Draws the image.
-     *
-     * @param x the x position.
-     * @param y the y position.
-     */
     public void draw(int x, int y) {
         x += this.offsetX;
         y += this.offsetY;
@@ -150,9 +133,6 @@ public class Bitmap extends Canvas2D {
         draw(this.pixels, this.palette, src_off, dst_off, width, height, dst_step, src_step);
     }
 
-    /**
-     * Flips the image horizontally.
-     */
     public Bitmap flipHorizontally() {
         byte pixels[] = new byte[this.width * this.height];
 
@@ -168,9 +148,6 @@ public class Bitmap extends Canvas2D {
         return this;
     }
 
-    /**
-     * Flips the image vertically.
-     */
     public Bitmap flipVertically() {
         byte pixels[] = new byte[this.width * this.height];
 
@@ -186,9 +163,6 @@ public class Bitmap extends Canvas2D {
         return this;
     }
 
-    /**
-     * Shrinks the image to half its original size.
-     */
     public void shrink() {
         this.cropWidth >>= 1;
         this.cropHeight >>= 1;
@@ -208,13 +182,6 @@ public class Bitmap extends Canvas2D {
         this.offsetY = 0;
     }
 
-    /**
-     * Adjusts the palette's color.
-     *
-     * @param red   the red modifier.
-     * @param green the green modifier.
-     * @param blue  the blue modifier.
-     */
     public void translateRgb(int red, int green, int blue) {
         for (int i = 0; i < this.palette.length; i++) {
             int r = (this.palette[i] >> 16 & 0xff) + red;

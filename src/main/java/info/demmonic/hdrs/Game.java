@@ -591,10 +591,8 @@ public class Game extends GameShell {
             return;
         }
 
-        // Lets the garbage collector get the login screen producers.
         TitleScreen.clearProducers();
 
-        // Set the wrest up.
         Chat.producer = new ImageProducer(479, 96);
         Game.producerMinimap = new ImageProducer(172, 156);
         Canvas2D.clear();
@@ -3201,14 +3199,11 @@ public class Game extends GameShell {
             Sequence s = Sequence.instance[e.moveSeqIndex];
             e.moveSeqCycle++;
 
-            // If it's time to go to the next frame.
             if (e.moveSeqFrame < s.frameCount && e.moveSeqCycle > s.getFrameLength(e.moveSeqFrame)) {
                 e.moveSeqCycle = 0;
                 e.moveSeqFrame++;
             }
 
-            // If we've past the frame count in this sequence, reset the
-            // animation.
             if (e.moveSeqFrame >= s.frameCount) {
                 e.moveSeqCycle = 0;
                 e.moveSeqFrame = 0;
@@ -5385,10 +5380,9 @@ public class Game extends GameShell {
                         w.itemCount[i] = count;
                     }
                 } catch (Exception e) {
-                    /* ignore out of bounds exception */
+
                 }
 
-                // Clears the wrest of the items.
                 for (int i = size; i < w.itemIndex.length; i++) {
                     w.itemIndex[i] = 0;
                     w.itemCount[i] = 0;
@@ -7028,7 +7022,7 @@ public class Game extends GameShell {
                 try {
                     Thread.sleep(2000L);
                 } catch (Exception _ex) {
-					/* empty */
+
                 }
                 netLogin(username, password, reconnection);
                 return;

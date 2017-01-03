@@ -2,61 +2,32 @@ package info.demmonic.hdrs.io;
 
 public final class IsaacCipher {
 
-    /**
-     * The golden ratio.
-     */
     private static final int GOLDEN_RATIO = 0x9e3779b9;
-    /**
-     * The log of the size of the result and memory arrays.
-     */
+
     private static final int SIZEL = 8;
-    /**
-     * The size of the result and memory arrays.
-     */
+
     private static final int SIZE = 1 << IsaacCipher.SIZEL;
-    /**
-     * A mask for pseudorandom lookup.
-     */
+
     private static int MASK = (IsaacCipher.SIZE - 1) << 2;
-    /**
-     * The internal state.
-     */
+
     private final int[] mem;
-    /**
-     * The results given to the user.
-     */
+
     private final int[] rsl;
-    /**
-     * The accumulator.
-     */
+
     private int a;
-    /**
-     * The last result.
-     */
+
     private int b;
-    /**
-     * The counter.
-     */
+
     private int c;
-    /**
-     * The count through the results in the results array.
-     */
+
     private int count;
 
-    /**
-     * Creates the random number generator without an initial seed.
-     */
     public IsaacCipher() {
         mem = new int[IsaacCipher.SIZE];
         rsl = new int[IsaacCipher.SIZE];
         init(false);
     }
 
-    /**
-     * Creates the random number generator with the specified seed.
-     *
-     * @param seed The seed.
-     */
     public IsaacCipher(int[] seed) {
         mem = new int[IsaacCipher.SIZE];
         rsl = new int[IsaacCipher.SIZE];
@@ -66,11 +37,6 @@ public final class IsaacCipher {
         init(true);
     }
 
-    /**
-     * Initialises this random number generator.
-     *
-     * @param flag Set to {@code true} if a seed was passed to the constructor.
-     */
     private void init(boolean flag) {
         int i;
         int a, b, c, d, e, f, g, h;
@@ -148,7 +114,7 @@ public final class IsaacCipher {
             mem[i + 7] = h;
         }
 
-        if (flag) { /* second pass makes all of seed affect all of mem */
+        if (flag) {
 
             for (i = 0; i < IsaacCipher.SIZE; i += 8) {
                 a += mem[i];
@@ -198,9 +164,6 @@ public final class IsaacCipher {
         count = IsaacCipher.SIZE;
     }
 
-    /**
-     * Generates 256 results.
-     */
     private void isaac() {
         int i, j, x, y;
 
@@ -258,11 +221,6 @@ public final class IsaacCipher {
         }
     }
 
-    /**
-     * Gets the next random value.
-     *
-     * @return The next random value.
-     */
     public int nextInt() {
         if (0 == count--) {
             isaac();

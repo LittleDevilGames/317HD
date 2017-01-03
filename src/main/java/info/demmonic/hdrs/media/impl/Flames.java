@@ -31,7 +31,7 @@ public class Flames {
             try {
                 Thread.sleep(50);
             } catch (Exception e) {
-                /* ignore */
+
             }
         }
 
@@ -73,7 +73,7 @@ public class Flames {
         try {
             i = Integer.parseInt(Game.instance.getParameter("fl_icon"));
         } catch (Exception e) {
-            /* ignore */
+
         }
 
         if (i == 0) {

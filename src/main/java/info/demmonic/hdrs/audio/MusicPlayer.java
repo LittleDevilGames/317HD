@@ -6,11 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-/**
- * Ripped from 414
- *
- * @author WalrusViking
- */
 public class MusicPlayer implements Receiver {
 
     public static final int ALL_NOTES_OFF = 0x7B;
@@ -18,7 +13,6 @@ public class MusicPlayer implements Receiver {
     public static final int LSB_BANK_SELECT = 0x20;
     public static final int LSB_CHANNEL_VOLUME = 0x27;
 
-    /* Constants */
     public static final int MSB_BANK_SELECT = 0;
     public static final int MSB_CHANNEL_VOLUME = 0x7;
     public static final int RESET_CONTROLLERS = 0x79;

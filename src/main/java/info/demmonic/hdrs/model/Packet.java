@@ -5,7 +5,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Packet {
 
-    /* @formatter:off */
     public static final int SIZE[] = {
             0, 0, 0, 0, 6, 0, 0, 0, 4, 0,    // 0
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    // 10
@@ -34,6 +33,5 @@ public class Packet {
             2, -2, 0, 0, 0, 0, 6, 0, 4, 3,    // 240
             0, 0, 0, -1, 6, 0, 0            // 250
     };
-    /* @formatter:on */
 
 }

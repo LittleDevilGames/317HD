@@ -9,7 +9,6 @@ import info.demmonic.hdrs.scene.model.Model;
 
 public class CharacterDesign {
 
-    /* @formatter:off */
     public static final int DESIGN_COLOR[][] = {
             // Hair
             {6798, 107, 10283, 16, 4797, 7744, 5799, 4634, 33697, 22433, 2983, 54193},
@@ -31,7 +30,6 @@ public class CharacterDesign {
     public static boolean update;
     public static int[] selectedColors = new int[5];
     public static int[] selectedIdentityKits = new int[7];
-    /* @formatter:on */
 
     public static boolean handle(Widget widget, int type) {
         if (type >= 314 && type <= 323) {

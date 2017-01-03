@@ -2,9 +2,6 @@ package info.demmonic.hdrs.scene.model;
 
 public class OverlayTile {
 
-    public static final char abc = '\200';
-
-    /* @formatter:off */
     public static final int CLIPPING_FLAG[][] = {
             {1, 3, 5, 7},
             {1, 3, 5, 7},
@@ -97,7 +94,6 @@ public class OverlayTile {
                     0, 1, 2, 5
             }
     };
-    /* @formatter:on */
 
     public static int tmpScreenX[] = new int[6];
     public static int tmpScreenY[] = new int[6];

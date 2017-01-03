@@ -310,7 +310,7 @@ public class OnDemand implements Runnable {
             out = new ByteArrayOutputStream();
             in = new GZIPInputStream(new ByteArrayInputStream(r.payload));
 
-            byte[] buffer = new byte[2048]; // 2kb
+            byte[] buffer = new byte[2048];
             int read;
 
             while ((read = in.read(buffer)) != -1) {
@@ -325,7 +325,7 @@ public class OnDemand implements Runnable {
                 try {
                     out.close();
                 } catch (IOException e) {
-                    /* nothing */
+
                 }
             }
 
@@ -333,7 +333,7 @@ public class OnDemand implements Runnable {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    /* nothing */
+
                 }
             }
         }
@@ -546,7 +546,7 @@ public class OnDemand implements Runnable {
                         try {
                             socket.close();
                         } catch (Exception _ex) {
-                            /* nada */
+
                         }
 
                         socket = null;

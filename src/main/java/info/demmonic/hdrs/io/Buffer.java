@@ -55,15 +55,12 @@ public class Buffer extends CacheLink {
         int start = this.position;
         this.position = 0;
 
-        // Get the payload
         byte data[] = new byte[start];
         this.read(data, 0, start);
 
-        // Encrypt the payload
         data = new BigInteger(data).modPow(exponent, modulus).toByteArray();
         this.position = 0;
 
-        // Write the length and encrypted bytes.
         this.writeByte(data.length);
         this.writeBytes(data, data.length, 0);
     }

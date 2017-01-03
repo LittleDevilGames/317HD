@@ -8,25 +8,14 @@ import java.io.RandomAccessFile;
 
 public class Cache {
 
-    /**
-     * The header size for our cache's sectors.
-     */
     public static final int HEADER_SIZE = 8;
-    /**
-     * The maximum data that can be stored in a sector.
-     */
+
     public static final int DATA_SIZE = 512;
-    /**
-     * The index size for our cache's files.
-     */
+
     public static final int INDEX_SIZE = 6;
-    /**
-     * The total size for each sector including header and data size.
-     */
+
     public static final int SECTOR_SIZE = DATA_SIZE + HEADER_SIZE;
-    /**
-     * Our static buffer used for write operations.
-     */
+
     public static Buffer buffer = new Buffer(SECTOR_SIZE);
     public final AccessFile data;
     public final AccessFile idx;

@@ -2,9 +2,6 @@ package info.demmonic.hdrs.audio.model;
 
 import info.demmonic.hdrs.io.Buffer;
 
-/*
- * Please ignore this class for now.
- */
 public class WaveSound {
 
     public static Buffer buffer;
