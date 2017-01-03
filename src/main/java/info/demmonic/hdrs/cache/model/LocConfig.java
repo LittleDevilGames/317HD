@@ -34,7 +34,7 @@ public class LocConfig {
     public boolean isSolid;
     public boolean isStatic;
     public short[] modelIndex;
-    public byte[] model_type;
+    public byte[] modelType;
     public String name;
     public int[] newColor;
     public short offsetX;
@@ -112,7 +112,7 @@ public class LocConfig {
         Model m = null;
         long uid;
 
-        if (model_type == null) {
+        if (modelType == null) {
             if (type != 10) {
                 return null;
             }
@@ -164,21 +164,21 @@ public class LocConfig {
                 m = new Model(count, tmpModel);
             }
         } else {
-            int model_list_index = -1;
+            int modelListIndex = -1;
 
-            for (int i = 0; i < model_type.length; i++) {
-                if (model_type[i] != type) {
+            for (int i = 0; i < modelType.length; i++) {
+                if (modelType[i] != type) {
                     continue;
                 }
-                model_list_index = i;
+                modelListIndex = i;
                 break;
             }
 
-            if (model_list_index == -1) {
+            if (modelListIndex == -1) {
                 return null;
             }
 
-            uid = (long) ((index << 6) + (model_list_index << 3) + rotation) + ((long) (frame + 1) << 32);
+            uid = (long) ((index << 6) + (modelListIndex << 3) + rotation) + ((long) (frame + 1) << 32);
 
             Model cachedMesh = (Model) modelCache.get(uid);
 
@@ -186,17 +186,17 @@ public class LocConfig {
                 return cachedMesh;
             }
 
-            int mesh_index = modelIndex[model_list_index];
+            int meshIndex = modelIndex[modelListIndex];
             boolean rotate = rotateCcw ^ (rotation > 3);
 
             if (rotate) {
-                mesh_index += 0x10000;
+                meshIndex += 0x10000;
             }
 
-            m = (Model) staticModelCache.get(mesh_index);
+            m = (Model) staticModelCache.get(meshIndex);
 
             if (m == null) {
-                m = Model.get(mesh_index & 0xffff);
+                m = Model.get(meshIndex & 0xffff);
 
                 if (m == null) {
                     return null;
@@ -206,7 +206,7 @@ public class LocConfig {
                     m.rotateCcw();
                 }
 
-                staticModelCache.insert(m, mesh_index);
+                staticModelCache.insert(m, meshIndex);
             }
         }
 
@@ -260,7 +260,7 @@ public class LocConfig {
 
     }
 
-    public Model getModel(int type, int rotation, int v_sw, int v_se, int v_ne, int v_nw, int frame) {
+    public Model getModel(int type, int rotation, int heightSouthWest, int heightSouthEast, int heightNorthEast, int heightNorthWest, int frame) {
         Model m = getAssembledModel(type, frame, rotation);
 
         if (m == null) {
@@ -272,15 +272,15 @@ public class LocConfig {
         }
 
         if (adjustToTerrain) {
-            int v_avg = (v_sw + v_se + v_ne + v_nw) / 4;
+            int averageHeight = (heightSouthWest + heightSouthEast + heightNorthEast + heightNorthWest) / 4;
 
             for (int i = 0; i < m.vertexCount; i++) {
                 int x = m.vertexX[i];
                 int z = m.vertexZ[i];
-                int l2 = v_sw + ((v_se - v_sw) * (x + 64)) / 128;
-                int i3 = v_nw + ((v_ne - v_nw) * (x + 64)) / 128;
-                int v_y = l2 + ((i3 - l2) * (z + 64)) / 128;
-                m.vertexY[i] += v_y - v_avg;
+                int l2 = heightSouthWest + ((heightSouthEast - heightSouthWest) * (x + 64)) / 128;
+                int i3 = heightNorthWest + ((heightNorthEast - heightNorthWest) * (x + 64)) / 128;
+                int vY = l2 + ((i3 - l2) * (z + 64)) / 128;
+                m.vertexY[i] += vY - averageHeight;
             }
 
             m.method467();
@@ -323,7 +323,7 @@ public class LocConfig {
     }
 
     public boolean isValidModel(int type) {
-        if (model_type == null) {
+        if (modelType == null) {
             if (modelIndex == null) {
                 return true;
             }
@@ -341,8 +341,8 @@ public class LocConfig {
             return valid;
         }
 
-        for (int i = 0; i < model_type.length; i++) {
-            if (model_type[i] == type) {
+        for (int i = 0; i < modelType.length; i++) {
+            if (modelType[i] == type) {
                 return Model.isValid(modelIndex[i] & 0xffff);
             }
         }
@@ -366,10 +366,10 @@ public class LocConfig {
                     if (count > 0) {
                         if (modelIndex == null || Game.lowDetail) {
                             modelIndex = new short[count];
-                            model_type = new byte[count];
+                            modelType = new byte[count];
                             for (int j = 0; j < count; j++) {
                                 modelIndex[j] = (short) b.readUnsignedShort();
-                                model_type[j] = b.readByte();
+                                modelType[j] = b.readByte();
                             }
                         } else {
                             b.position += count * 3;
@@ -383,7 +383,7 @@ public class LocConfig {
                     int count = b.readUnsignedByte();
                     if (count > 0) {
                         if (modelIndex == null || Game.lowDetail) {
-                            model_type = null;
+                            modelType = null;
                             modelIndex = new short[count];
                             for (int j = 0; j < count; j++) {
                                 modelIndex[j] = (short) b.readUnsignedShort();
@@ -485,7 +485,7 @@ public class LocConfig {
         if (i == -1) {
             isStatic = false;
 
-            if (modelIndex != null && (model_type == null || model_type[0] == 10)) {
+            if (modelIndex != null && (modelType == null || modelType[0] == 10)) {
                 isStatic = true;
             }
 
@@ -516,7 +516,7 @@ public class LocConfig {
 
     public void setDefaults() {
         modelIndex = null;
-        model_type = null;
+        modelType = null;
         name = null;
         description = null;
         oldColor = null;
