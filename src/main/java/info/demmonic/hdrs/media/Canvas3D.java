@@ -132,7 +132,7 @@ public class Canvas3D extends Canvas2D {
                 int green = (int) (d5 * 256D);
                 int blue = (int) (d6 * 256D);
                 int rgb = (red << 16) + (green << 8) + blue;
-                rgb = Canvas3D.linear_rgb_brightness(rgb, brightness);
+                rgb = Canvas3D.linearRgbBrightness(rgb, brightness);
 
                 if (rgb == 0) {
                     rgb = 1;
@@ -147,7 +147,7 @@ public class Canvas3D extends Canvas2D {
                 int palette[] = texture[i].palette;
                 texturePalette[i] = new int[palette.length];
                 for (int j = 0; j < palette.length; j++) {
-                    texturePalette[i][j] = Canvas3D.linear_rgb_brightness(palette[j], brightness);
+                    texturePalette[i][j] = Canvas3D.linearRgbBrightness(palette[j], brightness);
 
                     if ((texturePalette[i][j] & 0xf8f8ff) == 0 && j != 0) {
                         texturePalette[i][j] = 1;
@@ -162,20 +162,20 @@ public class Canvas3D extends Canvas2D {
 
     }
 
-    public static void drawFlatTriangle(int a_x, int a_y, int b_x, int b_y, int c_x, int c_y, int rgb) {
+    public static void drawFlatTriangle(int aaXx, int aY, int bX, int bY, int cX, int cY, int rgb) {
         // slopes
-        int a_to_b = 0, b_to_c = 0, c_to_a = 0;
+        int aToB = 0, bToC = 0, cToA = 0;
 
-        if (b_y != a_y) {
-            a_to_b = (b_x - a_x << 16) / (b_y - a_y);
+        if (bY != aY) {
+            aToB = (bX - aaXx << 16) / (bY - aY);
         }
 
-        if (c_y != b_y) {
-            b_to_c = (c_x - b_x << 16) / (c_y - b_y);
+        if (cY != bY) {
+            bToC = (cX - bX << 16) / (cY - bY);
         }
 
-        if (c_y != a_y) {
-            c_to_a = (a_x - c_x << 16) / (a_y - c_y);
+        if (cY != aY) {
+            cToA = (aaXx - cX << 16) / (aY - cY);
         }
 
         //B    /|
@@ -183,123 +183,123 @@ public class Canvas3D extends Canvas2D {
         //   /  |
         //  /   |
         //A ----- C
-        if (a_y <= b_y && a_y <= c_y) {
-            if (a_y >= rightY) {
+        if (aY <= bY && aY <= cY) {
+            if (aY >= rightY) {
                 return;
             }
 
-            if (b_y > rightY) {
-                b_y = rightY;
+            if (bY > rightY) {
+                bY = rightY;
             }
 
-            if (c_y > rightY) {
-                c_y = rightY;
+            if (cY > rightY) {
+                cY = rightY;
             }
 
-            if (b_y < c_y) {
-                c_x = a_x <<= 16;
+            if (bY < cY) {
+                cX = aaXx <<= 16;
 
-                if (a_y < 0) {
-                    c_x -= c_to_a * a_y;
-                    a_x -= a_to_b * a_y;
-                    a_y = 0;
+                if (aY < 0) {
+                    cX -= cToA * aY;
+                    aaXx -= aToB * aY;
+                    aY = 0;
                 }
 
-                b_x <<= 16;
+                bX <<= 16;
 
-                if (b_y < 0) {
-                    b_x -= b_to_c * b_y;
-                    b_y = 0;
+                if (bY < 0) {
+                    bX -= bToC * bY;
+                    bY = 0;
                 }
 
-                if (a_y != b_y && c_to_a < a_to_b || a_y == b_y && c_to_a > b_to_c) {
-                    c_y -= b_y;
-                    b_y -= a_y;
+                if (aY != bY && cToA < aToB || aY == bY && cToA > bToC) {
+                    cY -= bY;
+                    bY -= aY;
 
-                    for (a_y = pixels[a_y]; --b_y >= 0; a_y += width) {
-                        drawScanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, a_x >> 16);
-                        c_x += c_to_a;
-                        a_x += a_to_b;
+                    for (aY = pixels[aY]; --bY >= 0; aY += width) {
+                        drawScanline(Canvas2D.pixels, aY, rgb, cX >> 16, aaXx >> 16);
+                        cX += cToA;
+                        aaXx += aToB;
                     }
 
-                    while (--c_y >= 0) {
-                        drawScanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, b_x >> 16);
+                    while (--cY >= 0) {
+                        drawScanline(Canvas2D.pixels, aY, rgb, cX >> 16, bX >> 16);
 
-                        c_x += c_to_a;
-                        b_x += b_to_c;
-                        a_y += width;
+                        cX += cToA;
+                        bX += bToC;
+                        aY += width;
                     }
                     return;
                 }
 
-                c_y -= b_y;
-                b_y -= a_y;
+                cY -= bY;
+                bY -= aY;
 
-                for (a_y = pixels[a_y]; --b_y >= 0; a_y += width) {
-                    drawScanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, c_x >> 16);
-                    c_x += c_to_a;
-                    a_x += a_to_b;
+                for (aY = pixels[aY]; --bY >= 0; aY += width) {
+                    drawScanline(Canvas2D.pixels, aY, rgb, aaXx >> 16, cX >> 16);
+                    cX += cToA;
+                    aaXx += aToB;
                 }
 
-                while (--c_y >= 0) {
-                    drawScanline(Canvas2D.pixels, a_y, rgb, b_x >> 16, c_x >> 16);
-                    c_x += c_to_a;
-                    b_x += b_to_c;
-                    a_y += width;
-                }
-                return;
-            }
-
-            b_x = a_x <<= 16;
-
-            if (a_y < 0) {
-                b_x -= c_to_a * a_y;
-                a_x -= a_to_b * a_y;
-                a_y = 0;
-            }
-
-            c_x <<= 16;
-
-            if (c_y < 0) {
-                c_x -= b_to_c * c_y;
-                c_y = 0;
-            }
-
-            if (a_y != c_y && c_to_a < a_to_b || a_y == c_y && b_to_c > a_to_b) {
-                b_y -= c_y;
-                c_y -= a_y;
-
-                for (a_y = pixels[a_y]; --c_y >= 0; a_y += width) {
-                    drawScanline(Canvas2D.pixels, a_y, rgb, b_x >> 16, a_x >> 16);
-
-                    b_x += c_to_a;
-                    a_x += a_to_b;
-                }
-
-                while (--b_y >= 0) {
-                    drawScanline(Canvas2D.pixels, a_y, rgb, c_x >> 16, a_x >> 16);
-
-                    c_x += b_to_c;
-                    a_x += a_to_b;
-                    a_y += width;
+                while (--cY >= 0) {
+                    drawScanline(Canvas2D.pixels, aY, rgb, bX >> 16, cX >> 16);
+                    cX += cToA;
+                    bX += bToC;
+                    aY += width;
                 }
                 return;
             }
 
-            b_y -= c_y;
-            c_y -= a_y;
+            bX = aaXx <<= 16;
 
-            for (a_y = pixels[a_y]; --c_y >= 0; a_y += width) {
-                drawScanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, b_x >> 16);
-                b_x += c_to_a;
-                a_x += a_to_b;
+            if (aY < 0) {
+                bX -= cToA * aY;
+                aaXx -= aToB * aY;
+                aY = 0;
             }
 
-            while (--b_y >= 0) {
-                drawScanline(Canvas2D.pixels, a_y, rgb, a_x >> 16, c_x >> 16);
-                c_x += b_to_c;
-                a_x += a_to_b;
-                a_y += width;
+            cX <<= 16;
+
+            if (cY < 0) {
+                cX -= bToC * cY;
+                cY = 0;
+            }
+
+            if (aY != cY && cToA < aToB || aY == cY && bToC > aToB) {
+                bY -= cY;
+                cY -= aY;
+
+                for (aY = pixels[aY]; --cY >= 0; aY += width) {
+                    drawScanline(Canvas2D.pixels, aY, rgb, bX >> 16, aaXx >> 16);
+
+                    bX += cToA;
+                    aaXx += aToB;
+                }
+
+                while (--bY >= 0) {
+                    drawScanline(Canvas2D.pixels, aY, rgb, cX >> 16, aaXx >> 16);
+
+                    cX += bToC;
+                    aaXx += aToB;
+                    aY += width;
+                }
+                return;
+            }
+
+            bY -= cY;
+            cY -= aY;
+
+            for (aY = pixels[aY]; --cY >= 0; aY += width) {
+                drawScanline(Canvas2D.pixels, aY, rgb, aaXx >> 16, bX >> 16);
+                bX += cToA;
+                aaXx += aToB;
+            }
+
+            while (--bY >= 0) {
+                drawScanline(Canvas2D.pixels, aY, rgb, aaXx >> 16, cX >> 16);
+                cX += bToC;
+                aaXx += aToB;
+                aY += width;
             }
             return;
         }
@@ -309,241 +309,241 @@ public class Canvas3D extends Canvas2D {
         //  |  \
         //  |   \
         //C ----- B
-        if (b_y <= c_y) {
-            if (b_y >= rightY) {
+        if (bY <= cY) {
+            if (bY >= rightY) {
                 return;
             }
 
-            if (c_y > rightY) {
-                c_y = rightY;
+            if (cY > rightY) {
+                cY = rightY;
             }
 
-            if (a_y > rightY) {
-                a_y = rightY;
+            if (aY > rightY) {
+                aY = rightY;
             }
 
-            if (c_y < a_y) {
-                a_x = b_x <<= 16;
+            if (cY < aY) {
+                aaXx = bX <<= 16;
 
-                if (b_y < 0) {
-                    a_x -= a_to_b * b_y;
-                    b_x -= b_to_c * b_y;
-                    b_y = 0;
+                if (bY < 0) {
+                    aaXx -= aToB * bY;
+                    bX -= bToC * bY;
+                    bY = 0;
                 }
 
-                c_x <<= 16;
+                cX <<= 16;
 
-                if (c_y < 0) {
-                    c_x -= c_to_a * c_y;
-                    c_y = 0;
+                if (cY < 0) {
+                    cX -= cToA * cY;
+                    cY = 0;
                 }
 
-                if (b_y != c_y && a_to_b < b_to_c || b_y == c_y && a_to_b > c_to_a) {
-                    a_y -= c_y;
-                    c_y -= b_y;
+                if (bY != cY && aToB < bToC || bY == cY && aToB > cToA) {
+                    aY -= cY;
+                    cY -= bY;
 
-                    for (b_y = pixels[b_y]; --c_y >= 0; b_y += width) {
-                        drawScanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, b_x >> 16);
-                        a_x += a_to_b;
-                        b_x += b_to_c;
+                    for (bY = pixels[bY]; --cY >= 0; bY += width) {
+                        drawScanline(Canvas2D.pixels, bY, rgb, aaXx >> 16, bX >> 16);
+                        aaXx += aToB;
+                        bX += bToC;
                     }
 
-                    while (--a_y >= 0) {
-                        drawScanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, c_x >> 16);
-                        a_x += a_to_b;
-                        c_x += c_to_a;
-                        b_y += width;
+                    while (--aY >= 0) {
+                        drawScanline(Canvas2D.pixels, bY, rgb, aaXx >> 16, cX >> 16);
+                        aaXx += aToB;
+                        cX += cToA;
+                        bY += width;
                     }
                     return;
                 }
 
-                a_y -= c_y;
-                c_y -= b_y;
+                aY -= cY;
+                cY -= bY;
 
-                for (b_y = pixels[b_y]; --c_y >= 0; b_y += width) {
-                    drawScanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, a_x >> 16);
-                    a_x += a_to_b;
-                    b_x += b_to_c;
+                for (bY = pixels[bY]; --cY >= 0; bY += width) {
+                    drawScanline(Canvas2D.pixels, bY, rgb, bX >> 16, aaXx >> 16);
+                    aaXx += aToB;
+                    bX += bToC;
                 }
 
-                while (--a_y >= 0) {
-                    drawScanline(Canvas2D.pixels, b_y, rgb, c_x >> 16, a_x >> 16);
-                    a_x += a_to_b;
-                    c_x += c_to_a;
-                    b_y += width;
-                }
-                return;
-            }
-
-            c_x = b_x <<= 16;
-
-            if (b_y < 0) {
-                c_x -= a_to_b * b_y;
-                b_x -= b_to_c * b_y;
-                b_y = 0;
-            }
-
-            a_x <<= 16;
-
-            if (a_y < 0) {
-                a_x -= c_to_a * a_y;
-                a_y = 0;
-            }
-
-            if (a_to_b < b_to_c) {
-                c_y -= a_y;
-                a_y -= b_y;
-                for (b_y = pixels[b_y]; --a_y >= 0; b_y += width) {
-                    drawScanline(Canvas2D.pixels, b_y, rgb, c_x >> 16, b_x >> 16);
-                    c_x += a_to_b;
-                    b_x += b_to_c;
-                }
-
-                while (--c_y >= 0) {
-                    drawScanline(Canvas2D.pixels, b_y, rgb, a_x >> 16, b_x >> 16);
-                    a_x += c_to_a;
-                    b_x += b_to_c;
-                    b_y += width;
+                while (--aY >= 0) {
+                    drawScanline(Canvas2D.pixels, bY, rgb, cX >> 16, aaXx >> 16);
+                    aaXx += aToB;
+                    cX += cToA;
+                    bY += width;
                 }
                 return;
             }
 
-            c_y -= a_y;
-            a_y -= b_y;
+            cX = bX <<= 16;
 
-            for (b_y = pixels[b_y]; --a_y >= 0; b_y += width) {
-                drawScanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, c_x >> 16);
-                c_x += a_to_b;
-                b_x += b_to_c;
+            if (bY < 0) {
+                cX -= aToB * bY;
+                bX -= bToC * bY;
+                bY = 0;
             }
 
-            while (--c_y >= 0) {
-                drawScanline(Canvas2D.pixels, b_y, rgb, b_x >> 16, a_x >> 16);
-                a_x += c_to_a;
-                b_x += b_to_c;
-                b_y += width;
-            }
-            return;
-        }
+            aaXx <<= 16;
 
-        if (c_y >= rightY) {
-            return;
-        }
-
-        if (a_y > rightY) {
-            a_y = rightY;
-        }
-
-        if (b_y > rightY) {
-            b_y = rightY;
-        }
-
-        if (a_y < b_y) {
-            b_x = c_x <<= 16;
-
-            if (c_y < 0) {
-                b_x -= b_to_c * c_y;
-                c_x -= c_to_a * c_y;
-                c_y = 0;
+            if (aY < 0) {
+                aaXx -= cToA * aY;
+                aY = 0;
             }
 
-            a_x <<= 16;
-
-            if (a_y < 0) {
-                a_x -= a_to_b * a_y;
-                a_y = 0;
-            }
-
-            if (b_to_c < c_to_a) {
-                b_y -= a_y;
-                a_y -= c_y;
-
-                for (c_y = pixels[c_y]; --a_y >= 0; c_y += width) {
-                    drawScanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, c_x >> 16);
-                    b_x += b_to_c;
-                    c_x += c_to_a;
+            if (aToB < bToC) {
+                cY -= aY;
+                aY -= bY;
+                for (bY = pixels[bY]; --aY >= 0; bY += width) {
+                    drawScanline(Canvas2D.pixels, bY, rgb, cX >> 16, bX >> 16);
+                    cX += aToB;
+                    bX += bToC;
                 }
 
-                while (--b_y >= 0) {
-                    drawScanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, a_x >> 16);
-                    b_x += b_to_c;
-                    a_x += a_to_b;
-                    c_y += width;
+                while (--cY >= 0) {
+                    drawScanline(Canvas2D.pixels, bY, rgb, aaXx >> 16, bX >> 16);
+                    aaXx += cToA;
+                    bX += bToC;
+                    bY += width;
                 }
                 return;
             }
 
-            b_y -= a_y;
-            a_y -= c_y;
+            cY -= aY;
+            aY -= bY;
 
-            for (c_y = pixels[c_y]; --a_y >= 0; c_y += width) {
-                drawScanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, b_x >> 16);
-                b_x += b_to_c;
-                c_x += c_to_a;
+            for (bY = pixels[bY]; --aY >= 0; bY += width) {
+                drawScanline(Canvas2D.pixels, bY, rgb, bX >> 16, cX >> 16);
+                cX += aToB;
+                bX += bToC;
             }
 
-            while (--b_y >= 0) {
-                drawScanline(Canvas2D.pixels, c_y, rgb, a_x >> 16, b_x >> 16);
-                b_x += b_to_c;
-                a_x += a_to_b;
-                c_y += width;
-            }
-            return;
-        }
-
-        a_x = c_x <<= 16;
-
-        if (c_y < 0) {
-            a_x -= b_to_c * c_y;
-            c_x -= c_to_a * c_y;
-            c_y = 0;
-        }
-
-        b_x <<= 16;
-
-        if (b_y < 0) {
-            b_x -= a_to_b * b_y;
-            b_y = 0;
-        }
-
-        if (b_to_c < c_to_a) {
-            a_y -= b_y;
-            b_y -= c_y;
-
-            for (c_y = pixels[c_y]; --b_y >= 0; c_y += width) {
-                drawScanline(Canvas2D.pixels, c_y, rgb, a_x >> 16, c_x >> 16);
-                a_x += b_to_c;
-                c_x += c_to_a;
-            }
-
-            while (--a_y >= 0) {
-                drawScanline(Canvas2D.pixels, c_y, rgb, b_x >> 16, c_x >> 16);
-                b_x += a_to_b;
-                c_x += c_to_a;
-                c_y += width;
+            while (--cY >= 0) {
+                drawScanline(Canvas2D.pixels, bY, rgb, bX >> 16, aaXx >> 16);
+                aaXx += cToA;
+                bX += bToC;
+                bY += width;
             }
             return;
         }
 
-        a_y -= b_y;
-        b_y -= c_y;
-
-        for (c_y = pixels[c_y]; --b_y >= 0; c_y += width) {
-            drawScanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, a_x >> 16);
-            a_x += b_to_c;
-            c_x += c_to_a;
+        if (cY >= rightY) {
+            return;
         }
 
-        while (--a_y >= 0) {
-            drawScanline(Canvas2D.pixels, c_y, rgb, c_x >> 16, b_x >> 16);
+        if (aY > rightY) {
+            aY = rightY;
+        }
 
-            b_x += a_to_b;
-            c_x += c_to_a;
-            c_y += width;
+        if (bY > rightY) {
+            bY = rightY;
+        }
+
+        if (aY < bY) {
+            bX = cX <<= 16;
+
+            if (cY < 0) {
+                bX -= bToC * cY;
+                cX -= cToA * cY;
+                cY = 0;
+            }
+
+            aaXx <<= 16;
+
+            if (aY < 0) {
+                aaXx -= aToB * aY;
+                aY = 0;
+            }
+
+            if (bToC < cToA) {
+                bY -= aY;
+                aY -= cY;
+
+                for (cY = pixels[cY]; --aY >= 0; cY += width) {
+                    drawScanline(Canvas2D.pixels, cY, rgb, bX >> 16, cX >> 16);
+                    bX += bToC;
+                    cX += cToA;
+                }
+
+                while (--bY >= 0) {
+                    drawScanline(Canvas2D.pixels, cY, rgb, bX >> 16, aaXx >> 16);
+                    bX += bToC;
+                    aaXx += aToB;
+                    cY += width;
+                }
+                return;
+            }
+
+            bY -= aY;
+            aY -= cY;
+
+            for (cY = pixels[cY]; --aY >= 0; cY += width) {
+                drawScanline(Canvas2D.pixels, cY, rgb, cX >> 16, bX >> 16);
+                bX += bToC;
+                cX += cToA;
+            }
+
+            while (--bY >= 0) {
+                drawScanline(Canvas2D.pixels, cY, rgb, aaXx >> 16, bX >> 16);
+                bX += bToC;
+                aaXx += aToB;
+                cY += width;
+            }
+            return;
+        }
+
+        aaXx = cX <<= 16;
+
+        if (cY < 0) {
+            aaXx -= bToC * cY;
+            cX -= cToA * cY;
+            cY = 0;
+        }
+
+        bX <<= 16;
+
+        if (bY < 0) {
+            bX -= aToB * bY;
+            bY = 0;
+        }
+
+        if (bToC < cToA) {
+            aY -= bY;
+            bY -= cY;
+
+            for (cY = pixels[cY]; --bY >= 0; cY += width) {
+                drawScanline(Canvas2D.pixels, cY, rgb, aaXx >> 16, cX >> 16);
+                aaXx += bToC;
+                cX += cToA;
+            }
+
+            while (--aY >= 0) {
+                drawScanline(Canvas2D.pixels, cY, rgb, bX >> 16, cX >> 16);
+                bX += aToB;
+                cX += cToA;
+                cY += width;
+            }
+            return;
+        }
+
+        aY -= bY;
+        bY -= cY;
+
+        for (cY = pixels[cY]; --bY >= 0; cY += width) {
+            drawScanline(Canvas2D.pixels, cY, rgb, cX >> 16, aaXx >> 16);
+            aaXx += bToC;
+            cX += cToA;
+        }
+
+        while (--aY >= 0) {
+            drawScanline(Canvas2D.pixels, cY, rgb, cX >> 16, bX >> 16);
+
+            bX += aToB;
+            cX += cToA;
+            cY += width;
         }
     }
 
-    public static void drawGradientScanline(int dest[], int dest_off, int color, int position, int length, int x2, int hsl, int x4) {
+    public static void drawGradientScanline(int dest[], int destOff, int color, int position, int length, int x2, int hsl, int x4) {
         if (texturize) {
             int cs1;
 
@@ -567,7 +567,7 @@ public class Canvas3D extends Canvas2D {
                     return;
                 }
 
-                dest_off += length;
+                destOff += length;
                 position = x2 - length >> 2;
                 cs1 <<= 2;
             } else {
@@ -575,7 +575,7 @@ public class Canvas3D extends Canvas2D {
                     return;
                 }
 
-                dest_off += length;
+                destOff += length;
                 position = x2 - length >> 2;
 
                 if (position > 0) {
@@ -589,16 +589,16 @@ public class Canvas3D extends Canvas2D {
                 while (--position >= 0) {
                     color = Canvas3D.palette[hsl >> 8];
                     hsl += cs1;
-                    dest[dest_off++] = color;
-                    dest[dest_off++] = color;
-                    dest[dest_off++] = color;
-                    dest[dest_off++] = color;
+                    dest[destOff++] = color;
+                    dest[destOff++] = color;
+                    dest[destOff++] = color;
+                    dest[destOff++] = color;
                 }
                 position = x2 - length & 3;
                 if (position > 0) {
                     color = Canvas3D.palette[hsl >> 8];
                     do {
-                        dest[dest_off++] = color;
+                        dest[destOff++] = color;
                     } while (--position > 0);
                     return;
                 }
@@ -609,22 +609,22 @@ public class Canvas3D extends Canvas2D {
                     color = Canvas3D.palette[hsl >> 8];
                     hsl += cs1;
                     color = ((color & 0xff00ff) * alpha >> 8 & 0xff00ff) + ((color & 0xff00) * alpha >> 8 & 0xff00);
-                    dest[dest_off] = color + ((dest[dest_off] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[dest_off] & 0xff00) * opacity >> 8 & 0xff00);
-                    dest_off++;
-                    dest[dest_off] = color + ((dest[dest_off] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[dest_off] & 0xff00) * opacity >> 8 & 0xff00);
-                    dest_off++;
-                    dest[dest_off] = color + ((dest[dest_off] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[dest_off] & 0xff00) * opacity >> 8 & 0xff00);
-                    dest_off++;
-                    dest[dest_off] = color + ((dest[dest_off] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[dest_off] & 0xff00) * opacity >> 8 & 0xff00);
-                    dest_off++;
+                    dest[destOff] = color + ((dest[destOff] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[destOff] & 0xff00) * opacity >> 8 & 0xff00);
+                    destOff++;
+                    dest[destOff] = color + ((dest[destOff] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[destOff] & 0xff00) * opacity >> 8 & 0xff00);
+                    destOff++;
+                    dest[destOff] = color + ((dest[destOff] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[destOff] & 0xff00) * opacity >> 8 & 0xff00);
+                    destOff++;
+                    dest[destOff] = color + ((dest[destOff] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[destOff] & 0xff00) * opacity >> 8 & 0xff00);
+                    destOff++;
                 }
                 position = x2 - length & 3;
                 if (position > 0) {
                     color = Canvas3D.palette[hsl >> 8];
                     color = ((color & 0xff00ff) * alpha >> 8 & 0xff00ff) + ((color & 0xff00) * alpha >> 8 & 0xff00);
                     do {
-                        dest[dest_off] = color + ((dest[dest_off] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[dest_off] & 0xff00) * opacity >> 8 & 0xff00);
-                        dest_off++;
+                        dest[destOff] = color + ((dest[destOff] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[destOff] & 0xff00) * opacity >> 8 & 0xff00);
+                        destOff++;
                     } while (--position > 0);
                 }
             }
@@ -635,14 +635,14 @@ public class Canvas3D extends Canvas2D {
             return;
         }
 
-        int color_step = (x4 - hsl) / (x2 - length);
+        int colorStep = (x4 - hsl) / (x2 - length);
 
         if (checkBounds) {
             if (x2 > bound) {
                 x2 = bound;
             }
             if (length < 0) {
-                hsl -= length * color_step;
+                hsl -= length * colorStep;
                 length = 0;
             }
             if (length >= x2) {
@@ -650,13 +650,13 @@ public class Canvas3D extends Canvas2D {
             }
         }
 
-        dest_off += length;
+        destOff += length;
         position = x2 - length;
 
         if (Canvas3D.opacity == 0) {
             do {
-                dest[dest_off++] = palette[hsl >> 8];
-                hsl += color_step;
+                dest[destOff++] = palette[hsl >> 8];
+                hsl += colorStep;
             } while (--position > 0);
             return;
         }
@@ -666,10 +666,10 @@ public class Canvas3D extends Canvas2D {
 
         do {
             color = palette[hsl >> 8];
-            hsl += color_step;
+            hsl += colorStep;
             color = ((color & 0xff00ff) * alpha >> 8 & 0xff00ff) + ((color & 0xff00) * alpha >> 8 & 0xff00);
-            dest[dest_off] = color + ((dest[dest_off] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[dest_off] & 0xff00) * opacity >> 8 & 0xff00);
-            dest_off++;
+            dest[destOff] = color + ((dest[destOff] & 0xff00ff) * opacity >> 8 & 0xff00ff) + ((dest[destOff] & 0xff00) * opacity >> 8 & 0xff00);
+            destOff++;
         } while (--position > 0);
     }
 
@@ -2059,7 +2059,7 @@ public class Canvas3D extends Canvas2D {
             blue += texturePalette[texture][i] & 0xff;
         }
 
-        int rgb = linear_rgb_brightness(((red / count) << 16) + ((green / count) << 8) + (blue / count), 1.3999999999999999D);
+        int rgb = linearRgbBrightness(((red / count) << 16) + ((green / count) << 8) + (blue / count), 1.3999999999999999D);
 
         if (rgb == 0) {
             rgb = 1;
@@ -2083,15 +2083,15 @@ public class Canvas3D extends Canvas2D {
             texelPool[texelPointer] = null;
         } else {
             int cycle = 0;
-            int texture_index = -1;
+            int textureIndex = -1;
             for (int i = 0; i < textureCount; i++)
-                if (texelCache[i] != null && (textureCycle[i] < cycle || texture_index == -1)) {
+                if (texelCache[i] != null && (textureCycle[i] < cycle || textureIndex == -1)) {
                     cycle = textureCycle[i];
-                    texture_index = i;
+                    textureIndex = i;
                 }
 
-            texels = texelCache[texture_index];
-            texelCache[texture_index] = null;
+            texels = texelCache[textureIndex];
+            texelCache[textureIndex] = null;
         }
 
         texelCache[index] = texels;
@@ -2144,7 +2144,7 @@ public class Canvas3D extends Canvas2D {
         return texels;
     }
 
-    public static int linear_rgb_brightness(int rgb, double brightness) {
+    public static int linearRgbBrightness(int rgb, double brightness) {
         double r = Math.pow((double) (rgb >> 16) / 256D, brightness);
         double g = Math.pow((double) (rgb >> 8 & 0xff) / 256D, brightness);
         double b = Math.pow((double) (rgb & 0xff) / 256D, brightness);
@@ -2202,7 +2202,7 @@ public class Canvas3D extends Canvas2D {
         }
     }
 
-    public static void unpack_textures(Archive archive) {
+    public static void unpackTextures(Archive archive) {
         textureCount = 0;
         for (int i = 0; i < 50; i++) {
             try {

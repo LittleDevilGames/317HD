@@ -8833,7 +8833,7 @@ public class Game extends GameShell {
             }
 
             {
-                Canvas3D.unpack_textures(archiveTexture);
+                Canvas3D.unpackTextures(archiveTexture);
                 Canvas3D.createPalette(0.8D);
                 Canvas3D.setupTexelPools();
             }
