@@ -1,5 +1,6 @@
 package info.demmonic.hdrs.media;
 
+import info.demmonic.hdrs.Rt3;
 import info.demmonic.hdrs.node.CacheLink;
 
 import java.util.Arrays;
@@ -22,18 +23,23 @@ public class Canvas2D extends CacheLink {
         Arrays.fill(Canvas2D.pixels, 0);
     }
 
-    public static void draw(byte mask[], int maskOff, int destOff, int width, int height, int destStep, int maskStep, int color) {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+    public static void draw(byte mask[], int maskOff, int destOff, int width, int height, int destStep, int maskStep, int x, int y, int color) {
+        int[] pixels = new int[width * height];
+        for (int y2 = 0; y2 < height; y2++) {
+            for (int x2 = 0; x2 < width; x2++) {
                 if (mask[maskOff++] != 0) {
-                    Canvas2D.pixels[destOff++] = color;
+                    pixels[destOff] = color;
                 } else {
-                    destOff++;
+                    pixels[destOff] = -1;
                 }
+                destOff++;
             }
             destOff += destStep;
             maskOff += maskStep;
         }
+
+        Sprite sprite = new Sprite(pixels, width, height);
+        sprite.draw(Rt3.batch, x, y);
     }
 
     public static void draw(byte mask[], int maskOff, int destOff, int width, int height, int destStep, int maskStep, int color, int opacity) {

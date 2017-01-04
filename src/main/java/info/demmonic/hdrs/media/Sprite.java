@@ -1,5 +1,9 @@
 package info.demmonic.hdrs.media;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.io.Buffer;
 
@@ -17,6 +21,7 @@ public class Sprite extends Canvas2D {
     public int offsetX;
     public int offsetY;
     public int[] pixels;
+    private Texture texture;
 
     public Sprite(Archive archive, String imageArchive, int imageIndex) {
         Buffer data = new Buffer(archive.get(imageArchive + ".dat", null));
@@ -61,6 +66,7 @@ public class Sprite extends Canvas2D {
                 }
             }
         }
+        createTexture();
     }
 
     public Sprite(byte[] data) {
@@ -75,10 +81,18 @@ public class Sprite extends Canvas2D {
             this.pixels = new int[width * height];
             PixelGrabber g = new PixelGrabber(i, 0, 0, width, height, pixels, 0, width);
             g.grabPixels();
+            createTexture();
             return;
         } catch (Exception _ex) {
             System.out.println("Error converting jpg");
         }
+    }
+
+    public Sprite(int[] pixels, int width, int height) {
+        this.pixels = pixels;
+        this.width = width;
+        this.height = height;
+        createTexture();
     }
 
     public Sprite(int w, int h) {
@@ -89,6 +103,24 @@ public class Sprite extends Canvas2D {
         this.height = this.cropHeight;
         this.offsetX = 0;
         this.offsetY = 0;
+    }
+
+    public void createTexture() {
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int color = pixels[y * width + x];
+                int r = (color & 0xFF0000) >> 16;
+                int g = (color & 0xFF00) >> 8;
+                int b = (color & 0xFF);
+                if (color != -1) {
+                    pixmap.setColor(r / 255f, g / 255f, b / 255f, 1f);
+                    pixmap.drawPixel(x, y);
+                }
+            }
+        }
+        texture = new Texture(pixmap);
+        pixmap.dispose();
     }
 
     public void crop() {
@@ -156,10 +188,20 @@ public class Sprite extends Canvas2D {
         draw(pixels, bitmap.pixels, srcOff, dstOff, width, height, dstStep, srcStep);
     }
 
-    public void draw(int x, int y) {
+
+    public void draw(SpriteBatch batch, int x, int y) {
+        draw(batch, x, y, false, true);
+    }
+
+    public void draw(SpriteBatch batch, int x, int y, boolean flipX) {
+        draw(batch, x, y, flipX, true);
+    }
+
+    public void draw(Batch batch, int x, int y, boolean flipX, boolean flipY) {
         x += this.offsetX;
         y += this.offsetY;
-
+        batch.draw(texture, x, y, width, height, 0, 0, width, height, flipX, flipY);
+/*
         int height = this.height;
         int width = this.width;
 
@@ -202,7 +244,7 @@ public class Sprite extends Canvas2D {
             return;
         }
 
-        draw(pixels, srcOff, dstOff, width, height, dstStep, srcStep, DrawType.RGB);
+        draw(pixels, srcOff, dstOff, width, height, dstStep, srcStep, DrawType.RGB);*/
     }
 
     public void draw(int x, int y, int alpha) {
@@ -383,6 +425,7 @@ public class Sprite extends Canvas2D {
 
     public void prepare() {
         prepare(this.width, this.height, this.pixels);
+        int redOffset = (int) (Math.random() * 11D) - 5;
     }
 
     public void translateRgb(int r, int g, int b) {

@@ -6694,7 +6694,7 @@ public class Game extends GameShell {
         try {
             if (!reconnection) {
                 TitleScreen.setMessage("", "Connecting to server...");
-                TitleScreen.draw(true);
+                TitleScreen.draw(Rt3.batch, true);
             }
 
             Game.connection = new Connection(instance, instance.getSocket(43594 + portOffset));
@@ -6950,7 +6950,7 @@ public class Game extends GameShell {
             if (opcode == 21) {
                 for (int k1 = connection.getByte(); k1 >= 0; k1--) {
                     TitleScreen.setMessage("You have only just left another world", "Your profile will be transferred in: " + k1 + " seconds");
-                    TitleScreen.draw(true);
+                    TitleScreen.draw(Rt3.batch, true);
                     try {
                         Thread.sleep(1000L);
                     } catch (Exception _ex) {
@@ -8375,7 +8375,7 @@ public class Game extends GameShell {
         drawCycle++;
 
         if (!loggedIn) {
-            TitleScreen.draw(false);
+            TitleScreen.draw(Rt3.batch, false);
         } else {
             drawGame();
         }
@@ -8814,8 +8814,8 @@ public class Game extends GameShell {
 
                 }
 
-                bitmap3 = new Bitmap(archiveMedia, "scollbar", 0);
-                bitmap2 = new Bitmap(archiveMedia, "scollbar", 1);
+                bitmap3 = new Bitmap(archiveMedia, "scrollbar", 0);
+                bitmap2 = new Bitmap(archiveMedia, "scrollbar", 1);
 
                 int redOffset = (int) (Math.random() * 11D) - 5;
                 int greenOffset = (int) (Math.random() * 11D) - 5;
