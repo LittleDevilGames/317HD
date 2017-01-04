@@ -53,6 +53,64 @@ public class Rt3 extends com.badlogic.gdx.Game implements InputProcessor {
         keycode = KeyboardUtils.translateKeyCode(keycode);
         int keychar = (char) keycode;
 
+        if (!Keyboard.isShiftDown && keycode == KeyEvent.VK_SHIFT) {
+            Keyboard.isShiftDown = true;
+        }
+
+        if (org.lwjgl.input.Keyboard.isKeyDown(org.lwjgl.input.Keyboard.KEY_CAPITAL)) {
+            keychar = Character.toUpperCase(keychar);
+            if (Keyboard.isShiftDown) {
+                keychar = Character.toLowerCase(keychar);
+            }
+        } else {
+            keychar = Character.toLowerCase(keychar);
+            if (Keyboard.isShiftDown) {
+                keychar = Character.toUpperCase(keychar);
+            }
+        }
+
+        if (Keyboard.isShiftDown) {
+            if (keycode == KeyEvent.VK_1) {
+                keychar = '!';
+            } else if (keycode == KeyEvent.VK_2) {
+                keychar = '@';
+            } else if (keycode == KeyEvent.VK_3) {
+                keychar = '#';
+            } else if (keycode == KeyEvent.VK_4) {
+                keychar = '$';
+            } else if (keycode == KeyEvent.VK_5) {
+                keychar = '%';
+            } else if (keycode == KeyEvent.VK_6) {
+                keychar = '^';
+            } else if (keycode == KeyEvent.VK_7) {
+                keychar = '&';
+            } else if (keycode == KeyEvent.VK_8) {
+                keychar = '*';
+            } else if (keycode == KeyEvent.VK_9) {
+                keychar = '(';
+            } else if (keycode == KeyEvent.VK_0) {
+                keychar = ')';
+            } else if (keycode == KeyEvent.VK_EQUALS) {
+                keychar = '+';
+            } else if (keycode == KeyEvent.VK_OPEN_BRACKET) {
+                keychar = '{';
+            } else if (keycode == KeyEvent.VK_CLOSE_BRACKET) {
+                keychar = '}';
+            } else if (keycode == KeyEvent.VK_BACK_SLASH) {
+                keychar = '|';
+            } else if (keycode == KeyEvent.VK_SEMICOLON) {
+                keychar = ':';
+            } else if (keycode == KeyEvent.VK_QUOTEDBL) { //???
+                keychar = '"';
+            } else if (keycode == KeyEvent.VK_COMMA) {
+                keychar = '<';
+            } else if (keycode == KeyEvent.VK_PERIOD) {
+                keychar = '>';
+            } else if (keycode == KeyEvent.VK_SLASH) {
+                keychar = '?';
+            }
+        }
+
         if (keychar < 30) {
             keychar = 0;
         }
@@ -93,8 +151,11 @@ public class Rt3 extends com.badlogic.gdx.Game implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        System.out.println(keycode);
         keycode = KeyboardUtils.translateKeyCode(keycode);
+        if (Keyboard.isShiftDown && keycode == 16) {
+            Keyboard.isShiftDown = false;
+        }
+
         char c = (char) keycode;
         if (c < '\036') {
             c = '\0';

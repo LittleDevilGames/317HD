@@ -16,6 +16,7 @@ public class Keyboard implements KeyListener {
     public static Keyboard instance;
     public static ArrayList<Key> keys = new ArrayList<>();
     public static int lastPosition;
+    public static boolean isShiftDown;
 
     static {
         Key.init();
