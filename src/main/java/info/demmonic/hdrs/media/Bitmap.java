@@ -1,5 +1,8 @@
 package info.demmonic.hdrs.media;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.io.Buffer;
 
@@ -7,7 +10,6 @@ public class Bitmap extends Canvas2D {
 
     public static final byte FLIP_HORIZONTALLY = 0x1;
     public static final byte FLIP_VERTICALLY = 0x2;
-
     public int cropHeight;
     public int cropWidth;
     public int width;
@@ -16,6 +18,7 @@ public class Bitmap extends Canvas2D {
     public int offsetY;
     public int[] palette;
     public byte[] pixels;
+    private Texture texture;
 
     public Bitmap(Archive archive, String imageArchive) {
         this(archive, imageArchive, 0);
@@ -61,6 +64,22 @@ public class Bitmap extends Canvas2D {
                 }
             }
         }
+
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int color = palette[pixels[y * width + x]];
+                int a = pixels[y * width + x] == 0 ? 0 : 1;
+                int r = (color & 0xFF0000) >> 16;
+                int g = (color & 0xFF00) >> 8;
+                int b = (color & 0xFF);
+
+                pixmap.setColor(r / 255f, g / 255f, b / 255f, a);
+                pixmap.drawPixel(x, y);
+            }
+        }
+        texture = new Texture(pixmap);
+        pixmap.dispose();
     }
 
     public void crop() {
@@ -85,10 +104,15 @@ public class Bitmap extends Canvas2D {
     }
 
     public void draw(int x, int y) {
+        draw(null, x, y);
+    }
+
+    public void draw(SpriteBatch batch, int x, int y) {
         x += this.offsetX;
         y += this.offsetY;
+        batch.draw(texture, x, y, width, height, 0, 0, width, height, false, false);
 
-        int dstOff = x + y * Canvas2D.width;
+ /*       int dstOff = x + y * Canvas2D.width;
         int srcOff = 0;
 
         int height = this.height;
@@ -130,7 +154,7 @@ public class Bitmap extends Canvas2D {
             return;
         }
 
-        draw(this.pixels, this.palette, srcOff, dstOff, width, height, dstStep, srcStep);
+        draw(this.pixels, this.palette, srcOff, dstOff, width, height, dstStep, srcStep);*/
     }
 
     public Bitmap flipHorizontally() {

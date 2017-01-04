@@ -191,12 +191,12 @@ public class BitmapFont extends Canvas2D {
     }
 
     public void drawChar(byte mask[], int x, int y, int width, int height, int color) {
-        int dstOff = x + y * Canvas2D.width;
-        int dstStep = Canvas2D.width - width;
+        int dstOff = 0;
+        int dstStep = 0;
         int mskStep = 0;
         int mskOff = 0;
 
-        if (y < leftY) {
+/*        if (y < leftY) {
             int i = leftY - y;
             height -= i;
             y = leftY;
@@ -227,9 +227,9 @@ public class BitmapFont extends Canvas2D {
 
         if (width <= 0 || height <= 0) {
             return;
-        }
+        }*/
 
-        draw(mask, mskOff, dstOff, width, height, dstStep, mskStep, color);
+        draw(mask, mskOff, dstOff, width, height, dstStep, mskStep, x, y, color);
     }
 
     public void drawChar(int opacity, int x, byte mask[], int width, int y, int height, boolean flag, int color) {
