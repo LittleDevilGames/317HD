@@ -8,9 +8,6 @@ public class Actor extends Entity {
 
     public ActorConfig config;
 
-    public Actor() {
-    }
-
     public Model getBuiltModel() {
         int frame1 = -1;
 
@@ -39,7 +36,6 @@ public class Actor extends Entity {
         }
 
         Model model = getBuiltModel();
-
         if (model == null) {
             return null;
         }
@@ -67,7 +63,6 @@ public class Actor extends Entity {
                 m1.applyLighting(64 + c.brightness, 850 + c.specular, -30, -50, -30, true);
                 model = new Model(2, true, new Model[]{model, m1});
             }
-
         }
 
         if (config.hasOptions == 1) {

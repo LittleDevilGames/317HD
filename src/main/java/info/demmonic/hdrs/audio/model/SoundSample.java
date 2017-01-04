@@ -13,16 +13,16 @@ public class SoundSample {
     public static int anIntArray121[] = new int[5];
     public static int anIntArray122[] = new int[5];
     public boolean aBoolean97;
-    public SoundEnvelope aClass29_100;
-    public SoundEnvelope aClass29_101;
-    public SoundEnvelope aClass29_102;
-    public SoundEnvelope aClass29_103;
-    public SoundEnvelope aClass29_104;
-    public SoundEnvelope aClass29_105;
-    public SoundEnvelope aClass29_112;
-    public SoundEnvelope aClass29_98;
-    public SoundEnvelope aClass29_99;
-    public SoundFilter aClass39_111;
+    public SoundEnvelope aClass29100;
+    public SoundEnvelope aClass29101;
+    public SoundEnvelope aClass29102;
+    public SoundEnvelope aClass29103;
+    public SoundEnvelope aClass29104;
+    public SoundEnvelope aClass29105;
+    public SoundEnvelope aClass29112;
+    public SoundEnvelope aClass2998;
+    public SoundEnvelope aClass2999;
+    public SoundFilter aClass39111;
     public int anInt109;
     public int anInt110;
     public int position;
@@ -65,29 +65,29 @@ public class SoundSample {
         }
 
         double rate = (double) length / ((double) position + 0.0D);
-        aClass29_98.reset();
-        aClass29_99.reset();
+        aClass2998.reset();
+        aClass2999.reset();
 
         int l = 0;
         int i1 = 0;
         int j1 = 0;
 
-        if (aClass29_100 != null) {
-            aClass29_100.reset();
-            aClass29_101.reset();
-            l = (int) (((double) (aClass29_100.anInt539 - aClass29_100.anInt538) * 32.768000000000001D) / rate);
-            i1 = (int) (((double) aClass29_100.anInt538 * 32.768000000000001D) / rate);
+        if (aClass29100 != null) {
+            aClass29100.reset();
+            aClass29101.reset();
+            l = (int) (((double) (aClass29100.anInt539 - aClass29100.anInt538) * 32.768000000000001D) / rate);
+            i1 = (int) (((double) aClass29100.anInt538 * 32.768000000000001D) / rate);
         }
 
         int k1 = 0;
         int l1 = 0;
         int i2 = 0;
 
-        if (aClass29_102 != null) {
-            aClass29_102.reset();
-            aClass29_103.reset();
-            k1 = (int) (((double) (aClass29_102.anInt539 - aClass29_102.anInt538) * 32.768000000000001D) / rate);
-            l1 = (int) (((double) aClass29_102.anInt538 * 32.768000000000001D) / rate);
+        if (aClass29102 != null) {
+            aClass29102.reset();
+            aClass29103.reset();
+            k1 = (int) (((double) (aClass29102.anInt539 - aClass29102.anInt538) * 32.768000000000001D) / rate);
+            l1 = (int) (((double) aClass29102.anInt538 * 32.768000000000001D) / rate);
         }
 
         for (int j2 = 0; j2 < 5; j2++) {
@@ -95,26 +95,26 @@ public class SoundSample {
                 anIntArray118[j2] = 0;
                 anIntArray119[j2] = (int) ((double) anIntArray108[j2] * rate);
                 anIntArray120[j2] = (anIntArray106[j2] << 14) / 100;
-                anIntArray121[j2] = (int) (((double) (aClass29_98.anInt539 - aClass29_98.anInt538) * 32.768000000000001D * Math.pow(1.0057929410678534D, anIntArray107[j2])) / rate);
-                anIntArray122[j2] = (int) (((double) aClass29_98.anInt538 * 32.768000000000001D) / rate);
+                anIntArray121[j2] = (int) (((double) (aClass2998.anInt539 - aClass2998.anInt538) * 32.768000000000001D * Math.pow(1.0057929410678534D, anIntArray107[j2])) / rate);
+                anIntArray122[j2] = (int) (((double) aClass2998.anInt538 * 32.768000000000001D) / rate);
             }
         }
 
         for (int k2 = 0; k2 < length; k2++) {
-            int l2 = aClass29_98.evaluate(length);
-            int j4 = aClass29_99.evaluate(length);
+            int l2 = aClass2998.evaluate(length);
+            int j4 = aClass2999.evaluate(length);
 
-            if (aClass29_100 != null) {
-                int j5 = aClass29_100.evaluate(length);
-                int j6 = aClass29_101.evaluate(length);
-                l2 += evaluate(j6, j1, aClass29_100.form) >> 1;
+            if (aClass29100 != null) {
+                int j5 = aClass29100.evaluate(length);
+                int j6 = aClass29101.evaluate(length);
+                l2 += evaluate(j6, j1, aClass29100.form) >> 1;
                 j1 += (j5 * l >> 16) + i1;
             }
 
-            if (aClass29_102 != null) {
-                int k5 = aClass29_102.evaluate(length);
-                int k6 = aClass29_103.evaluate(length);
-                j4 = j4 * ((evaluate(k6, i2, aClass29_102.form) >> 1) + 32768) >> 15;
+            if (aClass29102 != null) {
+                int k5 = aClass29102.evaluate(length);
+                int k6 = aClass29103.evaluate(length);
+                j4 = j4 * ((evaluate(k6, i2, aClass29102.form) >> 1) + 32768) >> 15;
                 i2 += (k5 * k1 >> 16) + l1;
             }
 
@@ -122,7 +122,7 @@ public class SoundSample {
                 if (anIntArray106[l5] != 0) {
                     int l6 = k2 + anIntArray119[l5];
                     if (l6 < length) {
-                        encoded[l6] += evaluate(j4 * anIntArray120[l5] >> 15, anIntArray118[l5], aClass29_98.form);
+                        encoded[l6] += evaluate(j4 * anIntArray120[l5] >> 15, anIntArray118[l5], aClass2998.form);
                         anIntArray118[l5] += (l2 * anIntArray121[l5] >> 16) + anIntArray122[l5];
                     }
                 }
@@ -130,19 +130,19 @@ public class SoundSample {
 
         }
 
-        if (aClass29_104 != null) {
-            aClass29_104.reset();
-            aClass29_105.reset();
+        if (aClass29104 != null) {
+            aClass29104.reset();
+            aClass29105.reset();
             int i3 = 0;
             boolean flag1 = true;
             for (int i7 = 0; i7 < length; i7++) {
-                int k7 = aClass29_104.evaluate(length);
-                int i8 = aClass29_105.evaluate(length);
+                int k7 = aClass29104.evaluate(length);
+                int i8 = aClass29105.evaluate(length);
                 int k4;
                 if (flag1) {
-                    k4 = aClass29_104.anInt538 + ((aClass29_104.anInt539 - aClass29_104.anInt538) * k7 >> 8);
+                    k4 = aClass29104.anInt538 + ((aClass29104.anInt539 - aClass29104.anInt538) * k7 >> 8);
                 } else {
-                    k4 = aClass29_104.anInt538 + ((aClass29_104.anInt539 - aClass29_104.anInt538) * i8 >> 8);
+                    k4 = aClass29104.anInt538 + ((aClass29104.anInt539 - aClass29104.anInt538) * i8 >> 8);
                 }
                 if ((i3 += 256) >= k4) {
                     i3 = 0;
@@ -161,11 +161,11 @@ public class SoundSample {
             }
 
         }
-        if (aClass39_111.anIntArray665[0] > 0 || aClass39_111.anIntArray665[1] > 0) {
-            aClass29_112.reset();
-            int k3 = aClass29_112.evaluate(length + 1);
-            int i5 = aClass39_111.method544(0, (float) k3 / 65536F, 201);
-            int i6 = aClass39_111.method544(1, (float) k3 / 65536F, 201);
+        if (aClass39111.anIntArray665[0] > 0 || aClass39111.anIntArray665[1] > 0) {
+            aClass29112.reset();
+            int k3 = aClass29112.evaluate(length + 1);
+            int i5 = aClass39111.method544(0, (float) k3 / 65536F, 201);
+            int i6 = aClass39111.method544(1, (float) k3 / 65536F, 201);
             if (length >= i5 + i6) {
                 int j7 = 0;
                 int l7 = i6;
@@ -183,7 +183,7 @@ public class SoundSample {
                     }
 
                     encoded[j7] = j8;
-                    k3 = aClass29_112.evaluate(length + 1);
+                    k3 = aClass29112.evaluate(length + 1);
                 }
 
                 char c = '\200';
@@ -203,14 +203,14 @@ public class SoundSample {
                         }
 
                         encoded[j7] = l8;
-                        k3 = aClass29_112.evaluate(length + 1);
+                        k3 = aClass29112.evaluate(length + 1);
                     }
 
                     if (j7 >= length - i5) {
                         break;
                     }
-                    i5 = aClass39_111.method544(0, (float) k3 / 65536F, 201);
-                    i6 = aClass39_111.method544(1, (float) k3 / 65536F, 201);
+                    i5 = aClass39111.method544(0, (float) k3 / 65536F, 201);
+                    i6 = aClass39111.method544(1, (float) k3 / 65536F, 201);
                     l7 += c;
                 } while (true);
                 for (; j7 < length; j7++) {
@@ -224,7 +224,7 @@ public class SoundSample {
                     }
 
                     encoded[j7] = i9;
-                    aClass29_112.evaluate(length + 1);
+                    aClass29112.evaluate(length + 1);
                 }
 
             }
@@ -260,39 +260,39 @@ public class SoundSample {
     }
 
     public void decode(Buffer b) {
-        aClass29_98 = new SoundEnvelope();
-        aClass29_98.decode(b);
-        aClass29_99 = new SoundEnvelope();
-        aClass29_99.decode(b);
+        aClass2998 = new SoundEnvelope();
+        aClass2998.decode(b);
+        aClass2999 = new SoundEnvelope();
+        aClass2999.decode(b);
 
         int i = b.readUnsignedByte();
 
         if (i != 0) {
             b.position--;
-            aClass29_100 = new SoundEnvelope();
-            aClass29_100.decode(b);
-            aClass29_101 = new SoundEnvelope();
-            aClass29_101.decode(b);
+            aClass29100 = new SoundEnvelope();
+            aClass29100.decode(b);
+            aClass29101 = new SoundEnvelope();
+            aClass29101.decode(b);
         }
 
         i = b.readUnsignedByte();
 
         if (i != 0) {
             b.position--;
-            aClass29_102 = new SoundEnvelope();
-            aClass29_102.decode(b);
-            aClass29_103 = new SoundEnvelope();
-            aClass29_103.decode(b);
+            aClass29102 = new SoundEnvelope();
+            aClass29102.decode(b);
+            aClass29103 = new SoundEnvelope();
+            aClass29103.decode(b);
         }
 
         i = b.readUnsignedByte();
 
         if (i != 0) {
             b.position--;
-            aClass29_104 = new SoundEnvelope();
-            aClass29_104.decode(b);
-            aClass29_105 = new SoundEnvelope();
-            aClass29_105.decode(b);
+            aClass29104 = new SoundEnvelope();
+            aClass29104.decode(b);
+            aClass29105 = new SoundEnvelope();
+            aClass29105.decode(b);
         }
 
         for (int j = 0; j < 10; j++) {
@@ -312,9 +312,9 @@ public class SoundSample {
         position = b.readUnsignedShort();
         remaining = b.readUnsignedShort();
 
-        aClass39_111 = new SoundFilter();
-        aClass29_112 = new SoundEnvelope();
-        aClass39_111.method545(b, false, aClass29_112);
+        aClass39111 = new SoundFilter();
+        aClass29112 = new SoundEnvelope();
+        aClass39111.method545(b, false, aClass29112);
     }
 
 }

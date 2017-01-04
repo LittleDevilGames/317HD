@@ -2,8 +2,6 @@ package info.demmonic.hdrs.node;
 
 public class Link {
 
-    public static final Link EMPTY = new Link();
-
     public long identity;
     public Link next;
     public Link previous;

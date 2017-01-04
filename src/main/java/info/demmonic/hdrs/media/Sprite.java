@@ -83,7 +83,7 @@ public class Sprite extends Canvas2D {
             g.grabPixels();
             createTexture();
             return;
-        } catch (Exception _ex) {
+        } catch (Exception e) {
             System.out.println("Error converting jpg");
         }
     }
@@ -337,7 +337,7 @@ public class Sprite extends Canvas2D {
             }
 
             return;
-        } catch (Exception _ex) {
+        } catch (Exception e) {
             return;
         }
     }
@@ -373,7 +373,7 @@ public class Sprite extends Canvas2D {
                 srcOffY += cos;
                 dstOff += Canvas2D.width;
             }
-        } catch (Exception _ex) {
+        } catch (Exception e) {
         }
     }
 

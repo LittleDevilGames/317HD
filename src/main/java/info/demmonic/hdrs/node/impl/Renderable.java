@@ -17,11 +17,11 @@ public class Renderable extends CacheLink {
         return null;
     }
 
-    public void render(int rotation, int cam_pitch_sin, int cam_pitch_cos, int cam_yaw_sin, int cam_yaw_cos, int x, int y, int z, int uid) {
+    public void render(int rotation, int camPitchSin, int camPitchCos, int camYawSin, int camYawCos, int x, int y, int z, int uid) {
         Model m = this.getModel();
         if (m != null) {
             height = m.height;
-            m.render(rotation, cam_pitch_sin, cam_pitch_cos, cam_yaw_sin, cam_yaw_cos, x, y, z, uid);
+            m.render(rotation, camPitchSin, camPitchCos, camYawSin, camYawCos, x, y, z, uid);
         }
     }
 }

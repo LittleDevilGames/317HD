@@ -8,11 +8,9 @@ public class Item extends Renderable {
     public short index;
     public int stackIndex;
 
-    public Item() {
-    }
-
     @Override
     public Model getModel() {
         return ObjConfig.get(index).getModel(stackIndex);
     }
+
 }

@@ -51,9 +51,9 @@ public class Chat extends Widget {
     public static boolean redraw = false;
     private static Chat instance = new Chat();
     private static Line[] lines = new Line[100];
-    private static Map<Byte, StringBuilder> input = new HashMap<Byte, StringBuilder>();
-    private static Map<Byte, Integer> widget = new HashMap<Byte, Integer>();
-    private static Map<Byte, String> message = new HashMap<Byte, String>();
+    private static Map<Byte, StringBuilder> input = new HashMap<>();
+    private static Map<Byte, Integer> widget = new HashMap<>();
+    private static Map<Byte, String> message = new HashMap<>();
 
     static {
         input.put(INPUT_CHAT, new StringBuilder());

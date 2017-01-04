@@ -95,11 +95,11 @@ public class OverlayTile {
             }
     };
 
-    public static int tmpScreenX[] = new int[6];
-    public static int tmpScreenY[] = new int[6];
-    public static int tmpTriangleX[] = new int[6];
-    public static int tmpTriangleY[] = new int[6];
-    public static int tmpTriangleZ[] = new int[6];
+    public static int[] tmpScreenX = new int[6];
+    public static int[] tmpScreenY = new int[6];
+    public static int[] tmpTriangleX = new int[6];
+    public static int[] tmpTriangleY = new int[6];
+    public static int[] tmpTriangleZ = new int[6];
 
     public int hsl;
     public boolean ignoreUv;

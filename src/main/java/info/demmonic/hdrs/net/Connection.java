@@ -11,19 +11,16 @@ public class Connection implements Runnable {
 
     public GameShell applet;
     public byte buffer[];
-    public boolean closed;
+    public boolean closed = false;
     public int cycle;
-    public boolean error;
+    public boolean error = false;
     public InputStream in;
     public OutputStream out;
     public int position;
     public Socket socket;
-    public boolean writing;
+    public boolean writing = false;
 
     public Connection(GameShell applet, Socket socket) throws IOException {
-        this.closed = false;
-        this.writing = false;
-        this.error = false;
         this.applet = applet;
         this.socket = socket;
         this.socket.setSoTimeout(30000);
@@ -88,20 +85,6 @@ public class Connection implements Runnable {
         return read;
     }
 
-    public void printDebug() {
-        System.out.println("dummy:" + closed);
-        System.out.println("tcycl:" + cycle);
-        System.out.println("tnum:" + position);
-        System.out.println("writer:" + writing);
-        System.out.println("ioerror:" + error);
-        try {
-            System.out.println("available:" + getAvailable());
-            return;
-        } catch (IOException _ex) {
-            return;
-        }
-    }
-
     public void putBytes(byte[] src, int off, int len) throws IOException {
         if (closed) {
             return;
@@ -138,7 +121,7 @@ public class Connection implements Runnable {
                 if (position == cycle) {
                     try {
                         wait();
-                    } catch (InterruptedException _ex) {
+                    } catch (InterruptedException ignored) {
                     }
                 }
 

@@ -31,7 +31,7 @@ public class CharacterDesign {
     public static int[] selectedColors = new int[5];
     public static int[] selectedIdentityKits = new int[7];
 
-    public static boolean handle(Widget widget, int type) {
+    public static boolean handle(int type) {
         if (type >= 314 && type <= 323) {
             int part = (type - 314) / 2;
             int option = type & 1;

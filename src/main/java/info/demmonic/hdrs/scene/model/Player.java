@@ -18,9 +18,9 @@ public class Player extends Entity {
     public static List modelCache = new List(260);
 
     public ActorConfig actorConfig;
-    public int[] colors;
+    public int[] colors = new int[5];
     public short combatLevel;
-    public short[] equipmentIndices;
+    public short[] equipmentIndices = new short[12];
     public byte gender;
     public byte headiconFlag;
     public int locEndCycle;
@@ -33,22 +33,14 @@ public class Player extends Entity {
     public int locX;
     public int locY;
     public int locZ;
-    public boolean lowLod;
+    public boolean lowLod = false;
     public long modelUid;
     public String name;
     public int sceneZ;
     public int skillLevel;
     public int team;
-    public long uid;
-    public boolean visible;
-
-    public Player() {
-        uid = -1L;
-        lowLod = false;
-        colors = new int[5];
-        visible = false;
-        equipmentIndices = new short[12];
-    }
+    public long uid = -1L;
+    public boolean visible = false;
 
     public Model getBuiltModel() {
         if (actorConfig != null) {

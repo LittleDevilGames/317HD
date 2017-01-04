@@ -53,33 +53,32 @@ public class Game extends GameShell {
     public static final int[][] TAB_BUTTONS = {{539, 573, 169, 205}, {569, 599, 168, 205}, {597, 627, 168, 205}, {625, 669, 168, 203}, {666, 696, 168, 205}, {694, 724, 168, 205}, {722, 756, 169, 205}, {540, 574, 466, 502}, {572, 602, 466, 503}, {599, 629, 466, 503}, {627, 671, 467, 502}, {669, 699, 466, 503}, {696, 726, 466, 503}, {724, 758, 466, 502}};
     public static final boolean WINTER = false;
     public static final int XP_TABLE[];
-    private static final long serialVersionUID = -7268339690803378968L;
     public static int netRegionX;
     public static int netRegionY;
-    public static boolean aBooleanArray876[];
+    public static boolean[] aBooleanArray876;
     public static int actorCount;
-    public static int actorIndices[];
-    public static Actor actors[];
+    public static int[] actorIndices;
+    public static Actor[] actors;
     public static int animCycle;
     public static byte[] ANIMATED_TEXTURES = {17, 24, 34};
     public static int anInt913;
-    public static int anIntArray1030[];
-    public static int anIntArray1052[];
-    public static int anIntArray1057[];
-    public static int anIntArray1203[];
-    public static int anIntArray1229[];
-    public static int anIntArray873[];
-    public static int anIntArray928[];
-    public static int anIntArray968[];
-    public static int archiveCrc[];
+    public static int[] anIntArray1030;
+    public static int[] anIntArray1052;
+    public static int[] anIntArray1057;
+    public static int[] anIntArray1203;
+    public static int[] anIntArray1229;
+    public static int[] anIntArray873;
+    public static int[] anIntArray928;
+    public static int[] anIntArray968;
+    public static int[] archiveCrc;
     public static Archive archive;
     public static Bitmap bitmap;
-    public static Bitmap bitmaps[];
+    public static Bitmap[] bitmaps;
     public static Bitmap bitmap1;
-    public static Bitmap bitmapModIcons[];
+    public static Bitmap[] bitmapModIcons;
     public static Bitmap bitmap2;
     public static Bitmap bitmap3;
-    public static Cache cache[];
+    public static Cache[] cache;
     public static int camCinemaAimX;
     public static int camCinemaAimY;
     public static int camCinemaAimZ;
@@ -106,15 +105,15 @@ public class Game extends GameShell {
     public static int chaseCamY;
     public static int chaseCamYaw;
     public static int chaseCamYawMod;
-    public static int chatPixels3D[];
-    public static int chunkCoords[];
-    public static byte chunkLandscapePayload[][];
-    public static byte chunkLocPayload[][];
+    public static int[] chatPixels3D;
+    public static int[] chunkCoords;
+    public static byte[][] chunkLandscapePayload;
+    public static byte[][] chunkLocPayload;
     public static int clickArea;
     public static int clickCycle;
     public static int clickedItemSlot;
     public static int clickedItemWidget;
-    public static CollisionMap collisionMaps[];
+    public static CollisionMap[] collisionMaps;
     public static Connection connection;
     public static IsaacCipher connectionIsaac;
     public static CRC32 crc32;
@@ -123,7 +122,7 @@ public class Game extends GameShell {
     public static int crossX;
     public static int crossY;
     public static boolean debug = false;
-    public static int defaultSettings[];
+    public static int[] defaultSettings;
     public static boolean dialogueOptionActive;
     public static int dragArea;
     public static int dragCycle;
@@ -139,34 +138,34 @@ public class Game extends GameShell {
     public static int drawY;
     public static int energyLeft;
     public static int entityCount;
-    public static int entityIndex[];
+    public static int[] entityIndex;
     public static int entityUpdateCount;
-    public static int entityUpdateIndices[];
+    public static int[] entityUpdateIndices;
     public static Exception errorException;
     public static boolean errorLoading;
     public static volatile boolean flameThread;
     public static int freeFriendsList;
     public static int frenemiesStatus;
     public static int friendCount;
-    public static long friendLong[];
-    public static String friendName[];
-    public static int friendNode[];
-    public static short heightMap[][][];
+    public static long[] friendLong;
+    public static String[] friendName;
+    public static int[] friendNode = new int[200];
+    public static short[][][] heightMap;
     public static int hoveredChatWidget;
     public static int hoveredSlot;
     public static int hoveredSlotWidget;
     public static int hoveredTabWidget;
     public static int hoveredViewportWidget;
     public static int ignoreCount;
-    public static long ignoreLong[];
+    public static long[] ignoreLong;
     public static Sprite imageCompass;
-    public static Sprite imageCrosses[];
-    public static Sprite imageHeadIcons[];
-    public static Sprite imageHitMarks[];
+    public static Sprite[] imageCrosses;
+    public static Sprite[] imageHeadIcons;
+    public static Sprite[] imageHitMarks;
     public static Sprite[] imageMapMarkers;
     public static Sprite[] imageMapDots;
     public static Sprite imageMapedge;
-    public static Sprite imageMapFunctions[];
+    public static Sprite[] imageMapFunctions;
     public static Sprite imageMinimap;
     public static Sprite imageOverlayMultiway;
     public static Buffer in;
@@ -174,10 +173,10 @@ public class Game extends GameShell {
     public static Game instance;
     public static boolean isFocused;
     public static boolean isMembers = true;
-    public static Chain itemPile[][][] = new Chain[4][104][104];
+    public static Chain[][][] itemPile = new Chain[4][104][104];
     public static Socket jaggrabSocket;
     public static Landscape landscape;
-    public static int landscapeUids[];
+    public static int[] landscapeUids;
     public static long lastClickTime;
     public static int lastMapBaseX;
     public static int lastMapBaseY;
@@ -189,24 +188,24 @@ public class Game extends GameShell {
     public static int lastSoundPosition;
     public static long lastSoundTime;
     public static int lastSoundType;
-    public static Sprite locIcon[];
+    public static Sprite[] locIcon;
     public static int locIconCount;
-    public static int locIconX[];
-    public static int locIconY[];
+    public static int[] locIconX;
+    public static int[] locIconY;
     public static int localPlayerIndex;
     public static int localRights;
-    public static int localTileCycle[][];
+    public static int[][] localTileCycle;
     public static boolean loggedIn;
     public static Buffer loginBuffer;
     public static int logoutCycle;
     public static int loopCycle;
     public static boolean lowDetail = true;
-    public static int LSB_BIT_MASK[];
+    public static int[] LSB_BIT_MASK;
     public static int mapBaseX;
     public static int mapBaseY;
     public static int mapMarkerX;
     public static int mapMarkerY;
-    public static int mapUids[];
+    public static int[] mapUids;
     public static int mapZoomModifier;
     public static int mapZoomOffset;
     public static int markActorIndex;
@@ -232,17 +231,17 @@ public class Game extends GameShell {
     public static Buffer out;
     public static String password;
     public static int pathArbitraryDest;
-    public static int pathDistance[][];
-    public static int pathQueueX[];
-    public static int pathQueueY[];
-    public static int pathWaypoint[][];
+    public static int[][] pathDistance = new int[104][104];
+    public static int[] pathQueueX;
+    public static int[] pathQueueY;
+    public static int[][] pathWaypoint;
     public static int plane;
-    public static boolean playerActionPriority[];
-    public static String playerAction[];
-    public static Buffer playerBuffer[];
+    public static boolean[] playerActionPriority;
+    public static String[] playerAction;
+    public static Buffer[] playerBuffer;
     public static int playerCount;
-    public static int playerIndices[];
-    public static Player players[];
+    public static int[] playerIndices;
+    public static Player[] players;
     public static int portOffset;
     public static volatile boolean processFlames;
     public static String progressCaption;
@@ -254,10 +253,10 @@ public class Game extends GameShell {
     public static boolean recordMouse;
     public static boolean redraw;
     public static int redrawCycle;
-    public static int regionChunkUniqueIds[][][];
+    public static int[][][] regionChunkUniqueIds;
     public static int loadedRegionX;
     public static int loadedRegionY;
-    public static byte renderFlags[][][];
+    public static byte[][][] renderFlags;
     public static String reportAbuseInput;
     public static boolean reportAbuseMute;
     public static int reportAbuseWindex;
@@ -285,31 +284,30 @@ public class Game extends GameShell {
     public static boolean sendCamInfo;
     public static long serverSeed;
     public static boolean serverSentChunk;
-    public static int settings[];
-    public static int skillExperience[];
-    public static int skillLevel[];
-    public static int skillRealLevel[];
+    public static int[] settings;
+    public static int[] skillExperience;
+    public static int[] skillLevel;
+    public static int[] skillRealLevel;
     public static int soundCount;
-    public static int soundDelay[];
-    public static int soundIndex[];
-    public static int soundType[];
+    public static int[] soundDelay;
+    public static int[] soundIndex;
+    public static int[] soundType;
     public static Chain spawnedLocs;
-    public static String spoken[];
-    public static int spokenColor[];
+    public static String[] spoken;
+    public static int[] spokenColor;
     public static int spokenCount;
-    public static int spokenCycle[];
-    public static int spokenEffect[];
+    public static int[] spokenCycle;
+    public static int[] spokenEffect;
     public static int spokenMax;
-    public static int spokenOffX[];
-    public static int spokenOffY[];
-    public static int spokenX[];
-    public static int spokenY[];
+    public static int[] spokenOffX;
+    public static int[] spokenOffY;
+    public static int[] spokenX;
+    public static int[] spokenY;
     public static Chain spotanims;
-    public static boolean stopping = false;
     public static int tmpHoveredWidget;
-    public static byte tmpTexels[];
+    public static byte[] tmpTexels;
     public static String username;
-    public static int viewportPixels[];
+    public static int[] viewportPixels;
     public static int weightCarried;
     public static int welcomeInfo;
     public static int welcomeLastIp;
@@ -350,8 +348,6 @@ public class Game extends GameShell {
     public Game() {
         Game.instance = this;
 
-        pathDistance = new int[104][104];
-        friendNode = new int[200];
         processFlames = false;
         actors = new Actor[16384];
         actorIndices = new int[16384];
@@ -456,59 +452,59 @@ public class Game extends GameShell {
         lastSoundType = -1;
     }
 
-    public static void addLoc(int y, int x, int plane, int new_loc_index, int loc_rotation, int new_loc_type, int class_type) {
+    public static void addLoc(int y, int x, int plane, int newLocIndex, int locRotation, int newLocType, int classType) {
         if (x >= 1 && y >= 1 && x <= 102 && y <= 102) {
             if (lowDetail && plane != Game.plane) {
                 return;
             }
 
-            int loc_uid = 0;
+            int locUid = 0;
 
-            if (class_type == 0) {
-                loc_uid = landscape.getWallUid(plane, x, y);
-            } else if (class_type == 1) {
-                loc_uid = landscape.getWallDecorationUid(plane, x, y);
-            } else if (class_type == 2) {
-                loc_uid = landscape.getLocUid(plane, x, y);
-            } else if (class_type == 3) {
-                loc_uid = landscape.getGroundDecorationUid(plane, x, y);
+            if (classType == 0) {
+                locUid = landscape.getWallUid(plane, x, y);
+            } else if (classType == 1) {
+                locUid = landscape.getWallDecorationUid(plane, x, y);
+            } else if (classType == 2) {
+                locUid = landscape.getLocUid(plane, x, y);
+            } else if (classType == 3) {
+                locUid = landscape.getGroundDecorationUid(plane, x, y);
             }
 
-            if (loc_uid != 0) {
-                int loc_arrangement = landscape.getArrangement(plane, x, y, loc_uid);
-                int loc_index = loc_uid >> 14 & 0x7fff;
-                int loc_type = loc_arrangement & 0x1f;
-                int loc_rot = loc_arrangement >> 6;
+            if (locUid != 0) {
+                int locArrangement = landscape.getArrangement(plane, x, y, locUid);
+                int locIndex = locUid >> 14 & 0x7fff;
+                int locType = locArrangement & 0x1f;
+                int locRot = locArrangement >> 6;
 
-                if (class_type == 0) {
+                if (classType == 0) {
                     landscape.removeWall(x, plane, y);
-                    LocConfig lc = LocConfig.get(loc_index);
+                    LocConfig lc = LocConfig.get(locIndex);
 
                     if (lc.hasCollisions) {
-                        collisionMaps[plane].removeWall(x, y, loc_type, loc_rot, lc.blocksProjectiles);
+                        collisionMaps[plane].removeWall(x, y, locType, locRot, lc.blocksProjectiles);
                     }
                 }
 
-                if (class_type == 1) {
+                if (classType == 1) {
                     landscape.removeWallDecoration(0, y, plane, x);
                 }
 
-                if (class_type == 2) {
+                if (classType == 2) {
                     landscape.clearLocs(x, y, plane);
-                    LocConfig lc = LocConfig.get(new_loc_index);
+                    LocConfig lc = LocConfig.get(newLocIndex);
 
                     if (x + lc.sizeX > 103 || y + lc.sizeX > 103 || x + lc.sizeY > 103 || y + lc.sizeY > 103) {
                         return;
                     }
 
                     if (lc.hasCollisions) {
-                        collisionMaps[plane].removeLoc(x, y, lc.sizeX, lc.sizeY, loc_rot, lc.blocksProjectiles);
+                        collisionMaps[plane].removeLoc(x, y, lc.sizeX, lc.sizeY, locRot, lc.blocksProjectiles);
                     }
                 }
 
-                if (class_type == 3) {
+                if (classType == 3) {
                     landscape.removeGroundDecoration(x, y, plane);
-                    LocConfig lc = LocConfig.get(new_loc_index);
+                    LocConfig lc = LocConfig.get(newLocIndex);
 
                     if (lc.hasCollisions && lc.isStatic) {
                         collisionMaps[plane].method218(x, y);
@@ -516,14 +512,14 @@ public class Game extends GameShell {
                 }
             }
 
-            if (new_loc_index >= 0) {
-                int vertex_plane = plane;
+            if (newLocIndex >= 0) {
+                int vertexPlane = plane;
 
-                if (vertex_plane < 3 && (renderFlags[1][x][y] & 2) == 2) {
-                    vertex_plane++;
+                if (vertexPlane < 3 && (renderFlags[1][x][y] & 2) == 2) {
+                    vertexPlane++;
                 }
 
-                Scene.addLoc(landscape, x, y, plane, new_loc_index, new_loc_type, loc_rotation, vertex_plane, collisionMaps[plane], heightMap);
+                Scene.addLoc(landscape, x, y, plane, newLocIndex, newLocType, locRotation, vertexPlane, collisionMaps[plane], heightMap);
             }
         }
     }
@@ -650,19 +646,19 @@ public class Game extends GameShell {
                 continue;
             }
 
-            int local_x = a.sceneX >> 7;
-            int local_y = a.sceneY >> 7;
+            int localX = a.sceneX >> 7;
+            int localY = a.sceneY >> 7;
 
-            if (local_x < 0 || local_x >= 104 || local_y < 0 || local_y >= 104) {
+            if (localX < 0 || localX >= 104 || localY < 0 || localY >= 104) {
                 continue;
             }
 
             if (a.size == 1 && (a.sceneX & 0x7f) == 64 && (a.sceneY & 0x7f) == 64) {
-                if (localTileCycle[local_x][local_y] == sceneCycle) {
+                if (localTileCycle[localX][localY] == sceneCycle) {
                     continue;
                 }
 
-                localTileCycle[local_x][local_y] = sceneCycle;
+                localTileCycle[localX][localY] = sceneCycle;
             }
 
             if (!a.config.interactable) {
@@ -671,37 +667,6 @@ public class Game extends GameShell {
 
             landscape.add(a, a.sceneX, a.sceneY, getLandZ(a.sceneX, a.sceneY, plane), plane, a.rotation, (a.size - 1) * 64 + 60, a.canRotate, uid);
         }
-    }
-
-    public static void drawFlames() {
-        flameThread = true;
-        try {
-            long lastTime = System.currentTimeMillis();
-            int i = 0;
-            int delay = 20;
-            while (processFlames) {
-                Flames.cycle++;
-                Flames.handle();
-                Flames.handle();
-                Flames.handlePalette();
-                if (++i > 10) {
-                    long current_time = System.currentTimeMillis();
-                    int difference = (int) (current_time - lastTime) / 10 - delay;
-                    delay = 40 - difference;
-                    if (delay < 5) {
-                        delay = 5;
-                    }
-                    i = 0;
-                    lastTime = current_time;
-                }
-                try {
-                    Thread.sleep(delay);
-                } catch (Exception _ex) {
-                }
-            }
-        } catch (Exception e) {
-        }
-        flameThread = false;
     }
 
     public static void drawGame() {
@@ -790,9 +755,9 @@ public class Game extends GameShell {
                 for (int y = 0; y < 104; y++) {
                     Chain pile = Game.itemPile[plane][x][y];
                     if (pile != null) {
-                        int map_x = (x * 4 + 2) - self.sceneX / 32;
-                        int map_y = (y * 4 + 2) - self.sceneY / 32;
-                        drawToMinimap(imageMapDots[0], map_x, map_y);
+                        int mapX = (x * 4 + 2) - self.sceneX / 32;
+                        int mapY = (y * 4 + 2) - self.sceneY / 32;
+                        drawToMinimap(imageMapDots[0], mapX, mapY);
                     }
                 }
             }
@@ -809,9 +774,9 @@ public class Game extends GameShell {
                 }
 
                 if (ac != null && ac.showOnMinimap && ac.interactable) {
-                    int map_x = a.sceneX / 32 - self.sceneX / 32;
-                    int map_y = a.sceneY / 32 - self.sceneY / 32;
-                    drawToMinimap(imageMapDots[1], map_x, map_y);
+                    int mapX = a.sceneX / 32 - self.sceneX / 32;
+                    int mapY = a.sceneY / 32 - self.sceneY / 32;
+                    drawToMinimap(imageMapDots[1], mapX, mapY);
                 }
             }
         }
@@ -869,9 +834,9 @@ public class Game extends GameShell {
             if (markType == 10 && markPlayerIndex >= 0 && markPlayerIndex < players.length) {
                 Player p = players[markPlayerIndex];
                 if (p != null) {
-                    int map_x = p.sceneX / 32 - self.sceneX / 32;
-                    int map_y = p.sceneY / 32 - self.sceneY / 32;
-                    drawMinimapMark(imageMapMarkers[1], map_x, map_y);
+                    int mapX = p.sceneX / 32 - self.sceneX / 32;
+                    int mapY = p.sceneY / 32 - self.sceneY / 32;
+                    drawMinimapMark(imageMapMarkers[1], mapX, mapY);
                 }
             }
         }
@@ -897,9 +862,9 @@ public class Game extends GameShell {
             int x = mapY * sin + mapX * cos >> 16;
             int y = mapY * cos - mapX * sin >> 16;
             double angle = Math.atan2(x, y);
-            int draw_x = (int) (Math.sin(angle) * 63D);
-            int draw_y = (int) (Math.cos(angle) * 57D);
-            imageMapedge.drawRotated((94 + draw_x + 4) - 10, 83 - draw_y - 20, 15, 15, 20, 20, 256, angle);
+            int drawX = (int) (Math.sin(angle) * 63D);
+            int drawY = (int) (Math.cos(angle) * 57D);
+            imageMapedge.drawRotated((94 + drawX + 4) - 10, 83 - drawY - 20, 15, 15, 20, 20, 256, angle);
         } else {
             drawToMinimap(s, mapX, mapY);
         }
@@ -926,9 +891,9 @@ public class Game extends GameShell {
             if (lc.sceneImageIndex != -1) {
                 Bitmap b = bitmaps[lc.sceneImageIndex];
                 if (b != null) {
-                    int map_x = (lc.sizeX * 4 - b.width) / 2;
-                    int map_y = (lc.sizeY * 4 - b.height) / 2;
-                    b.draw(48 + x * 4 + map_x, 48 + (104 - y - lc.sizeY) * 4 + map_y);
+                    int mapX = (lc.sizeX * 4 - b.width) / 2;
+                    int mapY = (lc.sizeY * 4 - b.height) / 2;
+                    b.draw(48 + x * 4 + mapX, 48 + (104 - y - lc.sizeY) * 4 + mapY);
                 }
             } else {
                 if (type == 0 || type == 2) {
@@ -1206,7 +1171,7 @@ public class Game extends GameShell {
             }
         }
 
-        int cycle_3d = Canvas3D.cycle;
+        int cycle3D = Canvas3D.cycle;
 
         Model.sceneClickable = true;
         Model.hoveredCount = 0;
@@ -1219,7 +1184,7 @@ public class Game extends GameShell {
 
         drawScene2D();
         drawMarker();
-        scrollTextures(cycle_3d);
+        scrollTextures(cycle3D);
         draw2DOverlay();
 
         Camera.x = camX;
@@ -1260,7 +1225,7 @@ public class Game extends GameShell {
             }
 
             if (i < playerCount) {
-                int offset_y = 30;
+                int offsetY = 30;
                 Player p = (Player) e;
 
                 if (p.headiconFlag != 0) {
@@ -1272,8 +1237,8 @@ public class Game extends GameShell {
                                 Sprite s = imageHeadIcons[icon];
 
                                 if (s != null) {
-                                    s.drawMasked(drawX - 12, drawY - offset_y);
-                                    offset_y += 25;
+                                    s.drawMasked(drawX - 12, drawY - offsetY);
+                                    offsetY += 25;
                                 }
                             }
                         }
@@ -1284,7 +1249,7 @@ public class Game extends GameShell {
                     setDrawXy(e, e.height + 15);
 
                     if (drawX > -1) {
-                        imageHeadIcons[1].drawMasked(drawX - 12, drawY - offset_y);
+                        imageHeadIcons[1].drawMasked(drawX - 12, drawY - offsetY);
                     }
                 }
             } else {
@@ -1485,14 +1450,14 @@ public class Game extends GameShell {
         }
     }
 
-    public static void drawScrollbar(int x, int y, int height, int scrollHeight, int scroll_amount) {
+    public static void drawScrollbar(int x, int y, int height, int scrollHeight, int scrollAmount) {
         int gripLength = ((height - 32) * height) / scrollHeight;
 
         if (gripLength < 8) {
             gripLength = 8;
         }
 
-        int offsetY = ((height - 32 - gripLength) * scroll_amount) / (scrollHeight - height);
+        int offsetY = ((height - 32 - gripLength) * scrollAmount) / (scrollHeight - height);
 
         bitmap3.draw(x, y);
         bitmap2.draw(x, (y + height) - 16);
@@ -1721,27 +1686,27 @@ public class Game extends GameShell {
                 if (uid != 0) {
                     int i = LocConfig.get(uid >> 14 & 0x7fff).icon;
                     if (i >= 0) {
-                        int map_x = x;
-                        int map_y = y;
+                        int mapX = x;
+                        int mapY = y;
                         if (i != 22 && i != 29 && i != 34 && i != 36 && i != 46 && i != 47 && i != 48) {
-                            int collision_map[][] = collisionMaps[plane].flags;
+                            int collisionMap[][] = collisionMaps[plane].flags;
                             for (int i4 = 0; i4 < 10; i4++) {
                                 int random = (int) (Math.random() * 4D);
-                                if (random == 0 && map_x > 0 && map_x > x - 3 && (collision_map[map_x - 1][map_y] & 0x1280108) == 0) {
-                                    map_x--;
-                                } else if (random == 1 && map_x < 103 && map_x < x + 3 && (collision_map[map_x + 1][map_y] & 0x1280180) == 0) {
-                                    map_x++;
-                                } else if (random == 2 && map_y > 0 && map_y > y - 3 && (collision_map[map_x][map_y - 1] & 0x1280102) == 0) {
-                                    map_y--;
-                                } else if (random == 3 && map_y < 103 && map_y < y + 3 && (collision_map[map_x][map_y + 1] & 0x1280120) == 0) {
-                                    map_y++;
+                                if (random == 0 && mapX > 0 && mapX > x - 3 && (collisionMap[mapX - 1][mapY] & 0x1280108) == 0) {
+                                    mapX--;
+                                } else if (random == 1 && mapX < 103 && mapX < x + 3 && (collisionMap[mapX + 1][mapY] & 0x1280180) == 0) {
+                                    mapX++;
+                                } else if (random == 2 && mapY > 0 && mapY > y - 3 && (collisionMap[mapX][mapY - 1] & 0x1280102) == 0) {
+                                    mapY--;
+                                } else if (random == 3 && mapY < 103 && mapY < y + 3 && (collisionMap[mapX][mapY + 1] & 0x1280120) == 0) {
+                                    mapY++;
                                 }
                             }
 
                         }
                         locIcon[locIconCount] = imageMapFunctions[i];
-                        locIconX[locIconCount] = map_x;
-                        locIconY[locIconCount] = map_y;
+                        locIconX[locIconCount] = mapX;
+                        locIconY[locIconCount] = mapY;
                         locIconCount++;
                     }
                 }
@@ -1758,8 +1723,8 @@ public class Game extends GameShell {
             if (cache[0] != null) {
                 data = cache[0].get(archiveIndex);
             }
-        } catch (Exception _ex) {
-            _ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return new Archive(new Buffer(data));
@@ -1885,8 +1850,8 @@ public class Game extends GameShell {
     }
 
     public static int getMaxVisiblePlaneCinematic() {
-        int ground_z = getLandZ(Camera.x, Camera.y, plane);
-        if (ground_z - Camera.z < 800 && (renderFlags[plane][Camera.x >> 7][Camera.y >> 7] & 4) != 0) {
+        int groundZ = getLandZ(Camera.x, Camera.y, plane);
+        if (groundZ - Camera.z < 800 && (renderFlags[plane][Camera.x >> 7][Camera.y >> 7] & 4) != 0) {
             return plane;
         } else {
             return 3;
@@ -1930,7 +1895,7 @@ public class Game extends GameShell {
         } else {
             sceneState = 2;
             Scene.planeAtBuild = plane;
-            retrieveScene(true);
+            retrieveScene();
             out.writeOpcode(121);
             return 0;
         }
@@ -2161,11 +2126,11 @@ public class Game extends GameShell {
                             w.itemCount[oldSlot] = 0;
                         } else if (type == 1) {
                             int oldSlot = dragSlot;
-                            for (int new_slot = hoveredSlot; oldSlot != new_slot; ) {
-                                if (oldSlot > new_slot) {
+                            for (int newSlot = hoveredSlot; oldSlot != newSlot; ) {
+                                if (oldSlot > newSlot) {
                                     w.swapSlots(oldSlot, oldSlot - 1);
                                     oldSlot--;
-                                } else if (oldSlot < new_slot) {
+                                } else if (oldSlot < newSlot) {
                                     w.swapSlots(oldSlot, oldSlot + 1);
                                     oldSlot++;
                                 }
@@ -2337,7 +2302,7 @@ public class Game extends GameShell {
                 out.position = 0;
                 netAliveCycle = 0;
             }
-        } catch (IOException _ex) {
+        } catch (IOException e) {
             handleConnectionLost();
         } catch (Exception exception) {
             netDisconnect();
@@ -2402,8 +2367,8 @@ public class Game extends GameShell {
 
     public static void handleActors() {
         for (int i = 0; i < actorCount; i++) {
-            int actorIndice = actorIndices[i];
-            Actor a = actors[actorIndice];
+            int actorIndex = actorIndices[i];
+            Actor a = actors[actorIndex];
             if (a != null) {
                 handleEntity(a);
             }
@@ -2554,7 +2519,7 @@ public class Game extends GameShell {
             if (j2 < minPitch) {
                 minPitch += (j2 - minPitch) / 80;
             }
-        } catch (Exception _ex) {
+        } catch (Exception e) {
             Signlink.error("glfc_ex " + self.sceneX + "," + self.sceneY + "," + chaseCamX + "," + chaseCamY + "," + loadedRegionX + "," + loadedRegionY + "," + mapBaseX + "," + mapBaseY);
             throw new RuntimeException("eek");
         }
@@ -2804,19 +2769,19 @@ public class Game extends GameShell {
             e.destRotation = 0;
         }
 
-        int angle_diff = e.destRotation - e.rotation & 0x7ff;
+        int angleDiff = e.destRotation - e.rotation & 0x7ff;
 
-        if (angle_diff > 1024) {
-            angle_diff -= 2048;
+        if (angleDiff > 1024) {
+            angleDiff -= 2048;
         }
 
         int index = e.turn180Animation;
 
-        if (angle_diff >= -256 && angle_diff <= 256) {
+        if (angleDiff >= -256 && angleDiff <= 256) {
             index = e.walkAnimation;
-        } else if (angle_diff >= 256 && angle_diff < 768) {
+        } else if (angleDiff >= 256 && angleDiff < 768) {
             index = e.turnLAnimation;
-        } else if (angle_diff >= -768 && angle_diff <= -256) {
+        } else if (angleDiff >= -768 && angleDiff <= -256) {
             index = e.turnRAnimation;
         }
 
@@ -3904,18 +3869,18 @@ public class Game extends GameShell {
             int j = s.indexOf("@whi@");
             if (j != -1) {
                 long l = JString.toLong(s.substring(j + 5).trim());
-                int friend_index = -1;
+                int friendIndex = -1;
                 for (int i = 0; i < friendCount; i++) {
                     if (friendLong[i] != l) {
                         continue;
                     }
-                    friend_index = i;
+                    friendIndex = i;
                     break;
                 }
 
-                if (friend_index != -1 && friendNode[friend_index] > 0) {
-                    messageRecipientNameLong = friendLong[friend_index];
-                    Chat.set(Chat.State.SEND_MESSAGE, "Enter a message to send to " + friendName[friend_index]);
+                if (friendIndex != -1 && friendNode[friendIndex] > 0) {
+                    messageRecipientNameLong = friendLong[friendIndex];
+                    Chat.set(Chat.State.SEND_MESSAGE, "Enter a message to send to " + friendName[friendIndex]);
                 }
             }
         }
@@ -4335,15 +4300,15 @@ public class Game extends GameShell {
 
             // INFO: Sets the stat level/experience.
             if (Game.ptype == 134) {
-                int stat_index = in.readUnsignedByte();
-                int stat_experience = in.readMeInt();
-                int stat_level = in.readUnsignedByte();
-                skillExperience[stat_index] = stat_experience;
-                skillLevel[stat_index] = stat_level;
-                skillRealLevel[stat_index] = 1;
+                int statIndex = in.readUnsignedByte();
+                int statExperience = in.readMeInt();
+                int statLevel = in.readUnsignedByte();
+                skillExperience[statIndex] = statExperience;
+                skillLevel[statIndex] = statLevel;
+                skillRealLevel[statIndex] = 1;
                 for (int i = 0; i < 98; i++) {
-                    if (stat_experience >= XP_TABLE[i]) {
-                        skillRealLevel[stat_index] = i + 2;
+                    if (statExperience >= XP_TABLE[i]) {
+                        skillRealLevel[statIndex] = i + 2;
                     }
                 }
                 Sidebar.draw = true;
@@ -4445,13 +4410,13 @@ public class Game extends GameShell {
 
                     in.startBitAccess();
                     for (int plane = 0; plane < 4; plane++) {
-                        for (int chunk_x = 0; chunk_x < 13; chunk_x++) {
-                            for (int chunk_y = 0; chunk_y < 13; chunk_y++) {
+                        for (int chunkX = 0; chunkX < 13; chunkX++) {
+                            for (int chunkY = 0; chunkY < 13; chunkY++) {
                                 int i = in.readBits(1);
                                 if (i == 1) {
-                                    regionChunkUniqueIds[plane][chunk_x][chunk_y] = in.readBits(26);
+                                    regionChunkUniqueIds[plane][chunkX][chunkY] = in.readBits(26);
                                 } else {
-                                    regionChunkUniqueIds[plane][chunk_x][chunk_y] = -1;
+                                    regionChunkUniqueIds[plane][chunkX][chunkY] = -1;
                                 }
                             }
 
@@ -4682,10 +4647,10 @@ public class Game extends GameShell {
 
             // INFO: Sets the widget's disabled mesh.
             if (Game.ptype == 75) {
-                int mesh_index = in.readUnsignedLeShortA();
+                int meshIndex = in.readUnsignedLeShortA();
                 int index = in.readUnsignedLeShortA();
                 Widget.instance[index].modelTypeDisabled = 2;
-                Widget.instance[index].modelIndexDisabled = mesh_index;
+                Widget.instance[index].modelIndexDisabled = meshIndex;
                 Game.ptype = -1;
                 return true;
             }
@@ -4997,28 +4962,28 @@ public class Game extends GameShell {
             }
 
             if (Game.ptype == 196) {
-                long name_long = in.readLong();
+                long nameLong = in.readLong();
                 in.readInt(); // ignore dis
                 int rights = in.readUnsignedByte();
 
-                boolean not_ignored = true;
+                boolean notIgnored = true;
 
                 if (rights <= 1) {
                     for (int i = 0; i < ignoreCount; i++) {
-                        if (ignoreLong[i] != name_long) {
+                        if (ignoreLong[i] != nameLong) {
                             continue;
                         }
-                        not_ignored = false;
+                        notIgnored = false;
                         break;
                     }
 
                 }
-                if (not_ignored && messageStatus == 0) {
+                if (notIgnored && messageStatus == 0) {
                     StringBuilder b = new StringBuilder();
                     if (rights > 0) {
                         b.append("@cr").append(rights).append("@");
                     }
-                    b.append(JString.getFormattedString(name_long));
+                    b.append(JString.getFormattedString(nameLong));
                     Chat.put(b.toString(), JString.getFormatted(psize - 13, in), rights > 0 ? 7 : 3);
                 }
                 Game.ptype = -1;
@@ -5654,7 +5619,7 @@ public class Game extends GameShell {
             int attributes = b.readUnsignedByteS();
             int type = attributes >> 2;
             int rotation = attributes & 3;
-            int class_type = LOC_CLASS_TYPE[type];
+            int classType = LOC_CLASS_TYPE[type];
             int sequence = b.writeUnsignedShortA();
 
             if (x >= 0 && y >= 0 && x < 103 && y < 103) {
@@ -5663,7 +5628,7 @@ public class Game extends GameShell {
                 int heightNorthEast = heightMap[plane][x + 1][y + 1];
                 int heightNorthWest = heightMap[plane][x][y + 1];
 
-                if (class_type == 0) {
+                if (classType == 0) {
                     WallLoc wl = landscape.getWall(plane, x, y);
                     if (wl != null) {
                         int index = wl.uid >> 14 & 0x7fff;
@@ -5674,12 +5639,12 @@ public class Game extends GameShell {
                             wl.root = new Loc(index, rotation, type, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, sequence, false);
                         }
                     }
-                } else if (class_type == 1) {
+                } else if (classType == 1) {
                     WallDecoration wd = landscape.getWallDecoration(x, 866, y, plane);
                     if (wd != null) {
                         wd.node = new Loc(wd.uid >> 14 & 0x7fff, 0, 4, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, sequence, false);
                     }
-                } else if (class_type == 2) {
+                } else if (classType == 2) {
                     StaticLoc sl = landscape.getLoc(x, y, plane);
                     if (type == 11) {
                         type = 10;
@@ -5687,7 +5652,7 @@ public class Game extends GameShell {
                     if (sl != null) {
                         sl.node = new Loc(sl.uid >> 14 & 0x7fff, rotation, type, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, sequence, false);
                     }
-                } else if (class_type == 3) {
+                } else if (classType == 3) {
                     GroundDecoration gd = landscape.getGroundDecoration(x, y, plane);
                     if (gd != null) {
                         gd.node = new Loc(gd.uid >> 14 & 0x7fff, rotation, 22, heightSouthEast, heightNorthEast, heightSouthWest, heightNorthWest, sequence, false);
@@ -5701,14 +5666,14 @@ public class Game extends GameShell {
             int offset = b.readUnsignedByteS();
             int x = netRegionX + (offset >> 4 & 7);
             int y = netRegionY + (offset & 7);
-            int player_index = b.readUnsignedShort();
+            int playerIndex = b.readUnsignedShort();
             byte x2 = b.readByteS();
             int start = b.readUnsignedLeShort();
             byte y2 = b.readByteC();
             int end = b.readUnsignedShort();
             int arrangement = b.readUnsignedByteS();
             byte x1 = b.readByte();
-            int loc_index = b.readUnsignedShort();
+            int locIndex = b.readUnsignedShort();
             byte y1 = b.readByteC();
 
             int type = arrangement >> 2;
@@ -5716,19 +5681,19 @@ public class Game extends GameShell {
             int classType = LOC_CLASS_TYPE[type];
             Player p;
 
-            if (player_index == localPlayerIndex) {
+            if (playerIndex == localPlayerIndex) {
                 p = self;
             } else {
-                p = players[player_index];
+                p = players[playerIndex];
             }
 
             if (p != null) {
-                LocConfig lc = LocConfig.get(loc_index);
-                int v_sw = heightMap[plane][x][y];
-                int v_se = heightMap[plane][x + 1][y];
-                int v_ne = heightMap[plane][x + 1][y + 1];
-                int v_nw = heightMap[plane][x][y + 1];
-                Model mesh = lc.getModel(type, rotation, v_sw, v_se, v_ne, v_nw, -1);
+                LocConfig lc = LocConfig.get(locIndex);
+                int heightSouthWest = heightMap[plane][x][y];
+                int heightSouthEast = heightMap[plane][x + 1][y];
+                int heightNorthEast = heightMap[plane][x + 1][y + 1];
+                int heightNorthWest = heightMap[plane][x][y + 1];
+                Model mesh = lc.getModel(type, rotation, heightSouthWest, heightSouthEast, heightNorthEast, heightNorthWest, -1);
 
                 if (mesh != null) {
                     spawnLoc(-1, x, y, plane, 0, 0, end + 1, start + 1, classType);
@@ -5750,14 +5715,14 @@ public class Game extends GameShell {
                     p.locZ = getLandZ(p.locX, p.locY, plane);
 
                     if (x1 > x2) {
-                        byte new_size_x2 = x1;
+                        byte newSizeX2 = x1;
                         x1 = x2;
-                        x2 = new_size_x2;
+                        x2 = newSizeX2;
                     }
                     if (y1 > y2) {
-                        byte new_size_y2 = y1;
+                        byte newSizeY2 = y1;
                         y1 = y2;
-                        y2 = new_size_y2;
+                        y2 = newSizeY2;
                     }
 
                     p.locX0 = x + x1;
@@ -5801,16 +5766,16 @@ public class Game extends GameShell {
         }
 
         if (opcode == 44) {
-            short item_index = (short) b.readUnsignedLeShortA();
-            int stack_index = b.readUnsignedShort();
+            short itemIndex = (short) b.readUnsignedLeShortA();
+            int stackIndex = b.readUnsignedShort();
             int offset = b.readUnsignedByte();
             int x = netRegionX + (offset >> 4 & 7);
             int y = netRegionY + (offset & 7);
 
             if (x >= 0 && y >= 0 && x < 104 && y < 104) {
                 Item i = new Item();
-                i.index = item_index;
-                i.stackIndex = stack_index;
+                i.index = itemIndex;
+                i.stackIndex = stackIndex;
 
                 if (Game.itemPile[plane][x][y] == null) {
                     Game.itemPile[plane][x][y] = new Chain();
@@ -5826,12 +5791,12 @@ public class Game extends GameShell {
             int attributes = b.readUnsignedByteC();
             int type = attributes >> 2;
             int rotation = attributes & 3;
-            int class_type = LOC_CLASS_TYPE[type];
+            int classType = LOC_CLASS_TYPE[type];
             int coord = b.readUnsignedByte();
             int x = netRegionX + (coord >> 4 & 7);
             int y = netRegionY + (coord & 7);
             if (x >= 0 && y >= 0 && x < 104 && y < 104) {
-                spawnLoc(-1, x, y, plane, type, rotation, -1, 0, class_type);
+                spawnLoc(-1, x, y, plane, type, rotation, -1, 0, classType);
             }
             return;
         }
@@ -5984,14 +5949,14 @@ public class Game extends GameShell {
                 Sidebar.draw = true;
             }
         } else if (mX >= x - scrollDragBound && mX < x + 16 + scrollDragBound && mY >= y + 16 && mY < (y + height) - 16 && clickCycle > 0) {
-            int grip_length = ((height - 32) * height) / scrollHeight;
+            int gripLength = ((height - 32) * height) / scrollHeight;
 
-            if (grip_length < 8) {
-                grip_length = 8;
+            if (gripLength < 8) {
+                gripLength = 8;
             }
 
-            int i2 = mY - y - 16 - grip_length / 2;
-            int j2 = height - 32 - grip_length;
+            int i2 = mY - y - 16 - gripLength / 2;
+            int j2 = height - 32 - gripLength;
 
             w.scrollAmount = ((scrollHeight - height) * i2) / j2;
 
@@ -6245,7 +6210,7 @@ public class Game extends GameShell {
     public static boolean handleWidget(Widget w) {
         int type = w.actionType;
 
-        if (CharacterDesign.handle(w, type)) {
+        if (CharacterDesign.handle(type)) {
             return true;
         }
 
@@ -6394,7 +6359,7 @@ public class Game extends GameShell {
         }
     }
 
-    public static void handleWidgetMouse(Widget w, int screenX, int screenY, int mouseX, int mouseY, int scroll_amount) {
+    public static void handleWidgetMouse(Widget w, int screenX, int screenY, int mouseX, int mouseY, int scrollAmount) {
         if (w == null) {
             return;
         }
@@ -6413,7 +6378,7 @@ public class Game extends GameShell {
 
         for (int index = 0; index < w.children.length; index++) {
             int x = w.childX[index] + screenX;
-            int y = (w.childY[index] + screenY) - scroll_amount;
+            int y = (w.childY[index] + screenY) - scrollAmount;
 
             Widget child = Widget.instance[w.children[index]];
 
@@ -6589,26 +6554,26 @@ public class Game extends GameShell {
         out.writeLong(nameLong);
     }
 
-    public static void ignoreRemove(long name_long) {
+    public static void ignoreRemove(long nameLong) {
         try {
-            if (name_long == 0L) {
+            if (nameLong == 0L) {
                 return;
             }
             for (int j = 0; j < ignoreCount; j++) {
-                if (ignoreLong[j] == name_long) {
+                if (ignoreLong[j] == nameLong) {
                     ignoreCount--;
                     Sidebar.draw = true;
                     for (int k = j; k < ignoreCount; k++) {
                         ignoreLong[k] = ignoreLong[k + 1];
                     }
                     out.writeOpcode(74);
-                    out.writeLong(name_long);
+                    out.writeLong(nameLong);
                     return;
                 }
             }
             return;
         } catch (RuntimeException runtimeexception) {
-            Signlink.error("47229, " + name_long + ", " + runtimeexception.toString());
+            Signlink.error("47229, " + nameLong + ", " + runtimeexception.toString());
         }
         throw new RuntimeException();
     }
@@ -6626,15 +6591,15 @@ public class Game extends GameShell {
 
         if (type == 10 || type == 11 || type == 22) {
             LocConfig lc = LocConfig.get(index);
-            int size_x;
-            int size_y;
+            int sizeX;
+            int sizeY;
 
             if (rotation == 0 || rotation == 2) {
-                size_x = lc.sizeX;
-                size_y = lc.sizeY;
+                sizeX = lc.sizeX;
+                sizeY = lc.sizeY;
             } else {
-                size_x = lc.sizeY;
-                size_y = lc.sizeX;
+                sizeX = lc.sizeY;
+                sizeY = lc.sizeX;
             }
 
             int faceFlags = lc.faceFlags;
@@ -6643,7 +6608,7 @@ public class Game extends GameShell {
                 faceFlags = (faceFlags << rotation & 0xf) + (faceFlags >> 4 - rotation);
             }
 
-            Game.walkTo(2, size_x, size_y, self.pathX[0], self.pathY[0], y, x, 0, faceFlags, 0, false);
+            Game.walkTo(2, sizeX, sizeY, self.pathX[0], self.pathY[0], y, x, 0, faceFlags, 0, false);
         } else {
             Game.walkTo(2, 0, 0, self.pathX[0], self.pathY[0], y, x, type + 1, 0, rotation, false);
         }
@@ -6664,7 +6629,7 @@ public class Game extends GameShell {
             if (connection != null) {
                 connection.close();
             }
-        } catch (Exception _ex) {
+        } catch (Exception e) {
         }
 
         connection = null;
@@ -6699,12 +6664,12 @@ public class Game extends GameShell {
 
             Game.connection = new Connection(instance, instance.getSocket(43594 + portOffset));
 
-            long name_long = JString.toLong(username);
-            int name_hash = (int) (name_long >> 16 & 0x1FL);
+            long nameLong = JString.toLong(username);
+            int nameHash = (int) (nameLong >> 16 & 0x1FL);
 
             out.position = 0;
             out.writeByte(14);
-            out.writeByte(name_hash);
+            out.writeByte(nameHash);
 
             Game.connection.putBytes(out.payload, 0, 2);
 
@@ -6763,7 +6728,7 @@ public class Game extends GameShell {
             if (opcode == 1) {
                 try {
                     Thread.sleep(2000L);
-                } catch (Exception _ex) {
+                } catch (Exception e) {
 
                 }
                 netLogin(username, password, reconnection);
@@ -6953,7 +6918,7 @@ public class Game extends GameShell {
                     TitleScreen.draw(Rt3.batch, true);
                     try {
                         Thread.sleep(1000L);
-                    } catch (Exception _ex) {
+                    } catch (Exception e) {
                     }
                 }
 
@@ -6965,7 +6930,7 @@ public class Game extends GameShell {
                     if (reconnectionAttempts < 2) {
                         try {
                             Thread.sleep(2000L);
-                        } catch (Exception _ex) {
+                        } catch (Exception e) {
                         }
                         reconnectionAttempts++;
                         netLogin(username, password, reconnection);
@@ -6983,7 +6948,7 @@ public class Game extends GameShell {
                 TitleScreen.setMessage("Unexpected server response", "Please use a different world");
                 return;
             }
-        } catch (IOException _ex) {
+        } catch (IOException e1) {
             TitleScreen.setMessage("", "Error connecting to server.");
         }
     }
@@ -7010,7 +6975,7 @@ public class Game extends GameShell {
         music.loopmusic1 = loopMusic1;
     }
 
-    public static void retrieveScene(boolean flag) {
+    public static void retrieveScene() {
         try {
             lastPlane = -1;
             spotanims.clear();
@@ -7059,9 +7024,9 @@ public class Game extends GameShell {
                 for (int chunk = 0; chunk < length; chunk++) {
                     byte payload[] = chunkLandscapePayload[chunk];
                     if (payload != null) {
-                        int region_x = (chunkCoords[chunk] >> 8) * 64 - mapBaseX;
-                        int region_y = (chunkCoords[chunk] & 0xff) * 64 - mapBaseY;
-                        scene.loadLocs(region_x, collisionMaps, region_y, landscape, payload);
+                        int regionX = (chunkCoords[chunk] >> 8) * 64 - mapBaseX;
+                        int regionY = (chunkCoords[chunk] & 0xff) * 64 - mapBaseY;
+                        scene.loadLocs(regionX, collisionMaps, regionY, landscape, payload);
                     }
                 }
             } else {
@@ -7140,7 +7105,7 @@ public class Game extends GameShell {
             }
 
             handleLocs();
-        } catch (Exception exception) {
+        } catch (Exception ignored) {
         }
 
         LocConfig.staticModelCache.clear();
@@ -7210,8 +7175,8 @@ public class Game extends GameShell {
         }
     }
 
-    public static void setDrawXy(Entity e, int offset_z) {
-        setDrawXy(e.sceneX, e.sceneY, offset_z);
+    public static void setDrawXy(Entity e, int offsetZ) {
+        setDrawXy(e.sceneX, e.sceneY, offsetZ);
     }
 
     public static void setDrawXy(int x, int y, int offsetZ) {
@@ -7267,11 +7232,11 @@ public class Game extends GameShell {
     public static void spawnLoc(int locIndex, int locX, int locY, int locZ, int locType, int locRotation, int cycle, int spawnCycle, int classType) {
         SpawntLoc sl = null;
 
-        for (SpawntLoc _sl = (SpawntLoc) spawnedLocs.top(); _sl != null; _sl = (SpawntLoc) spawnedLocs.next()) {
-            if (_sl.plane != locZ || _sl.x != locX || _sl.y != locY || _sl.classType != classType) {
+        for (SpawntLoc top = (SpawntLoc) spawnedLocs.top(); top != null; top = (SpawntLoc) spawnedLocs.next()) {
+            if (top.plane != locZ || top.x != locX || top.y != locY || top.classType != classType) {
                 continue;
             }
-            sl = _sl;
+            sl = top;
             break;
         }
 
@@ -7439,46 +7404,46 @@ public class Game extends GameShell {
         Game.actorCount = 0;
 
         for (int i = 0; i < actorCount; i++) {
-            int actor_index = actorIndices[i];
-            Actor a = actors[actor_index];
+            int actorIndice = actorIndices[i];
+            Actor a = actors[actorIndice];
             int movementUpdate = b.readBits(1);
 
             if (movementUpdate == 0) {
-                actorIndices[Game.actorCount++] = actor_index;
+                actorIndices[Game.actorCount++] = actorIndice;
                 a.updateCycle = loopCycle;
             } else {
                 int moveType = b.readBits(2);
 
                 switch (moveType) {
                     case 0: {// No Movement
-                        actorIndices[Game.actorCount++] = actor_index;
+                        actorIndices[Game.actorCount++] = actorIndice;
                         a.updateCycle = loopCycle;
-                        entityIndex[entityCount++] = actor_index;
+                        entityIndex[entityCount++] = actorIndice;
                         break;
                     }
                     case 1: {// 1 Tile Movement
-                        actorIndices[Game.actorCount++] = actor_index;
+                        actorIndices[Game.actorCount++] = actorIndice;
                         a.updateCycle = loopCycle;
                         a.move(b.readBits(3), false);
 
                         if (b.readBits(1) == 1) { // Update Required
-                            entityIndex[entityCount++] = actor_index;
+                            entityIndex[entityCount++] = actorIndice;
                         }
                         break;
                     }
                     case 2: {// 2 Tile Movement
-                        actorIndices[Game.actorCount++] = actor_index;
+                        actorIndices[Game.actorCount++] = actorIndice;
                         a.updateCycle = loopCycle;
                         a.move(b.readBits(3), true);
                         a.move(b.readBits(3), true);
 
                         if (b.readBits(1) == 1) { // Update Required
-                            entityIndex[entityCount++] = actor_index;
+                            entityIndex[entityCount++] = actorIndice;
                         }
                         break;
                     }
                     case 3: {// Unknown
-                        entityUpdateIndices[entityUpdateCount++] = actor_index;
+                        entityUpdateIndices[entityUpdateCount++] = actorIndice;
                         break;
                     }
                 }
@@ -7849,9 +7814,9 @@ public class Game extends GameShell {
                 playerIndices[Game.playerCount++] = playerIndice;
                 p.updateCycle = loopCycle;
             } else {
-                int move_type = b.readBits(2);
+                int moveType = b.readBits(2);
 
-                switch (move_type) {
+                switch (moveType) {
                     case 0: { // No Movement
                         playerIndices[Game.playerCount++] = playerIndice;
                         p.updateCycle = loopCycle;
@@ -8153,7 +8118,7 @@ public class Game extends GameShell {
         }
     }
 
-    public static boolean walkTo(int click_type, int size_x, int size_y, int start_x, int start_y, int dest_x, int dest_y, int type, int face_flags, int rotation, boolean arbitrary) {
+    public static boolean walkTo(int clickType, int sizeX, int sizeY, int startX, int startY, int destX, int destY, int type, int faceFlags, int rotation, boolean arbitrary) {
         byte mapSizeX = 104;
         byte mapSizeY = 104;
 
@@ -8165,42 +8130,42 @@ public class Game extends GameShell {
 
         }
 
-        int x = start_x;
-        int y = start_y;
-        pathWaypoint[start_x][start_y] = 99;
-        pathDistance[start_x][start_y] = 0;
+        int x = startX;
+        int y = startY;
+        pathWaypoint[startX][startY] = 99;
+        pathDistance[startX][startY] = 0;
 
         int next = 0;
         int current = 0;
-        pathQueueX[next] = start_x;
-        pathQueueY[next++] = start_y;
+        pathQueueX[next] = startX;
+        pathQueueY[next++] = startY;
 
         boolean reached = false;
-        int path_length = pathQueueX.length;
+        int pathLength = pathQueueX.length;
         int ai[][] = collisionMaps[plane].flags;
 
         while (current != next) {
             x = pathQueueX[current];
             y = pathQueueY[current];
-            current = (current + 1) % path_length;
+            current = (current + 1) % pathLength;
 
-            if (x == dest_x && y == dest_y) {
+            if (x == destX && y == destY) {
                 reached = true;
                 break;
             }
 
             if (type != 0) {
-                if ((type < 5 || type == 10) && collisionMaps[plane].atWall(x, y, dest_x, dest_y, type - 1, rotation)) {
+                if ((type < 5 || type == 10) && collisionMaps[plane].atWall(x, y, destX, destY, type - 1, rotation)) {
                     reached = true;
                     break;
                 }
-                if (type < 10 && collisionMaps[plane].atDecoration(x, y, dest_x, dest_y, type - 1, rotation)) {
+                if (type < 10 && collisionMaps[plane].atDecoration(x, y, destX, destY, type - 1, rotation)) {
                     reached = true;
                     break;
                 }
             }
 
-            if (size_x != 0 && size_y != 0 && collisionMaps[plane].atObject(x, y, dest_x, dest_y, size_x, size_y, face_flags)) {
+            if (sizeX != 0 && sizeY != 0 && collisionMaps[plane].atObject(x, y, destX, destY, sizeX, sizeY, faceFlags)) {
                 reached = true;
                 break;
             }
@@ -8210,7 +8175,7 @@ public class Game extends GameShell {
             if (x > 0 && pathWaypoint[x - 1][y] == 0 && (ai[x - 1][y] & 0x1280108) == 0) {
                 pathQueueX[next] = x - 1;
                 pathQueueY[next] = y;
-                next = (next + 1) % path_length;
+                next = (next + 1) % pathLength;
                 pathWaypoint[x - 1][y] = 2;
                 pathDistance[x - 1][y] = distance;
             }
@@ -8218,7 +8183,7 @@ public class Game extends GameShell {
             if (x < mapSizeX - 1 && pathWaypoint[x + 1][y] == 0 && (ai[x + 1][y] & 0x1280180) == 0) {
                 pathQueueX[next] = x + 1;
                 pathQueueY[next] = y;
-                next = (next + 1) % path_length;
+                next = (next + 1) % pathLength;
                 pathWaypoint[x + 1][y] = 8;
                 pathDistance[x + 1][y] = distance;
             }
@@ -8226,7 +8191,7 @@ public class Game extends GameShell {
             if (y > 0 && pathWaypoint[x][y - 1] == 0 && (ai[x][y - 1] & 0x1280102) == 0) {
                 pathQueueX[next] = x;
                 pathQueueY[next] = y - 1;
-                next = (next + 1) % path_length;
+                next = (next + 1) % pathLength;
                 pathWaypoint[x][y - 1] = 1;
                 pathDistance[x][y - 1] = distance;
             }
@@ -8234,7 +8199,7 @@ public class Game extends GameShell {
             if (y < mapSizeY - 1 && pathWaypoint[x][y + 1] == 0 && (ai[x][y + 1] & 0x1280120) == 0) {
                 pathQueueX[next] = x;
                 pathQueueY[next] = y + 1;
-                next = (next + 1) % path_length;
+                next = (next + 1) % pathLength;
                 pathWaypoint[x][y + 1] = 4;
                 pathDistance[x][y + 1] = distance;
             }
@@ -8242,7 +8207,7 @@ public class Game extends GameShell {
             if (x > 0 && y > 0 && pathWaypoint[x - 1][y - 1] == 0 && (ai[x - 1][y - 1] & 0x128010e) == 0 && (ai[x - 1][y] & 0x1280108) == 0 && (ai[x][y - 1] & 0x1280102) == 0) {
                 pathQueueX[next] = x - 1;
                 pathQueueY[next] = y - 1;
-                next = (next + 1) % path_length;
+                next = (next + 1) % pathLength;
                 pathWaypoint[x - 1][y - 1] = 3;
                 pathDistance[x - 1][y - 1] = distance;
             }
@@ -8250,7 +8215,7 @@ public class Game extends GameShell {
             if (x < mapSizeX - 1 && y > 0 && pathWaypoint[x + 1][y - 1] == 0 && (ai[x + 1][y - 1] & 0x1280183) == 0 && (ai[x + 1][y] & 0x1280180) == 0 && (ai[x][y - 1] & 0x1280102) == 0) {
                 pathQueueX[next] = x + 1;
                 pathQueueY[next] = y - 1;
-                next = (next + 1) % path_length;
+                next = (next + 1) % pathLength;
                 pathWaypoint[x + 1][y - 1] = 9;
                 pathDistance[x + 1][y - 1] = distance;
             }
@@ -8258,7 +8223,7 @@ public class Game extends GameShell {
             if (x > 0 && y < mapSizeY - 1 && pathWaypoint[x - 1][y + 1] == 0 && (ai[x - 1][y + 1] & 0x1280138) == 0 && (ai[x - 1][y] & 0x1280108) == 0 && (ai[x][y + 1] & 0x1280120) == 0) {
                 pathQueueX[next] = x - 1;
                 pathQueueY[next] = y + 1;
-                next = (next + 1) % path_length;
+                next = (next + 1) % pathLength;
                 pathWaypoint[x - 1][y + 1] = 6;
                 pathDistance[x - 1][y + 1] = distance;
             }
@@ -8266,7 +8231,7 @@ public class Game extends GameShell {
             if (x < mapSizeX - 1 && y < mapSizeY - 1 && pathWaypoint[x + 1][y + 1] == 0 && (ai[x + 1][y + 1] & 0x12801e0) == 0 && (ai[x + 1][y] & 0x1280180) == 0 && (ai[x][y + 1] & 0x1280120) == 0) {
                 pathQueueX[next] = x + 1;
                 pathQueueY[next] = y + 1;
-                next = (next + 1) % path_length;
+                next = (next + 1) % pathLength;
                 pathWaypoint[x + 1][y + 1] = 12;
                 pathDistance[x + 1][y + 1] = distance;
             }
@@ -8276,14 +8241,14 @@ public class Game extends GameShell {
 
         if (!reached) {
             if (arbitrary) {
-                int max_distance = 100;
+                int maxDistance = 100;
                 for (int dev = 1; dev < 2; dev++) {
-                    for (int move_x = dest_x - dev; move_x <= dest_x + dev; move_x++) {
-                        for (int move_y = dest_y - dev; move_y <= dest_y + dev; move_y++) {
-                            if (move_x >= 0 && move_y >= 0 && move_x < 104 && move_y < 104 && pathDistance[move_x][move_y] < max_distance) {
-                                max_distance = pathDistance[move_x][move_y];
-                                x = move_x;
-                                y = move_y;
+                    for (int moveX = destX - dev; moveX <= destX + dev; moveX++) {
+                        for (int moveY = destY - dev; moveY <= destY + dev; moveY++) {
+                            if (moveX >= 0 && moveY >= 0 && moveX < 104 && moveY < 104 && pathDistance[moveX][moveY] < maxDistance) {
+                                maxDistance = pathDistance[moveX][moveY];
+                                x = moveX;
+                                y = moveY;
                                 pathArbitraryDest = 1;
                                 reached = true;
                             }
@@ -8305,11 +8270,11 @@ public class Game extends GameShell {
         current = 0;
         pathQueueX[current] = x;
         pathQueueY[current++] = y;
-        int skip_check;
+        int skipCheck;
 
-        for (int waypoint = skip_check = pathWaypoint[x][y]; x != start_x || y != start_y; waypoint = pathWaypoint[x][y]) {
-            if (waypoint != skip_check) {
-                skip_check = waypoint;
+        for (int waypoint = skipCheck = pathWaypoint[x][y]; x != startX || y != startY; waypoint = pathWaypoint[x][y]) {
+            if (waypoint != skipCheck) {
+                skipCheck = waypoint;
                 pathQueueX[current] = x;
                 pathQueueY[current++] = y;
             }
@@ -8334,36 +8299,36 @@ public class Game extends GameShell {
 
             current--;
 
-            int path_x = pathQueueX[current];
-            int path_y = pathQueueY[current];
+            int pathX = pathQueueX[current];
+            int pathY = pathQueueY[current];
 
-            if (click_type == 0) {
+            if (clickType == 0) {
                 out.writeOpcode(164);
-            } else if (click_type == 1) {
+            } else if (clickType == 1) {
                 out.writeOpcode(248);
-            } else if (click_type == 2) {
+            } else if (clickType == 2) {
                 out.writeOpcode(98);
             }
 
             // XXX: Removed dummy
             out.writeByte(index + index + 3);
-            out.writeLeShortA(path_x + mapBaseX);
+            out.writeLeShortA(pathX + mapBaseX);
 
             mapMarkerX = pathQueueX[0];
             mapMarkerY = pathQueueY[0];
 
             for (int i = 1; i < index; i++) {
                 current--;
-                out.writeByte(pathQueueX[current] - path_x);
-                out.writeByte(pathQueueY[current] - path_y);
+                out.writeByte(pathQueueX[current] - pathX);
+                out.writeByte(pathQueueY[current] - pathY);
             }
 
-            out.writeLeShort(path_y + mapBaseY);
+            out.writeLeShort(pathY + mapBaseY);
             out.writeByteC(Key.CTRL.isDown() ? 1 : 0);
 
             return true;
         }
-        return click_type != 1;
+        return clickType != 1;
     }
 
     @Override
@@ -8426,20 +8391,16 @@ public class Game extends GameShell {
                     archiveCrc[i] = b.readInt();
                 }
 
-                int server_crc = b.readInt();
-                int client_crc = 1234;
+                int serverCrc = b.readInt();
+                int clientCrc = 1234;
 
                 for (int l1 = 0; l1 < 9; l1++) {
-                    client_crc = (client_crc << 1) + archiveCrc[l1];
+                    clientCrc = (clientCrc << 1) + archiveCrc[l1];
                 }
 
-                if (server_crc != client_crc) {
+                if (serverCrc != clientCrc) {
                     archiveCrc[8] = 0;
                 }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                archiveCrc[8] = 0;
-            } catch (IOException e) {
-                archiveCrc[8] = 0;
             } catch (Exception e) {
                 archiveCrc[8] = 0;
             }
@@ -8448,7 +8409,7 @@ public class Game extends GameShell {
                 for (int i = 5; i > 0; i--) {
                     try {
                         Thread.sleep(1000);
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                 }
             }
@@ -8463,7 +8424,7 @@ public class Game extends GameShell {
             if (connection != null) {
                 connection.close();
             }
-        } catch (Exception _ex) {
+        } catch (Exception ignored) {
         }
 
         connection = null;
@@ -8528,7 +8489,6 @@ public class Game extends GameShell {
         friendLong = null;
         friendNode = null;
 
-        Flames.nullify();
         Menu.nullify();
         LocConfig.nullify();
         ActorConfig.nullify();
@@ -8610,7 +8570,7 @@ public class Game extends GameShell {
 
                     try {
                         Thread.sleep(100L);
-                    } catch (Exception _ex) {
+                    } catch (Exception e) {
                     }
 
                     if (ondemand.fails > 3) {
@@ -8639,7 +8599,7 @@ public class Game extends GameShell {
 
                     try {
                         Thread.sleep(100L);
-                    } catch (Exception _ex) {
+                    } catch (Exception e) {
                     }
 
                     if (ondemand.fails > 3) {
@@ -8671,7 +8631,7 @@ public class Game extends GameShell {
 
                     try {
                         Thread.sleep(100L);
-                    } catch (Exception _ex) {
+                    } catch (Exception e) {
                     }
                 }
             }
@@ -8703,7 +8663,7 @@ public class Game extends GameShell {
 
                         try {
                             Thread.sleep(100L);
-                        } catch (Exception _ex) {
+                        } catch (Exception e) {
                         }
                     }
                 }
@@ -8912,19 +8872,17 @@ public class Game extends GameShell {
                 viewportPixels = Canvas3D.pixels;
 
                 int zArray[] = new int[9];
-                for (int z_index = 0; z_index < 9; z_index++) {
-                    int k8 = 128 + ((z_index * 32) + 15);
+                for (int zIndex = 0; zIndex < 9; zIndex++) {
+                    int k8 = 128 + ((zIndex * 32) + 15);
                     int l8 = 600 + (k8 * 3);
                     int sin = MathUtils.sin[k8];
-                    zArray[z_index] = l8 * sin >> 16;
+                    zArray[zIndex] = l8 * sin >> 16;
                 }
 
                 Landscape.setupViewport(500, 800, 512, 334, zArray);
                 mouseRecorder = new MouseRecorder();
                 startThread(mouseRecorder, 10);
             }
-
-            return;
         } catch (Exception e) {
             Signlink.error("loaderror " + progressCaption + ' ' + progressPercent);
             errorLoading = true;

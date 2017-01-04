@@ -29,7 +29,7 @@ public class LocConfig {
     public boolean ghost;
     public boolean hasCollisions;
     public short icon;
-    public int index;
+    public int index = -1;
     public boolean isDecoration;
     public boolean isSolid;
     public boolean isStatic;
@@ -55,10 +55,6 @@ public class LocConfig {
     public byte specular;
     public short varbitIndex;
     public byte wallWidth;
-
-    public LocConfig() {
-        index = -1;
-    }
 
     public static LocConfig get(int i) {
         if (i > pointer.length) {

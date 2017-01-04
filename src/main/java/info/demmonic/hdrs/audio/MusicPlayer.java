@@ -162,9 +162,9 @@ public class MusicPlayer implements Receiver {
         if (var1 >= 0) {
             var4 = loop1;
             if (var1 != 0) {
-                int i_4_ = method1004(var1);
-                i_4_ -= var3;
-                var2 = (i_4_ + 3600) / loop1;
+                int i4 = method1004(var1);
+                i4 -= var3;
+                var2 = (i4 + 3600) / loop1;
                 if (var2 < 1)
                     var2 = 1;
             } else
@@ -208,9 +208,9 @@ public class MusicPlayer implements Receiver {
             if (var1 == 0)
                 var4 = 0;
             else {
-                int i_31_ = method1004(var1);
-                i_31_ -= var3;
-                var4 = ((var4 - 1 + (i_31_ + 3600)) / var4);
+                int i31 = method1004(var1);
+                i31 -= var3;
+                var4 = ((var4 - 1 + (i31 + 3600)) / var4);
             }
             this.loopmusic2 = loopMusic2;
             this.buffer = buffer;

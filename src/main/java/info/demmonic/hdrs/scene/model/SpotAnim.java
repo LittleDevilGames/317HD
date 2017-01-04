@@ -9,21 +9,19 @@ public class SpotAnim extends Renderable {
     public SpotAnimConfig config;
     public int plane;
     public int seqCycle;
-    public boolean seqFinished;
+    public boolean seqFinished = false;
     public int seqFrame;
     public int x;
     public int y;
     public int z;
 
     public SpotAnim(int x, int y, int z, int plane, int cycle, int duration, int index) {
-        this.seqFinished = false;
         this.config = SpotAnimConfig.instance[index];
         this.plane = plane;
         this.x = x;
         this.y = y;
         this.z = z;
         this.cycleEnd = cycle + duration;
-        this.seqFinished = false;
     }
 
     @Override

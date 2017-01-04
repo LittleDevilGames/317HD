@@ -11,15 +11,15 @@ public class NanoTimer {
     public static void sleep(long time) {
         if (time > 0L) {
             if (time % 10L != 0L) {
-                sleep_(time);
+                threadSleep(time);
             } else {
-                sleep_(time - 1L);
-                sleep_(1L);
+                threadSleep(time - 1L);
+                threadSleep(1L);
             }
         }
     }
 
-    public static void sleep_(long l) {
+    public static void threadSleep(long l) {
         try {
             Thread.sleep(l);
         } catch (Exception e) {

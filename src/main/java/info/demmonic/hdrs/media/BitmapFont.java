@@ -92,10 +92,8 @@ public class BitmapFont extends Canvas2D {
 
         if (name.equals("q8_full")) {
             this.charWidth[32] = this.charWidth[73];
-            return;
         } else {
             this.charWidth[32] = this.charWidth[105];
-            return;
         }
     }
 

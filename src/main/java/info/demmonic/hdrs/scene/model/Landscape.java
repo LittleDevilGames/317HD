@@ -10,19 +10,19 @@ import info.demmonic.hdrs.util.MathUtils;
 
 public class Landscape {
 
-    public static final byte anIntArray463[] = {53, -53, -53, 53};
-    public static final byte anIntArray464[] = {-53, -53, 53, 53};
-    public static final byte anIntArray465[] = {-45, 45, 45, -45};
-    public static final byte anIntArray466[] = {45, 45, -45, -45};
-    public static final int anIntArray478[] = {0x13, 0x37, 0x26, 0x9B, 0xFF, 0x6E, 0x89, 0xCD, 0x4C};
-    public static final int anIntArray479[] = {160, 192, 80, 96, 0, 144, 80, 48, 160};
-    public static final int anIntArray480[] = {76, 8, 137, 4, 0, 1, 38, 2, 19};
-    public static final int anIntArray481[] = {0, 0, 2, 0, 0, 2, 1, 1, 0};
-    public static final int anIntArray482[] = {2, 0, 0, 2, 0, 0, 0, 4, 4};
-    public static final int anIntArray483[] = {0, 4, 4, 8, 0, 0, 8, 0, 0};
-    public static final int anIntArray484[] = {1, 1, 0, 0, 0, 8, 0, 0, 8};
-    public static final int TEXTURE_HSL[] = {41, 39248, 41, 4643, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 43086, 41, 41, 41, 41, 41, 41, 41, 8602, 41, 28992, 41, 41, 41, 41, 41, 5056, 41, 41, 41, 7079, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 3131, 41, 41, 41};
-    public static StaticLoc aClass28Array462[] = new StaticLoc[100];
+    public static final byte[] anIntArray463 = {53, -53, -53, 53};
+    public static final byte[] anIntArray464 = {-53, -53, 53, 53};
+    public static final byte[] anIntArray465 = {-45, 45, 45, -45};
+    public static final byte[] anIntArray466 = {45, 45, -45, -45};
+    public static final int[] anIntArray478 = {0x13, 0x37, 0x26, 0x9B, 0xFF, 0x6E, 0x89, 0xCD, 0x4C};
+    public static final int[] anIntArray479 = {160, 192, 80, 96, 0, 144, 80, 48, 160};
+    public static final int[] anIntArray480 = {76, 8, 137, 4, 0, 1, 38, 2, 19};
+    public static final int[] anIntArray481 = {0, 0, 2, 0, 0, 2, 1, 1, 0};
+    public static final int[] anIntArray482 = {2, 0, 0, 2, 0, 0, 0, 4, 4};
+    public static final int[] anIntArray483 = {0, 4, 4, 8, 0, 0, 8, 0, 0};
+    public static final int[] anIntArray484 = {1, 1, 0, 0, 0, 8, 0, 0, 8};
+    public static final int[] TEXTURE_HSL = {41, 39248, 41, 4643, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 43086, 41, 41, 41, 41, 41, 41, 41, 8602, 41, 28992, 41, 41, 41, 41, 41, 5056, 41, 41, 41, 7079, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 3131, 41, 41, 41};
+    public static StaticLoc[] aClass28Array462 = new StaticLoc[100];
     public static int anInt446;
     public static int camLocalX;
     public static int camLocalY;
@@ -39,8 +39,8 @@ public class Landscape {
     public static int clickY;
     public static CullingBox[] cullingBoxes = new CullingBox[500];
     public static int cullPlaneCount;
-    public static int cullingBoxCount[];
-    public static CullingBox cullingBoxes1[][];
+    public static int[] cullingBoxCount;
+    public static CullingBox[][] cullingBoxes1;
     public static int cullingPosition;
     public static int cycle;
     public static boolean inputRequested;
@@ -56,8 +56,8 @@ public class Landscape {
     public static int scrX;
     public static int scrY;
     public static Chain tileQueue = new Chain();
-    public static boolean cullingMap[][];
-    public static boolean visibilityMap[][][][] = new boolean[8][32][51][51];
+    public static boolean[][] cullingMap;
+    public static boolean[][][][] visibilityMap = new boolean[8][32][51][51];
 
     static {
         cullPlaneCount = 4;
@@ -66,13 +66,13 @@ public class Landscape {
     }
 
     public int anInt488;
-    public int anIntArray486[];
-    public int anIntArray487[];
-    public short heightMap[][][];
+    public int[] anIntArray486 = new int[10000];
+    public int[] anIntArray487 = new int[10000];
+    public short[][][] heightMap;
     public int locCount;
-    public StaticLoc locs[];
+    public StaticLoc[] locs = new StaticLoc[5000];
 
-    public int MINIMAP_OVERLAY_MASK[][] = {new int[16],
+    public int[][] MINIMAP_OVERLAY_MASK = {new int[16],
             {
                     1, 1, 1, 1,
                     1, 1, 1, 1,
@@ -146,7 +146,7 @@ public class Landscape {
                     1, 1, 1, 1
             }
     };
-    public int MINIMAP_OVERLAY_MASK_ROTATION[][] = {
+    public int[][] MINIMAP_OVERLAY_MASK_ROTATION = {
             {
                     0, 1, 2, 3,
                     4, 5, 6, 7,
@@ -177,13 +177,10 @@ public class Landscape {
     public int sizeY;
     public int sizeZ;
 
-    public int tileCycle[][][];
+    public int[][][] tileCycle;
     public Tile[][][] tiles;
 
     public Landscape(int sizeX, int sizeY, int sizeZ, short heightMap[][][]) {
-        this.locs = new StaticLoc[5000];
-        this.anIntArray486 = new int[10000];
-        this.anIntArray487 = new int[10000];
         this.sizeZ = sizeZ;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
@@ -423,7 +420,7 @@ public class Landscape {
     }
 
     public void addBridge(int x, int y) {
-        Tile _t = tiles[0][x][y];
+        Tile bottom = tiles[0][x][y];
 
         for (int z = 0; z < 3; z++) {
             Tile t = tiles[z][x][y] = tiles[z + 1][x][y];
@@ -443,7 +440,7 @@ public class Landscape {
             tiles[0][x][y] = new Tile(0, x, y);
         }
 
-        tiles[0][x][y].bridge = _t;
+        tiles[0][x][y].bridge = bottom;
         tiles[3][x][y] = null;
     }
 
@@ -735,7 +732,7 @@ public class Landscape {
         }
 
         for (int z = plane; z < sizeZ; z++) {
-            Tile _t[][] = tiles[z];
+            Tile planeTiles[][] = tiles[z];
 
             for (int xOff = -25; xOff <= 0; xOff++) {
                 int x0 = camLocalX + xOff;
@@ -748,13 +745,13 @@ public class Landscape {
 
                         if (x0 >= minVisibleX) {
                             if (y0 >= minVisibleY) {
-                                Tile t = _t[x0][y0];
+                                Tile t = planeTiles[x0][y0];
                                 if (t != null && t.aBoolean1322) {
                                     method314(t, true);
                                 }
                             }
                             if (y1 < maxVisibleY) {
-                                Tile t = _t[x0][y1];
+                                Tile t = planeTiles[x0][y1];
                                 if (t != null && t.aBoolean1322) {
                                     method314(t, true);
                                 }
@@ -763,13 +760,13 @@ public class Landscape {
 
                         if (x1 < maxVisibleX) {
                             if (y0 >= minVisibleY) {
-                                Tile t = _t[x1][y0];
+                                Tile t = planeTiles[x1][y0];
                                 if (t != null && t.aBoolean1322) {
                                     method314(t, true);
                                 }
                             }
                             if (y1 < maxVisibleY) {
-                                Tile t = _t[x1][y1];
+                                Tile t = planeTiles[x1][y1];
                                 if (t != null && t.aBoolean1322) {
                                     method314(t, true);
                                 }
@@ -786,23 +783,23 @@ public class Landscape {
         }
 
         for (int z = plane; z < sizeZ; z++) {
-            Tile _t[][] = tiles[z];
-            for (int x_off = -25; x_off <= 0; x_off++) {
-                int x0 = camLocalX + x_off;
-                int x1 = camLocalX - x_off;
+            Tile planeTiles[][] = tiles[z];
+            for (int xOff = -25; xOff <= 0; xOff++) {
+                int x0 = camLocalX + xOff;
+                int x1 = camLocalX - xOff;
                 if (x0 >= minVisibleX || x1 < maxVisibleX) {
-                    for (int y_off = -25; y_off <= 0; y_off++) {
-                        int y0 = camLocalY + y_off;
-                        int y1 = camLocalY - y_off;
+                    for (int yOff = -25; yOff <= 0; yOff++) {
+                        int y0 = camLocalY + yOff;
+                        int y1 = camLocalY - yOff;
                         if (x0 >= minVisibleX) {
                             if (y0 >= minVisibleY) {
-                                Tile t = _t[x0][y0];
+                                Tile t = planeTiles[x0][y0];
                                 if (t != null && t.aBoolean1322) {
                                     method314(t, false);
                                 }
                             }
                             if (y1 < maxVisibleY) {
-                                Tile t = _t[x0][y1];
+                                Tile t = planeTiles[x0][y1];
                                 if (t != null && t.aBoolean1322) {
                                     method314(t, false);
                                 }
@@ -810,13 +807,13 @@ public class Landscape {
                         }
                         if (x1 < maxVisibleX) {
                             if (y0 >= minVisibleY) {
-                                Tile t = _t[x1][y0];
+                                Tile t = planeTiles[x1][y0];
                                 if (t != null && t.aBoolean1322) {
                                     method314(t, false);
                                 }
                             }
                             if (y1 < maxVisibleY) {
-                                Tile t = _t[x1][y1];
+                                Tile t = planeTiles[x1][y1];
                                 if (t != null && t.aBoolean1322) {
                                     method314(t, false);
                                 }
@@ -1589,22 +1586,22 @@ public class Landscape {
         tileQueue.pushBack(tile);
 
         do {
-            Tile _t;
+            Tile current;
 
             do {
-                _t = (Tile) tileQueue.pop();
-                if (_t == null) {
+                current = (Tile) tileQueue.pop();
+                if (current == null) {
                     return;
                 }
-            } while (!_t.aBoolean1323);
+            } while (!current.aBoolean1323);
 
-            int x = _t.x;
-            int y = _t.y;
-            int z = _t.z;
-            int plane = _t.plane;
+            int x = current.x;
+            int y = current.y;
+            int z = current.z;
+            int plane = current.plane;
             Tile[][] tiles = this.tiles[z];
 
-            if (_t.aBoolean1322) {
+            if (current.aBoolean1322) {
                 if (flag) {
                     if (z > 0) {
                         Tile t = this.tiles[z - 1][x][y];
@@ -1615,28 +1612,28 @@ public class Landscape {
 
                     if (x <= camLocalX && x > minVisibleX) {
                         Tile t = tiles[x - 1][y];
-                        if (t != null && t.aBoolean1323 && (t.aBoolean1322 || (_t.flags & 1) == 0)) {
+                        if (t != null && t.aBoolean1323 && (t.aBoolean1322 || (current.flags & 1) == 0)) {
                             continue;
                         }
                     }
 
                     if (x >= camLocalX && x < maxVisibleX - 1) {
                         Tile t = tiles[x + 1][y];
-                        if (t != null && t.aBoolean1323 && (t.aBoolean1322 || (_t.flags & 4) == 0)) {
+                        if (t != null && t.aBoolean1323 && (t.aBoolean1322 || (current.flags & 4) == 0)) {
                             continue;
                         }
                     }
 
                     if (y <= camLocalY && y > minVisibleY) {
                         Tile t = tiles[x][y - 1];
-                        if (t != null && t.aBoolean1323 && (t.aBoolean1322 || (_t.flags & 8) == 0)) {
+                        if (t != null && t.aBoolean1323 && (t.aBoolean1322 || (current.flags & 8) == 0)) {
                             continue;
                         }
                     }
 
                     if (y >= camLocalY && y < maxVisibleY - 1) {
                         Tile t = tiles[x][y + 1];
-                        if (t != null && t.aBoolean1323 && (t.aBoolean1322 || (_t.flags & 2) == 0)) {
+                        if (t != null && t.aBoolean1323 && (t.aBoolean1322 || (current.flags & 2) == 0)) {
                             continue;
                         }
                     }
@@ -1644,10 +1641,10 @@ public class Landscape {
                     flag = true;
                 }
 
-                _t.aBoolean1322 = false;
+                current.aBoolean1322 = false;
 
-                if (_t.bridge != null) {
-                    Tile t = _t.bridge;
+                if (current.bridge != null) {
+                    Tile t = current.bridge;
 
                     if (t.underlay != null) {
                         if (!isTileCulled(0, x, y)) {
@@ -1674,20 +1671,20 @@ public class Landscape {
 
                 boolean drawItemPile = false;
 
-                if (_t.underlay != null) {
+                if (current.underlay != null) {
                     if (!isTileCulled(plane, x, y)) {
                         drawItemPile = true;
-                        drawUnderlayTile(_t.underlay, plane, camPSin, camPCos, camYSin, camYCos, x, y);
+                        drawUnderlayTile(current.underlay, plane, camPSin, camPCos, camYSin, camYCos, x, y);
                     }
-                } else if (_t.overlay != null && !isTileCulled(plane, x, y)) {
+                } else if (current.overlay != null && !isTileCulled(plane, x, y)) {
                     drawItemPile = true;
-                    drawOverlayTile(_t.overlay, x, y, camPSin, camPCos, camYSin, camYCos);
+                    drawOverlayTile(current.overlay, x, y, camPSin, camPCos, camYSin, camYCos);
                 }
 
                 int camDir = 0;
                 int renderFlags = 0;
-                WallLoc wl = _t.wall;
-                WallDecoration wd = _t.wallDecoration;
+                WallLoc wl = current.wall;
+                WallDecoration wd = current.wallDecoration;
 
                 if (wl != null || wd != null) {
                     if (camLocalX == x) {
@@ -1703,7 +1700,7 @@ public class Landscape {
                     }
 
                     renderFlags = anIntArray478[camDir];
-                    _t.anInt1328 = anIntArray480[camDir];
+                    current.anInt1328 = anIntArray480[camDir];
 
                     // Camera Direction (Relative to)
                     // 0: cam_x > x && cam_y < y	(South-east)
@@ -1760,24 +1757,24 @@ public class Landscape {
                 if (wl != null) {
                     if ((wl.rotationFlag & anIntArray479[camDir]) != 0) {
                         if (wl.rotationFlag == 0x10) {
-                            _t.anInt1325 = 0x3; // 0x2 | 0x1
-                            _t.anInt1326 = anIntArray481[camDir];
-                            _t.anInt1327 = 0x3 - _t.anInt1326;
+                            current.anInt1325 = 0x3; // 0x2 | 0x1
+                            current.anInt1326 = anIntArray481[camDir];
+                            current.anInt1327 = 0x3 - current.anInt1326;
                         } else if (wl.rotationFlag == 0x20) {
-                            _t.anInt1325 = 0x6; // 0x4 | 0x2
-                            _t.anInt1326 = anIntArray482[camDir];
-                            _t.anInt1327 = 0x6 - _t.anInt1326;
+                            current.anInt1325 = 0x6; // 0x4 | 0x2
+                            current.anInt1326 = anIntArray482[camDir];
+                            current.anInt1327 = 0x6 - current.anInt1326;
                         } else if (wl.rotationFlag == 0x40) {
-                            _t.anInt1325 = 0xC; // 0x8 | 0x4
-                            _t.anInt1326 = anIntArray483[camDir];
-                            _t.anInt1327 = 0xC - _t.anInt1326;
+                            current.anInt1325 = 0xC; // 0x8 | 0x4
+                            current.anInt1326 = anIntArray483[camDir];
+                            current.anInt1327 = 0xC - current.anInt1326;
                         } else {
-                            _t.anInt1325 = 0x9; // 0x8 | 0x1
-                            _t.anInt1326 = anIntArray484[camDir];
-                            _t.anInt1327 = 0x9 - _t.anInt1326;
+                            current.anInt1325 = 0x9; // 0x8 | 0x1
+                            current.anInt1326 = anIntArray484[camDir];
+                            current.anInt1327 = 0x9 - current.anInt1326;
                         }
                     } else {
-                        _t.anInt1325 = 0;
+                        current.anInt1325 = 0;
                     }
 
                     if ((wl.rotationFlag & renderFlags) != 0 && !isWallCulled(plane, x, y, wl.rotationFlag)) {
@@ -1827,13 +1824,13 @@ public class Landscape {
                 }
 
                 if (drawItemPile) {
-                    GroundDecoration d = _t.groundDecoration;
+                    GroundDecoration d = current.groundDecoration;
 
                     if (d != null) {
                         d.node.render(0, camPSin, camPCos, camYSin, camYCos, d.sceneX - camX, d.sceneY - camY, d.sceneZ - camZ, d.uid);
                     }
 
-                    ItemPile i = _t.itemPile;
+                    ItemPile i = current.itemPile;
 
                     if (i != null && i.offZ == 0) {
                         if (i.bottom != null) {
@@ -1848,7 +1845,7 @@ public class Landscape {
                     }
                 }
 
-                int tFlags = _t.flags;
+                int tFlags = current.flags;
 
                 if (tFlags != 0) {
                     if (x < camLocalX && (tFlags & 4) != 0) {
@@ -1885,10 +1882,10 @@ public class Landscape {
                 }
             }
 
-            if (_t.anInt1325 != 0) {
+            if (current.anInt1325 != 0) {
                 boolean flag2 = true;
-                for (int k1 = 0; k1 < _t.locCount; k1++) {
-                    if (_t.locs[k1].cycle == cycle || (_t.locFlag[k1] & _t.anInt1325) != _t.anInt1326) {
+                for (int k1 = 0; k1 < current.locCount; k1++) {
+                    if (current.locs[k1].cycle == cycle || (current.locFlag[k1] & current.anInt1325) != current.anInt1326) {
                         continue;
                     }
                     flag2 = false;
@@ -1896,24 +1893,24 @@ public class Landscape {
                 }
 
                 if (flag2) {
-                    WallLoc wl = _t.wall;
+                    WallLoc wl = current.wall;
 
                     if (!isWallCulled(plane, x, y, wl.rotationFlag)) {
                         wl.root.render(0, camPSin, camPCos, camYSin, camYCos, wl.sceneX - camX, wl.sceneY - camY, wl.sceneZ - camZ, wl.uid);
                     }
 
-                    _t.anInt1325 = 0;
+                    current.anInt1325 = 0;
                 }
             }
 
-            if (_t.aBoolean1324) {
+            if (current.aBoolean1324) {
                 try {
-                    int i1 = _t.locCount;
-                    _t.aBoolean1324 = false;
+                    int i1 = current.locCount;
+                    current.aBoolean1324 = false;
                     int l1 = 0;
                     label0:
                     for (int k2 = 0; k2 < i1; k2++) {
-                        StaticLoc l = _t.locs[k2];
+                        StaticLoc l = current.locs[k2];
 
                         if (l.cycle == cycle) {
                             continue;
@@ -1923,7 +1920,7 @@ public class Landscape {
                             for (int pieceY = l.localY0; pieceY <= l.localY1; pieceY++) {
                                 Tile t = tiles[pieceX][pieceY];
                                 if (t.aBoolean1322) {
-                                    _t.aBoolean1324 = true;
+                                    current.aBoolean1324 = true;
                                 } else {
                                     if (t.anInt1325 == 0) {
                                         continue;
@@ -1946,11 +1943,11 @@ public class Landscape {
                                         flags += 0x2;
                                     }
 
-                                    if ((flags & t.anInt1325) != _t.anInt1327) {
+                                    if ((flags & t.anInt1325) != current.anInt1327) {
                                         continue;
                                     }
 
-                                    _t.aBoolean1324 = true;
+                                    current.aBoolean1324 = true;
                                 }
                                 continue label0;
                             }
@@ -2024,15 +2021,15 @@ public class Landscape {
                         }
 
                     }
-                    if (_t.aBoolean1324) {
+                    if (current.aBoolean1324) {
                         continue;
                     }
                 } catch (Exception _ex) {
-                    _t.aBoolean1324 = false;
+                    current.aBoolean1324 = false;
                 }
             }
 
-            if (!_t.aBoolean1323 || _t.anInt1325 != 0) {
+            if (!current.aBoolean1323 || current.anInt1325 != 0) {
                 continue;
             }
 
@@ -2064,10 +2061,10 @@ public class Landscape {
                 }
             }
 
-            _t.aBoolean1323 = false;
+            current.aBoolean1323 = false;
             anInt446--;
 
-            ItemPile ip = _t.itemPile;
+            ItemPile ip = current.itemPile;
 
             if (ip != null && ip.offZ != 0) {
                 if (ip.bottom != null) {
@@ -2083,10 +2080,10 @@ public class Landscape {
                 }
             }
 
-            if (_t.anInt1328 != 0) {
-                WallDecoration wd = _t.wallDecoration;
+            if (current.anInt1328 != 0) {
+                WallDecoration wd = current.wallDecoration;
                 if (wd != null && !isCulled(plane, x, y, wd.node.height)) {
-                    if ((wd.flags & _t.anInt1328) != 0) {
+                    if ((wd.flags & current.anInt1328) != 0) {
                         wd.node.render(wd.rotation, camPSin, camPCos, camYSin, camYCos, wd.x - camX, wd.y - camY, wd.z - camZ, wd.uid);
                     } else if ((wd.flags & 0x300) != 0) {
                         int deltaX = wd.x - camX;
@@ -2122,13 +2119,13 @@ public class Landscape {
                     }
                 }
 
-                WallLoc wl = _t.wall;
+                WallLoc wl = current.wall;
 
                 if (wl != null) {
-                    if ((wl.cornerFlag & _t.anInt1328) != 0 && !isWallCulled(plane, x, y, wl.cornerFlag)) {
+                    if ((wl.cornerFlag & current.anInt1328) != 0 && !isWallCulled(plane, x, y, wl.cornerFlag)) {
                         wl.extension.render(0, camPSin, camPCos, camYSin, camYCos, wl.sceneX - camX, wl.sceneY - camY, wl.sceneZ - camZ, wl.uid);
                     }
-                    if ((wl.rotationFlag & _t.anInt1328) != 0 && !isWallCulled(plane, x, y, wl.rotationFlag)) {
+                    if ((wl.rotationFlag & current.anInt1328) != 0 && !isWallCulled(plane, x, y, wl.rotationFlag)) {
                         wl.root.render(0, camPSin, camPCos, camYSin, camYCos, wl.sceneX - camX, wl.sceneY - camY, wl.sceneZ - camZ, wl.uid);
                     }
                 }

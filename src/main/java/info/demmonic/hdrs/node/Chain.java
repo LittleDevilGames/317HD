@@ -3,10 +3,9 @@ package info.demmonic.hdrs.node;
 public class Chain {
 
     public Link current;
-    public Link first;
+    public Link first = new Link();
 
     public Chain() {
-        first = new Link();
         first.next = first;
         first.previous = first;
     }

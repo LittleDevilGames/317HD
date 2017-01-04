@@ -46,25 +46,6 @@ public class Signlink implements Runnable {
         dnsNext = s;
     }
 
-    public static File getFile(String s) {
-        return new File(getCacheFolder(), s);
-    }
-
-    public static synchronized Socket getSocket(int port) throws IOException {
-        for (socketPort = port; socketPort != 0; ) {
-            try {
-                Thread.sleep(50L);
-            } catch (Exception _ex) {
-            }
-        }
-
-        if (socket == null) {
-            throw new IOException("Error opening socket.");
-        } else {
-            return socket;
-        }
-    }
-
     public static int getUniqueId(String s) {
         try {
             File file = new File(s + "uid.dat");
@@ -73,14 +54,14 @@ public class Signlink implements Runnable {
                 out.writeInt((int) (Math.random() * 99999999D));
                 out.close();
             }
-        } catch (Exception _ex) {
+        } catch (Exception e) {
         }
         try {
             DataInputStream in = new DataInputStream(new FileInputStream(s + "uid.dat"));
             int i = in.readInt();
             in.close();
             return i + 1;
-        } catch (Exception _ex) {
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -91,7 +72,7 @@ public class Signlink implements Runnable {
         if (active) {
             try {
                 Thread.sleep(500L);
-            } catch (Exception _ex) {
+            } catch (Exception ignored) {
             }
             active = false;
         }
@@ -108,14 +89,9 @@ public class Signlink implements Runnable {
         while (!active) {
             try {
                 Thread.sleep(50L);
-            } catch (Exception _ex) {
+            } catch (Exception ignored) {
             }
         }
-    }
-
-    public static synchronized void startThread(Runnable runnable, int i) {
-        threadPriority = i;
-        thread = runnable;
     }
 
     public void run() {
@@ -138,7 +114,7 @@ public class Signlink implements Runnable {
             if (socketPort != 0) {
                 try {
                     socket = new Socket(socketAddress, socketPort);
-                } catch (Exception _ex) {
+                } catch (Exception e) {
                     socket = null;
                 }
                 socketPort = 0;
@@ -151,14 +127,14 @@ public class Signlink implements Runnable {
             } else if (dnsNext != null) {
                 try {
                     resolvedDns = InetAddress.getByName(dnsNext).getHostName();
-                } catch (Exception _ex) {
+                } catch (Exception e) {
                     resolvedDns = "unknown";
                 }
                 dnsNext = null;
             }
             try {
                 Thread.sleep(50L);
-            } catch (Exception _ex) {
+            } catch (Exception ignored) {
             }
         }
 

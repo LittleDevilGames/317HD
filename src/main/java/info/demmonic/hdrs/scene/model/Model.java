@@ -14,17 +14,17 @@ public class Model extends Renderable {
     public static int anInt1681;
     public static int anInt1682;
     public static int anInt1683;
-    public static short replaceVertexX[] = new short[2000];
-    public static short replaceVertexY[] = new short[2000];
-    public static short replaceVertexZ[] = new short[2000];
-    public static int anIntArray1625[] = new int[2000];
-    public static int anIntArray1671[] = new int[1500];
-    public static int anIntArray1673[] = new int[12];
-    public static int anIntArray1675[] = new int[2000];
-    public static int anIntArray1676[] = new int[2000];
-    public static int anIntArray1677[] = new int[12];
-    public static int anIntArrayArray1672[][] = new int[1500][512];
-    public static int anIntArrayArray1674[][] = new int[12][2000];
+    public static short[] replaceVertexX = new short[2000];
+    public static short[] replaceVertexY = new short[2000];
+    public static short[] replaceVertexZ = new short[2000];
+    public static int[] anIntArray1625 = new int[2000];
+    public static int[] anIntArray1671 = new int[1500];
+    public static int[] anIntArray1673 = new int[12];
+    public static int[] anIntArray1675 = new int[2000];
+    public static int[] anIntArray1676 = new int[2000];
+    public static int[] anIntArray1677 = new int[12];
+    public static int[][] anIntArrayArray1672 = new int[1500][512];
+    public static int[][] anIntArrayArray1674 = new int[12][2000];
     public static Header[] header;
     public static OnDemand ondemand;
     public static boolean sceneClickable;
@@ -33,19 +33,19 @@ public class Model extends Renderable {
     public static int hoveredCount;
     public static int[] hoveredUid = new int[1000];
     public static Model temporary = new Model();
-    public static int tmpScreenX[] = new int[10];
-    public static int tmpScreenY[] = new int[10];
-    public static int tmpHsl[] = new int[10];
-    public static int tmpTexturedX[] = new int[4096];
-    public static int tmpTexturedY[] = new int[4096];
-    public static int tmpTexturedZ[] = new int[4096];
-    public static int triangleX[] = new int[4096];
-    public static int triangleY[] = new int[4096];
-    public static int triangleDepth[] = new int[4096];
-    public static boolean triangleProject[] = new boolean[4096];
-    public static boolean triangleCheckBounds[] = new boolean[4096];
-    public static int palette[];
-    public static int shadowDecay[];
+    public static int[] tmpScreenX = new int[10];
+    public static int[] tmpScreenY = new int[10];
+    public static int[] tmpHsl = new int[10];
+    public static int[] tmpTexturedX = new int[4096];
+    public static int[] tmpTexturedY = new int[4096];
+    public static int[] tmpTexturedZ = new int[4096];
+    public static int[] triangleX = new int[4096];
+    public static int[] triangleY = new int[4096];
+    public static int[] triangleDepth = new int[4096];
+    public static boolean[] triangleProject = new boolean[4096];
+    public static boolean[] triangleCheckBounds = new boolean[4096];
+    public static int[] palette;
+    public static int[] shadowDecay;
 
     static {
         palette = Canvas3D.palette;
@@ -61,28 +61,28 @@ public class Model extends Renderable {
     public int minX;
     public int minZ;
     public int pileHeight;
-    public int textureMapX[];
-    public int textureMapY[];
-    public int textureMapZ[];
+    public int[] textureMapX;
+    public int[] textureMapY;
+    public int[] textureMapZ;
     public int texturedTriangleCount;
-    public int triHsl1[];
-    public int triHsl2[];
-    public int triHsl3[];
-    public int triangleAlpha[];
-    public int triangleColor[];
+    public int[] triHsl1;
+    public int[] triHsl2;
+    public int[] triHsl3;
+    public int[] triangleAlpha;
+    public int[] triangleColor;
     public int triangleCount;
-    public int triangleGroups[][];
-    public int triangleInfo[];
-    public int trianglePriority[];
-    public int triangleTskin[];
-    public short triangleViewspaceA[];
-    public short triangleViewspaceB[];
-    public short triangleViewspaceC[];
+    public int[][] triangleGroups;
+    public int[] triangleInfo;
+    public int[] trianglePriority;
+    public int[] triangleTskin;
+    public short[] triangleViewspaceA;
+    public short[] triangleViewspaceB;
+    public short[] triangleViewspaceC;
     public int unknown2;
     public int unknown3;
     public short vertexCount;
-    public int vertexSkinTypes[];
-    public int vertexWeights[][];
+    public int[] vertexSkinTypes;
+    public int[][] vertexWeights;
     public short[] vertexX;
     public short[] vertexY;
     public short[] vertexZ;
@@ -1757,17 +1757,17 @@ public class Model extends Renderable {
     }
 
     @Override
-    public void render(int rotation, int pitchSin, int pitchCos, int yawSin, int yawCos, int x, int y, int z, int uid) {
-        int j2 = y * yawCos - x * yawSin >> 16;
-        int camDist = z * pitchSin + j2 * pitchCos >> 16;
-        int l2 = maxHorizon * pitchCos >> 16;
+    public void render(int rotation, int camPitchSin, int camPitchCos, int camYawSin, int camYawCos, int x, int y, int z, int uid) {
+        int j2 = y * camYawCos - x * camYawSin >> 16;
+        int camDist = z * camPitchSin + j2 * camPitchCos >> 16;
+        int l2 = maxHorizon * camPitchCos >> 16;
         int angle = camDist + l2;
 
         if (angle <= 50 || camDist >= 3500) {
             return;
         }
 
-        int j3 = y * yawSin + x * yawCos >> 16;
+        int j3 = y * camYawSin + x * camYawCos >> 16;
 
         int x1 = j3 - maxHorizon << 9;
         if (x1 / angle >= Canvas2D.centerX2d) {
@@ -1779,21 +1779,21 @@ public class Model extends Renderable {
             return;
         }
 
-        int i4 = z * pitchCos - j2 * pitchSin >> 16;
-        int j4 = maxHorizon * pitchSin >> 16;
+        int i4 = z * camPitchCos - j2 * camPitchSin >> 16;
+        int j4 = maxHorizon * camPitchSin >> 16;
 
         int y2 = i4 + j4 << 9;
         if (y2 / angle <= -Canvas2D.centerY2d) {
             return;
         }
 
-        int l4 = j4 + (super.height * pitchCos >> 16);
+        int l4 = j4 + (super.height * camPitchCos >> 16);
         int y1 = i4 - l4 << 9;
         if (y1 / angle >= Canvas2D.centerY2d) {
             return;
         }
 
-        int j5 = l2 + (super.height * pitchSin >> 16);
+        int j5 = l2 + (super.height * camPitchSin >> 16);
         boolean flag = false;
 
         if (camDist - j5 <= 50) {
@@ -1861,12 +1861,12 @@ public class Model extends Renderable {
             vY += z;
             vZ += y;
 
-            int i = vZ * yawSin + vX * yawCos >> 16;
-            vZ = vZ * yawCos - vX * yawSin >> 16;
+            int i = vZ * camYawSin + vX * camYawCos >> 16;
+            vZ = vZ * camYawCos - vX * camYawSin >> 16;
             vX = i;
 
-            i = vY * pitchCos - vZ * pitchSin >> 16;
-            vZ = vY * pitchSin + vZ * pitchCos >> 16;
+            i = vY * camPitchCos - vZ * camPitchSin >> 16;
+            vZ = vY * camPitchSin + vZ * camPitchCos >> 16;
             vY = i;
 
             triangleDepth[v] = vZ - camDist;

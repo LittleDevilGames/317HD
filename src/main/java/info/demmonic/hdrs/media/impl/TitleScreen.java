@@ -81,8 +81,6 @@ public class TitleScreen {
         bitmapBox = new Bitmap(Game.archive, "titlebox", 0);
         bitmapButton = new Bitmap(Game.archive, "titlebutton", 0);
 
-        Flames.createImages();
-
         if (!Game.processFlames) {
             Game.drawFlames = true;
             Game.processFlames = true;

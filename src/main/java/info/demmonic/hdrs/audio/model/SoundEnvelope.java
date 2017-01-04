@@ -29,10 +29,10 @@ public class SoundEnvelope {
         form = b.readUnsignedByte();
         anInt538 = b.readInt();
         anInt539 = b.readInt();
-        decode_segments(b);
+        decodeSegments(b);
     }
 
-    public void decode_segments(Buffer b) {
+    public void decodeSegments(Buffer b) {
         segmentCount = b.readUnsignedByte();
         segmentDuration = new int[segmentCount];
         segmentPeak = new int[segmentCount];

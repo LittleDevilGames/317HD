@@ -18,21 +18,21 @@ public class OnDemand implements Runnable {
     public static final String[] VERSION_FILES = {"model_version", "anim_version", "midi_version", "map_version"};
 
     public int animIndices[];
-    public Buffer buffer;
-    public Chain completed;
-    public CRC32 crc32;
-    public int[][] crcs;
+    public Buffer buffer = new Buffer(500);
+    public Chain completed = new Chain();
+    public CRC32 crc32 = new CRC32();
+    public int[][] crcs = new int[4][];
     public OnDemandRequest current;
     public int cycle;
     public int extrasLoaded;
     public int extrasCount;
     public int fails;
-    public byte filePriorities[][];
-    public int fileVersions[][];
+    public byte[][] filePriorities = new byte[4][];
+    public int[][] fileVersions = new int[4][];
     public Game game;
     public int highestPriority;
     public int idleCycles;
-    public Deque immediate;
+    public Deque immediate = new Deque();
     public int immediateRequestsSent;
     public InputStream in;
     public long lastSocketOpen;
@@ -40,38 +40,21 @@ public class OnDemand implements Runnable {
     public int mapIndices[];
     public int landscapeFiles[];
     public byte membersArea[];
-    public String message;
+    public String message = "";
     public int midiIndices[];
     public byte modelIndices[];
     public int offset;
     public OutputStream out;
-    public Chain passiveRequests;
+    public Chain passiveRequests = new Chain();
     public int passiveRequestsSent;
-    public boolean retrieving;
-    public boolean running;
-    public Chain sentRequests;
+    public boolean retrieving = false;
+    public boolean running = true;
+    public Chain sentRequests = new Chain();
     public int deadTime;
     public Socket socket;
     public int toRead;
-    public Chain toRequest;
-    public Chain wanted;
-
-    public OnDemand() {
-        sentRequests = new Chain();
-        message = "";
-        crc32 = new CRC32();
-        buffer = new Buffer(500);
-        filePriorities = new byte[4][];
-        passiveRequests = new Chain();
-        running = true;
-        retrieving = false;
-        completed = new Chain();
-        immediate = new Deque();
-        fileVersions = new int[4][];
-        crcs = new int[4][];
-        toRequest = new Chain();
-        wanted = new Chain();
-    }
+    public Chain toRequest = new Chain();
+    public Chain wanted = new Chain();
 
     public void clearPassiveRequests() {
         synchronized (passiveRequests) {
@@ -544,7 +527,7 @@ public class OnDemand implements Runnable {
                     if (idleCycles > 750) {
                         try {
                             socket.close();
-                        } catch (Exception _ex) {
+                        } catch (Exception e) {
 
                         }
 
@@ -571,9 +554,9 @@ public class OnDemand implements Runnable {
 
                         try {
                             out.write(buffer.payload, 0, 4);
-                        } catch (IOException _ex) {
+                        } catch (IOException e) {
                             idleCycles = 5000;
-                            _ex.printStackTrace();
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -647,7 +630,7 @@ public class OnDemand implements Runnable {
         } catch (IOException e) {
             try {
                 socket.close();
-            } catch (Exception _ex) {
+            } catch (Exception e1) {
             }
             socket = null;
             in = null;

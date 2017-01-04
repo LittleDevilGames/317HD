@@ -2,11 +2,10 @@ package info.demmonic.hdrs.node;
 
 public class Deque {
 
+    public CacheLink first = new CacheLink();
     public CacheLink current;
-    public CacheLink first;
 
     public Deque() {
-        this.first = new CacheLink();
         this.first.nextCache = this.first;
         this.first.previousCache = this.first;
     }

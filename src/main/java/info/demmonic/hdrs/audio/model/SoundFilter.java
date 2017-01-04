@@ -32,8 +32,8 @@ public class SoundFilter {
     }
 
     public float normalize(float octave) {
-        float f_note = 32.7032F * (float) Math.pow(2D, octave);
-        return (f_note * 3.141593F) / 11025F;
+        float fNote = 32.7032F * (float) Math.pow(2D, octave);
+        return (fNote * 3.141593F) / 11025F;
     }
 
     public float method543(byte byte0, float f, int i, int j) {
@@ -118,7 +118,7 @@ public class SoundFilter {
             }
 
             if (j != 0 || anIntArray668[1] != anIntArray668[0]) {
-                class29.decode_segments(s);
+                class29.decodeSegments(s);
             }
             return;
         } else {

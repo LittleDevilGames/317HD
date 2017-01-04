@@ -36,7 +36,7 @@ public class ObjConfig {
     public short iconX;
     public short iconY;
     public short iconYaw;
-    public short index;
+    public short index = -1;
     public boolean isMembers;
     public short maleDialogModel1;
     public short maleDialogModel2;
@@ -59,10 +59,6 @@ public class ObjConfig {
     public short[] stackIndex;
     public boolean stackable;
     public byte team;
-
-    public ObjConfig() {
-        index = -1;
-    }
 
     public static ObjConfig get(int index) {
         for (ObjConfig config : ObjConfig.cache) {
