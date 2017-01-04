@@ -30,7 +30,6 @@ public class Rt3 extends com.badlogic.gdx.Game implements InputProcessor {
         camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.input.setInputProcessor(this);
         shell.startup();
-        System.out.println("started");
     }
 
     @Override
