@@ -23,7 +23,6 @@ public class Rt3 extends com.badlogic.gdx.Game {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shell.startup();
-        System.out.println("started");
     }
 
     @Override
