@@ -103,7 +103,10 @@ public class Chat extends Widget {
             return;
         }
 
-        prepare();
+        int offsetX = 17;
+        int offsetY = 357;
+        prepare(offsetX, offsetY);
+
 
         boolean noInput = true;
 
@@ -115,8 +118,8 @@ public class Chat extends Widget {
             case SEND_MESSAGE: {
                 String message = Chat.message.get(MESSAGE_INPUT);
                 if (message != null) {
-                    BitmapFont.BOLD.draw(Chat.message.get(MESSAGE_INPUT), 239, 40, 0, BitmapFont.CENTER);
-                    BitmapFont.BOLD.draw(Chat.getInput(INPUT_DIALOGUE) + "*", 239, 60, 128, BitmapFont.CENTER);
+                    BitmapFont.BOLD.draw(Chat.message.get(MESSAGE_INPUT), 239 + offsetX, 40 + offsetY, 0, BitmapFont.CENTER);
+                    BitmapFont.BOLD.draw(Chat.getInput(INPUT_DIALOGUE) + "*", 239 + offsetX, 60 + offsetY, 128, BitmapFont.CENTER);
                     noInput = false;
                     break;
                 } else {
@@ -126,15 +129,15 @@ public class Chat extends Widget {
 
             case ENTER_AMOUNT:
             case ENTER_NAME: {
-                BitmapFont.BOLD.draw(state.toString(), 239, 40, 0, BitmapFont.CENTER);
-                BitmapFont.BOLD.draw(Chat.getInput(INPUT_DIALOGUE) + "*", 239, 60, 128, BitmapFont.CENTER);
+                BitmapFont.BOLD.draw(state.toString(), 239 + offsetX, 40 + offsetY, 0, BitmapFont.CENTER);
+                BitmapFont.BOLD.draw(Chat.getInput(INPUT_DIALOGUE) + "*", 239 + offsetX, 60 + offsetY, 128, BitmapFont.CENTER);
                 noInput = false;
                 break;
             }
 
             case NOTIFY: {
-                BitmapFont.BOLD.draw(Chat.message.get(MESSAGE_NOTIFY), 239, 40, 0, BitmapFont.CENTER);
-                BitmapFont.BOLD.draw("Click to continue", 239, 60, 128, BitmapFont.CENTER);
+                BitmapFont.BOLD.draw(Chat.message.get(MESSAGE_NOTIFY), 239 + offsetX, 40 + offsetY, 0, BitmapFont.CENTER);
+                BitmapFont.BOLD.draw("Click to continue", 239 + offsetX, 60 + offsetY, 128, BitmapFont.CENTER);
                 noInput = false;
                 break;
             }
@@ -147,11 +150,11 @@ public class Chat extends Widget {
 
         if (noInput) {
             if (Chat.getOverlay() != -1) {
-                Widget.draw(Chat.getOverlay(), 0, 0, 0);
+                Widget.draw(Chat.getOverlay(), offsetX, offsetY, 0);
             } else if (Chat.getUnderlay() != -1) {
-                Widget.draw(Chat.getUnderlay(), 0, 0, 0);
+                Widget.draw(Chat.getUnderlay(), offsetX, offsetY, 0);
             } else {
-                Public.draw();
+                Public.draw(offsetX, offsetY);
             }
         }
 
@@ -746,9 +749,9 @@ public class Chat extends Widget {
         }
     }
 
-    protected static void prepare() {
+    protected static void prepare(int offsetX, int offsetY) {
         Canvas3D.pixels = Game.chatPixels3D;
-        background.draw(0, 0);
+        background.draw(offsetX, offsetY);
     }
 
     public static void put(String message) {
@@ -973,10 +976,10 @@ public class Chat extends Widget {
         public static final int SCROLLBAR_X = WIDTH - 10;
         public static final int SEPARATOR_LENGTH = WIDTH + 6;
 
-        public static void draw() {
+        public static void draw(int offsetX, int offsetY) {
 
             BitmapFont font = BitmapFont.NORMAL;
-            Canvas2D.setBounds(0, 0, WIDTH, HEIGHT);
+            Canvas2D.setBounds(offsetX, offsetY, WIDTH, HEIGHT);
 
             int count = 0;
 
@@ -988,7 +991,7 @@ public class Chat extends Widget {
                 String name = line.prefix;
                 String message = line.message;
                 int type = line.type;
-                int y = (MESSAGE_START_Y - (count * MESSAGE_HEIGHT)) + Chat.get().scrollAmount;
+                int y = (MESSAGE_START_Y - (count * MESSAGE_HEIGHT)) + Chat.get().scrollAmount + offsetY;
                 byte rights = 0;
 
                 if (name != null) {
@@ -999,15 +1002,15 @@ public class Chat extends Widget {
                 }
 
                 if (type == TYPE_NORMAL) {
-                    if (y > 0 && y < 110) {
-                        font.draw(0, line.message, 4, y);
+                    if (y > offsetY && y < 110 + offsetY) {
+                        font.draw(0, line.message, 4 + offsetX, y);
                     }
                     count++;
                 }
 
                 if ((type == TYPE_MODERATOR || type == TYPE_PLAYER) && (type == TYPE_MODERATOR || Settings.values[0] == SETTING_ON || Settings.values[0] == SETTING_FRIENDS && Game.friendExists(name))) {
-                    if (y > 0 && y < 110) {
-                        int x = 4;
+                    if (y > offsetY && y < 110 + offsetY) {
+                        int x = 4 + offsetX;
                         if (rights > 0) {
                             Game.bitmapModIcons[rights - 1].draw(x, y - 12);
                             x += CROWN_PADDING;
@@ -1020,8 +1023,8 @@ public class Chat extends Widget {
                 }
 
                 if ((type == TYPE_MODERATOR_PRIVATE || type == TYPE_PLAYER_PRIVATE) && Settings.privateArea == 0 && (type == TYPE_MODERATOR_PRIVATE || Settings.values[1] == SETTING_ON || Settings.values[1] == SETTING_FRIENDS && Game.friendExists(name))) {
-                    if (y > 0 && y < 110) {
-                        int x = 4;
+                    if (y > offsetY && y < 110 + offsetY) {
+                        int x = 4 + offsetX;
                         font.draw(0, "From", x, y);
                         x += font.getWidth("From ");
 
@@ -1038,43 +1041,43 @@ public class Chat extends Widget {
                 }
 
                 if (type == TYPE_TRADE_REQUEST && (Settings.values[2] == SETTING_ON || Settings.values[2] == SETTING_FRIENDS && Game.friendExists(name))) {
-                    if (y > 0 && y < 110) {
-                        font.draw(0x800080, name + " " + message, 4, y);
+                    if (y > offsetY && y < 110 + offsetY) {
+                        font.draw(0x800080, name + " " + message, 4 + offsetX, y);
                     }
                     count++;
                 }
 
                 if (type == TYPE_NOTIFY_PRIVATE && Settings.privateArea == 0 && Settings.values[1] < SETTING_OFF) {
-                    if (y > 0 && y < 110) {
-                        font.draw(0x800000, message, 4, y);
+                    if (y > offsetY && y < 110 + offsetY) {
+                        font.draw(0x800000, message, 4 + offsetX, y);
                     }
                     count++;
                 }
 
                 if (type == TYPE_SENT_MESSAGE && Settings.privateArea == 0 && Settings.values[1] < SETTING_OFF) {
-                    if (y > 0 && y < 110) {
-                        font.draw(0, "To " + name + ":", 4, y);
-                        font.draw(0x800000, message, 12 + font.getWidth("To " + name), y);
+                    if (y > offsetY && y < 110 + offsetY) {
+                        font.draw(0, "To " + name + ":", 4 + offsetX, y);
+                        font.draw(0x800000, message, 12 + font.getWidth("To " + name) + offsetX, y);
                     }
                     count++;
                 }
 
                 if (type == TYPE_DUEL_REQUEST && (Settings.values[2] == SETTING_ON || Settings.values[2] == SETTING_FRIENDS && Game.friendExists(name))) {
-                    if (y > 0 && y < 110) {
-                        font.draw(0x7e3200, name + " " + message, 4, y);
+                    if (y > offsetY && y < 110 + offsetY) {
+                        font.draw(0x7e3200, name + " " + message, 4 + offsetX, y);
                     }
                     count++;
                 }
             }
 
             Canvas2D.reset();
-            Canvas2D.drawLineH(0, HEIGHT, SEPARATOR_LENGTH, 0);
+            Canvas2D.drawLineH(offsetX, HEIGHT + offsetY + 1, SEPARATOR_LENGTH, 0);
 
-            Chat.Scrollbar.draw(SCROLLBAR_X, 0, HEIGHT, count);
+            Chat.Scrollbar.draw(SCROLLBAR_X, offsetY, HEIGHT, count);
 
             String prefix = new StringBuilder().append(JString.localUsername()).append(": ").toString();
-            BitmapFont.NORMAL.draw(prefix, 4, 90, 0);
-            BitmapFont.NORMAL.draw(Chat.getInput() + "*", 6 + BitmapFont.NORMAL.getWidth(prefix), 90, 0xFF);
+            BitmapFont.NORMAL.draw(prefix, 4 + offsetX, 90 + offsetY, 0);
+            BitmapFont.NORMAL.draw(Chat.getInput() + "*", 6 + BitmapFont.NORMAL.getWidth(prefix) + offsetX, 90 + offsetY, 0xFF);
         }
     }
 
@@ -1153,16 +1156,18 @@ public class Chat extends Widget {
                 return;
             }
 
-            background.draw(0, 0);
+            int offsetX = 0;
+            int offsetY = 453;
+            background.draw(offsetX, offsetY);
 
-            BitmapFont.NORMAL.draw("Public chat", 55, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
-            BitmapFont.NORMAL.draw("Private chat", 184, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
-            BitmapFont.NORMAL.draw("Trade/compete", 324, 28, 0xffffff, BitmapFont.SHADOW_CENTER);
-            BitmapFont.NORMAL.draw("Report abuse", 458, 33, 0xffffff, BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw("Public chat", 55 + offsetX, 28 + offsetY, 0xffffff, BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw("Private chat", 184 + offsetX, 28 + offsetY, 0xffffff, BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw("Trade/compete", 324 + offsetX, 28 + offsetY, 0xffffff, BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw("Report abuse", 458 + offsetX, 33 + offsetY, 0xffffff, BitmapFont.SHADOW_CENTER);
 
-            BitmapFont.NORMAL.draw(Chat.SETTINGS_PUBLIC[values[0]], 55, 41, Chat.SETTING_COLOR[values[0]], BitmapFont.SHADOW_CENTER);
-            BitmapFont.NORMAL.draw(Chat.SETTINGS_PRIVATE[values[1]], 184, 41, Chat.SETTING_COLOR[values[1]], BitmapFont.SHADOW_CENTER);
-            BitmapFont.NORMAL.draw(Chat.SETTINGS_TRADE[values[2]], 324, 41, Chat.SETTING_COLOR[values[2]], BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw(Chat.SETTINGS_PUBLIC[values[0]], 55 + offsetX, 41 + offsetY, Chat.SETTING_COLOR[values[0]], BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw(Chat.SETTINGS_PRIVATE[values[1]], 184 + offsetX, 41 + offsetY, Chat.SETTING_COLOR[values[1]], BitmapFont.SHADOW_CENTER);
+            BitmapFont.NORMAL.draw(Chat.SETTINGS_TRADE[values[2]], 324 + offsetX, 41 + offsetY, Chat.SETTING_COLOR[values[2]], BitmapFont.SHADOW_CENTER);
 
             redraw = false;
         }

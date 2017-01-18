@@ -246,6 +246,7 @@ public class ObjConfig {
             s.cropWidth = 32;
         }
 
+        s.createHelper();
         s.cropHeight = count;
         return s;
     }

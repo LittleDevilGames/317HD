@@ -1,9 +1,8 @@
 package info.demmonic.hdrs.media;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import info.demmonic.hdrs.Rt3;
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.io.Buffer;
 
@@ -21,8 +20,8 @@ public class Sprite extends Canvas2D {
     public int offsetX;
     public int offsetY;
     public int[] pixels;
-    private Texture texture;
-
+    private SpriteHelper spriteHelper;
+    private boolean blackRemoved;
     public Sprite(Archive archive, String imageArchive, int imageIndex) {
         Buffer data = new Buffer(archive.get(imageArchive + ".dat", null));
         Buffer idx = new Buffer(archive.get("index.dat", null));
@@ -66,7 +65,7 @@ public class Sprite extends Canvas2D {
                 }
             }
         }
-        createTexture();
+        createHelper();
     }
 
     public Sprite(byte[] data) {
@@ -81,7 +80,7 @@ public class Sprite extends Canvas2D {
             this.pixels = new int[width * height];
             PixelGrabber g = new PixelGrabber(i, 0, 0, width, height, pixels, 0, width);
             g.grabPixels();
-            createTexture();
+            createHelper();
             return;
         } catch (Exception e) {
             System.out.println("Error converting jpg");
@@ -92,7 +91,7 @@ public class Sprite extends Canvas2D {
         this.pixels = pixels;
         this.width = width;
         this.height = height;
-        createTexture();
+        createHelper();
     }
 
     public Sprite(int w, int h) {
@@ -105,7 +104,7 @@ public class Sprite extends Canvas2D {
         this.offsetY = 0;
     }
 
-    public void createTexture() {
+    public void createHelper() {
         Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -119,8 +118,7 @@ public class Sprite extends Canvas2D {
                 }
             }
         }
-        texture = new Texture(pixmap);
-        pixmap.dispose();
+        spriteHelper = new SpriteHelper(pixmap);
     }
 
     public void crop() {
@@ -143,43 +141,13 @@ public class Sprite extends Canvas2D {
         x += this.offsetX;
         y += this.offsetY;
 
-        int dstOff = x + y * Canvas2D.width;
-        int srcOff = 0;
-
         int height = this.height;
         int width = this.width;
-
+        int dstOff = x + y * Canvas2D.width;
+        int srcOff = 0;
         int dstStep = Canvas2D.width - width;
         int srcStep = 0;
-
-        if (y < leftY) {
-            int i = leftY - y;
-            height -= i;
-            y = leftY;
-            srcOff += i * width;
-            dstOff += i * Canvas2D.width;
-        }
-
-        if (y + height > rightY) {
-            height -= (y + height) - rightY;
-        }
-
-        if (x < leftX) {
-            int i = leftX - x;
-            width -= i;
-            x = leftX;
-            srcOff += i;
-            dstOff += i;
-            srcStep += i;
-            dstStep += i;
-        }
-
-        if (x + width > rightX) {
-            int i = (x + width) - rightX;
-            width -= i;
-            srcStep += i;
-            dstStep += i;
-        }
+        int color = 0;
 
         if (width <= 0 || height <= 0) {
             return;
@@ -189,112 +157,28 @@ public class Sprite extends Canvas2D {
     }
 
 
+    //todo clean all this shit up lol
     public void draw(SpriteBatch batch, int x, int y) {
-        draw(batch, x, y, false, true);
-    }
-
-    public void draw(SpriteBatch batch, int x, int y, boolean flipX) {
-        draw(batch, x, y, flipX, true);
-    }
-
-    public void draw(Batch batch, int x, int y, boolean flipX, boolean flipY) {
-        x += this.offsetX;
-        y += this.offsetY;
-        batch.draw(texture, x, y, width, height, 0, 0, width, height, flipX, flipY);
-/*
-        int height = this.height;
-        int width = this.width;
-
-        int dstOff = x + y * Canvas2D.width;
-        int dstStep = Canvas2D.width - width;
-
-        int srcOff = 0;
-        int srcStep = 0;
-
-        if (y < leftY) {
-            int yOffset = leftY - y;
-            height -= yOffset;
-            y = leftY;
-            srcOff += yOffset * width;
-            dstOff += yOffset * Canvas2D.width;
-        }
-
-        if (y + height > rightY) {
-            height -= (y + height) - rightY;
-        }
-
-        if (x < leftX) {
-            int xOffset = leftX - x;
-            width -= xOffset;
-            x = leftX;
-            srcOff += xOffset;
-            dstOff += xOffset;
-            srcStep += xOffset;
-            dstStep += xOffset;
-        }
-
-        if (x + width > rightX) {
-            int widthOffset = (x + width) - rightX;
-            width -= widthOffset;
-            srcStep += widthOffset;
-            dstStep += widthOffset;
-        }
-
-        if (width <= 0 || height <= 0) {
-            return;
-        }
-
-        draw(pixels, srcOff, dstOff, width, height, dstStep, srcStep, DrawType.RGB);*/
+        draw(batch, x, y, 255, false, true);
     }
 
     public void draw(int x, int y, int alpha) {
+        draw(Rt3.batch, x, y, alpha, false, true);
+    }
+
+    public void draw(SpriteBatch batch, int x, int y, boolean flipX) {
+        draw(batch, x, y, 255, flipX, true);
+    }
+
+    public void draw(SpriteBatch batch, int x, int y, int alpha, boolean flipX, boolean flipY) {
         x += this.offsetX;
         y += this.offsetY;
-
-        int dstOff = x + y * Canvas2D.width;
-        int srcOff = 0;
-
-        int height = this.height;
-        int width = this.width;
-
-        int dstStep = Canvas2D.width - width;
-        int srcStep = 0;
-
-        if (y < leftY) {
-            int i = leftY - y;
-            height -= i;
-            y = leftY;
-            srcOff += i * width;
-            dstOff += i * Canvas2D.width;
-        }
-
-        if (y + height > rightY) {
-            height -= (y + height) - rightY;
-        }
-
-        if (x < leftX) {
-            int i = leftX - x;
-            width -= i;
-            x = leftX;
-            srcOff += i;
-            dstOff += i;
-            srcStep += i;
-            dstStep += i;
-        }
-
-        if (x + width > rightX) {
-            int i = (x + width) - rightX;
-            width -= i;
-            srcStep += i;
-            dstStep += i;
-        }
 
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        Canvas2D.alpha = alpha;
-        draw(this.pixels, srcOff, dstOff, width, height, dstStep, srcStep, DrawType.TRANSLUCENT_IGNORE_BLACK);
+        spriteHelper.draw(batch, x, y, alpha / 255f, flipX, flipY);
     }
 
     public void drawRotated(int x, int y, int pivotX, int pivotY, int width, int height, int zoom, double angle) {
@@ -343,38 +227,7 @@ public class Sprite extends Canvas2D {
     }
 
     public void draw(int x, int y, int width, int height, int radians, int zoom, int pivotX, int pivotY, int ai[], int ai1[]) {
-        try {
-            int centerX = -width / 2;
-            int centerY = -height / 2;
 
-            int sin = (int) (Math.sin((double) radians / 326.11000000000001D) * 65536D);
-            int cos = (int) (Math.cos((double) radians / 326.11000000000001D) * 65536D);
-            sin = sin * zoom >> 8;
-            cos = cos * zoom >> 8;
-
-            int srcOffX = (pivotX << 16) + (centerY * sin + centerX * cos);
-            int srcOffY = (pivotY << 16) + (centerY * cos - centerX * sin);
-
-            int dstOff = x + y * Canvas2D.width;
-
-            for (y = 0; y < height; y++) {
-                int i4 = ai1[y];
-                int dstOffset = dstOff + i4;
-                int offsetX = srcOffX + cos * i4;
-                int offsetY = srcOffY - sin * i4;
-
-                for (x = -ai[y]; x < 0; x++) {
-                    Canvas2D.pixels[dstOffset++] = this.pixels[(offsetX >> 16) + (offsetY >> 16) * this.width];
-                    offsetX += cos;
-                    offsetY -= sin;
-                }
-
-                srcOffX += sin;
-                srcOffY += cos;
-                dstOff += Canvas2D.width;
-            }
-        } catch (Exception e) {
-        }
     }
 
     public void drawMasked(int x, int y) {
@@ -387,40 +240,27 @@ public class Sprite extends Canvas2D {
         int dstStep = Canvas2D.width - width;
         int srcStep = 0;
 
-        if (y < leftY) {
-            int yOffset = leftY - y;
-            height -= yOffset;
-            y = leftY;
-            srcOff += yOffset * width;
-            dstOff += yOffset * Canvas2D.width;
-        }
-
-        if (y + height > rightY) {
-            height -= (y + height) - rightY;
-        }
-
-        if (x < leftX) {
-            int xOffset = leftX - x;
-            width -= xOffset;
-            x = leftX;
-            srcOff += xOffset;
-            dstOff += xOffset;
-            srcStep += xOffset;
-            dstStep += xOffset;
-        }
-
-        if (x + width > rightX) {
-            int xOffset = (x + width) - rightX;
-            width -= xOffset;
-            srcStep += xOffset;
-            dstStep += xOffset;
-        }
-
         if (width <= 0 || height <= 0) {
             return;
         }
+        if (!blackRemoved) {
+            Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+            for (int y2 = 0; y2 < height; y2++) {
+                for (int x2 = 0; x2 < width; x2++) {
+                    int pixel = spriteHelper.getPixmap().getPixel(x2, y2);
+                    if (pixel == 255) {
 
-        draw(this.pixels, srcOff, dstOff, width, height, dstStep, srcStep, DrawType.IGNORE_BLACK);
+                    } else {
+                        pixmap.drawPixel(x2, y2, pixel);
+                    }
+                }
+            }
+            spriteHelper.dispose();
+            spriteHelper = new SpriteHelper(pixmap);
+            blackRemoved = true;
+        }
+        spriteHelper.draw(Rt3.batch, x, y);
+        //draw(this.pixels, srcOff, dstOff, width, height, dstStep, srcStep, DrawType.IGNORE_BLACK);
     }
 
     public void prepare() {

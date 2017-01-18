@@ -1,8 +1,8 @@
 package info.demmonic.hdrs.media;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import info.demmonic.hdrs.Rt3;
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.io.Buffer;
 
@@ -18,7 +18,7 @@ public class Bitmap extends Canvas2D {
     public int offsetY;
     public int[] palette;
     public byte[] pixels;
-    private Texture texture;
+    private SpriteHelper spriteHelper;
 
     public Bitmap(Archive archive, String imageArchive) {
         this(archive, imageArchive, 0);
@@ -78,7 +78,8 @@ public class Bitmap extends Canvas2D {
                 pixmap.drawPixel(x, y);
             }
         }
-        texture = new Texture(pixmap);
+        spriteHelper = new SpriteHelper(pixmap);
+        spriteHelper.getSprite().setFlip(false, true);
         pixmap.dispose();
     }
 
@@ -104,86 +105,26 @@ public class Bitmap extends Canvas2D {
     }
 
     public void draw(int x, int y) {
-        draw(null, x, y);
+        draw(Rt3.batch, x, y);
     }
 
     public void draw(SpriteBatch batch, int x, int y) {
         x += this.offsetX;
         y += this.offsetY;
-        batch.draw(texture, x, y, width, height, 0, 0, width, height, false, false);
-
- /*       int dstOff = x + y * Canvas2D.width;
-        int srcOff = 0;
-
-        int height = this.height;
-        int width = this.width;
-
-        int dstStep = Canvas2D.width - width;
-        int srcStep = 0;
-
-        if (y < leftY) {
-            int yDiff = leftY - y;
-            height -= yDiff;
-            y = leftY;
-            srcOff += yDiff * width;
-            dstOff += yDiff * Canvas2D.width;
-        }
-
-        if (y + height > rightY) {
-            height -= (y + height) - rightY;
-        }
-
-        if (x < leftX) {
-            int xDiff = leftX - x;
-            width -= xDiff;
-            x = leftX;
-            srcOff += xDiff;
-            dstOff += xDiff;
-            srcStep += xDiff;
-            dstStep += xDiff;
-        }
-
-        if (x + width > rightX) {
-            int xDiff = (x + width) - rightX;
-            width -= xDiff;
-            srcStep += xDiff;
-            dstStep += xDiff;
-        }
-
         if (width <= 0 || height <= 0) {
             return;
         }
 
-        draw(this.pixels, this.palette, srcOff, dstOff, width, height, dstStep, srcStep);*/
+        spriteHelper.draw(batch, x, y, 1f, spriteHelper.getSprite().isFlipX(), spriteHelper.getSprite().isFlipY());
     }
 
     public Bitmap flipHorizontally() {
-        byte pixels[] = new byte[this.width * this.height];
-
-        int i = 0;
-        for (int y = 0; y < this.height; y++) {
-            for (int x = this.width - 1; x >= 0; x--) {
-                pixels[i++] = this.pixels[x + (y * this.width)];
-            }
-        }
-
-        this.pixels = pixels;
-        this.offsetX = this.cropWidth - this.width - this.offsetX;
+        spriteHelper.getSprite().setFlip(!spriteHelper.getSprite().isFlipX(), spriteHelper.getSprite().isFlipY());
         return this;
     }
 
     public Bitmap flipVertically() {
-        byte pixels[] = new byte[this.width * this.height];
-
-        int i = 0;
-        for (int y = this.height - 1; y >= 0; y--) {
-            for (int x = 0; x < this.width; x++) {
-                pixels[i++] = this.pixels[x + (y * this.width)];
-            }
-        }
-
-        this.pixels = pixels;
-        this.offsetY = this.cropHeight - this.height - this.offsetY;
+        spriteHelper.getSprite().setFlip(spriteHelper.getSprite().isFlipX(), !spriteHelper.getSprite().isFlipY());
         return this;
     }
 
