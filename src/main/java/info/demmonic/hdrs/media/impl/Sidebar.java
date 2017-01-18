@@ -26,13 +26,15 @@ public class Sidebar {
         }
         draw = false;
 
+        int offsetX = 553;
+        int offsetY = 205;
         Canvas3D.pixels = pixels3D;
-        invback.draw(0, 0);
+        invback.draw(offsetX, offsetY);
 
         if (widgetIndex != -1) {
-            Widget.draw(widgetIndex, 0, 0, 0);
+            Widget.draw(widgetIndex, offsetX, offsetY, 0);
         } else if (selectedTab.widget != -1) {
-            Widget.draw(selectedTab.widget, 0, 0, 0);
+            Widget.draw(selectedTab.widget, offsetX, offsetY, 0);
         }
 
         if (Menu.visible && Menu.area == Area.TAB) {
@@ -57,14 +59,16 @@ public class Sidebar {
             }
 
             {
-                backhmid1.draw(0, 0);
+                int offsetX = 516;
+                int offsetY = 160;
+                backhmid1.draw(offsetX, offsetY);
 
                 if (widgetIndex == -1) {
                     for (int i = 0; i < 7; i++) {
                         Tab tab = TAB[i];
 
                         if (tab == selectedTab) {
-                            tab.drawRedstone();
+                            tab.drawRedstone(offsetX, offsetY);
                         }
 
                         if (tab.widget == -1) {
@@ -73,25 +77,27 @@ public class Sidebar {
 
                         if (flashingTab == tab) {
                             if (Game.loopCycle % 20 < 10) {
-                                tab.drawIcon();
+                                tab.drawIcon(offsetX, offsetY);
                             }
                             continue;
                         }
 
-                        tab.drawIcon();
+                        tab.drawIcon(offsetX, offsetY);
                     }
                 }
             }
 
             {
-                backbase2.draw(0, 0);
+                int offsetX = 496;
+                int offsetY = 466;
+                backbase2.draw(offsetX, offsetY);
 
                 if (widgetIndex == -1) {
                     for (int i = 7; i < 14; i++) {
                         Tab tab = TAB[i];
 
                         if (tab == selectedTab) {
-                            tab.drawRedstone();
+                            tab.drawRedstone(offsetX, offsetY);
                         }
 
                         if (tab.widget == -1) {
@@ -100,12 +106,12 @@ public class Sidebar {
 
                         if (flashingTab == tab) {
                             if (Game.loopCycle % 20 < 10) {
-                                tab.drawIcon();
+                                tab.drawIcon(offsetX, offsetY);
                             }
                             continue;
                         }
 
-                        tab.drawIcon();
+                        tab.drawIcon(offsetX, offsetY);
                     }
                 }
             }
@@ -204,12 +210,12 @@ public class Sidebar {
             this.iconY = iconY;
         }
 
-        public void drawIcon() {
-            icon.draw(iconX, iconY);
+        public void drawIcon(int offsetX, int offsetY) {
+            icon.draw(iconX + offsetX, iconY + offsetY);
         }
 
-        public void drawRedstone() {
-            redstone.draw(x, y);
+        public void drawRedstone(int offsetX, int offsetY) {
+            redstone.draw(x + offsetX, y + offsetY);
         }
 
     }

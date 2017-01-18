@@ -88,7 +88,6 @@ public class TitleScreen {
     }
 
     public static void draw(SpriteBatch batch, boolean showButtons) {
-        batch.begin();
         int baseX = 202;
         int baseY = 171;
         background.draw(batch, 0, 0);
@@ -169,11 +168,6 @@ public class TitleScreen {
             default: {
                 break;
             }
-        }
-
-        batch.end();
-        if (Game.redraw) {
-            Game.redraw = false;
         }
     }
 

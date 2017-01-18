@@ -58,7 +58,7 @@ public class Buffer extends CacheLink {
         byte data[] = new byte[start];
         this.read(data, 0, start);
 
-        data = new BigInteger(data).modPow(exponent, modulus).toByteArray();
+        data = new BigInteger(data).toByteArray();
         this.position = 0;
 
         this.writeByte(data.length);

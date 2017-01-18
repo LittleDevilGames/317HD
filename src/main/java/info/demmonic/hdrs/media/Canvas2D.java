@@ -1,12 +1,17 @@
 package info.demmonic.hdrs.media;
 
-import info.demmonic.hdrs.Rt3;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import info.demmonic.hdrs.node.CacheLink;
 
 import java.util.Arrays;
 
+import static info.demmonic.hdrs.Rt3.batch;
+
 public class Canvas2D extends CacheLink {
 
+    public static Texture rectangle;
     public static int alpha;
     public static int width;
     public static int height;
@@ -23,60 +28,26 @@ public class Canvas2D extends CacheLink {
         Arrays.fill(Canvas2D.pixels, 0);
     }
 
-    public static void draw(byte mask[], int maskOff, int destOff, int width, int height, int destStep, int maskStep, int x, int y, int color) {
-        int[] pixels = new int[width * height];
-        for (int y2 = 0; y2 < height; y2++) {
-            for (int x2 = 0; x2 < width; x2++) {
-                if (mask[maskOff++] != 0) {
-                    pixels[destOff] = color;
-                } else {
-                    pixels[destOff] = -1;
-                }
-                destOff++;
-            }
-            destOff += destStep;
-            maskOff += maskStep;
-        }
-
-        Sprite sprite = new Sprite(pixels, width, height);
-        sprite.draw(Rt3.batch, x, y);
-    }
-
-    public static void draw(byte mask[], int maskOff, int destOff, int width, int height, int destStep, int maskStep, int color, int opacity) {
-        color = ((color & 0xff00ff) * opacity & 0xff00ff00) + ((color & 0xff00) * opacity & 0xff0000) >> 8;
-        opacity = 256 - opacity;
-        for (int y = -height; y < 0; y++) {
-            for (int x = -width; x < 0; x++) {
-                if (mask[maskOff++] != 0) {
-                    int rgb = Canvas2D.pixels[destOff];
-                    Canvas2D.pixels[destOff++] = (((rgb & 0xff00ff) * opacity & 0xff00ff00) + ((rgb & 0xff00) * opacity & 0xff0000) >> 8) + color;
-                } else {
-                    destOff++;
+    public static void createTexture() {
+        Pixmap pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
+        for (int y = 0; y < 10; y++) {
+            for (int x = 0; x < 10; x++) {
+                int color = 0xFFFFFF;
+                int r = (color & 0xFF0000) >> 16;
+                int g = (color & 0xFF00) >> 8;
+                int b = (color & 0xFF);
+                if (color != -1) {
+                    pixmap.setColor(r / 255f, g / 255f, b / 255f, 1f);
+                    pixmap.drawPixel(x, y);
                 }
             }
-            destOff += destStep;
-            maskOff += maskStep;
         }
-    }
-
-    public static void draw(byte[] src, int[] palette, int srcOff, int destOff, int width, int height, int destStep, int srcStep) {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                byte color = src[srcOff++];
-                if (color != 0) {
-                    Canvas2D.pixels[destOff++] = palette[color & 0xFF];
-                } else {
-                    destOff++;
-                }
-            }
-
-            destOff += destStep;
-            srcOff += srcStep;
-        }
+        rectangle = new Texture(pixmap);
+        pixmap.dispose();
     }
 
     public static void draw(int src[], byte mask[], int srcOff, int maskOff, int width, int height, int destStep, int srcStep) {
-        int color = 0;
+/*        int color = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 color = src[srcOff++];
@@ -88,182 +59,46 @@ public class Canvas2D extends CacheLink {
             }
             maskOff += destStep;
             srcOff += srcStep;
-        }
-    }
-
-    public static void draw(int src[], int srcOff, int destOff, int width, int height, int destStep, int srcStep, DrawType type) {
-        int rgb = 0;
-        switch (type) {
-            case RGB: {
-                for (int y = 0; y < height; y++) {
-                    for (int x = 0; x < width; x++) {
-                        Canvas2D.pixels[destOff++] = src[srcOff++];
-                    }
-                    destOff += destStep;
-                    srcOff += srcStep;
-                }
-                break;
-            }
-            case TRANSLUCENT_IGNORE_BLACK: {
-                int a = 256 - alpha;
-                for (int y = -height; y < 0; y++) {
-                    for (int x = -width; x < 0; x++) {
-                        rgb = src[srcOff++];
-                        if (rgb != 0) {
-                            int originalRGB = Canvas2D.pixels[destOff];
-                            Canvas2D.pixels[destOff++] = ((rgb & 0xff00ff) * alpha + (originalRGB & 0xff00ff) * a & 0xff00ff00) + ((rgb & 0xff00) * alpha + (originalRGB & 0xff00) * a & 0xff0000) >> 8;
-                        } else {
-                            destOff++;
-                        }
-                    }
-                    destOff += destStep;
-                    srcOff += srcStep;
-                }
-                break;
-            }
-            case IGNORE_BLACK: {
-                for (int y = 0; y < height; y++) {
-                    for (int x = 0; x < width; x++) {
-                        rgb = src[srcOff++];
-                        if (rgb != 0) {
-                            Canvas2D.pixels[destOff++] = rgb;
-                        } else {
-                            destOff++;
-                        }
-                    }
-
-                    destOff += destStep;
-                    srcOff += srcStep;
-                }
-                break;
-            }
-            default: {
-            }
-        }
-    }
-
-    public static void drawLine(int x0, int y0, int x1, int y1, int color) {
-        if (x0 < 0) {
-            x0 = 0;
-        }
-        if (y0 < 0) {
-            y0 = 0;
-        }
-        if (x1 > Canvas2D.width) {
-            x1 = Canvas2D.width;
-        }
-        if (y1 > Canvas2D.height) {
-            y1 = Canvas2D.height;
-        }
-        int xDifference = Math.abs(x1 - x0);
-        int yDifference = Math.abs(y1 - y0);
-        int xDelta = (x0 < x1 ? 1 : -1);
-        int yDelta = (y0 < y1 ? 1 : -1);
-        int slope = xDifference - yDifference;
-        int err2 = 0;
-
-        for (; ; ) {
-            Canvas2D.plot(x0, y0, color);
-
-            if (x0 == x1 && y0 == y1) {
-                break;
-            }
-
-            err2 = 2 * slope;
-
-            if (err2 > -yDifference) {
-                slope -= yDifference;
-                x0 += xDelta;
-            }
-
-            if (x0 == x1 && y0 == y1) {
-                Canvas2D.plot(x0, y0, color);
-                break;
-            }
-
-            if (err2 < xDifference) {
-                slope += xDifference;
-                y0 += yDelta;
-            }
-        }
+        }*/
     }
 
     public static void drawLineH(int x, int y, int len, int rgb) {
-        if (y < Canvas2D.leftY || y >= Canvas2D.rightY) {
-            return;
-        }
-        if (x < Canvas2D.leftX) {
-            len -= Canvas2D.leftX - x;
-            x = Canvas2D.leftX;
-        }
-        if (x + len > Canvas2D.rightX) {
-            len = Canvas2D.rightX - x;
-        }
-        int pos = x + y * Canvas2D.width;
-        for (int i = 0; i < len; i++) {
-            Canvas2D.pixels[pos + i] = rgb;
-        }
+        int red = (rgb >> 16 & 0xff);
+        int green = (rgb >> 8 & 0xff);
+        int blue = (rgb & 0xff);
+
+        batch.setColor(new Color(red / 255f, green / 255f, blue / 255f, 1f));
+        batch.draw(rectangle, x, y, len, 1);
+
     }
 
     public static void drawLineH(int x, int y, int length, int color, int opacity) {
-        if (y < Canvas2D.leftY || y >= Canvas2D.rightY) {
-            return;
-        }
-        if (x < Canvas2D.leftX) {
-            length -= Canvas2D.leftX - x;
-            x = Canvas2D.leftX;
-        }
-        if (x + length > Canvas2D.rightX) {
-            length = Canvas2D.rightX - x;
-        }
         int alpha = 256 - opacity;
         int red = (color >> 16 & 0xff) * opacity;
         int green = (color >> 8 & 0xff) * opacity;
         int blue = (color & 0xff) * opacity;
-        int position = x + y * width;
-        for (int i = 0; i < length; i++) {
-            Canvas2D.pixels[position] = Canvas2D.mix(red, green, blue, pixels[position++], alpha);
-        }
 
+        batch.setColor(new Color(red / 255f, green / 255f, blue / 255f,  alpha / 255f));
+        batch.draw(rectangle, x, y, length, 1);
     }
 
     public static void drawLineV(int x, int y, int length, int rgb) {
-        if (x < Canvas2D.leftX || x >= Canvas2D.rightX) {
-            return;
-        }
-        if (y < Canvas2D.leftY) {
-            length -= Canvas2D.leftY - y;
-            y = Canvas2D.leftY;
-        }
-        if (y + length > Canvas2D.rightY) {
-            length = Canvas2D.rightY - y;
-        }
-        int position = x + y * Canvas2D.width;
-        for (int i = 0; i < length; i++) {
-            Canvas2D.pixels[position + i * Canvas2D.width] = rgb;
-        }
+        int red = (rgb >> 16 & 0xff);
+        int green = (rgb >> 8 & 0xff);
+        int blue = (rgb & 0xff);
+
+        batch.setColor(new Color(red / 255f, green / 255f, blue / 255f,  1f));
+        batch.draw(rectangle, x, y, 1, length);
     }
 
     public static void drawLineV(int x, int y, int length, int color, int opacity) {
-        if (x < leftX || x >= rightX) {
-            return;
-        }
-        if (y < leftY) {
-            length -= leftY - y;
-            y = leftY;
-        }
-        if (y + length > rightY) {
-            length = rightY - y;
-        }
         int alpha = 256 - opacity;
         int red = (color >> 16 & 0xff) * opacity;
         int green = (color >> 8 & 0xff) * opacity;
         int blue = (color & 0xff) * opacity;
-        int position = x + y * width;
-        for (int i = 0; i < length; i++) {
-            Canvas2D.pixels[position] = Canvas2D.mix(red, green, blue, pixels[position], alpha);
-            position += Canvas2D.width;
-        }
+
+        batch.setColor(new Color(red / 255f, green / 255f, blue / 255f,  alpha / 255f));
+        batch.draw(rectangle, x, y, 1, length);
     }
 
     public static void drawRect(int x, int y, int width, int height, int color) {
@@ -283,57 +118,22 @@ public class Canvas2D extends CacheLink {
     }
 
     public static void fillRect(int x, int y, int width, int height, int color) {
-        if (x < Canvas2D.leftX) {
-            width -= Canvas2D.leftX - x;
-            x = Canvas2D.leftX;
-        }
-        if (y < Canvas2D.leftY) {
-            height -= Canvas2D.leftY - y;
-            y = Canvas2D.leftY;
-        }
-        if (x + width > Canvas2D.rightX) {
-            width = Canvas2D.rightX - x;
-        }
-        if (y + height > Canvas2D.rightY) {
-            height = Canvas2D.rightY - y;
-        }
-        int step = Canvas2D.width - width;
-        int position = x + y * Canvas2D.width;
-        for (int i = -height; i < 0; i++) {
-            for (int j = -width; j < 0; j++) {
-                Canvas2D.pixels[position++] = color;
-            }
-            position += step;
-        }
+        int red = (color >> 16 & 0xff);
+        int green = (color >> 8 & 0xff);
+        int blue = (color & 0xff);
+
+        batch.setColor(new Color(red / 255f, green / 255f, blue / 255f,  1f));
+        batch.draw(rectangle, x, y, width, height);
     }
 
     public static void fillRect(int x, int y, int width, int height, int color, int opacity) {
-        if (x < Canvas2D.leftX) {
-            width -= Canvas2D.leftX - x;
-            x = Canvas2D.leftX;
-        }
-        if (y < Canvas2D.leftY) {
-            height -= Canvas2D.leftY - y;
-            y = Canvas2D.leftY;
-        }
-        if (x + width > Canvas2D.rightX) {
-            width = Canvas2D.rightX - x;
-        }
-        if (y + height > Canvas2D.rightY) {
-            height = Canvas2D.rightY - y;
-        }
         int alpha = 256 - opacity;
         int red = (color >> 16 & 0xff) * opacity;
         int green = (color >> 8 & 0xff) * opacity;
         int blue = (color & 0xff) * opacity;
-        int step = Canvas2D.width - width;
-        int position = x + y * Canvas2D.width;
-        for (int i = 0; i < height; i++) {
-            for (int j = -width; j < 0; j++) {
-                Canvas2D.pixels[position] = Canvas2D.mix(red, green, blue, pixels[position++], alpha);
-            }
-            position += step;
-        }
+
+        batch.setColor(new Color(red / 255f, green / 255f, blue / 255f,  alpha / 255f));
+        batch.draw(rectangle, x, y, width, height);
     }
 
     public static String getString() {
@@ -377,13 +177,6 @@ public class Canvas2D extends CacheLink {
             y0 = 0;
         }
 
-        if (x1 > Canvas2D.width) {
-            x1 = Canvas2D.width;
-        }
-
-        if (y1 > Canvas2D.height) {
-            y1 = Canvas2D.height;
-        }
 
         Canvas2D.leftX = x0;
         Canvas2D.leftY = y0;
@@ -393,9 +186,4 @@ public class Canvas2D extends CacheLink {
         Canvas2D.centerX2d = rightX / 2;
         Canvas2D.centerY2d = rightY / 2;
     }
-
-    public enum DrawType {
-        IGNORE_BLACK, RGB, RGBA, TRANSLUCENT_IGNORE_BLACK
-    }
-
 }

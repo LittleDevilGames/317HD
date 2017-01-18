@@ -18,7 +18,10 @@ import info.demmonic.hdrs.io.Buffer;
 import info.demmonic.hdrs.io.IsaacCipher;
 import info.demmonic.hdrs.io.OnDemand;
 import info.demmonic.hdrs.media.*;
-import info.demmonic.hdrs.media.impl.*;
+import info.demmonic.hdrs.media.impl.Chat;
+import info.demmonic.hdrs.media.impl.Menu;
+import info.demmonic.hdrs.media.impl.Sidebar;
+import info.demmonic.hdrs.media.impl.TitleScreen;
 import info.demmonic.hdrs.media.impl.widget.CharacterDesign;
 import info.demmonic.hdrs.model.Action;
 import info.demmonic.hdrs.model.Packet;
@@ -78,6 +81,15 @@ public class Game extends GameShell {
     public static Bitmap[] bitmapModIcons;
     public static Bitmap bitmap2;
     public static Bitmap bitmap3;
+    public static Bitmap bitmapBackhmid2;
+    public static Bitmap bitmapBackleft1;
+    public static Bitmap bitmapBackleft2;
+    public static Bitmap bitmapBackright1;
+    public static Bitmap bitmapBackright2;
+    public static Bitmap bitmapBacktop1;
+    public static Bitmap bitmapBackvmid1;
+    public static Bitmap bitmapBackvmid2;
+    public static Bitmap bitmapBackvmid3;
     public static Cache[] cache;
     public static int camCinemaAimX;
     public static int camCinemaAimY;
@@ -251,8 +263,6 @@ public class Game extends GameShell {
     public static int ptype;
     public static int reconnectionAttempts;
     public static boolean recordMouse;
-    public static boolean redraw;
-    public static int redrawCycle;
     public static int[][][] regionChunkUniqueIds;
     public static int loadedRegionX;
     public static int loadedRegionY;
@@ -670,13 +680,19 @@ public class Game extends GameShell {
     }
 
     public static void drawGame() {
-        if (redraw) {
-            redraw = false;
-            Sidebar.draw = true;
-            Chat.redraw = true;
-            Chat.Settings.redraw = true;
-            Sidebar.drawTabs = true;
-        }
+        bitmapBackleft1.draw(0, 4);
+        bitmapBackleft2.draw(0, 357);
+        bitmapBackright1.draw(722, 4);
+        bitmapBackright2.draw(743, 205);
+        bitmapBacktop1.draw(0, 0);
+        bitmapBackvmid1.draw(516, 4);
+        bitmapBackvmid2.draw(516, 205);
+        bitmapBackvmid3.draw(496, 357);
+        bitmapBackhmid2.draw(0, 338);
+        Sidebar.draw = true;
+        Chat.redraw = true;
+        Chat.Settings.redraw = true;
+        Sidebar.drawTabs = true;
 
         if (sceneState == 2) {
             drawScene();
@@ -726,6 +742,8 @@ public class Game extends GameShell {
     }
 
     public static void drawMinimap() {
+        int offsetX = 550;
+        int offsetY = 4;
         if (minimapState == 2) {
             byte mask[] = bitmap1.pixels;
             for (int i = 0; i < mask.length; i++) {
@@ -733,7 +751,7 @@ public class Game extends GameShell {
                     Canvas2D.pixels[i] = 0;
                 }
             }
-            imageCompass.draw(0, 0, 33, 33, chaseCamYaw, 256, 25, 25, anIntArray1057, anIntArray968);
+            imageCompass.draw(offsetX, offsetY, 33, 33, chaseCamYaw, 256, 25, 25, anIntArray1057, anIntArray968);
             return;
         }
 
@@ -741,8 +759,8 @@ public class Game extends GameShell {
         int pivotX = 48 + (self.sceneX >> 5);
         int pivotY = 464 - (self.sceneY >> 5);
 
-        imageMinimap.draw(25, 5, 146, 151, yaw, 256 + mapZoomOffset, pivotX, pivotY, anIntArray1229, anIntArray1052);
-        imageCompass.draw(0, 0, 33, 33, yaw, 256, 25, 25, anIntArray1057, anIntArray968);
+        imageMinimap.draw(25 + offsetX, 5 + offsetY, 146, 151, yaw, 256 + mapZoomOffset, pivotX, pivotY, anIntArray1229, anIntArray1052);
+        imageCompass.draw(offsetX, offsetY, 33, 33, yaw, 256, 25, 25, anIntArray1057, anIntArray968);
 
         for (int i = 0; i < locIconCount; i++) {
             int mapX = (locIconX[i] * 4 + 2) - self.sceneX / 32;
@@ -847,7 +865,7 @@ public class Game extends GameShell {
             drawToMinimap(imageMapMarkers[0], mapX, mapY);
         }
 
-        imageMapDots[2].drawMasked(96, 77);
+        imageMapDots[2].drawMasked(96 + offsetX, 77 + offsetY);
     }
 
     public static void drawMinimapMark(Sprite s, int mapX, int mapY) {
@@ -864,7 +882,10 @@ public class Game extends GameShell {
             double angle = Math.atan2(x, y);
             int drawX = (int) (Math.sin(angle) * 63D);
             int drawY = (int) (Math.cos(angle) * 57D);
-            imageMapedge.drawRotated((94 + drawX + 4) - 10, 83 - drawY - 20, 15, 15, 20, 20, 256, angle);
+
+            int offsetX = 550;
+            int offsetY = 4;
+            imageMapedge.drawRotated((94 + drawX + 4) - 10 + offsetX, 83 - drawY - 20 + offsetY, 15, 15, 20, 20, 256, angle);
         } else {
             drawToMinimap(s, mapX, mapY);
         }
@@ -1179,7 +1200,7 @@ public class Game extends GameShell {
         Model.mouseY = Mouse.lastY - 4;
         Canvas2D.clear();
 
-        landscape.draw(Camera.x, Camera.y, Camera.yaw, Camera.z, occlusionTopPlane, Camera.pitch);
+        //landscape.draw(Camera.x, Camera.y, Camera.yaw, Camera.z, occlusionTopPlane, Camera.pitch);
         landscape.clearLocs();
 
         drawScene2D();
@@ -1505,11 +1526,13 @@ public class Game extends GameShell {
         cos = (cos * 256) / (mapZoomOffset + 256);
         int mapX = y * sin + x * cos >> 16;
         int mapY = y * cos - x * sin >> 16;
+        int offsetX = 550;
+        int offsetY = 4;
 
         if (len > 2500) {
-            s.drawTo(bitmap1, ((94 + mapX) - s.cropWidth / 2) + 4, 83 - mapY - s.cropHeight / 2 - 4);
+            s.drawTo(bitmap1, ((94 + mapX) - s.cropWidth / 2) + 4 + offsetX, 83 - mapY - s.cropHeight / 2 - 4 + offsetY);
         } else {
-            s.drawMasked(((94 + mapX) - s.cropWidth / 2) + 4, 83 - mapY - s.cropHeight / 2 - 4);
+            s.drawMasked(((94 + mapX) - s.cropWidth / 2) + 4 + offsetX, 83 - mapY - s.cropHeight / 2 - 4 + offsetY);
         }
     }
 
@@ -2068,7 +2091,7 @@ public class Game extends GameShell {
         }
 
         if (clickArea != 0) {
-            redrawCycle++;
+/*            redrawCycle++;
             if (redrawCycle >= 15) {
                 if (clickArea == 2) {
                     Sidebar.draw = true;
@@ -2077,7 +2100,7 @@ public class Game extends GameShell {
                     Chat.redraw = true;
                 }
                 clickArea = 0;
-            }
+            }*/
         }
 
         if (dragArea != 0) {
@@ -2152,7 +2175,6 @@ public class Game extends GameShell {
                     handleMenuOption(optionCount - 1);
                 }
 
-                redrawCycle = 10;
                 Mouse.clickButton = 0;
             }
         }
@@ -3230,7 +3252,6 @@ public class Game extends GameShell {
             out.writeLeShortA(param2);
             out.writeShortA(param1);
             out.writeLeShort(param3);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3328,7 +3349,6 @@ public class Game extends GameShell {
             out.writeShortA(param1);
             out.writeShort(param2);
             out.writeShortA(param3);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3371,7 +3391,6 @@ public class Game extends GameShell {
             out.writeLeShort(param1);
             out.writeShortA(param2);
             out.writeLeShort(param3);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3390,7 +3409,6 @@ public class Game extends GameShell {
             out.writeShortA(param3);
             out.writeLeShortA(param1);
             out.writeLeShortA(param2);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3450,7 +3468,6 @@ public class Game extends GameShell {
             out.writeShort(selectedItemWidget);
             out.writeLeShort(selectedItemIndex);
             out.writeShort(param2);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3469,7 +3486,6 @@ public class Game extends GameShell {
             out.writeShortA(param3);
             out.writeShort(param2);
             out.writeShortA(param1);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3518,7 +3534,6 @@ public class Game extends GameShell {
             out.writeLeShortA(param2);
             out.writeLeShortA(param3);
             out.writeLeShort(param1);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3565,7 +3580,6 @@ public class Game extends GameShell {
             out.writeShortA(param2);
             out.writeShortA(param1);
             out.writeShortA(param3);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3582,7 +3596,6 @@ public class Game extends GameShell {
             out.writeLeShortA(param2);
             out.writeLeShort(param1);
             out.writeShortA(param3);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3790,7 +3803,6 @@ public class Game extends GameShell {
             out.writeLeShort(param2);
             out.writeShortA(param3);
             out.writeShortA(param1);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3810,7 +3822,6 @@ public class Game extends GameShell {
             out.writeShortA(param3);
             out.writeShort(param2);
             out.writeShortA(selectedWidgetIndex);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -3890,7 +3901,6 @@ public class Game extends GameShell {
             out.writeShort(param3);
             out.writeShortA(param1);
             out.writeShortA(param2);
-            redrawCycle = 0;
             clickedItemWidget = param2;
             clickedItemSlot = param1;
             clickArea = 2;
@@ -6032,7 +6042,6 @@ public class Game extends GameShell {
             case 1: { // Brightness
                 Canvas3D.createPalette(1d - setting / 10d);
                 ObjConfig.spriteCache.clear();
-                redraw = true;
                 break;
             }
 
@@ -8339,11 +8348,13 @@ public class Game extends GameShell {
 
         drawCycle++;
 
+        Rt3.batch.begin();
         if (!loggedIn) {
             TitleScreen.draw(Rt3.batch, false);
         } else {
             drawGame();
         }
+        Rt3.batch.end();
 
         clickCycle = 0;
     }
@@ -8363,11 +8374,13 @@ public class Game extends GameShell {
 
         music.handle();
 
+        Rt3.batch.begin();
         if (!loggedIn) {
             TitleScreen.handle();
         } else {
             handle();
         }
+        Rt3.batch.end();
 
         handleOndemand();
     }
@@ -8776,6 +8789,15 @@ public class Game extends GameShell {
 
                 bitmap3 = new Bitmap(archiveMedia, "scrollbar", 0);
                 bitmap2 = new Bitmap(archiveMedia, "scrollbar", 1);
+                bitmapBackleft1 = new Bitmap(archiveMedia, "backleft1");
+                bitmapBackleft2 = new Bitmap(archiveMedia, "backleft2");
+                bitmapBackright1 = new Bitmap(archiveMedia, "backright1");
+                bitmapBackright2 = new Bitmap(archiveMedia, "backright2");
+                bitmapBacktop1 = new Bitmap(archiveMedia, "backtop1");
+                bitmapBackvmid1 = new Bitmap(archiveMedia, "backvmid1");
+                bitmapBackvmid2 = new Bitmap(archiveMedia, "backvmid2");
+                bitmapBackvmid3 = new Bitmap(archiveMedia, "backvmid3");
+                bitmapBackhmid2 = new Bitmap(archiveMedia, "backhmid2");
 
                 int redOffset = (int) (Math.random() * 11D) - 5;
                 int greenOffset = (int) (Math.random() * 11D) - 5;

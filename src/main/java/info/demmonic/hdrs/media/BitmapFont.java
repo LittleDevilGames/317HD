@@ -1,9 +1,18 @@
 package info.demmonic.hdrs.media;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+import info.demmonic.hdrs.Rt3;
 import info.demmonic.hdrs.cache.Archive;
 import info.demmonic.hdrs.io.Buffer;
 import info.demmonic.hdrs.util.BitUtils;
 import info.demmonic.hdrs.util.RSColor;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 public class BitmapFont extends Canvas2D {
 
@@ -14,6 +23,9 @@ public class BitmapFont extends Canvas2D {
     public static final byte SHADOW_CENTER = SHADOW | CENTER;
 
     public static BitmapFont SMALL, NORMAL, BOLD, FANCY;
+    private final Texture fontTexture;
+    private int maxWidth;
+    private int maxHeight;
     public byte[] charWidth;
     public int height;
     public byte[][] mask;
@@ -22,6 +34,7 @@ public class BitmapFont extends Canvas2D {
     public byte[] offsetX;
     public byte[] offsetY;
     public boolean strikethrough;
+    private Table<Character, Integer, Sprite> characterSprites = HashBasedTable.create();
 
     public BitmapFont(String name, Archive archive) {
         this.mask = new byte[256][];
@@ -42,6 +55,8 @@ public class BitmapFont extends Canvas2D {
             idx.position += 3 * (i - 1);
         }
 
+        maxWidth = 0;
+        maxHeight = 0;
         for (i = 0; i < 256; i++) {
             this.offsetX[i] = idx.readByte();
             this.offsetY[i] = idx.readByte();
@@ -49,6 +64,9 @@ public class BitmapFont extends Canvas2D {
             int height = this.maskHeight[i] = (byte) idx.readUnsignedShort();
             int type = idx.readUnsignedByte();
             this.mask[i] = new byte[width * height];
+
+            maxWidth = Math.max(maxWidth, width);
+            maxHeight = Math.max(maxHeight, height);
 
             if (type == 0) {
                 for (int j = 0; j < this.mask[i].length; j++) {
@@ -90,6 +108,50 @@ public class BitmapFont extends Canvas2D {
 
         }
 
+        //loalll
+        int num = 0;
+        final int rows = 16;
+        final int cols = 16;
+        BufferedImage finalImg = new BufferedImage(maxWidth * cols, maxHeight * rows, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage[] fontImages = new BufferedImage[256];
+        for (i = 0; i < 256; i++) {
+            int width = maskWidth[i];
+            int height = maskHeight[i];
+            fontImages[num] = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (mask[i][y * width + x] != 0) {
+                        fontImages[num].setRGB(x, y, 0xFFFFFF);
+                    } else {
+                        fontImages[num].setRGB(x, y, 0xFF0000);
+                    }
+                }
+            }
+            num++;
+        }
+        num = 0;
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < cols; column++) {
+                finalImg.createGraphics().drawImage(fontImages[num], maxWidth * column, maxHeight * row, null);
+                num++;
+            }
+        }
+        int[] pixels = ((DataBufferInt) finalImg.getRaster().getDataBuffer()).getData();
+        Pixmap pixmap = new Pixmap(finalImg.getWidth(), finalImg.getHeight(), Pixmap.Format.RGBA8888);
+        for (int y = 0; y < finalImg.getHeight(); y++) {
+            for (int x = 0; x < finalImg.getWidth(); x++) {
+                int color = pixels[y * finalImg.getWidth() + x];
+                int r = (color & 0xFF0000) >> 16;
+                int g = (color & 0xFF00) >> 8;
+                int b = (color & 0xFF);
+                if (color == -1) {
+                    pixmap.setColor(r / 255f, g / 255f, b / 255f, 1f);
+                    pixmap.drawPixel(x, y);
+                }
+            }
+        }
+        fontTexture = new Texture(pixmap);
+
         if (name.equals("q8_full")) {
             this.charWidth[32] = this.charWidth[73];
         } else {
@@ -105,7 +167,7 @@ public class BitmapFont extends Canvas2D {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c != ' ') {
-                drawChar(mask[c], x + offsetX[c], y + offsetY[c], maskWidth[c], maskHeight[c], color);
+                drawChar(c, mask[c], x + offsetX[c], y + offsetY[c], maskWidth[c], maskHeight[c], color);
             }
             x += charWidth[c];
         }
@@ -120,7 +182,7 @@ public class BitmapFont extends Canvas2D {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c != ' ') {
-                drawChar(mask[c], x + offsetX[c], y + offsetY[c] + (int) (Math.sin((double) i / 2D + (double) k / 5D) * 5D), maskWidth[c], maskHeight[c], color);
+                drawChar(c, mask[c], x + offsetX[c], y + offsetY[c] + (int) (Math.sin((double) i / 2D + (double) k / 5D) * 5D), maskWidth[c], maskHeight[c], color);
             }
             x += charWidth[c];
         }
@@ -163,7 +225,7 @@ public class BitmapFont extends Canvas2D {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c != ' ') {
-                drawChar(mask[c], x + offsetX[c], y + offsetY[c] + (int) (Math.sin((double) i / 1.5D + (double) loop) * offset), maskWidth[c], maskHeight[c], color);
+                drawChar(c, mask[c], x + offsetX[c], y + offsetY[c] + (int) (Math.sin((double) i / 1.5D + (double) loop) * offset), maskWidth[c], maskHeight[c], color);
             }
             x += charWidth[c];
         }
@@ -181,90 +243,61 @@ public class BitmapFont extends Canvas2D {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c != ' ') {
-                drawChar(mask[c], x + offsetX[c] + (int) (Math.sin((double) i / 5D + (double) cycle / 5D) * 5D), y + offsetY[c] + (int) (Math.sin((double) i / 3D + (double) cycle / 5D) * 5D), maskWidth[c], maskHeight[c], l);
+                drawChar(c, mask[c], x + offsetX[c] + (int) (Math.sin((double) i / 5D + (double) cycle / 5D) * 5D), y + offsetY[c] + (int) (Math.sin((double) i / 3D + (double) cycle / 5D) * 5D), maskWidth[c], maskHeight[c], l);
             }
             x += charWidth[c];
         }
 
     }
 
-    public void drawChar(byte mask[], int x, int y, int width, int height, int color) {
-        int dstOff = 0;
-        int dstStep = 0;
-        int mskStep = 0;
-        int mskOff = 0;
-
-/*        if (y < leftY) {
-            int i = leftY - y;
-            height -= i;
-            y = leftY;
-            mskOff += i * width;
-            dstOff += i * Canvas2D.width;
+    public void drawChar(char character, byte mask[], int x, int y, int width, int height, int color) {
+        int posX = 0;
+        int posY = 0;
+        int rows = 16;
+        int cols = 16;
+        int num = 0;
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < cols; column++) {
+                if (num++ == (int) character) {
+                    posX = maxWidth * column;
+                    posY = maxHeight * row;
+                }
+            }
         }
+        int red = (color >> 16 & 0xff);
+        int green = (color >> 8 & 0xff);
+        int blue = (color & 0xff);
 
-        if (y + height >= rightY) {
-            height -= ((y + height) - rightY) + 1;
-        }
-
-        if (x < leftX) {
-            int i = leftX - x;
-            width -= i;
-            x = leftX;
-            mskOff += i;
-            dstOff += i;
-            mskStep += i;
-            dstStep += i;
-        }
-
-        if (x + width >= rightX) {
-            int i = ((x + width) - rightX) + 1;
-            width -= i;
-            mskStep += i;
-            dstStep += i;
-        }
-
-        if (width <= 0 || height <= 0) {
-            return;
-        }*/
-
-        draw(mask, mskOff, dstOff, width, height, dstStep, mskStep, x, y, color);
+        Rt3.batch.setColor(new Color(red / 255f, green / 255f, blue / 255f,  1f));
+        Rt3.batch.draw(fontTexture, x, y, maxWidth,  maxHeight, posX, posY, maxWidth, maxHeight, false, true);
     }
 
-    public void drawChar(int opacity, int x, byte mask[], int width, int y, int height, boolean flag, int color) {
-        int destOff = x + y * Canvas2D.width;
-        int destStep = Canvas2D.width - width;
+    public void drawChar(char character, int opacity, int x, byte mask[], int width, int y, int height, boolean flag, int color) {
+        int destOff = 0;
+        int destStep = 0;
         int maskStep = 0;
         int maskOff = 0;
-        if (y < leftY) {
-            int yStep = leftY - y;
-            height -= yStep;
-            y = leftY;
-            maskOff += yStep * width;
-            destOff += yStep * Canvas2D.width;
-        }
-        if (y + height >= rightY) {
-            height -= ((y + height) - rightY) + 1;
-        }
-        if (x < leftX) {
-            int xStep = leftX - x;
-            width -= xStep;
-            x = leftX;
-            maskOff += xStep;
-            destOff += xStep;
-            maskStep += xStep;
-            destStep += xStep;
-        }
-        if (x + width >= rightX) {
-            int step = ((x + width) - rightX) + 1;
-            width -= step;
-            maskStep += step;
-            destStep += step;
-        }
-        if (width <= 0 || height <= 0) {
-            return;
+
+        int[] pixels = new int[width * height];
+        for (int y2 = 0; y2 < height; y2++) {
+            for (int x2 = 0; x2 < width; x2++) {
+                if (mask[maskOff++] != 0) {
+                    pixels[destOff] = color;
+                } else {
+                    pixels[destOff] = -1;
+                }
+                destOff++;
+            }
+            destOff += destStep;
+            maskOff += maskStep;
         }
 
-        draw(mask, maskOff, destOff, width, height, destStep, maskStep, color, opacity);
+        if (!characterSprites.contains(character, color)) {
+            Sprite sprite = new Sprite(pixels, width, height);
+            characterSprites.put(character, color, sprite);
+        }
+
+        characterSprites.get(character, color).draw(x, y, opacity);
     }
 
     public void drawString(boolean shadow, int x, int color, String s, int y, int opacity) {
@@ -283,9 +316,9 @@ public class BitmapFont extends Canvas2D {
                 char c = s.charAt(i);
                 if (c != ' ') {
                     if (shadow) {
-                        drawChar(opacity / 2, x + offsetX[c] + 1, mask[c], maskWidth[c], y + offsetY[c] + 1, maskHeight[c], false, 0);
+                        drawChar(c, opacity / 2, x + offsetX[c] + 1, mask[c], maskWidth[c], y + offsetY[c] + 1, maskHeight[c], false, 0);
                     }
-                    drawChar(opacity, x + offsetX[c], mask[c], maskWidth[c], y + offsetY[c], maskHeight[c], false, color);
+                    drawChar(c, opacity, x + offsetX[c], mask[c], maskWidth[c], y + offsetY[c], maskHeight[c], false, color);
                 }
                 x += charWidth[c];
             }
@@ -311,9 +344,9 @@ public class BitmapFont extends Canvas2D {
                 char c = s.charAt(i);
                 if (c != ' ') {
                     if (shadow) {
-                        drawChar(mask[c], x + offsetX[c] + 1, y + offsetY[c] + 1, maskWidth[c], maskHeight[c], 0);
+                        drawChar(c, mask[c], x + offsetX[c] + 1, y + offsetY[c] + 1, maskWidth[c], maskHeight[c], 0);
                     }
-                    drawChar(mask[c], x + offsetX[c], y + offsetY[c], maskWidth[c], maskHeight[c], color);
+                    drawChar(c, mask[c], x + offsetX[c], y + offsetY[c], maskWidth[c], maskHeight[c], color);
                 }
                 x += charWidth[c];
             }

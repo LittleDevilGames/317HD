@@ -12,7 +12,7 @@ public class Entry {
 
     public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "RoonScape";
+        config.title = "Athenis";
         config.width = 765;
         config.height = 503;
         new LwjglApplication(new Rt3(), config);
